@@ -1,0 +1,20 @@
+PODS:
+  - FDFullscreenPopGesture (1.1)
+  - SnapKit (4.2.0)
+
+DEPENDENCIES:
+  - FDFullscreenPopGesture
+  - SnapKit
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - FDFullscreenPopGesture
+    - SnapKit
+
+SPEC CHECKSUMS:
+  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+
+PODFILE CHECKSUM: 1f2e9f43c18c7ac14d86c504945e80483271511d
+
+COCOAPODS: 1.5.3

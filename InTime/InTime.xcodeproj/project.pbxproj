@@ -8,20 +8,36 @@
 
 /* Begin PBXBuildFile section */
 		9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9950227E21E6F5EF004FAC47 /* AppDelegate.swift */; };
-		9950228121E6F5EF004FAC47 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9950228021E6F5EF004FAC47 /* ViewController.swift */; };
 		9950228421E6F5EF004FAC47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9950228221E6F5EF004FAC47 /* Main.storyboard */; };
 		9950228621E6F5F1004FAC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9950228521E6F5F1004FAC47 /* Assets.xcassets */; };
 		9950228921E6F5F1004FAC47 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9950228721E6F5F1004FAC47 /* LaunchScreen.storyboard */; };
+		995022C121E729E1004FAC47 /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022BF21E729E1004FAC47 /* Namespace.swift */; };
+		995022C221E729E1004FAC47 /* ITViewMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022C021E729E1004FAC47 /* ITViewMacros.swift */; };
+		995022CA21E72AB0004FAC47 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022C921E72AB0004FAC47 /* HomeViewController.swift */; };
+		995022CE21E72B13004FAC47 /* String+Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022CC21E72B13004FAC47 /* String+Localized.swift */; };
+		995022CF21E72B13004FAC47 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022CD21E72B13004FAC47 /* UIColor+Extension.swift */; };
+		995022D221E78016004FAC47 /* SelectedCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022D121E78016004FAC47 /* SelectedCategoryView.swift */; };
+		995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022D421E78A3D004FAC47 /* CategoryModel.swift */; };
+		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		14B09EA84C4246C100B7FFA4 /* Pods-InTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.debug.xcconfig"; sourceTree = "<group>"; };
 		9950227B21E6F5EF004FAC47 /* InTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9950227E21E6F5EF004FAC47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9950228021E6F5EF004FAC47 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9950228321E6F5EF004FAC47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9950228521E6F5F1004FAC47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9950228821E6F5F1004FAC47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9950228A21E6F5F1004FAC47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		995022BF21E729E1004FAC47 /* Namespace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Namespace.swift; sourceTree = "<group>"; };
+		995022C021E729E1004FAC47 /* ITViewMacros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ITViewMacros.swift; sourceTree = "<group>"; };
+		995022C921E72AB0004FAC47 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		995022CC21E72B13004FAC47 /* String+Localized.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localized.swift"; sourceTree = "<group>"; };
+		995022CD21E72B13004FAC47 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		995022D121E78016004FAC47 /* SelectedCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryView.swift; sourceTree = "<group>"; };
+		995022D421E78A3D004FAC47 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.release.xcconfig"; sourceTree = "<group>"; };
+		EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +45,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		25C6262372596043A59B72E6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				14B09EA84C4246C100B7FFA4 /* Pods-InTime.debug.xcconfig */,
+				B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		9950227221E6F5EF004FAC47 = {
 			isa = PBXGroup;
 			children = (
 				9950227D21E6F5EF004FAC47 /* InTime */,
 				9950227C21E6F5EF004FAC47 /* Products */,
+				25C6262372596043A59B72E6 /* Pods */,
+				A2538EDED4A702D86EC99A21 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +82,116 @@
 		9950227D21E6F5EF004FAC47 /* InTime */ = {
 			isa = PBXGroup;
 			children = (
-				9950227E21E6F5EF004FAC47 /* AppDelegate.swift */,
-				9950228021E6F5EF004FAC47 /* ViewController.swift */,
-				9950228221E6F5EF004FAC47 /* Main.storyboard */,
+				995022C321E72A10004FAC47 /* Modules */,
+				995022CB21E72AEC004FAC47 /* Extensions */,
+				995022BE21E729CD004FAC47 /* Utilities */,
+				995022BD21E72938004FAC47 /* SupportFile */,
+			);
+			path = InTime;
+			sourceTree = "<group>";
+		};
+		995022BD21E72938004FAC47 /* SupportFile */ = {
+			isa = PBXGroup;
+			children = (
 				9950228521E6F5F1004FAC47 /* Assets.xcassets */,
+				9950228221E6F5EF004FAC47 /* Main.storyboard */,
 				9950228721E6F5F1004FAC47 /* LaunchScreen.storyboard */,
 				9950228A21E6F5F1004FAC47 /* Info.plist */,
 			);
-			path = InTime;
+			path = SupportFile;
+			sourceTree = "<group>";
+		};
+		995022BE21E729CD004FAC47 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				995022C021E729E1004FAC47 /* ITViewMacros.swift */,
+				995022BF21E729E1004FAC47 /* Namespace.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		995022C321E72A10004FAC47 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				9950227E21E6F5EF004FAC47 /* AppDelegate.swift */,
+				995022C421E72A1A004FAC47 /* Home */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		995022C421E72A1A004FAC47 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				995022D321E78A22004FAC47 /* Models */,
+				995022C521E72A23004FAC47 /* ViewModel */,
+				995022C621E72A2B004FAC47 /* View */,
+				995022C721E72A2F004FAC47 /* Model */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		995022C521E72A23004FAC47 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		995022C621E72A2B004FAC47 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				995022C821E72A98004FAC47 /* Controllers */,
+				995022D021E77FD1004FAC47 /* Views */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		995022C721E72A2F004FAC47 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		995022C821E72A98004FAC47 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				995022C921E72AB0004FAC47 /* HomeViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		995022CB21E72AEC004FAC47 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				995022CC21E72B13004FAC47 /* String+Localized.swift */,
+				995022CD21E72B13004FAC47 /* UIColor+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		995022D021E77FD1004FAC47 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				995022D121E78016004FAC47 /* SelectedCategoryView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		995022D321E78A22004FAC47 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				995022D421E78A3D004FAC47 /* CategoryModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A2538EDED4A702D86EC99A21 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +201,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9950228D21E6F5F1004FAC47 /* Build configuration list for PBXNativeTarget "InTime" */;
 			buildPhases = (
+				E48039973A8C0ACC359A3853 /* [CP] Check Pods Manifest.lock */,
 				9950227721E6F5EF004FAC47 /* Sources */,
 				9950227821E6F5EF004FAC47 /* Frameworks */,
 				9950227921E6F5EF004FAC47 /* Resources */,
+				7F1451917BFC438EF6082350 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -90,6 +222,7 @@
 		9950227321E6F5EF004FAC47 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = IT;
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = BruceLi;
@@ -130,13 +263,68 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7F1451917BFC438EF6082350 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-InTime/Pods-InTime-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FDFullscreenPopGesture.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-InTime/Pods-InTime-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E48039973A8C0ACC359A3853 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-InTime-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9950227721E6F5EF004FAC47 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9950228121E6F5EF004FAC47 /* ViewController.swift in Sources */,
+				995022D221E78016004FAC47 /* SelectedCategoryView.swift in Sources */,
+				995022CF21E72B13004FAC47 /* UIColor+Extension.swift in Sources */,
+				995022CE21E72B13004FAC47 /* String+Localized.swift in Sources */,
+				995022CA21E72AB0004FAC47 /* HomeViewController.swift in Sources */,
+				995022C121E729E1004FAC47 /* Namespace.swift in Sources */,
+				995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */,
 				9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */,
+				995022C221E729E1004FAC47 /* ITViewMacros.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,11 +468,12 @@
 		};
 		9950228E21E6F5F1004FAC47 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 14B09EA84C4246C100B7FFA4 /* Pods-InTime.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8Y32T66G3J;
-				INFOPLIST_FILE = InTime/Info.plist;
+				INFOPLIST_FILE = InTime/SupportFile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -299,11 +488,12 @@
 		};
 		9950228F21E6F5F1004FAC47 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8Y32T66G3J;
-				INFOPLIST_FILE = InTime/Info.plist;
+				INFOPLIST_FILE = InTime/SupportFile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

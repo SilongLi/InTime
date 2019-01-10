@@ -1,0 +1,13 @@
+use_frameworks!
+
+def libraries
+
+    pod 'SnapKit'
+    pod 'FDFullscreenPopGesture'
+
+end
+
+target 'InTime' do
+    platform :ios, '8.0'
+    libraries
+end
