@@ -15,7 +15,8 @@ extension UIColor {
     open class func tintHexColorString() -> String { return "#2C2D39" }
     
     // 绿色
-    open class var greenColor: UIColor { return UIColor.color(red: 117.0, green: 198.0, blue: 152.0) }
+//    open class var greenColor: UIColor { return UIColor.color(red: 117.0, green: 198.0, blue: 152.0) }
+    open class var greenColor: UIColor { return UIColor.color(hex: "#7BF554") }
     // 粉色
     open class var pinkColor: UIColor { return UIColor.color(red: 233.0, green: 94.0, blue: 137.0) }
     

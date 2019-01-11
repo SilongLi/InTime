@@ -18,11 +18,10 @@ class SelectedCategoryView: UIView {
         let tableView = UITableView.init(frame: CGRect.zero, style: .plain)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = UIColor.clear
+        tableView.backgroundColor = UIColor.tintColor.withAlphaComponent(0.85)
         tableView.separatorColor = UIColor(red: 230.0/255.0, green: 230.0/255.0, blue: 230.0/255.0, alpha: 1.0)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: CategoryCellId)
+        tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryCellId)
         tableView.tableFooterView = UIView(frame: CGRect.zero)
-        tableView.isAccessibilityElement = true
         tableView.separatorStyle = .none
         if #available(iOS 11, *) {
             tableView.contentInsetAdjustmentBehavior = .never
@@ -48,6 +47,7 @@ class SelectedCategoryView: UIView {
     
     var dataSource: [CategoryModel] = [CategoryModel]()
     var cellHeight: CGFloat = 50.0
+    let margin: CGFloat = (IT_IPHONE_X || IT_IPHONE_6P) ? 40.0 : 30.0
     var selectedCategoryBlock: ((_ model: CategoryModel?) -> ())?
     
     override init(frame: CGRect) {
@@ -64,14 +64,13 @@ class SelectedCategoryView: UIView {
     func setupsubViews() {
         let height: CGFloat = self.frame.size.height > 0.0 ? self.frame.size.height : 0.0
         bgMaskView = UIView(frame: CGRect(x: 0.0, y: height, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT - height - IT_NaviHeight))
-//        bgMaskView?.backgroundColor = UIColor.tintColor.withAlphaComponent(0.3)
-        bgMaskView?.backgroundColor = UIColor.clear
+        bgMaskView?.backgroundColor = UIColor.tintColor.withAlphaComponent(0.3)
         bgMaskView?.alpha = 0
         bgMaskView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(maskViewAction)))
         bgMaskView?.isAccessibilityElement = true
         
         let tableViewH: CGFloat = self.frame.size.height > 0.0 ? self.frame.size.height : 0.0
-        tableView.frame = CGRect(x: 0.0, y: tableViewH, width: IT_SCREEN_WIDTH, height: 0.01)
+        tableView.frame = CGRect(x: margin, y: tableViewH, width: IT_SCREEN_WIDTH - margin * 2, height: 0.01)
         addSubview(tableView)
     }
     
@@ -86,10 +85,12 @@ class SelectedCategoryView: UIView {
         })
         let count: CGFloat = CGFloat(dataSource.count)
         let markViewH = (IT_SCREEN_HEIGHT - IT_NaviHeight - cellHeight) * 0.8
-        let tableViewH = count * self.cellHeight > markViewH ? markViewH : count * self.cellHeight
+        let tableViewH = count * self.cellHeight > markViewH ? markViewH : count * self.cellHeight + margin
         UIView.animate(withDuration: self.duration, animations: {
-            self.tableView.frame = CGRect(x: 0.0, y: self.bounds.size.height, width: IT_SCREEN_WIDTH, height: tableViewH)
+            self.tableView.frame = CGRect(x: self.margin, y: self.bounds.size.height, width: IT_SCREEN_WIDTH - self.margin * 2, height: tableViewH)
         })
+        tableView.layer.cornerRadius = 16.0
+        tableView.layer.masksToBounds = true
     }
     
     /// 收起列表和遮罩
@@ -117,7 +118,7 @@ class SelectedCategoryView: UIView {
         }
         let height: CGFloat = self.frame.size.height
         UIView.animate(withDuration: self.duration, animations: {
-            self.tableView.frame = CGRect(x: 0.0, y: height, width: IT_SCREEN_WIDTH, height: 0.01)
+            self.tableView.frame = CGRect(x: self.margin, y: height, width: IT_SCREEN_WIDTH - self.margin * 2, height: 0.01)
         })
     }
     
@@ -142,7 +143,6 @@ class SelectedCategoryView: UIView {
         }
         return view
     }
-    
 }
 
 // MARK: - <UITableViewDelegate, UITableViewDataSource>
@@ -154,37 +154,8 @@ extension SelectedCategoryView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryCellId, for: indexPath) as UITableViewCell
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
-        cell.textLabel?.textColor = UIColor.white
-        cell.selectionStyle  = .none
-        cell.backgroundColor = UIColor.clear
-        cell.isAccessibilityElement = true
-        let model = dataSource[indexPath.row]
-        cell.textLabel?.text = model.title
-        
-        // 设置选中样式
-        if cell.viewWithTag(666) == nil {
-            let accessoryView   = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-            accessoryView.tag   = 666
-            accessoryView.image = UIImage(named: "selected")
-            cell.accessoryView  = accessoryView
-        }
-        cell.accessoryView?.isHidden = model.isSelected ? false : true
-        
-        // 分割线
-        if cell.viewWithTag(777) == nil {
-            let view = UIView()
-            view.backgroundColor = UIColor.white
-            view.tag = 777
-            cell.addSubview(view)
-            view.snp.makeConstraints { (make) in
-                make.left.equalToSuperview().offset(15)
-                make.right.equalToSuperview().offset(-15)
-                make.bottom.equalToSuperview()
-                make.height.equalTo(0.5)
-            }
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryCellId, for: indexPath) as! CategoryTableViewCell
+        cell.category = dataSource[indexPath.row]
         return cell
     }
     

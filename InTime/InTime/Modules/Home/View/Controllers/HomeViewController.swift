@@ -12,12 +12,11 @@ import FDFullscreenPopGesture
 
 class HomeViewController: BaseViewController {
     
+    /// 导航栏
     lazy var iconView: UIImageView = {
         let icon = UIImageView(image: UIImage(named: "showDetail"))
         return icon
     }()
-    
-    /// 标题
     lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
@@ -83,6 +82,7 @@ class HomeViewController: BaseViewController {
         return view
     }()
     
+    /// 分类
     lazy var selectedCategoryView: SelectedCategoryView = {
         let view = SelectedCategoryView()
         view.backgroundColor = UIColor.clear
@@ -104,8 +104,20 @@ class HomeViewController: BaseViewController {
         }
         return tableView
     }()
-    
+  
+    /// 背景图片
     lazy var bgImageView: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = UIColor.tintColor
+        return view
+    }()
+    lazy var bgTableView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
+    lazy var bgImageTableView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor.tintColor
         return view
@@ -117,6 +129,7 @@ class HomeViewController: BaseViewController {
         return view
     }()
     
+    /// 当没有时节的时候，显示提示
     lazy var emptyInfoLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20.0)
@@ -129,21 +142,8 @@ class HomeViewController: BaseViewController {
         return label
     }()
     
-    ///
-    lazy var bgView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        return view
-    }()
-    
-    lazy var bgImageView1: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage.init(named: "night")
-        view.backgroundColor = UIColor.tintColor
-        return view
-    }()
-    let BGHiehgt: CGFloat = 400.0
-    let HeaderHiehgt: CGFloat = 180.0
+    static let HeaderHeight: CGFloat = 180.0
+    let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
     
     var isShowCategoryView: Bool = false
     var currentTheme: ThemeModel = ThemeModel()
@@ -162,25 +162,24 @@ class HomeViewController: BaseViewController {
     func setupSubviews() {
         view.addSubview(bgImageView)
         view.addSubview(headerView)
-        view.addSubview(bgView)
-        bgView.addSubview(bgImageView1)
+        view.addSubview(bgTableView)
+        bgTableView.addSubview(bgImageTableView)
         view.addSubview(tableView)
         view.addSubview(selectedCategoryView)
         view.addSubview(emptyInfoLabel)
         view.addSubview(navigationView)
         
-        //
-        headerView.snp.makeConstraints { (make) in
+        headerView.snp.updateConstraints { (make) in
             make.top.equalTo(IT_NaviHeight)
             make.left.right.equalToSuperview()
-            make.height.equalTo(HeaderHiehgt)
+            make.height.equalTo(HomeViewController.HeaderHeight)
         }
         
-        let height: CGFloat = BGHiehgt
+        let height: CGFloat = BGViewHiehgt
         let y: CGFloat = IT_SCREEN_HEIGHT - height
-        bgView.frame = CGRect.init(x: 0.0, y: y, width: IT_SCREEN_WIDTH, height: height)
-        bgView.clipsToBounds = true
-        bgImageView1.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
+        bgTableView.frame = CGRect.init(x: 0.0, y: y, width: IT_SCREEN_WIDTH, height: height)
+        bgTableView.clipsToBounds = true
+        bgImageTableView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
         
         bgImageView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
@@ -245,18 +244,22 @@ class HomeViewController: BaseViewController {
         
         // 时节
         var season = SeasonModel()
+        theme.bgImageName = "snow"
         season.title = "知时节"
         season.date = Date()
         
         var season1 = SeasonModel()
+        theme.bgImageName = "mountain"
         season1.title = "过年"
         season1.date = Date()
         
         var season2 = SeasonModel()
+        theme.bgImageName = "rail"
         season2.title = "冬至"
         season2.date = Date()
         
         var season3 = SeasonModel()
+        theme.bgImageName = "sunsetGlow"
         season3.title = "五一"
         season3.date = Date()
         
@@ -269,15 +272,18 @@ class HomeViewController: BaseViewController {
         // 背景图
         if currentTheme.bgImageName.count > 0 {
             bgImageView.image = UIImage(named: currentTheme.bgImageName)
+            bgImageTableView.image = UIImage(named: currentTheme.bgImageName)
         } else {
             bgImageView.backgroundColor = UIColor.color(hex: currentTheme.bgHexColor)
+            bgImageTableView.backgroundColor = UIColor.color(hex: currentTheme.bgHexColor)
         }
         
-        let season = dataSource.first
-        headerView.season = season
-        
         emptyInfoLabel.isHidden = dataSource.count > 0
+        headerView.isHidden = dataSource.count == 0
+        
         if dataSource.count > 0 {
+            let season = dataSource.first
+            headerView.season = season
             tableView.reloadData()
         }
     }
@@ -312,40 +318,48 @@ class HomeViewController: BaseViewController {
 // MARK: - <UIScrollViewDelegate>
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard dataSource.count > 0 else { return }
+        
         /// 更新背景图片布局
         let offsetY = scrollView.contentOffset.y
-        print(offsetY)
-        if offsetY > 0 {
-            let height: CGFloat = BGHiehgt + offsetY
+        if offsetY > 0.0 {
+            let height: CGFloat = BGViewHiehgt + offsetY
             let y: CGFloat = IT_SCREEN_HEIGHT - height
             if height <= IT_SCREEN_HEIGHT {
-                bgView.frame = CGRect.init(x: 0.0, y: y, width: IT_SCREEN_WIDTH, height: height)
-                bgImageView1.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
+                bgTableView.frame = CGRect.init(x: 0.0, y: y, width: IT_SCREEN_WIDTH, height: height)
+                bgImageTableView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
+            }
+        }
+        bgTableView.isHidden = offsetY <= 0.0
+        
+        /// 更新Header View
+        if offsetY < 0.0 {
+            headerView.snp.updateConstraints { (make) in
+                make.top.equalTo(IT_NaviHeight - offsetY)
+                make.left.right.equalToSuperview()
+                make.height.equalTo(HomeViewController.HeaderHeight)
             }
         }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        /// 停止滑动到指定位置后，开始加载数据
-//        if abs(scrollView.contentOffset.y) == abs(scrollView.contentInset.top),
-//            abs(scrollView.contentInset.top) == loadingOffsetY, loadingView.isAnimating {
-//            self.loadHomeDataSource()
-//        }
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        /// 松手后展示loading动画
-//        let contentOffsetY = scrollView.contentOffset.y + scrollView.contentInset.top
-//        let height: CGFloat = BGHiehgt + contentOffsetY
-//        let y: CGFloat = IT_SCREEN_HEIGHT - height
-//        if height <= IT_SCREEN_HEIGHT {
-//            bgView.frame = CGRect.init(x: 0.0, y: y, width: IT_SCREEN_WIDTH, height: height)
-//        }
-    }
-    
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        /// 加载完成之后，回到原始位置
-//        scrollView.contentInset.top = 0.0
+        guard dataSource.count > 0 else { return }
+        
+        /// 停止拖拽之后，返回到原位
+        let contentOffsetY = scrollView.contentOffset.y + scrollView.contentInset.top
+        let currentY = bgTableView.frame.origin.y
+        let originY: CGFloat = IT_SCREEN_HEIGHT - BGViewHiehgt
+        if contentOffsetY == 0.0, abs(currentY) < originY {
+            bgTableView.frame = CGRect.init(x: 0.0, y: originY, width: IT_SCREEN_WIDTH, height: BGViewHiehgt)
+            bgImageTableView.frame = CGRect.init(x: 0.0, y: -originY, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
+        }
+        
+        /// 更新Header View
+        headerView.snp.updateConstraints { (make) in
+            make.top.equalTo(IT_NaviHeight)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(HomeViewController.HeaderHeight)
+        }
     }
 }
 
@@ -388,7 +402,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return HeaderHiehgt
+        return HomeViewController.HeaderHeight
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -396,14 +410,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        guard dataSource.count > 0 else {
-            let view = UIView()
-            view.backgroundColor = UIColor.clear
-            return view
-//        }
-//        let season = dataSource.first
-//        headerView.season = season
-//        return headerView
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        return view
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
