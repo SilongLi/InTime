@@ -27,6 +27,7 @@
 		995022E521E88420004FAC47 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E421E88420004FAC47 /* HomeHeaderView.swift */; };
 		995022E721E8890C004FAC47 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E621E8890B004FAC47 /* UILabel+Extension.swift */; };
 		995022E921E8C372004FAC47 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E821E8C372004FAC47 /* CategoryTableViewCell.swift */; };
+		995022EB21E8D52E004FAC47 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */; };
 		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,7 @@
 		995022E421E88420004FAC47 /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		995022E621E8890B004FAC47 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		995022E821E8C372004FAC47 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.release.xcconfig"; sourceTree = "<group>"; };
 		EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -199,6 +201,7 @@
 				995022E421E88420004FAC47 /* HomeHeaderView.swift */,
 				995022D121E78016004FAC47 /* SelectedCategoryView.swift */,
 				995022E821E8C372004FAC47 /* CategoryTableViewCell.swift */,
+				995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				995022CF21E72B13004FAC47 /* UIColor+Extension.swift in Sources */,
 				995022CE21E72B13004FAC47 /* String+Localized.swift in Sources */,
 				995022DE21E8772A004FAC47 /* SeaSonDetailViewController.swift in Sources */,
+				995022EB21E8D52E004FAC47 /* HomeTableViewCell.swift in Sources */,
 				995022E521E88420004FAC47 /* HomeHeaderView.swift in Sources */,
 				995022E321E877E5004FAC47 /* CommonTools.swift in Sources */,
 				995022E721E8890C004FAC47 /* UILabel+Extension.swift in Sources */,

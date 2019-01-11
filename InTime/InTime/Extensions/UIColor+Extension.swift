@@ -21,9 +21,9 @@ extension UIColor {
     open class var pinkColor: UIColor { return UIColor.color(red: 233.0, green: 94.0, blue: 137.0) }
     
     /// 淡白-cell的高亮色
-    open class var cellHighlightedColor: UIColor { return UIColor.color(hex: "#E6E6E6") }
+    open class var cellHighlightedColor: UIColor { return UIColor.white.withAlphaComponent(0.3) }
     /// 分隔线颜色
-    open class var spaceLineColor: UIColor { return UIColor.color(hex: "#e5e5e5") }
+    open class var spaceLineColor: UIColor { return UIColor.color(hex: "#e5e5e5").withAlphaComponent(0.3) }
     
     // MARK: - other
     

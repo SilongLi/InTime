@@ -94,7 +94,7 @@ class HomeViewController: BaseViewController {
         let tableView = UITableView.init(frame: CGRect.zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: HomeCellId)
+        tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeCellId)
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.clear
         if #available(iOS 11, *) {
@@ -142,7 +142,7 @@ class HomeViewController: BaseViewController {
         return label
     }()
     
-    static let HeaderHeight: CGFloat = 180.0
+    static let HeaderHeight: CGFloat = 200.0
     let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
     
     var isShowCategoryView: Bool = false
@@ -245,7 +245,7 @@ class HomeViewController: BaseViewController {
         // 时节
         var season = SeasonModel()
         theme.bgImageName = "snow"
-        season.title = "知时节"
+        season.title = "好雨知时节，当春乃发生"
         season.date = Date()
         
         var season1 = SeasonModel()
@@ -372,33 +372,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: HomeCellId, for: indexPath) as UITableViewCell
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
-        cell.textLabel?.textColor = UIColor.white
-        cell.selectionStyle  = .none
-        cell.backgroundColor = UIColor.clear
-        cell.isAccessibilityElement = true
-        let model = dataSource[indexPath.row]
-        cell.textLabel?.text = model.title
-        
-        // 分割线
-        if cell.viewWithTag(777) == nil {
-            let view = UIView()
-            view.backgroundColor = UIColor.white
-            view.tag = 777
-            cell.addSubview(view)
-            view.snp.makeConstraints { (make) in
-                make.left.equalToSuperview().offset(15)
-                make.right.equalToSuperview().offset(-15)
-                make.bottom.equalToSuperview()
-                make.height.equalTo(0.5)
-            }
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: HomeCellId, for: indexPath) as! HomeTableViewCell
+        cell.season = dataSource[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80.0
+        return 90.0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

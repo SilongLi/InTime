@@ -16,10 +16,12 @@ struct SeasonModel {
     var note: String = ""
     /// 时节时间
     var date: Date = Date()
+    /// 显示单位
+    var dateUnit: DateUnitType = DateUnitType.dayTime
     /// 是否为公历，true为公历，否则为农历
     var isGregorianCalendar: Bool = true
     /// 是否需要提醒
     var isRemind: Bool = true
     /// 重复提醒
-    var repeatRemind: RepeatRemindType = .no
+    var repeatRemind: RepeatRemindType = RepeatRemindType.no
 }
