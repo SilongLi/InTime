@@ -23,9 +23,6 @@ class SelectedCategoryView: UIView {
         tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryCellId)
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.separatorStyle = .none
-        if #available(iOS 11, *) {
-            tableView.contentInsetAdjustmentBehavior = .never
-        }
         return tableView
     }()
     

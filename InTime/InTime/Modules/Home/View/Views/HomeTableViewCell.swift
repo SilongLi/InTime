@@ -15,7 +15,6 @@ class HomeTableViewCell: UITableViewCell {
         label.textColor = UIColor.white
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 20.0)
-//        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -24,7 +23,6 @@ class HomeTableViewCell: UITableViewCell {
         label.textColor = UIColor.white
         label.textAlignment = .right
         label.font = UIFont.boldSystemFont(ofSize: 20.0)
-//        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -74,14 +72,15 @@ class HomeTableViewCell: UITableViewCell {
         addSubview(spaceLineView)
         
         let margin: CGFloat = 20.0
+        let top: CGFloat = 15.0
         countDownLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(margin + 2.0)
+            make.top.equalTo(top + 2.0)
             make.right.equalTo(-margin)
             make.width.greaterThanOrEqualTo(100.0)
             make.height.equalTo(nameLabel.snp.height)
         }
         nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(margin)
+            make.top.equalTo(top)
             make.left.equalTo(margin)
             make.height.equalTo(30.0)
             make.width.greaterThanOrEqualTo(100.0)
