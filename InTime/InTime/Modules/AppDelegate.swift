@@ -26,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupWindow() {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let NAV = UINavigationController(rootViewController: HomeViewController())
-        NAV.navigationBar.titleTextAttributes = [NSAttributedString.Key.strokeColor: UIColor.white]
         self.window?.rootViewController = NAV
         self.window?.backgroundColor = .white
         self.window?.makeKey()

@@ -11,22 +11,22 @@ import SnapKit
 
 class SelectedCategoryView: UIView {
     
-    fileprivate let cellId = "SelectedCategoryViewCellId"
+    fileprivate let CategoryCellId = "SelectedCategoryViewCellId"
     fileprivate let duration: TimeInterval = 0.25
     fileprivate let lineH: CGFloat = 0.5
     lazy var tableView: UITableView = {
         let tableView = UITableView.init(frame: CGRect.zero, style: .plain)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = UIColor.tintColor
+        tableView.backgroundColor = UIColor.clear
         tableView.separatorColor = UIColor(red: 230.0/255.0, green: 230.0/255.0, blue: 230.0/255.0, alpha: 1.0)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: CategoryCellId)
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.isAccessibilityElement = true
+        tableView.separatorStyle = .none
         if #available(iOS 11, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
-        tableView.accessibilityLabel = "Product_List_Drop_List_Table_View_Hidden"
-        tableView.isAccessibilityElement = true
         return tableView
     }()
     
@@ -52,7 +52,6 @@ class SelectedCategoryView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupbgMaskView()
         setupsubViews()
     }
     
@@ -61,40 +60,19 @@ class SelectedCategoryView: UIView {
     }
     
     // MARK: - setup
-    func setupbgMaskView() {
-        let height: CGFloat = self.frame.size.height > 0.0 ? self.frame.size.height : 0.0
-        bgMaskView = UIView(frame: CGRect(x: 0.0, y: height, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT - height - IT_NaviHeight))
-        bgMaskView?.backgroundColor = UIColor.tintColor.withAlphaComponent(0.5)
-//            UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.5)
-        bgMaskView?.alpha = 0
-        bgMaskView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(maskViewAction)))
-        bgMaskView?.accessibilityLabel = "Product_List_Drop_List_Mask_View_Hidden"
-        bgMaskView?.isAccessibilityElement = true
-    }
     
     func setupsubViews() {
         let height: CGFloat = self.frame.size.height > 0.0 ? self.frame.size.height : 0.0
-        tableView.frame = CGRect(x: 0.0, y: height, width: IT_SCREEN_WIDTH, height: 0.01)
+        bgMaskView = UIView(frame: CGRect(x: 0.0, y: height, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT - height - IT_NaviHeight))
+//        bgMaskView?.backgroundColor = UIColor.tintColor.withAlphaComponent(0.3)
+        bgMaskView?.backgroundColor = UIColor.clear
+        bgMaskView?.alpha = 0
+        bgMaskView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(maskViewAction)))
+        bgMaskView?.isAccessibilityElement = true
+        
+        let tableViewH: CGFloat = self.frame.size.height > 0.0 ? self.frame.size.height : 0.0
+        tableView.frame = CGRect(x: 0.0, y: tableViewH, width: IT_SCREEN_WIDTH, height: 0.01)
         addSubview(tableView)
-        
-//        addSubview(titleLabel)
-//        addSubview(iconView)
-//        iconView.snp.makeConstraints({ (make) in
-//            make.centerX.equalToSuperview()
-//            make.bottom.equalToSuperview()
-//            make.size.equalTo(CGSize(width: 20.0, height: 14.0))
-//        })
-//        titleLabel.snp.makeConstraints({ (make) in
-//            make.centerX.equalToSuperview()
-//            make.bottom.equalTo(iconView.snp.top).offset(-3)
-//            make.height.equalTo(20)
-//            make.width.greaterThanOrEqualTo(80.0)
-//        })
-        
-        // 2. 分割线
-        let bottomLine = UIView(frame: CGRect(x: 0, y: height - lineH, width: self.frame.size.width, height: lineH))
-        bottomLine.backgroundColor = UIColor.spaceLineColor
-        self.addSubview(bottomLine)
     }
     
     // MARK: - actions
@@ -102,7 +80,7 @@ class SelectedCategoryView: UIView {
     /// 展示列表和遮罩
     func showListView() {
         tableView.reloadData()
-        self.insertSubview(self.bgMaskView!, at: 0)
+        insertSubview(self.bgMaskView!, at: 0)
         UIView.animate(withDuration: self.duration, animations: {
             self.bgMaskView?.alpha = 1
         })
@@ -112,8 +90,6 @@ class SelectedCategoryView: UIView {
         UIView.animate(withDuration: self.duration, animations: {
             self.tableView.frame = CGRect(x: 0.0, y: self.bounds.size.height, width: IT_SCREEN_WIDTH, height: tableViewH)
         })
-        tableView.accessibilityLabel = "Product_List_Drop_List_Table_View_Show"
-        bgMaskView?.accessibilityLabel = "Product_List_Drop_List_Mask_View_Show"
     }
     
     /// 收起列表和遮罩
@@ -132,7 +108,6 @@ class SelectedCategoryView: UIView {
         }, completion: { (_) in
             self.bgMaskView?.removeFromSuperview()
         })
-        bgMaskView?.accessibilityLabel = "Product_List_Drop_List_Mask_View_Hidden"
     }
     
     /// 隐藏列表
@@ -144,7 +119,6 @@ class SelectedCategoryView: UIView {
         UIView.animate(withDuration: self.duration, animations: {
             self.tableView.frame = CGRect(x: 0.0, y: height, width: IT_SCREEN_WIDTH, height: 0.01)
         })
-        tableView.accessibilityLabel = "Product_List_Drop_List_Table_View_Hidden"
     }
     
     /// 点击遮罩，退出列表页
@@ -180,25 +154,37 @@ extension SelectedCategoryView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryCellId, for: indexPath) as UITableViewCell
         cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
         cell.textLabel?.textColor = UIColor.white
+        cell.selectionStyle  = .none
+        cell.backgroundColor = UIColor.clear
+        cell.isAccessibilityElement = true
         let model = dataSource[indexPath.row]
         cell.textLabel?.text = model.title
-        cell.selectionStyle  = .none
-        cell.backgroundColor = UIColor.tintColor
-        cell.isAccessibilityElement = true
+        
         // 设置选中样式
-        var accessoryView: UIImageView? = cell.viewWithTag(666) as? UIImageView ?? nil
-        if accessoryView == nil {
-            accessoryView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-            accessoryView?.tag   = 666
-            accessoryView?.image = UIImage(named: "selected")
-            cell.accessoryView   = accessoryView
+        if cell.viewWithTag(666) == nil {
+            let accessoryView   = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+            accessoryView.tag   = 666
+            accessoryView.image = UIImage(named: "selected")
+            cell.accessoryView  = accessoryView
         }
-//        let isSelected = titleModel?.isSelected ?? false
-//        cell.textLabel?.textColor = isSelected ? self.didSelectedModel?.titleSelectedColor : self.didSelectedModel?.titleNormalColor
-//        cell.accessoryView?.isHidden = isSelected ? false : true
+        cell.accessoryView?.isHidden = model.isSelected ? false : true
+        
+        // 分割线
+        if cell.viewWithTag(777) == nil {
+            let view = UIView()
+            view.backgroundColor = UIColor.white
+            view.tag = 777
+            cell.addSubview(view)
+            view.snp.makeConstraints { (make) in
+                make.left.equalToSuperview().offset(15)
+                make.right.equalToSuperview().offset(-15)
+                make.bottom.equalToSuperview()
+                make.height.equalTo(0.5)
+            }
+        }
         return cell
     }
     
@@ -216,8 +202,13 @@ extension SelectedCategoryView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        for index in 0..<dataSource.count {
+            dataSource[index].isSelected = false
+        }
+        var model = dataSource[indexPath.row]
+        model.isSelected = true
+        dataSource[indexPath.row] = model
         if let block = self.selectedCategoryBlock {
-            let model = dataSource[indexPath.row]
             block(model)
         }
         self.hiddenListView()

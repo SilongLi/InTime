@@ -9,19 +9,19 @@ import UIKit
 
 public protocol NamespaceWrappable {
     associatedtype WrapperType
-    var ck: WrapperType { get set }
-    static var ck: WrapperType.Type { get }
+    var it: WrapperType { get set }
+    static var it: WrapperType.Type { get }
 }
 
 public extension NamespaceWrappable {
-    var ck: NamespaceWrapper<Self> {
+    var it: NamespaceWrapper<Self> {
         get {
             return NamespaceWrapper(value: self)
         }
         set {}
     }
 
-    static var ck: NamespaceWrapper<Self>.Type {
+    static var it: NamespaceWrapper<Self>.Type {
         return NamespaceWrapper.self
     }
 }

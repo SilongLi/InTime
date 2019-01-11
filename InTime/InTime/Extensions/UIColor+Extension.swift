@@ -11,7 +11,8 @@ extension UIColor {
     // MARK: - 基础用色
 
     /// App 主色调
-    open class var tintColor: UIColor { return UIColor.color(red: 44.0, green: 45.0, blue: 57.0) }
+    open class var tintColor: UIColor { return UIColor.color(hex: "#2C2D39") }
+    open class func tintHexColorString() -> String { return "#2C2D39" }
     
     // 绿色
     open class var greenColor: UIColor { return UIColor.color(red: 117.0, green: 198.0, blue: 152.0) }

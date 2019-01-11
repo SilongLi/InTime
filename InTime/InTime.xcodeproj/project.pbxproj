@@ -18,6 +18,14 @@
 		995022CF21E72B13004FAC47 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022CD21E72B13004FAC47 /* UIColor+Extension.swift */; };
 		995022D221E78016004FAC47 /* SelectedCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022D121E78016004FAC47 /* SelectedCategoryView.swift */; };
 		995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022D421E78A3D004FAC47 /* CategoryModel.swift */; };
+		995022D721E83EDA004FAC47 /* ThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022D621E83EDA004FAC47 /* ThemeModel.swift */; };
+		995022D921E870C4004FAC47 /* SeasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022D821E870C4004FAC47 /* SeasonModel.swift */; };
+		995022DC21E87308004FAC47 /* ITHomeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022DB21E87308004FAC47 /* ITHomeEnum.swift */; };
+		995022DE21E8772A004FAC47 /* SeaSonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022DD21E8772A004FAC47 /* SeaSonDetailViewController.swift */; };
+		995022E121E87785004FAC47 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E021E87785004FAC47 /* BaseViewController.swift */; };
+		995022E321E877E5004FAC47 /* CommonTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E221E877E5004FAC47 /* CommonTools.swift */; };
+		995022E521E88420004FAC47 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E421E88420004FAC47 /* HomeHeaderView.swift */; };
+		995022E721E8890C004FAC47 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E621E8890B004FAC47 /* UILabel+Extension.swift */; };
 		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +44,14 @@
 		995022CD21E72B13004FAC47 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		995022D121E78016004FAC47 /* SelectedCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryView.swift; sourceTree = "<group>"; };
 		995022D421E78A3D004FAC47 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		995022D621E83EDA004FAC47 /* ThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeModel.swift; sourceTree = "<group>"; };
+		995022D821E870C4004FAC47 /* SeasonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonModel.swift; sourceTree = "<group>"; };
+		995022DB21E87308004FAC47 /* ITHomeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITHomeEnum.swift; sourceTree = "<group>"; };
+		995022DD21E8772A004FAC47 /* SeaSonDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeaSonDetailViewController.swift; sourceTree = "<group>"; };
+		995022E021E87785004FAC47 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		995022E221E877E5004FAC47 /* CommonTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTools.swift; sourceTree = "<group>"; };
+		995022E421E88420004FAC47 /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
+		995022E621E8890B004FAC47 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.release.xcconfig"; sourceTree = "<group>"; };
 		EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -106,6 +122,7 @@
 			children = (
 				995022C021E729E1004FAC47 /* ITViewMacros.swift */,
 				995022BF21E729E1004FAC47 /* Namespace.swift */,
+				995022E221E877E5004FAC47 /* CommonTools.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -113,6 +130,7 @@
 		995022C321E72A10004FAC47 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				995022DF21E87776004FAC47 /* Base */,
 				9950227E21E6F5EF004FAC47 /* AppDelegate.swift */,
 				995022C421E72A1A004FAC47 /* Home */,
 			);
@@ -122,6 +140,7 @@
 		995022C421E72A1A004FAC47 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				995022DA21E872F8004FAC47 /* Enum */,
 				995022D321E78A22004FAC47 /* Models */,
 				995022C521E72A23004FAC47 /* ViewModel */,
 				995022C621E72A2B004FAC47 /* View */,
@@ -157,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				995022C921E72AB0004FAC47 /* HomeViewController.swift */,
+				995022DD21E8772A004FAC47 /* SeaSonDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -166,6 +186,7 @@
 			children = (
 				995022CC21E72B13004FAC47 /* String+Localized.swift */,
 				995022CD21E72B13004FAC47 /* UIColor+Extension.swift */,
+				995022E621E8890B004FAC47 /* UILabel+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -174,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				995022D121E78016004FAC47 /* SelectedCategoryView.swift */,
+				995022E421E88420004FAC47 /* HomeHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -181,9 +203,27 @@
 		995022D321E78A22004FAC47 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				995022D821E870C4004FAC47 /* SeasonModel.swift */,
 				995022D421E78A3D004FAC47 /* CategoryModel.swift */,
+				995022D621E83EDA004FAC47 /* ThemeModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		995022DA21E872F8004FAC47 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				995022DB21E87308004FAC47 /* ITHomeEnum.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		995022DF21E87776004FAC47 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				995022E021E87785004FAC47 /* BaseViewController.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		A2538EDED4A702D86EC99A21 /* Frameworks */ = {
@@ -317,12 +357,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				995022E121E87785004FAC47 /* BaseViewController.swift in Sources */,
+				995022D921E870C4004FAC47 /* SeasonModel.swift in Sources */,
 				995022D221E78016004FAC47 /* SelectedCategoryView.swift in Sources */,
 				995022CF21E72B13004FAC47 /* UIColor+Extension.swift in Sources */,
 				995022CE21E72B13004FAC47 /* String+Localized.swift in Sources */,
+				995022DE21E8772A004FAC47 /* SeaSonDetailViewController.swift in Sources */,
+				995022E521E88420004FAC47 /* HomeHeaderView.swift in Sources */,
+				995022E321E877E5004FAC47 /* CommonTools.swift in Sources */,
+				995022E721E8890C004FAC47 /* UILabel+Extension.swift in Sources */,
 				995022CA21E72AB0004FAC47 /* HomeViewController.swift in Sources */,
 				995022C121E729E1004FAC47 /* Namespace.swift in Sources */,
+				995022DC21E87308004FAC47 /* ITHomeEnum.swift in Sources */,
 				995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */,
+				995022D721E83EDA004FAC47 /* ThemeModel.swift in Sources */,
 				9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */,
 				995022C221E729E1004FAC47 /* ITViewMacros.swift in Sources */,
 			);
