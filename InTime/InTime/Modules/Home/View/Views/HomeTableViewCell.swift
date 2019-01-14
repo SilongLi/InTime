@@ -14,7 +14,8 @@ class HomeTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .left
-        label.font = UIFont.boldSystemFont(ofSize: 20.0)
+        label.font = UIFont.boldSystemFont(ofSize: 18.0)
+        label.numberOfLines = 2
         return label
     }()
     
@@ -22,7 +23,8 @@ class HomeTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .right
-        label.font = UIFont.boldSystemFont(ofSize: 20.0)
+        label.font = UIFont.boldSystemFont(ofSize: 18.0)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -31,6 +33,7 @@ class HomeTableViewCell: UITableViewCell {
         label.textColor = UIColor.white.withAlphaComponent(0.7)
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16.0)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -71,29 +74,32 @@ class HomeTableViewCell: UITableViewCell {
         addSubview(unitLabel)
         addSubview(spaceLineView)
         
-        let margin: CGFloat = 20.0
-        let top: CGFloat = 15.0
-        countDownLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(top + 2.0)
-            make.right.equalTo(-margin)
-            make.width.greaterThanOrEqualTo(100.0)
-            make.height.equalTo(nameLabel.snp.height)
-        }
+        let margin: CGFloat = 15.0
+        let width: CGFloat = IT_SCREEN_WIDTH * 0.5 - margin - 10.0
         nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(top)
+            make.top.equalTo(margin)
             make.left.equalTo(margin)
-            make.height.equalTo(30.0)
-            make.width.greaterThanOrEqualTo(100.0)
-            make.right.equalTo(countDownLabel.snp.left).offset(-5)
+            make.height.greaterThanOrEqualTo(20.0)
+            make.height.greaterThanOrEqualTo(40.0)
+            make.width.greaterThanOrEqualTo(80.0)
+            make.width.lessThanOrEqualTo(width)
+        }
+        countDownLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(-margin)
+            make.centerY.equalTo(nameLabel.snp.centerY)
+            make.height.equalTo(20.0)
+            make.width.greaterThanOrEqualTo(80.0)
+            make.width.lessThanOrEqualTo(width)
         }
         dateLabel.snp.makeConstraints { (make) in
             make.top.equalTo(nameLabel.snp.bottom).offset(10.0)
             make.left.equalTo(nameLabel.snp.left)
             make.height.equalTo(16.0)
-            make.width.greaterThanOrEqualTo(120.0)
+            make.width.greaterThanOrEqualTo(80.0)
+            make.width.lessThanOrEqualTo(width)
         }
         unitLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(dateLabel.snp.bottom)
+            make.centerY.equalTo(dateLabel.snp.centerY)
             make.height.equalTo(dateLabel.snp.height)
             make.right.equalTo(countDownLabel.snp.right)
             make.left.equalTo(dateLabel.snp.right).offset(5.0)

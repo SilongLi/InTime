@@ -233,7 +233,7 @@ class HomeViewController: BaseViewController {
 
         // 时节
         var season = SeasonModel()
-        season.title = "好雨知时节，当春乃发生0"
+        season.title = "好雨知时节，当春乃发生。"
         season.date = Date()
         var theme = ThemeModel()
         theme.bgImageName = "night"
@@ -241,35 +241,35 @@ class HomeViewController: BaseViewController {
         season.theme = theme
         
         var season1 = SeasonModel()
-        season1.title = "过年1"
+        season1.title = "过年"
         season1.date = Date()
         var theme1 = ThemeModel()
         theme1.bgImageName = "mountain"
         season1.theme = theme1
         
         var season2 = SeasonModel()
-        season2.title = "冬至2"
+        season2.title = "冬至"
         season2.date = Date()
         var theme2 = ThemeModel()
         theme2.bgImageName = "rail"
         season2.theme = theme2
         
         var season3 = SeasonModel()
-        season3.title = "中秋3"
+        season3.title = "中秋节，赏花赏月赏秋香。"
         season3.date = Date()
         var theme3 = ThemeModel()
         theme3.bgImageName = "sunsetGlow"
         season3.theme = theme3
         
         var season4 = SeasonModel()
-        season4.title = "国庆4"
+        season4.title = "国庆去哪玩呢？回家还是出去玩？国内还是国外？"
         season4.date = Date()
         var theme4 = ThemeModel()
         theme4.bgImageName = "snow"
         season4.theme = theme4
         
         var season5 = SeasonModel()
-        season5.title = "端午5"
+        season5.title = "端午"
         season5.date = Date()
         var theme5 = ThemeModel()
         theme5.bgImageName = "flower"

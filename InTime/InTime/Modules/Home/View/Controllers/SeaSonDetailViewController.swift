@@ -84,7 +84,7 @@ class SeaSonDetailViewController: BaseViewController {
         }
         shareBtn.snp.makeConstraints { (make) in
             make.right.equalTo(-20)
-            make.bottom.equalTo(IT_IPHONE_X ? -60 : -40)
+            make.bottom.equalTo(IT_IPHONE_X ? -50 : -30)
             make.size.equalTo(CGSize.init(width: 40.0, height: 40.0))
         }
         // 处理系统右滑返回手势和scrollView滑动手势冲突问题
