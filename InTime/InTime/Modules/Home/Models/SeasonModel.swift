@@ -24,4 +24,6 @@ struct SeasonModel {
     var isRemind: Bool = true
     /// 重复提醒
     var repeatRemind: RepeatRemindType = RepeatRemindType.no
+    // 主题
+    var theme: ThemeModel = ThemeModel()
 }

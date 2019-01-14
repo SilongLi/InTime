@@ -47,6 +47,8 @@ class HomeHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        isUserInteractionEnabled = false
+        
         addSubview(titleLabel)
         addSubview(dateLabel)
         addSubview(dateInfoLabel)
@@ -73,5 +75,4 @@ class HomeHeaderView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

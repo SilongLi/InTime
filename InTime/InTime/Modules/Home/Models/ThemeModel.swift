@@ -11,5 +11,7 @@ struct ThemeModel {
     var bgImageName: String = ""
     /// 背景颜色，在没有背景图片的时候使用
     var bgHexColor: String = ""
+    /// 字体色
+    var textColor: String = ""
 
 }

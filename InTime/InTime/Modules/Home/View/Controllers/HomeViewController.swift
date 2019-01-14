@@ -141,7 +141,7 @@ class HomeViewController: BaseViewController {
     let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
     
     var isShowCategoryView: Bool = false
-    var currentTheme: ThemeModel = ThemeModel()
+    var currentSeason: SeasonModel = SeasonModel()
     var dataSource: [SeasonModel] = [SeasonModel]()
 
     override func viewDidLoad() {
@@ -230,47 +230,66 @@ class HomeViewController: BaseViewController {
         model4.title = "生日"
         
         selectedCategoryView.dataSource = [model1, model2, model3, model4]
-        
-        // 主题
+
+        // 时节
+        var season = SeasonModel()
+        season.title = "好雨知时节，当春乃发生0"
+        season.date = Date()
         var theme = ThemeModel()
         theme.bgImageName = "night"
         theme.bgHexColor = UIColor.tintHexColorString()
-        currentTheme = theme
-        
-        // 时节
-        var season = SeasonModel()
-        theme.bgImageName = "snow"
-        season.title = "好雨知时节，当春乃发生"
-        season.date = Date()
+        season.theme = theme
         
         var season1 = SeasonModel()
-        theme.bgImageName = "mountain"
-        season1.title = "过年"
+        season1.title = "过年1"
         season1.date = Date()
+        var theme1 = ThemeModel()
+        theme1.bgImageName = "mountain"
+        season1.theme = theme1
         
         var season2 = SeasonModel()
-        theme.bgImageName = "rail"
-        season2.title = "冬至"
+        season2.title = "冬至2"
         season2.date = Date()
+        var theme2 = ThemeModel()
+        theme2.bgImageName = "rail"
+        season2.theme = theme2
         
         var season3 = SeasonModel()
-        theme.bgImageName = "sunsetGlow"
-        season3.title = "五一"
+        season3.title = "中秋3"
         season3.date = Date()
+        var theme3 = ThemeModel()
+        theme3.bgImageName = "sunsetGlow"
+        season3.theme = theme3
         
-        dataSource = [season, season1, season2, season3,season, season1, season2, season3,season, season1, season2, season3]
+        var season4 = SeasonModel()
+        season4.title = "国庆4"
+        season4.date = Date()
+        var theme4 = ThemeModel()
+        theme4.bgImageName = "snow"
+        season4.theme = theme4
+        
+        var season5 = SeasonModel()
+        season5.title = "端午5"
+        season5.date = Date()
+        var theme5 = ThemeModel()
+        theme5.bgImageName = "flower"
+        season5.theme = theme5
+        
+        dataSource = [season, season1, season2, season3, season4, season5]
         
         updateContentView()
     }
     
     func updateContentView() {
+        currentSeason = dataSource.first ?? SeasonModel()
+        
         // 背景图
-        if currentTheme.bgImageName.count > 0 {
-            bgImageView.image = UIImage(named: currentTheme.bgImageName)
-            bgImageTableView.image = UIImage(named: currentTheme.bgImageName)
+        if currentSeason.theme.bgImageName.count > 0 {
+            bgImageView.image = UIImage(named: currentSeason.theme.bgImageName)
+            bgImageTableView.image = UIImage(named: currentSeason.theme.bgImageName)
         } else {
-            bgImageView.backgroundColor = UIColor.color(hex: currentTheme.bgHexColor)
-            bgImageTableView.backgroundColor = UIColor.color(hex: currentTheme.bgHexColor)
+            bgImageView.backgroundColor = UIColor.color(hex: currentSeason.theme.bgHexColor)
+            bgImageTableView.backgroundColor = UIColor.color(hex: currentSeason.theme.bgHexColor)
         }
         
         emptyInfoLabel.isHidden = dataSource.count > 0
@@ -285,16 +304,12 @@ class HomeViewController: BaseViewController {
     
     // MARK: - actions
     @objc func gotoSettingView() {
-        let VC = UIViewController()
-        VC.navigationItem.title = "设置"
-        VC.view.backgroundColor = UIColor.tintColor
+        let VC = SettingViewController()
         navigationController?.pushViewController(VC, animated: true)
     }
     
     @objc func gotoAddNewTimeView() {
-        let VC = UIViewController()
-        VC.navigationItem.title = "新建"
-        VC.view.backgroundColor = UIColor.tintColor
+        let VC = AddNewSeasonViewController()
         navigationController?.pushViewController(VC, animated: true)
     }
     
@@ -387,14 +402,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         view.backgroundColor = UIColor.clear
+        view.isUserInteractionEnabled = false
         return view
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let season = dataSource[indexPath.row]
         let detail = SeaSonDetailViewController()
-        detail.season = season
+        detail.seasons = dataSource
+        detail.currentSelectedIndex = indexPath.row
         navigationController?.pushViewController(detail, animated: true)
     }
 }

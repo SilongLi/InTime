@@ -28,6 +28,9 @@
 		995022E721E8890C004FAC47 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E621E8890B004FAC47 /* UILabel+Extension.swift */; };
 		995022E921E8C372004FAC47 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E821E8C372004FAC47 /* CategoryTableViewCell.swift */; };
 		995022EB21E8D52E004FAC47 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */; };
+		99857BE821EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */; };
+		99857BED21EC9315005C7F9B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BEC21EC9315005C7F9B /* SettingViewController.swift */; };
+		99857BEF21EC9381005C7F9B /* AddNewSeasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BEE21EC9381005C7F9B /* AddNewSeasonViewController.swift */; };
 		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +59,9 @@
 		995022E621E8890B004FAC47 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		995022E821E8C372004FAC47 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		99857BEC21EC9315005C7F9B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		99857BEE21EC9381005C7F9B /* AddNewSeasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSeasonViewController.swift; sourceTree = "<group>"; };
 		B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.release.xcconfig"; sourceTree = "<group>"; };
 		EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -135,8 +141,9 @@
 			isa = PBXGroup;
 			children = (
 				995022DF21E87776004FAC47 /* Base */,
-				9950227E21E6F5EF004FAC47 /* AppDelegate.swift */,
 				995022C421E72A1A004FAC47 /* Home */,
+				99857BE921EC92EA005C7F9B /* Setting */,
+				9950227E21E6F5EF004FAC47 /* AppDelegate.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -181,6 +188,7 @@
 			children = (
 				995022C921E72AB0004FAC47 /* HomeViewController.swift */,
 				995022DD21E8772A004FAC47 /* SeaSonDetailViewController.swift */,
+				99857BEE21EC9381005C7F9B /* AddNewSeasonViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -202,6 +210,7 @@
 				995022D121E78016004FAC47 /* SelectedCategoryView.swift */,
 				995022E821E8C372004FAC47 /* CategoryTableViewCell.swift */,
 				995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */,
+				99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -230,6 +239,30 @@
 				995022E021E87785004FAC47 /* BaseViewController.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		99857BE921EC92EA005C7F9B /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				99857BEA21EC92F7005C7F9B /* View */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		99857BEA21EC92F7005C7F9B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				99857BEB21EC92FB005C7F9B /* Controllers */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		99857BEB21EC92FB005C7F9B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				99857BEC21EC9315005C7F9B /* SettingViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		A2538EDED4A702D86EC99A21 /* Frameworks */ = {
@@ -372,11 +405,14 @@
 				995022EB21E8D52E004FAC47 /* HomeTableViewCell.swift in Sources */,
 				995022E521E88420004FAC47 /* HomeHeaderView.swift in Sources */,
 				995022E321E877E5004FAC47 /* CommonTools.swift in Sources */,
+				99857BEF21EC9381005C7F9B /* AddNewSeasonViewController.swift in Sources */,
 				995022E721E8890C004FAC47 /* UILabel+Extension.swift in Sources */,
 				995022CA21E72AB0004FAC47 /* HomeViewController.swift in Sources */,
+				99857BE821EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift in Sources */,
 				995022C121E729E1004FAC47 /* Namespace.swift in Sources */,
 				995022DC21E87308004FAC47 /* ITHomeEnum.swift in Sources */,
 				995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */,
+				99857BED21EC9315005C7F9B /* SettingViewController.swift in Sources */,
 				995022D721E83EDA004FAC47 /* ThemeModel.swift in Sources */,
 				9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */,
 				995022C221E729E1004FAC47 /* ITViewMacros.swift in Sources */,

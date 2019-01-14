@@ -16,7 +16,7 @@ class BaseViewController: UIViewController, UIGestureRecognizerDelegate {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.strokeColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
     override func viewWillAppear(_ animated: Bool) {
