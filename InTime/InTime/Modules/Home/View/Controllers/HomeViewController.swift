@@ -89,7 +89,7 @@ class HomeViewController: BaseViewController {
         return view
     }()
     
-    fileprivate let HomeCellId = "HomeCellId"
+    let HomeCellId = "HomeCellId"
     lazy var tableView: UITableView = {
         let tableView = UITableView.init(frame: CGRect.zero, style: .plain)
         tableView.dataSource = self
@@ -208,7 +208,7 @@ class HomeViewController: BaseViewController {
             self?.isShowCategoryView = isShow
             if let category = model {
                 self?.titleLabel.text = category.title
-                // update content view
+                /// TODO:  根据类别获取数据并刷新列表
             }
         }
     }
@@ -342,7 +342,7 @@ extension HomeViewController: UIScrollViewDelegate {
         }
         bgTableView.isHidden = offsetY <= 0.0
         
-        /// 更新Header View
+        /// 更新HeaderView布局
         if offsetY < 0.0 {
             headerView.snp.updateConstraints { (make) in
                 make.top.equalTo(IT_NaviHeight - offsetY)
@@ -364,7 +364,7 @@ extension HomeViewController: UIScrollViewDelegate {
             bgImageTableView.frame = CGRect.init(x: 0.0, y: -originY, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
         }
         
-        /// 更新Header View
+        /// 更新HeaderView布局
         headerView.snp.updateConstraints { (make) in
             make.top.equalTo(IT_NaviHeight)
             make.left.right.equalToSuperview()

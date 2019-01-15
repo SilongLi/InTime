@@ -20,7 +20,7 @@
 		995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022D421E78A3D004FAC47 /* CategoryModel.swift */; };
 		995022D721E83EDA004FAC47 /* ThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022D621E83EDA004FAC47 /* ThemeModel.swift */; };
 		995022D921E870C4004FAC47 /* SeasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022D821E870C4004FAC47 /* SeasonModel.swift */; };
-		995022DC21E87308004FAC47 /* ITHomeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022DB21E87308004FAC47 /* ITHomeEnum.swift */; };
+		995022DC21E87308004FAC47 /* HomeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022DB21E87308004FAC47 /* HomeEnum.swift */; };
 		995022DE21E8772A004FAC47 /* SeaSonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022DD21E8772A004FAC47 /* SeaSonDetailViewController.swift */; };
 		995022E121E87785004FAC47 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E021E87785004FAC47 /* BaseViewController.swift */; };
 		995022E321E877E5004FAC47 /* CommonTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E221E877E5004FAC47 /* CommonTools.swift */; };
@@ -31,6 +31,21 @@
 		99857BE821EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */; };
 		99857BED21EC9315005C7F9B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BEC21EC9315005C7F9B /* SettingViewController.swift */; };
 		99857BEF21EC9381005C7F9B /* AddNewSeasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BEE21EC9381005C7F9B /* AddNewSeasonViewController.swift */; };
+		99857BF521ED8D9A005C7F9B /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BF121ED8D9A005C7F9B /* BaseCollectionViewCell.swift */; };
+		99857BF621ED8D9A005C7F9B /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BF221ED8D9A005C7F9B /* BaseTableViewCell.swift */; };
+		99857BF721ED8D9A005C7F9B /* BaseViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BF321ED8D9A005C7F9B /* BaseViewModelProtocol.swift */; };
+		99857BF821ED8D9A005C7F9B /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BF421ED8D9A005C7F9B /* BaseModel.swift */; };
+		99857BFA21EDAF47005C7F9B /* ITInputTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BF921EDAF47005C7F9B /* ITInputTextTableViewCell.swift */; };
+		99857BFE21EDB396005C7F9B /* AddNewSeasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BFD21EDB396005C7F9B /* AddNewSeasonViewModel.swift */; };
+		99857C0021EDB595005C7F9B /* NewSeasonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BFF21EDB595005C7F9B /* NewSeasonModel.swift */; };
+		99857C0321EDBA8F005C7F9B /* AddNewSeasonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0221EDBA8F005C7F9B /* AddNewSeasonDelegate.swift */; };
+		99857C0521EDBB62005C7F9B /* UIView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0421EDBB61005C7F9B /* UIView+Helper.swift */; };
+		99857C0721EDBE92005C7F9B /* ITSelectedTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0621EDBE92005C7F9B /* ITSelectedTimeTableViewCell.swift */; };
+		99857C0921EDC677005C7F9B /* ITInfoSelectedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0821EDC677005C7F9B /* ITInfoSelectedTableViewCell.swift */; };
+		99857C0B21EDDC38005C7F9B /* ITReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0A21EDDC38005C7F9B /* ITReminderTableViewCell.swift */; };
+		99857C0D21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */; };
+		99857C0F21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */; };
+		99857C1121EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */; };
 		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +66,7 @@
 		995022D421E78A3D004FAC47 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		995022D621E83EDA004FAC47 /* ThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeModel.swift; sourceTree = "<group>"; };
 		995022D821E870C4004FAC47 /* SeasonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonModel.swift; sourceTree = "<group>"; };
-		995022DB21E87308004FAC47 /* ITHomeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITHomeEnum.swift; sourceTree = "<group>"; };
+		995022DB21E87308004FAC47 /* HomeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEnum.swift; sourceTree = "<group>"; };
 		995022DD21E8772A004FAC47 /* SeaSonDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeaSonDetailViewController.swift; sourceTree = "<group>"; };
 		995022E021E87785004FAC47 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		995022E221E877E5004FAC47 /* CommonTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTools.swift; sourceTree = "<group>"; };
@@ -62,6 +77,21 @@
 		99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		99857BEC21EC9315005C7F9B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		99857BEE21EC9381005C7F9B /* AddNewSeasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSeasonViewController.swift; sourceTree = "<group>"; };
+		99857BF121ED8D9A005C7F9B /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		99857BF221ED8D9A005C7F9B /* BaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		99857BF321ED8D9A005C7F9B /* BaseViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModelProtocol.swift; sourceTree = "<group>"; };
+		99857BF421ED8D9A005C7F9B /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
+		99857BF921EDAF47005C7F9B /* ITInputTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITInputTextTableViewCell.swift; sourceTree = "<group>"; };
+		99857BFD21EDB396005C7F9B /* AddNewSeasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSeasonViewModel.swift; sourceTree = "<group>"; };
+		99857BFF21EDB595005C7F9B /* NewSeasonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSeasonModel.swift; sourceTree = "<group>"; };
+		99857C0221EDBA8F005C7F9B /* AddNewSeasonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSeasonDelegate.swift; sourceTree = "<group>"; };
+		99857C0421EDBB61005C7F9B /* UIView+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Helper.swift"; sourceTree = "<group>"; };
+		99857C0621EDBE92005C7F9B /* ITSelectedTimeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedTimeTableViewCell.swift; sourceTree = "<group>"; };
+		99857C0821EDC677005C7F9B /* ITInfoSelectedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITInfoSelectedTableViewCell.swift; sourceTree = "<group>"; };
+		99857C0A21EDDC38005C7F9B /* ITReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITReminderTableViewCell.swift; sourceTree = "<group>"; };
+		99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITRepeatReminderTableViewCell.swift; sourceTree = "<group>"; };
+		99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedBackgroundImageTableViewCell.swift; sourceTree = "<group>"; };
+		99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedTextColorTableViewCell.swift; sourceTree = "<group>"; };
 		B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.release.xcconfig"; sourceTree = "<group>"; };
 		EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -163,6 +193,7 @@
 		995022C521E72A23004FAC47 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				99857BFD21EDB396005C7F9B /* AddNewSeasonViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -196,6 +227,7 @@
 		995022CB21E72AEC004FAC47 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				99857C0421EDBB61005C7F9B /* UIView+Helper.swift */,
 				995022CC21E72B13004FAC47 /* String+Localized.swift */,
 				995022CD21E72B13004FAC47 /* UIColor+Extension.swift */,
 				995022E621E8890B004FAC47 /* UILabel+Extension.swift */,
@@ -206,6 +238,8 @@
 		995022D021E77FD1004FAC47 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				99857C0121EDBA7F005C7F9B /* Protocol */,
+				99857BF021ED7F67005C7F9B /* NewSeasonViews */,
 				995022E421E88420004FAC47 /* HomeHeaderView.swift */,
 				995022D121E78016004FAC47 /* SelectedCategoryView.swift */,
 				995022E821E8C372004FAC47 /* CategoryTableViewCell.swift */,
@@ -221,6 +255,7 @@
 				995022D821E870C4004FAC47 /* SeasonModel.swift */,
 				995022D421E78A3D004FAC47 /* CategoryModel.swift */,
 				995022D621E83EDA004FAC47 /* ThemeModel.swift */,
+				99857BFF21EDB595005C7F9B /* NewSeasonModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -228,7 +263,7 @@
 		995022DA21E872F8004FAC47 /* Enum */ = {
 			isa = PBXGroup;
 			children = (
-				995022DB21E87308004FAC47 /* ITHomeEnum.swift */,
+				995022DB21E87308004FAC47 /* HomeEnum.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -237,6 +272,10 @@
 			isa = PBXGroup;
 			children = (
 				995022E021E87785004FAC47 /* BaseViewController.swift */,
+				99857BF421ED8D9A005C7F9B /* BaseModel.swift */,
+				99857BF321ED8D9A005C7F9B /* BaseViewModelProtocol.swift */,
+				99857BF221ED8D9A005C7F9B /* BaseTableViewCell.swift */,
+				99857BF121ED8D9A005C7F9B /* BaseCollectionViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -263,6 +302,28 @@
 				99857BEC21EC9315005C7F9B /* SettingViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		99857BF021ED7F67005C7F9B /* NewSeasonViews */ = {
+			isa = PBXGroup;
+			children = (
+				99857BF921EDAF47005C7F9B /* ITInputTextTableViewCell.swift */,
+				99857C0621EDBE92005C7F9B /* ITSelectedTimeTableViewCell.swift */,
+				99857C0821EDC677005C7F9B /* ITInfoSelectedTableViewCell.swift */,
+				99857C0A21EDDC38005C7F9B /* ITReminderTableViewCell.swift */,
+				99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */,
+				99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */,
+				99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */,
+			);
+			path = NewSeasonViews;
+			sourceTree = "<group>";
+		};
+		99857C0121EDBA7F005C7F9B /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				99857C0221EDBA8F005C7F9B /* AddNewSeasonDelegate.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		A2538EDED4A702D86EC99A21 /* Frameworks */ = {
@@ -405,17 +466,32 @@
 				995022EB21E8D52E004FAC47 /* HomeTableViewCell.swift in Sources */,
 				995022E521E88420004FAC47 /* HomeHeaderView.swift in Sources */,
 				995022E321E877E5004FAC47 /* CommonTools.swift in Sources */,
+				99857BF821ED8D9A005C7F9B /* BaseModel.swift in Sources */,
+				99857C0021EDB595005C7F9B /* NewSeasonModel.swift in Sources */,
 				99857BEF21EC9381005C7F9B /* AddNewSeasonViewController.swift in Sources */,
 				995022E721E8890C004FAC47 /* UILabel+Extension.swift in Sources */,
+				99857BFA21EDAF47005C7F9B /* ITInputTextTableViewCell.swift in Sources */,
+				99857C0B21EDDC38005C7F9B /* ITReminderTableViewCell.swift in Sources */,
 				995022CA21E72AB0004FAC47 /* HomeViewController.swift in Sources */,
 				99857BE821EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift in Sources */,
 				995022C121E729E1004FAC47 /* Namespace.swift in Sources */,
-				995022DC21E87308004FAC47 /* ITHomeEnum.swift in Sources */,
+				995022DC21E87308004FAC47 /* HomeEnum.swift in Sources */,
+				99857BF721ED8D9A005C7F9B /* BaseViewModelProtocol.swift in Sources */,
+				99857C0921EDC677005C7F9B /* ITInfoSelectedTableViewCell.swift in Sources */,
+				99857BF521ED8D9A005C7F9B /* BaseCollectionViewCell.swift in Sources */,
 				995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */,
 				99857BED21EC9315005C7F9B /* SettingViewController.swift in Sources */,
 				995022D721E83EDA004FAC47 /* ThemeModel.swift in Sources */,
+				99857BFE21EDB396005C7F9B /* AddNewSeasonViewModel.swift in Sources */,
+				99857C0521EDBB62005C7F9B /* UIView+Helper.swift in Sources */,
+				99857C0321EDBA8F005C7F9B /* AddNewSeasonDelegate.swift in Sources */,
 				9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */,
+				99857C0D21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift in Sources */,
+				99857BF621ED8D9A005C7F9B /* BaseTableViewCell.swift in Sources */,
+				99857C0721EDBE92005C7F9B /* ITSelectedTimeTableViewCell.swift in Sources */,
 				995022C221E729E1004FAC47 /* ITViewMacros.swift in Sources */,
+				99857C0F21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift in Sources */,
+				99857C1121EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift in Sources */,
 				995022E921E8C372004FAC47 /* CategoryTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

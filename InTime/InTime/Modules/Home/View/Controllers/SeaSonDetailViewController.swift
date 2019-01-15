@@ -116,10 +116,12 @@ class SeaSonDetailViewController: BaseViewController {
     
     // MARK: - actions
     @objc func gotoModifySeasonAction() {
+        // TODO: 修改时节
         print("修改时节")
     }
     
     @objc func gotoShareSeasonAction() {
+        // TODO: 分享时节
         print("分享")
     }
 }
