@@ -36,7 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// Config statusBar
         UINavigationBar.appearance().tintColor = .white
         UINavigationBar.appearance().tintAdjustmentMode = .automatic
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        let navbarBackgroundImage: UIImage = UIImage.creatImage(color: UIColor.tintColor)
+        UINavigationBar.appearance().setBackgroundImage(navbarBackgroundImage, for: .default)
         UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().shadowImage = UIImage()
     }

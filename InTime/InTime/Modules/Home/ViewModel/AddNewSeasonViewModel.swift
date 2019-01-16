@@ -13,9 +13,9 @@ class AddNewSeasonViewModel {
     static let InputCellHeight: CGFloat = 60.0
     static let TimeSelectedCellHeight: CGFloat = 85.0
     static let InfoCellHeight: CGFloat = 44.0
-    static let RepeatReminderCellHeight: CGFloat = 60.0
-    static let BackgroundCellHeight: CGFloat = 120.0
-    static let TextColorCellHeight: CGFloat = 60.0
+    static let RepeatReminderCellHeight: CGFloat = 90.0
+    static let BackgroundCellHeight: CGFloat = 190.0
+    static let TextColorCellHeight: CGFloat = 100.0
 
     /// 获取新建“时节”列表布局数据
     static func loadListSections(completion: (_ sections: [BaseSectionModel]) -> ()) {
@@ -114,8 +114,13 @@ class AddNewSeasonViewModel {
                                            items: [ring])
         /// 重复提醒
         let repeatModel = RepeatReminderModel()
-        repeatModel.name = "动画效果"
-        repeatModel.types = ["不重复", "每天", "每周", "每月", "每年"]
+        repeatModel.name = "重复提醒"
+        let no      = RepeatReminderTypeModel(type: .no, title: "不重复", isSelected: true)
+        let day     = RepeatReminderTypeModel(type: .day, title: "每天")
+        let week    = RepeatReminderTypeModel(type: .week, title: "每周")
+        let mounth  = RepeatReminderTypeModel(type: .mounth, title: "每月")
+        let year    = RepeatReminderTypeModel(type: .year, title: "每年")
+        repeatModel.types = [no, day, week, mounth, year]
         let repeatSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.repeatReminder.rawValue,
                                              headerTitle: "",
                                              footerTitle: "",
@@ -126,8 +131,20 @@ class AddNewSeasonViewModel {
                                              items: [repeatModel])
         /// 自定义背景
         let background  = BackgroundModel()
-        background.name = "动画效果"
-        background.images = [""]
+        background.name = "自定义背景"
+        let empty  = BackgroundImageModel(type: .custom, name: "")
+        let image1 = BackgroundImageModel(type: .image, name: "night", isSelected: true)
+        let image2 = BackgroundImageModel(type: .image, name: "mountain")
+        let image3 = BackgroundImageModel(type: .image, name: "rail")
+        let image4 = BackgroundImageModel(type: .image, name: "snow")
+        let image5 = BackgroundImageModel(type: .image, name: "sunsetGlow")
+        let image6 = BackgroundImageModel(type: .image, name: "flower")
+        let imageColor1 = BackgroundImageModel(type: .color, name: "#FFFFFF")
+        let imageColor2 = BackgroundImageModel(type: .color, name: "#55DDFF")
+        let imageColor3 = BackgroundImageModel(type: .color, name: "#99EBFF")
+        let imageColor4 = BackgroundImageModel(type: .color, name: "#B2E98E")
+        let imageColor5 = BackgroundImageModel(type: .color, name: "#E492D4")
+        background.images = [empty, image1, image2, image3, image4, image5, image6, imageColor1, imageColor2, imageColor3, imageColor4, imageColor5]
         let backgroundSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.background.rawValue,
                                            headerTitle: "",
                                            footerTitle: "",
@@ -138,13 +155,24 @@ class AddNewSeasonViewModel {
                                            items: [background])
         /// 字体颜色
         let color  = TextColorModel()
-        color.name = "动画效果"
-        color.colors = [""]
+        color.name = "字体颜色"
+        let color1 = ColorModel.init(color: "#FFFFFF", isSelected: true)
+        let color2 = ColorModel.init(color: "#000000")
+        let color3 = ColorModel.init(color: "#A2A2A2")
+        let color4 = ColorModel.init(color: "#FFFF44")
+        let color5 = ColorModel.init(color: "#FF0099")
+        let color6 = ColorModel.init(color: "#F05731")
+        let color7 = ColorModel.init(color: "#11A0FF")
+        let color8 = ColorModel.init(color: "#0085DD")
+        let color9 = ColorModel.init(color: "#DD00DD")
+        let color10 = ColorModel.init(color: "#17C7A4")
+        let color11 = ColorModel.init(color: "#DD8500")
+        color.colors = [color1, color2, color3, color4, color5, color6, color7, color8, color9, color10, color11]
         let colorSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.textColor.rawValue,
                                            headerTitle: "",
                                            footerTitle: "",
                                            headerHeight: 0.001,
-                                           footerHeight: 0.001,
+                                           footerHeight: 50.0,
                                            cellHeight: TextColorCellHeight,
                                            showCellCount: 1,
                                            items: [color])

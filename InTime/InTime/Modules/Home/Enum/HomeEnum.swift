@@ -57,7 +57,6 @@ enum NewSeasonCellIdType: String {
     case textColor
 }
 
-
 /// 信息选择累心
 enum InfoSelectedType {
     /// 显示单位
@@ -68,4 +67,14 @@ enum InfoSelectedType {
     case animation
     /// 提醒铃声
     case ring 
+}
+
+/// 自定义背景
+enum CustomBackgroundType {
+    /// 自定义
+    case custom
+    /// 默认图片
+    case image
+    /// 默认颜色
+    case color
 }

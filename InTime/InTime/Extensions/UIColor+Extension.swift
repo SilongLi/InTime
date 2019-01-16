@@ -12,11 +12,10 @@ extension UIColor {
 
     /// App 主色调
     open class var tintColor: UIColor { return UIColor.color(hex: "#2C2D39") }
-    open class func tintHexColorString() -> String { return "#2C2D39" }
+    open class func tintHexColorString() -> String { return "#00DD85" }
     
     // 绿色
-//    open class var greenColor: UIColor { return UIColor.color(red: 117.0, green: 198.0, blue: 152.0) }
-    open class var greenColor: UIColor { return UIColor.color(hex: "#7BF554") }
+    open class var greenColor: UIColor { return UIColor.color(hex: "#00CC7A") }
     // 粉色
     open class var pinkColor: UIColor { return UIColor.color(red: 233.0, green: 94.0, blue: 137.0) }
     

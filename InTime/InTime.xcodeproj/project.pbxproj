@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		990B64A421EF341C0063BD34 /* UIImage+CreateImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64A321EF341C0063BD34 /* UIImage+CreateImage.swift */; };
 		9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9950227E21E6F5EF004FAC47 /* AppDelegate.swift */; };
 		9950228421E6F5EF004FAC47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9950228221E6F5EF004FAC47 /* Main.storyboard */; };
 		9950228621E6F5F1004FAC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9950228521E6F5F1004FAC47 /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		14B09EA84C4246C100B7FFA4 /* Pods-InTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.debug.xcconfig"; sourceTree = "<group>"; };
+		990B64A321EF341C0063BD34 /* UIImage+CreateImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+CreateImage.swift"; sourceTree = "<group>"; };
 		9950227B21E6F5EF004FAC47 /* InTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9950227E21E6F5EF004FAC47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9950228321E6F5EF004FAC47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 		995022BD21E72938004FAC47 /* SupportFile */ = {
 			isa = PBXGroup;
 			children = (
+				9950227E21E6F5EF004FAC47 /* AppDelegate.swift */,
 				9950228521E6F5F1004FAC47 /* Assets.xcassets */,
 				9950228221E6F5EF004FAC47 /* Main.storyboard */,
 				9950228721E6F5F1004FAC47 /* LaunchScreen.storyboard */,
@@ -173,7 +176,6 @@
 				995022DF21E87776004FAC47 /* Base */,
 				995022C421E72A1A004FAC47 /* Home */,
 				99857BE921EC92EA005C7F9B /* Setting */,
-				9950227E21E6F5EF004FAC47 /* AppDelegate.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -227,6 +229,7 @@
 		995022CB21E72AEC004FAC47 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				990B64A321EF341C0063BD34 /* UIImage+CreateImage.swift */,
 				99857C0421EDBB61005C7F9B /* UIView+Helper.swift */,
 				995022CC21E72B13004FAC47 /* String+Localized.swift */,
 				995022CD21E72B13004FAC47 /* UIColor+Extension.swift */,
@@ -473,6 +476,7 @@
 				99857BFA21EDAF47005C7F9B /* ITInputTextTableViewCell.swift in Sources */,
 				99857C0B21EDDC38005C7F9B /* ITReminderTableViewCell.swift in Sources */,
 				995022CA21E72AB0004FAC47 /* HomeViewController.swift in Sources */,
+				990B64A421EF341C0063BD34 /* UIImage+CreateImage.swift in Sources */,
 				99857BE821EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift in Sources */,
 				995022C121E729E1004FAC47 /* Namespace.swift in Sources */,
 				995022DC21E87308004FAC47 /* HomeEnum.swift in Sources */,

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import FDFullscreenPopGesture
 
 let NewSeasonMargin: CGFloat = IT_IPHONE_X || IT_IPHONE_6P ? 20.0 : 15.0
 
@@ -41,6 +41,8 @@ class AddNewSeasonViewController: BaseViewController {
     func setupSubviews() {
         navigationItem.title = "新建"
         view.backgroundColor = UIColor.tintColor
+        fd_interactivePopDisabled = true
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "save"), style: UIBarButtonItem.Style.done, target: self, action: #selector(saveSeasonAction))
         
         view.addSubview(tableView)
@@ -92,7 +94,13 @@ extension AddNewSeasonViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return dataSource[section].cellHeight
+        return dataSource[section].footerHeight
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        return view
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

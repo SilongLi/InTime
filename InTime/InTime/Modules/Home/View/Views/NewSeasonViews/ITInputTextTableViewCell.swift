@@ -38,6 +38,10 @@ class ITInputTextTableViewCell: BaseTableViewCell {
         textField.layer.masksToBounds = true
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        textField.resignFirstResponder()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -59,7 +63,15 @@ extension ITInputTextTableViewCell: UITextFieldDelegate {
         
     }
     
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard string != "\n" else {
+            textField.resignFirstResponder()
+            return false
+        }
          return true
     }
 }
