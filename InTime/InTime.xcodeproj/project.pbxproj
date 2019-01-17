@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		990B64A421EF341C0063BD34 /* UIImage+CreateImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64A321EF341C0063BD34 /* UIImage+CreateImage.swift */; };
+		990B64AB21F030C90063BD34 /* LabelSwitchBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64A721F030C90063BD34 /* LabelSwitchBackView.swift */; };
+		990B64AC21F030C90063BD34 /* LabelSwitchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64A821F030C90063BD34 /* LabelSwitchState.swift */; };
+		990B64AD21F030C90063BD34 /* LabelSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64A921F030C90063BD34 /* LabelSwitch.swift */; };
+		990B64AE21F030C90063BD34 /* LabelSwitchConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64AA21F030C90063BD34 /* LabelSwitchConfig.swift */; };
+		990B64B721F075840063BD34 /* WSDatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 990B64B321F075840063BD34 /* WSDatePickerView.xib */; };
+		990B64B821F075840063BD34 /* WSDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 990B64B421F075840063BD34 /* WSDatePickerView.m */; };
+		990B64B921F075840063BD34 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990B64B521F075840063BD34 /* NSDate+Extension.m */; };
+		990B64BA21F075840063BD34 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990B64B621F075840063BD34 /* UIView+Extension.m */; };
+		990B64BD21F083780063BD34 /* Date+ToLuarCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64BC21F083780063BD34 /* Date+ToLuarCalendar.swift */; };
 		9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9950227E21E6F5EF004FAC47 /* AppDelegate.swift */; };
 		9950228421E6F5EF004FAC47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9950228221E6F5EF004FAC47 /* Main.storyboard */; };
 		9950228621E6F5F1004FAC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9950228521E6F5F1004FAC47 /* Assets.xcassets */; };
@@ -53,6 +62,19 @@
 /* Begin PBXFileReference section */
 		14B09EA84C4246C100B7FFA4 /* Pods-InTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.debug.xcconfig"; sourceTree = "<group>"; };
 		990B64A321EF341C0063BD34 /* UIImage+CreateImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+CreateImage.swift"; sourceTree = "<group>"; };
+		990B64A721F030C90063BD34 /* LabelSwitchBackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelSwitchBackView.swift; sourceTree = "<group>"; };
+		990B64A821F030C90063BD34 /* LabelSwitchState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelSwitchState.swift; sourceTree = "<group>"; };
+		990B64A921F030C90063BD34 /* LabelSwitch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelSwitch.swift; sourceTree = "<group>"; };
+		990B64AA21F030C90063BD34 /* LabelSwitchConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelSwitchConfig.swift; sourceTree = "<group>"; };
+		990B64B021F075840063BD34 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
+		990B64B121F075840063BD34 /* WSDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSDatePickerView.h; sourceTree = "<group>"; };
+		990B64B221F075840063BD34 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		990B64B321F075840063BD34 /* WSDatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WSDatePickerView.xib; sourceTree = "<group>"; };
+		990B64B421F075840063BD34 /* WSDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSDatePickerView.m; sourceTree = "<group>"; };
+		990B64B521F075840063BD34 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
+		990B64B621F075840063BD34 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
+		990B64BB21F076380063BD34 /* InTime⁩-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InTime⁩-Bridging-Header.h"; sourceTree = "<group>"; };
+		990B64BC21F083780063BD34 /* Date+ToLuarCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ToLuarCalendar.swift"; sourceTree = "<group>"; };
 		9950227B21E6F5EF004FAC47 /* InTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9950227E21E6F5EF004FAC47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9950228321E6F5EF004FAC47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -119,6 +141,40 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		990B64A521F030C90063BD34 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				990B64AF21F075840063BD34 /* WSDaePickerView */,
+				990B64A621F030C90063BD34 /* CustomSwitch */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
+		990B64A621F030C90063BD34 /* CustomSwitch */ = {
+			isa = PBXGroup;
+			children = (
+				990B64A721F030C90063BD34 /* LabelSwitchBackView.swift */,
+				990B64A821F030C90063BD34 /* LabelSwitchState.swift */,
+				990B64A921F030C90063BD34 /* LabelSwitch.swift */,
+				990B64AA21F030C90063BD34 /* LabelSwitchConfig.swift */,
+			);
+			path = CustomSwitch;
+			sourceTree = "<group>";
+		};
+		990B64AF21F075840063BD34 /* WSDaePickerView */ = {
+			isa = PBXGroup;
+			children = (
+				990B64B121F075840063BD34 /* WSDatePickerView.h */,
+				990B64B421F075840063BD34 /* WSDatePickerView.m */,
+				990B64B021F075840063BD34 /* NSDate+Extension.h */,
+				990B64B521F075840063BD34 /* NSDate+Extension.m */,
+				990B64B221F075840063BD34 /* UIView+Extension.h */,
+				990B64B621F075840063BD34 /* UIView+Extension.m */,
+				990B64B321F075840063BD34 /* WSDatePickerView.xib */,
+			);
+			path = WSDaePickerView;
+			sourceTree = "<group>";
+		};
 		9950227221E6F5EF004FAC47 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +199,7 @@
 				995022C321E72A10004FAC47 /* Modules */,
 				995022CB21E72AEC004FAC47 /* Extensions */,
 				995022BE21E729CD004FAC47 /* Utilities */,
+				990B64A521F030C90063BD34 /* Share */,
 				995022BD21E72938004FAC47 /* SupportFile */,
 			);
 			path = InTime;
@@ -156,6 +213,7 @@
 				9950228221E6F5EF004FAC47 /* Main.storyboard */,
 				9950228721E6F5F1004FAC47 /* LaunchScreen.storyboard */,
 				9950228A21E6F5F1004FAC47 /* Info.plist */,
+				990B64BB21F076380063BD34 /* InTime⁩-Bridging-Header.h */,
 			);
 			path = SupportFile;
 			sourceTree = "<group>";
@@ -234,6 +292,7 @@
 				995022CC21E72B13004FAC47 /* String+Localized.swift */,
 				995022CD21E72B13004FAC47 /* UIColor+Extension.swift */,
 				995022E621E8890B004FAC47 /* UILabel+Extension.swift */,
+				990B64BC21F083780063BD34 /* Date+ToLuarCalendar.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -400,6 +459,7 @@
 			files = (
 				9950228921E6F5F1004FAC47 /* LaunchScreen.storyboard in Resources */,
 				9950228621E6F5F1004FAC47 /* Assets.xcassets in Resources */,
+				990B64B721F075840063BD34 /* WSDatePickerView.xib in Resources */,
 				9950228421E6F5EF004FAC47 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -462,6 +522,8 @@
 			files = (
 				995022E121E87785004FAC47 /* BaseViewController.swift in Sources */,
 				995022D921E870C4004FAC47 /* SeasonModel.swift in Sources */,
+				990B64BA21F075840063BD34 /* UIView+Extension.m in Sources */,
+				990B64AB21F030C90063BD34 /* LabelSwitchBackView.swift in Sources */,
 				995022D221E78016004FAC47 /* SelectedCategoryView.swift in Sources */,
 				995022CF21E72B13004FAC47 /* UIColor+Extension.swift in Sources */,
 				995022CE21E72B13004FAC47 /* String+Localized.swift in Sources */,
@@ -469,13 +531,16 @@
 				995022EB21E8D52E004FAC47 /* HomeTableViewCell.swift in Sources */,
 				995022E521E88420004FAC47 /* HomeHeaderView.swift in Sources */,
 				995022E321E877E5004FAC47 /* CommonTools.swift in Sources */,
+				990B64AE21F030C90063BD34 /* LabelSwitchConfig.swift in Sources */,
 				99857BF821ED8D9A005C7F9B /* BaseModel.swift in Sources */,
+				990B64AC21F030C90063BD34 /* LabelSwitchState.swift in Sources */,
 				99857C0021EDB595005C7F9B /* NewSeasonModel.swift in Sources */,
 				99857BEF21EC9381005C7F9B /* AddNewSeasonViewController.swift in Sources */,
 				995022E721E8890C004FAC47 /* UILabel+Extension.swift in Sources */,
 				99857BFA21EDAF47005C7F9B /* ITInputTextTableViewCell.swift in Sources */,
 				99857C0B21EDDC38005C7F9B /* ITReminderTableViewCell.swift in Sources */,
 				995022CA21E72AB0004FAC47 /* HomeViewController.swift in Sources */,
+				990B64B921F075840063BD34 /* NSDate+Extension.m in Sources */,
 				990B64A421EF341C0063BD34 /* UIImage+CreateImage.swift in Sources */,
 				99857BE821EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift in Sources */,
 				995022C121E729E1004FAC47 /* Namespace.swift in Sources */,
@@ -488,14 +553,17 @@
 				995022D721E83EDA004FAC47 /* ThemeModel.swift in Sources */,
 				99857BFE21EDB396005C7F9B /* AddNewSeasonViewModel.swift in Sources */,
 				99857C0521EDBB62005C7F9B /* UIView+Helper.swift in Sources */,
+				990B64AD21F030C90063BD34 /* LabelSwitch.swift in Sources */,
 				99857C0321EDBA8F005C7F9B /* AddNewSeasonDelegate.swift in Sources */,
 				9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */,
 				99857C0D21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift in Sources */,
 				99857BF621ED8D9A005C7F9B /* BaseTableViewCell.swift in Sources */,
 				99857C0721EDBE92005C7F9B /* ITSelectedTimeTableViewCell.swift in Sources */,
 				995022C221E729E1004FAC47 /* ITViewMacros.swift in Sources */,
+				990B64B821F075840063BD34 /* WSDatePickerView.m in Sources */,
 				99857C0F21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift in Sources */,
 				99857C1121EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift in Sources */,
+				990B64BD21F083780063BD34 /* Date+ToLuarCalendar.swift in Sources */,
 				995022E921E8C372004FAC47 /* CategoryTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -653,6 +721,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "InTime/SupportFile/InTime⁩-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -673,6 +742,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "InTime/SupportFile/InTime⁩-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

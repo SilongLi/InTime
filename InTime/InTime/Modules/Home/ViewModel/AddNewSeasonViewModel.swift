@@ -21,7 +21,7 @@ class AddNewSeasonViewModel {
     static func loadListSections(completion: (_ sections: [BaseSectionModel]) -> ()) {
         /// 输入框
         let inputModel = InputModel()
-        inputModel.placeholder = "  请输入标题"
+        inputModel.placeholder = "请输入标题"
         let inputSeason = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.input.rawValue,
                                            headerTitle: "",
                                            footerTitle: "",
@@ -35,8 +35,8 @@ class AddNewSeasonViewModel {
         timeModel.noteName = "时节时间"
         timeModel.noteIcon = "question"
         timeModel.note = " 提示"
-        
-        timeModel.dataString = "2019.01.15 15:00"
+        timeModel.lunarDataString = "2018戊戌年腊月十二 15:00"
+        timeModel.gregoriandDataString = "2019.01.15 15:00"
         timeModel.isGregorian = true
         let timeSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.timeSelected.rawValue,
                                            headerTitle: "",
@@ -103,7 +103,7 @@ class AddNewSeasonViewModel {
         let ring  = InfoSelectedModel()
         ring.type = InfoSelectedType.ring
         ring.name = "动画效果"
-        ring.info = "自动"
+        ring.info = "Ceilivy"
         let ringSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.info.rawValue,
                                            headerTitle: "",
                                            footerTitle: "",

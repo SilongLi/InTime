@@ -146,15 +146,16 @@ class HomeViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = UIColor.tintColor
-        fd_prefersNavigationBarHidden = true
         setupSubviews()
         loadDataSource()
     }
     
     // MARK: - setup
     func setupSubviews() {
+        view.backgroundColor = UIColor.tintColor
+        
+        fd_prefersNavigationBarHidden = true
+        
         view.addSubview(bgImageView)
         view.addSubview(headerView)
         view.addSubview(bgTableView)

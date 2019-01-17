@@ -61,14 +61,22 @@ class SeaSonDetailViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = UIColor.tintColor
         setupSubviews()
         setupContentView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+    }
+    
     // MARK: - setup
     func setupSubviews() {
+        view.backgroundColor = UIColor.tintColor
+        
+        // 添加修改“时节”按钮
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "revise"), style: UIBarButtonItem.Style.done, target: self, action: #selector(gotoModifySeasonAction))
+        
         view.addSubview(bgImageView)
         view.addSubview(bgImageViewAlternate)
         view.addSubview(collectionView)
@@ -87,13 +95,11 @@ class SeaSonDetailViewController: BaseViewController {
             make.bottom.equalTo(IT_IPHONE_X ? -50 : -30)
             make.size.equalTo(CGSize.init(width: 40.0, height: 40.0))
         }
+        
         // 处理系统右滑返回手势和scrollView滑动手势冲突问题
         if let interactivePopGestureRecognizer = self.navigationController?.interactivePopGestureRecognizer {
             collectionView.panGestureRecognizer.require(toFail: interactivePopGestureRecognizer)
         }
-        
-        // 修改“时节”按钮
-        navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "revise"), style: UIBarButtonItem.Style.done, target: self, action: #selector(gotoModifySeasonAction))
     }
     
     func setupContentView() {
@@ -116,8 +122,8 @@ class SeaSonDetailViewController: BaseViewController {
     
     // MARK: - actions
     @objc func gotoModifySeasonAction() {
-        // TODO: 修改时节
-        print("修改时节")
+        let modifySeasonVC = AddNewSeasonViewController()
+        navigationController?.pushViewController(modifySeasonVC, animated: true)
     }
     
     @objc func gotoShareSeasonAction() {

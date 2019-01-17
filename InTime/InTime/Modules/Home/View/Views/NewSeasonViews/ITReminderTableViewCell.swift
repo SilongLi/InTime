@@ -22,11 +22,13 @@ class ITReminderTableViewCell: BaseTableViewCell {
     
     lazy var switchView: UISwitch = {
         let view = UISwitch()
+        view.onTintColor = UIColor.greenColor
         view.addTarget(self, action: #selector(switchAction), for: UIControl.Event.valueChanged)
         return view
     }()
     
     var delegate: NoteSwitchDelegate?
+    var reminder: OpenReminderModel?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -42,9 +44,8 @@ class ITReminderTableViewCell: BaseTableViewCell {
             make.height.equalTo(20.0)
         }
         switchView.snp.makeConstraints { (make) in
-            make.right.equalTo(-NewSeasonMargin - 10)
+            make.right.equalTo(-NewSeasonMargin)
             make.centerY.equalToSuperview()
-            make.size.equalTo(CGSize(width: 40.0, height: 30.0))
         }
     }
     

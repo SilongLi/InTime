@@ -14,13 +14,21 @@ class ITInputTextTableViewCell: BaseTableViewCell {
     lazy var textField: UITextField = {
         let field = UITextField()
         field.attributedPlaceholder = NSAttributedString(string: "请输入标题",
-                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.tintColor])
-        field.backgroundColor = UIColor.gray
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        field.backgroundColor = UIColor.garyColor
         field.delegate = self
+        field.clearButtonMode = .whileEditing
+        field.tintColor = UIColor.greenColor
+        field.textColor = UIColor.white
+        let leftView = UIView(frame: CGRect(x: 10.0, y: 0.0, width: 10.0, height: 10.0))
+        leftView.backgroundColor = UIColor.clear
+        field.leftView = leftView
+        field.leftViewMode = .always
         return field
     }()
     
     var delegate: InputTextFieldDelegate?
+    var inputModel: InputModel?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -38,33 +46,36 @@ class ITInputTextTableViewCell: BaseTableViewCell {
         textField.layer.masksToBounds = true
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        textField.resignFirstResponder()
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func setupContent<T>(model: T, indexPath: IndexPath) {
         delegate = self.it.atViewController() as? InputTextFieldDelegate
-        guard model is InputModel else {
-            return
-        }
+        guard model is InputModel else { return }
         let model = model as! InputModel
+        inputModel = model
         let attributes =  [NSAttributedString.Key.foregroundColor: UIColor.tintColor,
                            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)]
         textField.attributedPlaceholder = NSAttributedString(string: model.placeholder, attributes: attributes)
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        textFieldDidEndEditing(textField)
+        return super.resignFirstResponder()
     }
 }
 
 extension ITInputTextTableViewCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
+        guard (textField.text?.isEmpty ?? true) == false else {
+            return
+        }
+        if let model = inputModel {
+            model.text = textField.text ?? ""
+            delegate?.didClickedEndEditing(model: model)
+        }
+        print(textField.text ?? "")
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

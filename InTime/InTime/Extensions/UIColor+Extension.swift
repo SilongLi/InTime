@@ -18,6 +18,10 @@ extension UIColor {
     open class var greenColor: UIColor { return UIColor.color(hex: "#00CC7A") }
     // 粉色
     open class var pinkColor: UIColor { return UIColor.color(red: 233.0, green: 94.0, blue: 137.0) }
+    // 亮灰色
+    open class var lightGrayColor: UIColor { return UIColor.color(hex: "#B3B3B3") }
+    // 灰色
+    open class var garyColor: UIColor { return UIColor.color(hex: "#6F6F6F") }
     
     /// 淡白-cell的高亮色
     open class var cellHighlightedColor: UIColor { return UIColor.white.withAlphaComponent(0.3) }

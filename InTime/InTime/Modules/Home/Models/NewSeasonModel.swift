@@ -11,6 +11,7 @@ import Foundation
 /// 输入框
 class InputModel: BaseModel {
     var placeholder: String = ""
+    /// 输入的标题值
     var text: String = ""
 }
 
@@ -22,7 +23,10 @@ class TimeModel: BaseModel {
     var note: String = ""
     
     var data: Date = Date()
-    var dataString: String = ""
+    /// 农历时间字符串
+    var lunarDataString: String = ""
+    /// 公历时间字符串
+    var gregoriandDataString: String = ""
     /// isGregorian 表示是否为公历true，false为农历
     var isGregorian: Bool = true
 }

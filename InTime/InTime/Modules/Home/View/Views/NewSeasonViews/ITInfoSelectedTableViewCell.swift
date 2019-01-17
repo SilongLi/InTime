@@ -42,6 +42,7 @@ class ITInfoSelectedTableViewCell: BaseTableViewCell {
         selectionStyle = .none
         addSubview(nameLabel)
         addSubview(infoLabel)
+        addSubview(infoBtn)
         nameLabel.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.left.equalTo(NewSeasonMargin)
@@ -54,6 +55,11 @@ class ITInfoSelectedTableViewCell: BaseTableViewCell {
             make.centerY.equalTo(nameLabel.snp.centerY)
             make.left.equalTo(nameLabel.snp.right).offset(10)
             make.height.equalTo(20.0)
+        }
+        infoBtn.snp.makeConstraints { (make) in
+            make.top.bottom.equalToSuperview()
+            make.right.equalTo(-NewSeasonMargin)
+            make.left.equalTo(nameLabel.snp.right).offset(10)
         }
     }
     
@@ -70,14 +76,18 @@ class ITInfoSelectedTableViewCell: BaseTableViewCell {
         infoModel = model
         
         nameLabel.text = model.name
-        infoLabel.text = model.info
+        
+        let attr = NSMutableAttributedString(string: model.info)
+        attr.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attr.length))
+        attr.addAttribute(.foregroundColor, value: UIColor.greenColor, range: NSRange(location: 0, length: attr.length))
+        infoLabel.attributedText = attr
     }
     
     // MARK: - actions
     @objc func selectedInfoTypeAction() {
         guard let model = infoModel else {
             return
-        }
+        } 
         self.delegate?.didClickedInfoSelectedAction(model: model)
     }
 }

@@ -32,12 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
     }
     
-    func setupAppearance() {
-        /// Config statusBar
+    func setupAppearance() { 
         UINavigationBar.appearance().tintColor = .white
         UINavigationBar.appearance().tintAdjustmentMode = .automatic
-        let navbarBackgroundImage: UIImage = UIImage.creatImage(color: UIColor.tintColor)
-        UINavigationBar.appearance().setBackgroundImage(navbarBackgroundImage, for: .default)
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().shadowImage = UIImage()
     }
