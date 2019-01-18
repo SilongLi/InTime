@@ -92,7 +92,7 @@ class CategoryTableViewCell: UITableViewCell {
         }
         
         let selectedView = UIView()
-        selectedView.backgroundColor = UIColor.cellHighlightedColor
+        selectedView.backgroundColor = UIColor.cellHighlightedColor.withAlphaComponent(0.1)
         self.selectedBackgroundView = selectedView
     }
     

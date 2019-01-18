@@ -157,7 +157,13 @@ open class CKAlertViewController: UIViewController {
     }
 
     open func hiddenAlertViewController(hiddenComplete: (() -> Void)?) {
-       self.dismiss(animated: true, completion: hiddenComplete)
+        UIView.animate(withDuration: 0.5, animations: {
+            self.CK_backgroundView.alpha = 0
+            self.CK_ContainerView.alpha = 0
+            self.view.alpha = 0
+        }) { (_) in
+            self.dismiss(animated: true, completion: hiddenComplete)
+        }
     }
 }
 
