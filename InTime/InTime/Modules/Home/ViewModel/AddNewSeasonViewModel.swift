@@ -177,6 +177,53 @@ class AddNewSeasonViewModel {
                                            showCellCount: 1,
                                            items: [color])
         
-        completion([inputSeason, timeSection, unitSection, typeSection, animationSection, reminderSection, ringSection, repeatSection, backgroundSection, colorSection])
+        completion([inputSeason, timeSection, unitSection, typeSection, reminderSection, ringSection, repeatSection, backgroundSection, colorSection])
+    }
+    
+    /// 获取显示单位数据
+    static func loadUnitsModel(completion: ((_ model: AlertCollectionModel) -> ())) {
+        let second      = TextModel(type: DateUnitType.second.rawValue, text: "秒", isSelected: false)
+        let minute      = TextModel(type: DateUnitType.minute.rawValue, text: "分", isSelected: false)
+        let hour        = TextModel(type: DateUnitType.hour.rawValue, text: "时", isSelected: false)
+        let day         = TextModel(type: DateUnitType.day.rawValue, text: "天", isSelected: false)
+        let dayTime     = TextModel(type: DateUnitType.dayTime.rawValue, text: "天时分秒", isSelected: true)
+        let year        = TextModel(type: DateUnitType.year.rawValue, text: "年月天", isSelected: false)
+        let percentage  = TextModel(type: DateUnitType.percentage.rawValue, text: "百分率", isSelected: false)
+        
+        let alert = AlertCollectionModel()
+        alert.title = "显示单位"
+        alert.texts = [second, minute, hour, day, dayTime, year, percentage]
+        
+        completion(alert)
+    }
+    
+    /// 获取分类数据
+    static func loadClassifyModel(completion: ((_ model: AlertCollectionModel) -> ())) {
+        let model1      = TextModel(type: "首页", text: "首页", isSelected: true)
+        let model2  = TextModel(type: "纪念日", text: "纪念日", isSelected: false)
+        let model3   = TextModel(type: "生日", text: "生日", isSelected: false)
+        let model4   = TextModel(type: "闹铃", text: "闹铃", isSelected: false)
+        let model5 = TextModel(type: "生活", text: "生活", isSelected: false)
+        
+        let alert = AlertCollectionModel()
+        alert.title = "分类管理"
+        alert.texts = [model1, model2, model3, model4, model5]
+        
+        completion(alert)
+    }
+    
+    /// 获取提醒铃声数据
+    static func loadRemindVoicesModel(completion: ((_ model: AlertCollectionModel) -> ())) {
+        let def      = TextModel(type: RemindVoiceType.defaultType.rawValue, text: "系统默认", isSelected: true)
+        let ceilivy  = TextModel(type: RemindVoiceType.ceilivy.rawValue, text: "Ceilivy", isSelected: false)
+        let afloat   = TextModel(type: RemindVoiceType.afloat.rawValue, text: "Afloat", isSelected: false)
+        let chords   = TextModel(type: RemindVoiceType.chords.rawValue, text: "Chords", isSelected: false)
+        let together = TextModel(type: RemindVoiceType.together.rawValue, text: "Together", isSelected: false)
+        
+        let alert = AlertCollectionModel()
+        alert.title = "提醒铃声"
+        alert.texts = [def, ceilivy, afloat, chords, together]
+        
+        completion(alert)
     }
 }

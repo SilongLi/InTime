@@ -154,7 +154,7 @@ extension AddNewSeasonViewController: InputTextFieldDelegate {
 
 // MARK: - 时间选择
 extension AddNewSeasonViewController: SelectedTimeDelegate {
-    /// 选择时间提示
+    /// 提示
     func didClickedNoteInfoAction() {
         
         CommonTools.printLog(message: "选择时间提示")
@@ -164,7 +164,6 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
         let datePicker = WSDatePickerView(dateStyle: DateStyleShowYearMonthDayHourMinute, scrollTo: Date(), complete: { [weak self] (date) in
             guard let strongSelf = self else { return }
             guard let currentDate = date else { return }
-            
             if let lunar = currentDate.solarToLunar() {
                 model.data = currentDate
                 model.lunarDataString = lunar
@@ -195,8 +194,39 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
 // MARK: - 信息选择
 extension AddNewSeasonViewController: InfoSelectedDelegate {
     func didClickedInfoSelectedAction(model: InfoSelectedModel) {
-        
-        CommonTools.printLog(message: "信息选择")
+        let margin: CGFloat = IT_IPHONE_4 || IT_IPHONE_5 ? 20.0 : 40.0
+        switch model.type {
+        /// 显示单位
+        case .unit:
+            AddNewSeasonViewModel.loadUnitsModel { [weak self] (model) in
+                guard let strongSelf = self else { return }
+                let alert = CommonAlertTableView(model: model, selectedAction: { (textModel) in
+                    print(textModel.text)
+                })
+                alert.showAlertView(inViewController: strongSelf, leftOrRightMargin: margin)
+            }
+        /// 分类管理
+        case .classification:
+            AddNewSeasonViewModel.loadClassifyModel { [weak self] (model) in
+                guard let strongSelf = self else { return }
+                let alert = CommonAlertTableView(model: model, selectedAction: { (textModel) in
+                    print(textModel.text)
+                })
+                alert.showAlertView(inViewController: strongSelf, leftOrRightMargin: margin)
+            }
+        /// 动画效果
+        case .animation:
+            break
+        /// 提醒铃声
+        case .ring:
+            AddNewSeasonViewModel.loadRemindVoicesModel { [weak self] (model) in
+                guard let strongSelf = self else { return }
+                let alert = CommonAlertTableView(model: model, selectedAction: { (textModel) in
+                    print(textModel.text)
+                })
+                alert.showAlertView(inViewController: strongSelf, leftOrRightMargin: margin)
+            }
+        }
     }
 }
 

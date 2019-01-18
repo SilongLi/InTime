@@ -78,3 +78,12 @@ enum CustomBackgroundType {
     /// 默认颜色
     case color
 }
+
+/// 提醒铃声
+enum RemindVoiceType: String {
+    case ceilivy        = "Ceilivy"
+    case afloat         = "Afloat"
+    case chords         = "Chords"
+    case together       = "Together"
+    case defaultType    = "系统默认"
+}

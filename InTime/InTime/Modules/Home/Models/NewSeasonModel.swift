@@ -104,3 +104,30 @@ class ColorModel: BaseModel {
         fatalError("init() has not been implemented")
     }
 }
+
+/// 弹框列表数据模型
+class AlertCollectionModel: BaseModel {
+    var title: String = ""
+    var texts: [TextModel] = [TextModel]()
+}
+
+class TextModel: BaseModel {
+    var type: String = ""
+    var text: String = ""
+    var isSelected: Bool = false
+    init(type: String = "", text: String, isSelected: Bool = false) {
+        self.type = type
+        self.text = text
+        self.isSelected = isSelected
+    }
+    
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+}
+
+extension TextModel: SelectedViewModelProtocol {
+    var title: String {
+        return self.text
+    }
+}

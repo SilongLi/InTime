@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol SelectedViewModelProtocol {
+    var title: String { get }
+    var isSelected: Bool { get }
+}
+
 class CategoryTableViewCell: UITableViewCell {
 
     lazy var nameLabel: UILabel = {
@@ -30,12 +35,35 @@ class CategoryTableViewCell: UITableViewCell {
         return view
     }()
     
-    var category: CategoryModel? {
+    var nameNormalColor: UIColor = UIColor.white
+    
+    var model: SelectedViewModelProtocol? {
         didSet {
-            nameLabel.text = category?.title
-            iconView.isHidden = !(category?.isSelected ?? false)
-            nameLabel.textColor = (category?.isSelected ?? false) ? UIColor.greenColor : UIColor.white
-            nameLabel.font = (category?.isSelected ?? false) ? UIFont.boldSystemFont(ofSize: 16.0) : UIFont.systemFont(ofSize: 16.0)
+            nameLabel.text = model?.title
+            iconView.isHidden = !(model?.isSelected ?? false)
+            nameLabel.textColor = (model?.isSelected ?? false) ? UIColor.greenColor : nameNormalColor
+            nameLabel.font = (model?.isSelected ?? false) ? UIFont.boldSystemFont(ofSize: 16.0) : UIFont.systemFont(ofSize: 16.0)
+        }
+    }
+    
+    var margin: CGFloat = 50.0 {
+        didSet {
+            nameLabel.snp.updateConstraints { (make) in
+                make.left.equalTo(margin)
+                make.top.bottom.equalToSuperview()
+                make.width.equalTo(IT_SCREEN_WIDTH * 0.6)
+            }
+            iconView.snp.updateConstraints { (make) in
+                make.centerY.equalToSuperview()
+                make.right.equalTo(-margin)
+                make.size.equalTo(CGSize.init(width: 20.0, height: 20.0))
+            }
+            spaceLineView.snp.updateConstraints { (make) in
+                make.left.equalToSuperview().offset(margin)
+                make.right.equalToSuperview().offset(-margin)
+                make.bottom.equalToSuperview()
+                make.height.equalTo(0.5)
+            }
         }
     }
      
@@ -43,27 +71,29 @@ class CategoryTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .clear
-        selectionStyle = .none
         addSubview(nameLabel)
         addSubview(iconView)
         addSubview(spaceLineView)
-        let margin: CGFloat = 50.0
-        nameLabel.snp.makeConstraints { (make) in
+        nameLabel.snp.updateConstraints { (make) in
             make.left.equalTo(margin)
             make.top.bottom.equalToSuperview()
             make.width.equalTo(IT_SCREEN_WIDTH * 0.6)
         }
-        iconView.snp.makeConstraints { (make) in
+        iconView.snp.updateConstraints { (make) in
             make.centerY.equalToSuperview()
             make.right.equalTo(-margin)
             make.size.equalTo(CGSize.init(width: 20.0, height: 20.0))
         }
-        spaceLineView.snp.makeConstraints { (make) in
+        spaceLineView.snp.updateConstraints { (make) in
             make.left.equalToSuperview().offset(margin)
             make.right.equalToSuperview().offset(-margin)
             make.bottom.equalToSuperview()
             make.height.equalTo(0.5)
         }
+        
+        let selectedView = UIView()
+        selectedView.backgroundColor = UIColor.cellHighlightedColor
+        self.selectedBackgroundView = selectedView
     }
     
     required init?(coder aDecoder: NSCoder) {

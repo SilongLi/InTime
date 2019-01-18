@@ -15,10 +15,16 @@
 #define kPickerSize self.datePicker.frame.size
 #define RGBA(r, g, b, a) ([UIColor colorWithRed:(r / 255.0) green:(g / 255.0) blue:(b / 255.0) alpha:a])
 #define RGB(r, g, b) RGBA(r,g,b,1)
-// 判断是否是iPhone X
-#define isiPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 // home indicator
 #define bottom_height (isiPhoneX ? 34.f : 10.f)
+
+// 判断是否是iPhone X 、XR、XS、XS Max系列
+#define isiPhoneX \
+({BOOL isX = NO;\
+if (@available(iOS 11.0, *)) {\
+isX = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom > 0.0;\
+}\
+(isX);})
 
 
 #define MAXYEAR 2099

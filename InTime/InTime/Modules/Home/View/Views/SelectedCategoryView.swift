@@ -152,7 +152,7 @@ extension SelectedCategoryView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryCellId, for: indexPath) as! CategoryTableViewCell
-        cell.category = dataSource[indexPath.row]
+        cell.model = dataSource[indexPath.row]
         return cell
     }
     

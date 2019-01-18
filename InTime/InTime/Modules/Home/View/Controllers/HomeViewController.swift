@@ -97,6 +97,11 @@ class HomeViewController: BaseViewController {
         tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeCellId)
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.clear
+        if #available(iOS 11, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
         return tableView
     }()
   

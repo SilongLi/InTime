@@ -6,7 +6,7 @@
 //  Copyright © 2019 BruceLi. All rights reserved.
 //
 
-struct CategoryModel {
+struct CategoryModel: SelectedViewModelProtocol {
     var title: String = ""
     var isSelected: Bool = false
 }
