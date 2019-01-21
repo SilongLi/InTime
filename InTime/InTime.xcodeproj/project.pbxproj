@@ -272,7 +272,6 @@
 				995022D321E78A22004FAC47 /* Models */,
 				995022C521E72A23004FAC47 /* ViewModel */,
 				995022C621E72A2B004FAC47 /* View */,
-				995022C721E72A2F004FAC47 /* Model */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -293,13 +292,6 @@
 				995022D021E77FD1004FAC47 /* Views */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		995022C721E72A2F004FAC47 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		995022C821E72A98004FAC47 /* Controllers */ = {

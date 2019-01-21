@@ -11,6 +11,8 @@ struct CategoryModel: SelectedViewModelProtocol {
     var id: String = ""
     var title: String = ""
     var isSelected: Bool = false
+    /// 默认自带类别，不可删除
+    var isDefalult: Bool = false
 }
 
 extension CategoryModel {
@@ -19,12 +21,14 @@ extension CategoryModel {
         model.id = json["id"].stringValue
         model.title = json["title"].stringValue
         model.isSelected = json["isSelected"].boolValue
+        model.isDefalult = json["isDefalult"].boolValue
         return model
     }
     
     func convertToJson() -> Dictionary<String, Any> {
         return ["id": id,
                 "title": title,
-                "isSelected": isSelected]
+                "isSelected": isSelected,
+                "isDefalult": isDefalult]
     }
 }

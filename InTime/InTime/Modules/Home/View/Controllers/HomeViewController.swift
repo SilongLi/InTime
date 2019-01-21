@@ -12,6 +12,9 @@ import FDFullscreenPopGesture
 
 class HomeViewController: BaseViewController {
     
+    /// 图片展示动画
+    let AnimateDuration: TimeInterval = 1.0
+    
     /// 导航栏
     lazy var iconView: UIImageView = {
         let icon = UIImageView(image: UIImage(named: "showDetail"))
@@ -147,12 +150,12 @@ class HomeViewController: BaseViewController {
     
     var isShowCategoryView: Bool = false
     var currentSeason: SeasonModel = SeasonModel()
-    var dataSource: [SeasonModel] = [SeasonModel]()
+    var seasions: [SeasonModel] = [SeasonModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviews()
-        loadDataSource()
+        loadCategorys()
     }
     
     // MARK: - setup
@@ -212,50 +215,75 @@ class HomeViewController: BaseViewController {
                 self?.iconView.transform = CGAffineTransform.identity
             }
             self?.isShowCategoryView = isShow
+            var categoryId = ""
+            
             if let category = model {
+                categoryId = category.id
                 self?.titleLabel.text = category.title
-                /// TODO:  根据类别获取数据并刷新列表
+                
+                /// 保存分类
+                if let categoryModels = self?.selectedCategoryView.dataSource {
+                    for index in 0..<categoryModels.count {
+                        var temp = categoryModels[index]
+                        temp.isSelected = false
+                        if temp.id == category.id {
+                            temp.isSelected = true
+                        }
+                    }
+                    self?.selectedCategoryView.dataSource = categoryModels
+                    HomeSeasonViewModel.saveAllCategorys(categoryModels)
+                }
             }
+            
+            /// 根据分类加载时节
+            self?.loadSeasions(categoryId: categoryId)
         }
     }
     
     // MARK: - load DataSource
-    func loadDataSource() { 
-        // 类别
-        HomeSeasonViewModel.loadLocalSeasonTypes { [weak self] (types) in
-            self?.selectedCategoryView.dataSource = types
+    func loadCategorys() {
+        HomeSeasonViewModel.loadLocalCategorys { [weak self] (models) in
+            self?.selectedCategoryView.dataSource = models
+            for model in models {
+                if model.isSelected {
+                    self?.titleLabel.text = model.title
+                    self?.loadSeasions(categoryId: model.id)
+                    break
+                }
+            }
         }
-
-        // 时节
-        var season = SeasonModel()
-        season.title = "好雨知时节，当春乃发生。"
-        var theme = ThemeModel()
-        theme.bgImageName = "night"
-        theme.bgHexColor = UIColor.tintHexColorString()
-        
-        dataSource = [season]
-        
-        updateContentView()
+    }
+    
+    func loadSeasions(categoryId: String) {
+        HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryId) { [weak self] (seasions) in
+            self?.seasions = seasions
+            self?.updateContentView()
+        }
     }
     
     func updateContentView() {
-        currentSeason = dataSource.first ?? SeasonModel()
+        emptyInfoLabel.isHidden = seasions.count > 0
+        headerView.isHidden = seasions.count == 0
         
-        // 背景图
-        if currentSeason.backgroundModel.type == .image {
-            bgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
-            bgImageTableView.image = UIImage(named: currentSeason.backgroundModel.name)
+        if seasions.count > 0 {
+            currentSeason = seasions.first!
+
+            if currentSeason.backgroundModel.type == .image {
+                bgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
+                bgImageTableView.image = UIImage(named: currentSeason.backgroundModel.name)
+            } else {
+                bgImageView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
+                bgImageTableView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
+            }
+            
+            headerView.season = currentSeason
+            tableView.reloadData()
+            
         } else {
-            bgImageView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
-            bgImageTableView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
-        }
-        
-        emptyInfoLabel.isHidden = dataSource.count > 0
-        headerView.isHidden = dataSource.count == 0
-        
-        if dataSource.count > 0 {
-            let season = dataSource.first
-            headerView.season = season
+            UIView.animate(withDuration: AnimateDuration) {
+                self.bgImageView.image = nil
+                self.bgImageTableView.image = nil
+            }
             tableView.reloadData()
         }
     }
@@ -286,7 +314,7 @@ class HomeViewController: BaseViewController {
 // MARK: - <UIScrollViewDelegate>
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard dataSource.count > 0 else { return }
+        guard seasions.count > 0 else { return }
         
         /// 更新背景图片布局
         let offsetY = scrollView.contentOffset.y
@@ -311,7 +339,7 @@ extension HomeViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        guard dataSource.count > 0 else { return }
+        guard seasions.count > 0 else { return }
         
         /// 停止拖拽之后，返回到原位
         let contentOffsetY = scrollView.contentOffset.y + scrollView.contentInset.top
@@ -336,12 +364,12 @@ extension HomeViewController: UIScrollViewDelegate {
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+        return seasions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeCellId, for: indexPath) as! HomeTableViewCell
-        cell.season = dataSource[indexPath.row]
+        cell.season = seasions[indexPath.row]
         return cell
     }
     
@@ -367,7 +395,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let detail = SeaSonDetailViewController()
-        detail.seasons = dataSource
+        detail.seasons = seasions
         detail.currentSelectedIndex = indexPath.row
         navigationController?.pushViewController(detail, animated: true)
     }

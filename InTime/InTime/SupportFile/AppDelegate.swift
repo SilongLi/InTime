@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupWindow()
         
+        HomeSeasonViewModel.initDefaultCategorys()
+        
         return true
     }
     
