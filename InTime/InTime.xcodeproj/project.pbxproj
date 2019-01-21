@@ -64,6 +64,10 @@
 		99C4F72921F1AA3E00A25386 /* CKAlertCommonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F72221F1AA3E00A25386 /* CKAlertCommonView.swift */; };
 		99C4F72A21F1AA3E00A25386 /* CKTwoButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F72321F1AA3E00A25386 /* CKTwoButtonView.swift */; };
 		99C4F72C21F1AC0B00A25386 /* CommonAlertTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F72B21F1AC0B00A25386 /* CommonAlertTableView.swift */; };
+		99C4F72E21F5677E00A25386 /* HomeSeasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F72D21F5677E00A25386 /* HomeSeasonViewModel.swift */; };
+		99C4F73121F5A88800A25386 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73021F5A88800A25386 /* SwiftyJSON.swift */; };
+		99C4F73521F5A99D00A25386 /* HandlerDocumentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73421F5A99D00A25386 /* HandlerDocumentManager.swift */; };
+		99C4F73721F5C6C000A25386 /* Dictionary+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73621F5C6C000A25386 /* Dictionary+String.swift */; };
 		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
 
@@ -132,6 +136,10 @@
 		99C4F72221F1AA3E00A25386 /* CKAlertCommonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKAlertCommonView.swift; sourceTree = "<group>"; };
 		99C4F72321F1AA3E00A25386 /* CKTwoButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKTwoButtonView.swift; sourceTree = "<group>"; };
 		99C4F72B21F1AC0B00A25386 /* CommonAlertTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonAlertTableView.swift; sourceTree = "<group>"; };
+		99C4F72D21F5677E00A25386 /* HomeSeasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSeasonViewModel.swift; sourceTree = "<group>"; };
+		99C4F73021F5A88800A25386 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		99C4F73421F5A99D00A25386 /* HandlerDocumentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlerDocumentManager.swift; sourceTree = "<group>"; };
+		99C4F73621F5C6C000A25386 /* Dictionary+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+String.swift"; sourceTree = "<group>"; };
 		B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.release.xcconfig"; sourceTree = "<group>"; };
 		EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -160,6 +168,7 @@
 		990B64A521F030C90063BD34 /* Share */ = {
 			isa = PBXGroup;
 			children = (
+				99C4F72F21F5A87900A25386 /* SwiftyJSON */,
 				99C4F71C21F1AA3E00A25386 /* AlertView */,
 				990B64AF21F075840063BD34 /* WSDaePickerView */,
 				990B64A621F030C90063BD34 /* CustomSwitch */,
@@ -249,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				995022DF21E87776004FAC47 /* Base */,
+				99C4F73221F5A97500A25386 /* Tools */,
 				995022C421E72A1A004FAC47 /* Home */,
 				99857BE921EC92EA005C7F9B /* Setting */,
 			);
@@ -270,6 +280,7 @@
 		995022C521E72A23004FAC47 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				99C4F72D21F5677E00A25386 /* HomeSeasonViewModel.swift */,
 				99857BFD21EDB396005C7F9B /* AddNewSeasonViewModel.swift */,
 			);
 			path = ViewModel;
@@ -310,6 +321,7 @@
 				995022CD21E72B13004FAC47 /* UIColor+Extension.swift */,
 				995022E621E8890B004FAC47 /* UILabel+Extension.swift */,
 				990B64BC21F083780063BD34 /* Date+ToLuarCalendar.swift */,
+				99C4F73621F5C6C000A25386 /* Dictionary+String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -418,6 +430,22 @@
 				99C4F72321F1AA3E00A25386 /* CKTwoButtonView.swift */,
 			);
 			path = AlertView;
+			sourceTree = "<group>";
+		};
+		99C4F72F21F5A87900A25386 /* SwiftyJSON */ = {
+			isa = PBXGroup;
+			children = (
+				99C4F73021F5A88800A25386 /* SwiftyJSON.swift */,
+			);
+			path = SwiftyJSON;
+			sourceTree = "<group>";
+		};
+		99C4F73221F5A97500A25386 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				99C4F73421F5A99D00A25386 /* HandlerDocumentManager.swift */,
+			);
+			path = Tools;
 			sourceTree = "<group>";
 		};
 		A2538EDED4A702D86EC99A21 /* Frameworks */ = {
@@ -553,8 +581,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				995022E121E87785004FAC47 /* BaseViewController.swift in Sources */,
+				99C4F73721F5C6C000A25386 /* Dictionary+String.swift in Sources */,
 				995022D921E870C4004FAC47 /* SeasonModel.swift in Sources */,
 				990B64BA21F075840063BD34 /* UIView+Extension.m in Sources */,
+				99C4F73121F5A88800A25386 /* SwiftyJSON.swift in Sources */,
 				990B64AB21F030C90063BD34 /* LabelSwitchBackView.swift in Sources */,
 				995022D221E78016004FAC47 /* SelectedCategoryView.swift in Sources */,
 				995022CF21E72B13004FAC47 /* UIColor+Extension.swift in Sources */,
@@ -574,6 +604,8 @@
 				99C4F72421F1AA3E00A25386 /* CKAlertFadePopAnimation.swift in Sources */,
 				99857BFA21EDAF47005C7F9B /* ITInputTextTableViewCell.swift in Sources */,
 				99857C0B21EDDC38005C7F9B /* ITReminderTableViewCell.swift in Sources */,
+				99C4F73521F5A99D00A25386 /* HandlerDocumentManager.swift in Sources */,
+				99C4F72E21F5677E00A25386 /* HomeSeasonViewModel.swift in Sources */,
 				995022CA21E72AB0004FAC47 /* HomeViewController.swift in Sources */,
 				990B64B921F075840063BD34 /* NSDate+Extension.m in Sources */,
 				99C4F72621F1AA3E00A25386 /* CKAlertBaseAnimation.swift in Sources */,

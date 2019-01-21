@@ -109,7 +109,12 @@ class SeaSonDetailViewController: BaseViewController {
         navigationItem.title = "\(currentSelectedIndex + 1) / \(seasons.count)"
         
         let seasion = seasons[currentSelectedIndex]
-        bgImageView.image = UIImage(named: seasion.theme.bgImageName)
+        if seasion.backgroundModel.type == .image {
+            bgImageView.image = UIImage(named: seasion.backgroundModel.name)
+        } else {
+            bgImageView.image = nil
+            bgImageView.backgroundColor = UIColor.color(hex: seasion.backgroundModel.name)
+        }
         currentShowBgImageView = bgImageView
         
         // 滚动到选中页
@@ -169,15 +174,40 @@ extension SeaSonDetailViewController: UIScrollViewDelegate {
         let seasion = seasons[index]
         let newSeasion = seasons[newIndex]
         if currentShowBgImageView == bgImageView {
-            bgImageView.image = UIImage(named: seasion.theme.bgImageName)
-            bgImageViewAlternate.image = UIImage(named: newSeasion.theme.bgImageName)
+            if seasion.backgroundModel.type == .image {
+                bgImageView.image = UIImage(named: seasion.backgroundModel.name)
+            } else {
+                bgImageView.image = nil
+                bgImageView.backgroundColor = UIColor.color(hex: seasion.backgroundModel.name)
+            }
+            
+            if newSeasion.backgroundModel.type == .image {
+                bgImageViewAlternate.image = UIImage(named: newSeasion.backgroundModel.name)
+            } else {
+                bgImageViewAlternate.image = nil
+                bgImageViewAlternate.backgroundColor = UIColor.color(hex: newSeasion.backgroundModel.name)
+            }
+            
             UIView.animate(withDuration: AnimateDuration) {
                 self.bgImageView.alpha = 0.0
                 self.bgImageViewAlternate.alpha = 1.0
             }
+            
         } else {
-            bgImageView.image = UIImage(named: newSeasion.theme.bgImageName)
-            bgImageViewAlternate.image = UIImage(named: seasion.theme.bgImageName)
+            if newSeasion.backgroundModel.type == .image {
+                bgImageView.image = UIImage(named: newSeasion.backgroundModel.name)
+            } else {
+                bgImageView.image = nil
+                bgImageView.backgroundColor = UIColor.color(hex: newSeasion.backgroundModel.name)
+            }
+            
+            if seasion.backgroundModel.type == .image {
+                bgImageViewAlternate.image = UIImage(named: seasion.backgroundModel.name)
+            } else {
+                bgImageViewAlternate.image = nil
+                bgImageViewAlternate.backgroundColor = UIColor.color(hex: seasion.backgroundModel.name)
+            }
+            
             UIView.animate(withDuration: AnimateDuration) {
                 self.bgImageView.alpha = 1.0
                 self.bgImageViewAlternate.alpha = 0.0

@@ -16,7 +16,10 @@ class AddNewSeasonViewModel {
     static let RepeatReminderCellHeight: CGFloat = 90.0
     static let BackgroundCellHeight: CGFloat = 190.0
     static let TextColorCellHeight: CGFloat = 100.0
+}
 
+/// 创建新时节
+extension AddNewSeasonViewModel {
     /// 获取新建“时节”列表布局数据
     static func loadListSections(completion: (_ sections: [BaseSectionModel]) -> ()) {
         /// 输入框
@@ -91,14 +94,14 @@ class AddNewSeasonViewModel {
         reminder.name = "时节提醒"
         reminder.isOpen = true
         let reminderSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.reminder.rawValue,
-                                           headerTitle: "",
-                                           footerTitle: "",
-                                           headerHeight: 0.001,
-                                           footerHeight: 0.001,
-                                           cellHeight: InfoCellHeight,
-                                           showCellCount: 1,
-                                           items: [reminder])
- 
+                                               headerTitle: "",
+                                               footerTitle: "",
+                                               headerHeight: 0.001,
+                                               footerHeight: 0.001,
+                                               cellHeight: InfoCellHeight,
+                                               showCellCount: 1,
+                                               items: [reminder])
+        
         /// 提醒铃声
         let ring  = InfoSelectedModel()
         ring.type = InfoSelectedType.ring
@@ -146,13 +149,13 @@ class AddNewSeasonViewModel {
         let imageColor5 = BackgroundImageModel(type: .color, name: "#E492D4")
         background.images = [empty, image1, image2, image3, image4, image5, image6, imageColor1, imageColor2, imageColor3, imageColor4, imageColor5]
         let backgroundSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.background.rawValue,
-                                           headerTitle: "",
-                                           footerTitle: "",
-                                           headerHeight: 0.001,
-                                           footerHeight: 0.001,
-                                           cellHeight: BackgroundCellHeight,
-                                           showCellCount: 1,
-                                           items: [background])
+                                                 headerTitle: "",
+                                                 footerTitle: "",
+                                                 headerHeight: 0.001,
+                                                 footerHeight: 0.001,
+                                                 cellHeight: BackgroundCellHeight,
+                                                 showCellCount: 1,
+                                                 items: [background])
         /// 字体颜色
         let color  = TextColorModel()
         color.name = "字体颜色"
@@ -169,13 +172,13 @@ class AddNewSeasonViewModel {
         let color11 = ColorModel.init(color: "#DD8500")
         color.colors = [color1, color2, color3, color4, color5, color6, color7, color8, color9, color10, color11]
         let colorSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.textColor.rawValue,
-                                           headerTitle: "",
-                                           footerTitle: "",
-                                           headerHeight: 0.001,
-                                           footerHeight: 50.0,
-                                           cellHeight: TextColorCellHeight,
-                                           showCellCount: 1,
-                                           items: [color])
+                                            headerTitle: "",
+                                            footerTitle: "",
+                                            headerHeight: 0.001,
+                                            footerHeight: 50.0,
+                                            cellHeight: TextColorCellHeight,
+                                            showCellCount: 1,
+                                            items: [color])
         
         completion([inputSeason, timeSection, unitSection, typeSection, reminderSection, ringSection, repeatSection, backgroundSection, colorSection])
     }

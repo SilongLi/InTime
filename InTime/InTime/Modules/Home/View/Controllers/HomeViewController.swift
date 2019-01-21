@@ -220,68 +220,20 @@ class HomeViewController: BaseViewController {
     }
     
     // MARK: - load DataSource
-    func loadDataSource() {
+    func loadDataSource() { 
         // 类别
-        var model1 = CategoryModel()
-        model1.title = "全部"
-        model1.isSelected = true
-        
-        var model2 = CategoryModel()
-        model2.title = "节假日"
-        
-        var model3 = CategoryModel()
-        model3.title = "时节"
-        
-        var model4 = CategoryModel()
-        model4.title = "生日"
-        
-        selectedCategoryView.dataSource = [model1, model2, model3, model4]
+        HomeSeasonViewModel.loadLocalSeasonTypes { [weak self] (types) in
+            self?.selectedCategoryView.dataSource = types
+        }
 
         // 时节
         var season = SeasonModel()
         season.title = "好雨知时节，当春乃发生。"
-        season.date = Date()
         var theme = ThemeModel()
         theme.bgImageName = "night"
         theme.bgHexColor = UIColor.tintHexColorString()
-        season.theme = theme
         
-        var season1 = SeasonModel()
-        season1.title = "过年"
-        season1.date = Date()
-        var theme1 = ThemeModel()
-        theme1.bgImageName = "mountain"
-        season1.theme = theme1
-        
-        var season2 = SeasonModel()
-        season2.title = "冬至"
-        season2.date = Date()
-        var theme2 = ThemeModel()
-        theme2.bgImageName = "rail"
-        season2.theme = theme2
-        
-        var season3 = SeasonModel()
-        season3.title = "中秋节，赏花赏月赏秋香。"
-        season3.date = Date()
-        var theme3 = ThemeModel()
-        theme3.bgImageName = "sunsetGlow"
-        season3.theme = theme3
-        
-        var season4 = SeasonModel()
-        season4.title = "国庆去哪玩呢？回家还是出去玩？国内还是国外？"
-        season4.date = Date()
-        var theme4 = ThemeModel()
-        theme4.bgImageName = "snow"
-        season4.theme = theme4
-        
-        var season5 = SeasonModel()
-        season5.title = "端午"
-        season5.date = Date()
-        var theme5 = ThemeModel()
-        theme5.bgImageName = "flower"
-        season5.theme = theme5
-        
-        dataSource = [season, season1, season2, season3, season4, season5]
+        dataSource = [season]
         
         updateContentView()
     }
@@ -290,12 +242,12 @@ class HomeViewController: BaseViewController {
         currentSeason = dataSource.first ?? SeasonModel()
         
         // 背景图
-        if currentSeason.theme.bgImageName.count > 0 {
-            bgImageView.image = UIImage(named: currentSeason.theme.bgImageName)
-            bgImageTableView.image = UIImage(named: currentSeason.theme.bgImageName)
+        if currentSeason.backgroundModel.type == .image {
+            bgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
+            bgImageTableView.image = UIImage(named: currentSeason.backgroundModel.name)
         } else {
-            bgImageView.backgroundColor = UIColor.color(hex: currentSeason.theme.bgHexColor)
-            bgImageTableView.backgroundColor = UIColor.color(hex: currentSeason.theme.bgHexColor)
+            bgImageView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
+            bgImageTableView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
         }
         
         emptyInfoLabel.isHidden = dataSource.count > 0

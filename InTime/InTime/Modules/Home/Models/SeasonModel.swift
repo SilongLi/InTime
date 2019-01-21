@@ -10,20 +10,20 @@
 import Foundation
 
 struct SeasonModel {
+    /// 所属类别
+    var categoryModel: CategoryModel = CategoryModel()
     /// 标题
     var title: String = ""
-    /// 备注
-    var note: String = ""
     /// 时节时间
-    var date: Date = Date()
+    var startDate: TimeModel = TimeModel()
     /// 显示单位
-    var dateUnit: DateUnitType = DateUnitType.dayTime
-    /// 是否为公历，true为公历，否则为农历
-    var isGregorianCalendar: Bool = true
-    /// 是否需要提醒
-    var isRemind: Bool = true
-    /// 重复提醒
-    var repeatRemind: RepeatRemindType = RepeatRemindType.no
-    // 主题
-    var theme: ThemeModel = ThemeModel()
+    var unitModel: InfoSelectedModel = InfoSelectedModel()
+    /// 是否开启闹铃提醒
+    var isOpenRemind: Bool = true
+    /// 重复提醒类型
+    var repeatRemindType: RepeatRemindType = RepeatRemindType.no
+    /// 自定义背景
+    var backgroundModel: BackgroundImageModel = BackgroundImageModel()
+    /// 字体颜色
+    var textColorModel: ColorModel = ColorModel()
 }

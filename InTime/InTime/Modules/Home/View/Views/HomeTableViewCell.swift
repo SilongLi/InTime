@@ -56,7 +56,7 @@ class HomeTableViewCell: UITableViewCell {
             nameLabel.text = season?.title
             countDownLabel.text = "112天22时30分28秒"
             dateLabel.text = "2019.01.11 11:20 星期五"
-            unitLabel.text = season?.dateUnit.rawValue
+            unitLabel.text = season?.unitModel.info
         }
     }
     

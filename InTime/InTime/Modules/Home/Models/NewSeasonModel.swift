@@ -31,7 +31,7 @@ class TimeModel: BaseModel {
     var isGregorian: Bool = true
 }
 
-/// 信息选择
+/// 信息选择（显示单位、分类管理、动画效果...）
 class InfoSelectedModel: BaseModel {
     var type: InfoSelectedType = InfoSelectedType.unit
     var name: String = ""
@@ -61,7 +61,7 @@ class RepeatReminderTypeModel: BaseModel {
     }
     
     required init() {
-        fatalError("init() has not been implemented")
+        super.init()
     }
 }
 
@@ -82,7 +82,7 @@ class BackgroundImageModel: BaseModel {
     }
     
     required init() {
-        fatalError("init() has not been implemented")
+        super.init()
     }
 }
 
@@ -101,7 +101,7 @@ class ColorModel: BaseModel {
     }
     
     required init() {
-        fatalError("init() has not been implemented")
+        super.init()
     }
 }
 
@@ -122,7 +122,7 @@ class TextModel: BaseModel {
     }
     
     required init() {
-        fatalError("init() has not been implemented")
+        super.init()
     }
 }
 
