@@ -30,7 +30,7 @@ class HomeHeaderView: UIView {
     
     lazy var dateInfoLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.white.withAlphaComponent(0.7)
+        label.textColor = UIColor.white.withAlphaComponent(0.8)
         label.font = UIFont.systemFont(ofSize: 18.0)
         label.textAlignment = .center
         return label
@@ -39,8 +39,39 @@ class HomeHeaderView: UIView {
     var season: SeasonModel?{
         didSet {
             titleLabel.text = season?.title
-            dateLabel.text = "1天12小时20分40秒"
-            dateInfoLabel.text = "2019.01.12 08:31 星期六"
+            if let dateStr = season?.startDate.gregoriandDataString, let data = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
+                var intervals = Int(data.timeIntervalSinceNow)
+                let currentData = NSDate()
+                // 标准时间和北京时间差8个小时
+                intervals = intervals - 8 * 60 * 60
+                let years = data.year - currentData.year
+                let days = intervals / 60 / 60 / 24
+                let hours = intervals / 60 / 60 - (days * 24)
+                let minutes = intervals / 60 - (days * 24 * 60 + hours * 60)
+                let seconds = intervals - (days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60)
+                var dataText = ""
+                if years != 0 {
+                    dataText += "\(years)年"
+                }
+                if days != 0 {
+                    dataText += "\(days)天"
+                }
+                if hours != 0 {
+                    dataText += "\(hours)时"
+                }
+                if minutes != 0 {
+                    dataText += "\(minutes)分"
+                }
+                if seconds != 0 {
+                    dataText += "\(seconds)秒"
+                }
+                dateLabel.text = dataText
+            }
+            if season?.startDate.isGregorian ?? true {
+                dateInfoLabel.text = season?.startDate.gregoriandDataString
+            } else {
+                dateInfoLabel.text = season?.startDate.lunarDataString
+            }
         }
     }
  

@@ -54,8 +54,39 @@ class HomeTableViewCell: UITableViewCell {
     var season: SeasonModel? {
         didSet {
             nameLabel.text = season?.title
-            countDownLabel.text = "112天22时30分28秒"
-            dateLabel.text = "2019.01.11 11:20 星期五"
+            if let dateStr = season?.startDate.gregoriandDataString, let data = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
+                var intervals = Int(data.timeIntervalSinceNow)
+                let currentData = NSDate()
+                // 标准时间和北京时间差8个小时
+                intervals = intervals - 8 * 60 * 60
+                let years = data.year - currentData.year
+                let days = intervals / 60 / 60 / 24
+                let hours = intervals / 60 / 60 - (days * 24)
+                let minutes = intervals / 60 - (days * 24 * 60 + hours * 60)
+                let seconds = intervals - (days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60)
+                var dataText = ""
+                if years != 0 {
+                    dataText += "\(years)年"
+                }
+                if days != 0 {
+                    dataText += "\(days)天"
+                }
+                if hours != 0 {
+                    dataText += "\(hours)时"
+                }
+                if minutes != 0 {
+                    dataText += "\(minutes)分"
+                }
+                if seconds != 0 {
+                    dataText += "\(seconds)秒"
+                }
+                countDownLabel.text = dataText
+            }
+            if season?.startDate.isGregorian ?? true {
+                dateLabel.text = season?.startDate.gregoriandDataString
+            } else {
+                dateLabel.text = season?.startDate.lunarDataString
+            }
             unitLabel.text = season?.unitModel.info
         }
     }

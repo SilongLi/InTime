@@ -210,8 +210,8 @@
 				990B64B421F075840063BD34 /* WSDatePickerView.m */,
 				990B64B021F075840063BD34 /* NSDate+Extension.h */,
 				990B64B521F075840063BD34 /* NSDate+Extension.m */,
-				990B64B221F075840063BD34 /* UIView+Extension.h */,
 				990B64B621F075840063BD34 /* UIView+Extension.m */,
+				990B64B221F075840063BD34 /* UIView+Extension.h */,
 				990B64B321F075840063BD34 /* WSDatePickerView.xib */,
 			);
 			path = WSDaePickerView;
