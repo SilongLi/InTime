@@ -127,7 +127,7 @@ extension ITRepeatReminderTableViewCell: UICollectionViewDataSource, UICollectio
             let model = repeatModel.types[indexPath.item]
             model.isSelected = true
             rrModel?.types[indexPath.item] = model
-            delegate?.didSelectedRepeatRemindersAction(model: rrModel!)
+            delegate?.didSelectedRepeatRemindersAction(model: model)
             
             collectionView.reloadData()
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)

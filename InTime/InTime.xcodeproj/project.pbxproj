@@ -68,6 +68,13 @@
 		99C4F73121F5A88800A25386 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73021F5A88800A25386 /* SwiftyJSON.swift */; };
 		99C4F73521F5A99D00A25386 /* HandlerDocumentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73421F5A99D00A25386 /* HandlerDocumentManager.swift */; };
 		99C4F73721F5C6C000A25386 /* Dictionary+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73621F5C6C000A25386 /* Dictionary+String.swift */; };
+		99C4F73F21F6FB5D00A25386 /* AImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73921F6FB5D00A25386 /* AImage.swift */; };
+		99C4F74021F6FB5D00A25386 /* TDTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73A21F6FB5D00A25386 /* TDTimerView.swift */; };
+		99C4F74121F6FB5D00A25386 /* TDAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73B21F6FB5D00A25386 /* TDAnimationView.swift */; };
+		99C4F74221F6FB5D00A25386 /* TDLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73C21F6FB5D00A25386 /* TDLoadingView.swift */; };
+		99C4F74321F6FB5D00A25386 /* TDGlobalLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73D21F6FB5D00A25386 /* TDGlobalLoading.swift */; };
+		99C4F74421F6FB5D00A25386 /* TDLoadingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73E21F6FB5D00A25386 /* TDLoadingManager.swift */; };
+		99C4F74A21F6FB8900A25386 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F74621F6FB8800A25386 /* MBProgressHUD.m */; };
 		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
 
@@ -140,6 +147,14 @@
 		99C4F73021F5A88800A25386 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		99C4F73421F5A99D00A25386 /* HandlerDocumentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlerDocumentManager.swift; sourceTree = "<group>"; };
 		99C4F73621F5C6C000A25386 /* Dictionary+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+String.swift"; sourceTree = "<group>"; };
+		99C4F73921F6FB5D00A25386 /* AImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AImage.swift; sourceTree = "<group>"; };
+		99C4F73A21F6FB5D00A25386 /* TDTimerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDTimerView.swift; sourceTree = "<group>"; };
+		99C4F73B21F6FB5D00A25386 /* TDAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDAnimationView.swift; sourceTree = "<group>"; };
+		99C4F73C21F6FB5D00A25386 /* TDLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDLoadingView.swift; sourceTree = "<group>"; };
+		99C4F73D21F6FB5D00A25386 /* TDGlobalLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDGlobalLoading.swift; sourceTree = "<group>"; };
+		99C4F73E21F6FB5D00A25386 /* TDLoadingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDLoadingManager.swift; sourceTree = "<group>"; };
+		99C4F74621F6FB8800A25386 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		99C4F74821F6FB8800A25386 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.release.xcconfig"; sourceTree = "<group>"; };
 		EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -168,6 +183,7 @@
 		990B64A521F030C90063BD34 /* Share */ = {
 			isa = PBXGroup;
 			children = (
+				99C4F73821F6FB5D00A25386 /* LoadingKit */,
 				99C4F72F21F5A87900A25386 /* SwiftyJSON */,
 				99C4F71C21F1AA3E00A25386 /* AlertView */,
 				990B64AF21F075840063BD34 /* WSDaePickerView */,
@@ -440,6 +456,29 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		99C4F73821F6FB5D00A25386 /* LoadingKit */ = {
+			isa = PBXGroup;
+			children = (
+				99C4F74521F6FB8800A25386 /* MBProgressHUD */,
+				99C4F73921F6FB5D00A25386 /* AImage.swift */,
+				99C4F73A21F6FB5D00A25386 /* TDTimerView.swift */,
+				99C4F73B21F6FB5D00A25386 /* TDAnimationView.swift */,
+				99C4F73C21F6FB5D00A25386 /* TDLoadingView.swift */,
+				99C4F73D21F6FB5D00A25386 /* TDGlobalLoading.swift */,
+				99C4F73E21F6FB5D00A25386 /* TDLoadingManager.swift */,
+			);
+			path = LoadingKit;
+			sourceTree = "<group>";
+		};
+		99C4F74521F6FB8800A25386 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				99C4F74821F6FB8800A25386 /* MBProgressHUD.h */,
+				99C4F74621F6FB8800A25386 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		A2538EDED4A702D86EC99A21 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -575,6 +614,7 @@
 				995022E121E87785004FAC47 /* BaseViewController.swift in Sources */,
 				99C4F73721F5C6C000A25386 /* Dictionary+String.swift in Sources */,
 				995022D921E870C4004FAC47 /* SeasonModel.swift in Sources */,
+				99C4F74221F6FB5D00A25386 /* TDLoadingView.swift in Sources */,
 				990B64BA21F075840063BD34 /* UIView+Extension.m in Sources */,
 				99C4F73121F5A88800A25386 /* SwiftyJSON.swift in Sources */,
 				990B64AB21F030C90063BD34 /* LabelSwitchBackView.swift in Sources */,
@@ -586,11 +626,14 @@
 				995022E521E88420004FAC47 /* HomeHeaderView.swift in Sources */,
 				99C4F72821F1AA3E00A25386 /* CKActionSheetAnimation.swift in Sources */,
 				99C4F72721F1AA3E00A25386 /* CKAlertNoAnimation.swift in Sources */,
+				99C4F74421F6FB5D00A25386 /* TDLoadingManager.swift in Sources */,
 				995022E321E877E5004FAC47 /* CommonTools.swift in Sources */,
 				990B64AE21F030C90063BD34 /* LabelSwitchConfig.swift in Sources */,
 				99857BF821ED8D9A005C7F9B /* BaseModel.swift in Sources */,
 				990B64AC21F030C90063BD34 /* LabelSwitchState.swift in Sources */,
 				99857C0021EDB595005C7F9B /* NewSeasonModel.swift in Sources */,
+				99C4F73F21F6FB5D00A25386 /* AImage.swift in Sources */,
+				99C4F74321F6FB5D00A25386 /* TDGlobalLoading.swift in Sources */,
 				99857BEF21EC9381005C7F9B /* AddNewSeasonViewController.swift in Sources */,
 				995022E721E8890C004FAC47 /* UILabel+Extension.swift in Sources */,
 				99C4F72421F1AA3E00A25386 /* CKAlertFadePopAnimation.swift in Sources */,
@@ -606,6 +649,7 @@
 				995022C121E729E1004FAC47 /* Namespace.swift in Sources */,
 				995022DC21E87308004FAC47 /* HomeEnum.swift in Sources */,
 				99857BF721ED8D9A005C7F9B /* BaseViewModelProtocol.swift in Sources */,
+				99C4F74121F6FB5D00A25386 /* TDAnimationView.swift in Sources */,
 				99857C0921EDC677005C7F9B /* ITInfoSelectedTableViewCell.swift in Sources */,
 				99857BF521ED8D9A005C7F9B /* BaseCollectionViewCell.swift in Sources */,
 				995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */,
@@ -614,12 +658,14 @@
 				99857BFE21EDB396005C7F9B /* AddNewSeasonViewModel.swift in Sources */,
 				99857C0521EDBB62005C7F9B /* UIView+Helper.swift in Sources */,
 				990B64AD21F030C90063BD34 /* LabelSwitch.swift in Sources */,
+				99C4F74A21F6FB8900A25386 /* MBProgressHUD.m in Sources */,
 				99857C0321EDBA8F005C7F9B /* AddNewSeasonDelegate.swift in Sources */,
 				9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */,
 				99C4F72921F1AA3E00A25386 /* CKAlertCommonView.swift in Sources */,
 				99857C0D21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift in Sources */,
 				99857BF621ED8D9A005C7F9B /* BaseTableViewCell.swift in Sources */,
 				99857C0721EDBE92005C7F9B /* ITSelectedTimeTableViewCell.swift in Sources */,
+				99C4F74021F6FB5D00A25386 /* TDTimerView.swift in Sources */,
 				995022C221E729E1004FAC47 /* ITViewMacros.swift in Sources */,
 				990B64B821F075840063BD34 /* WSDatePickerView.m in Sources */,
 				99C4F72521F1AA3E00A25386 /* CKAlertViewController.swift in Sources */,

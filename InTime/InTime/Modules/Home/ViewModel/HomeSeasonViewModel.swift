@@ -24,7 +24,7 @@ class HomeSeasonViewModel {
         category.title = "首页"
         category.isSelected = true
         let categoryJson = category.convertToJson()
-        let categoryJsonStr = categoryJson.comvertToString
+        let categoryJsonStr = categoryJson.convertToString
         
         var category1 = CategoryModel()
         category1.id = NSDate().string(withFormat: DatestringWithFormat)
@@ -32,7 +32,7 @@ class HomeSeasonViewModel {
         category1.isSelected = false
         category1.isDefalult = true
         let categoryJson1 = category1.convertToJson()
-        let categoryJsonStr1 = categoryJson1.comvertToString
+        let categoryJsonStr1 = categoryJson1.convertToString
         
         let categoryJsons = [categoryJsonStr, categoryJsonStr1]
         let categoryData = NSKeyedArchiver.archivedData(withRootObject: categoryJsons)
@@ -53,7 +53,7 @@ class HomeSeasonViewModel {
         category.title = name
         category.isSelected = false
         let categoryJson = category.convertToJson()
-        let categoryJsonStr = categoryJson.comvertToString
+        let categoryJsonStr = categoryJson.convertToString
         
         var categoryStrs = [categoryJsonStr]
         if let data = HandlerDocumentManager.getCategorys() {
@@ -78,7 +78,7 @@ class HomeSeasonViewModel {
         var categoryStrs: [String] = [String]()
         for model in categorys {
             let categoryJson = model.convertToJson()
-            let categoryJsonStr = categoryJson.comvertToString
+            let categoryJsonStr = categoryJson.convertToString
             categoryStrs.append(categoryJsonStr)
         }
         let categoryData = NSKeyedArchiver.archivedData(withRootObject: categoryStrs)
@@ -103,44 +103,17 @@ class HomeSeasonViewModel {
     
     /// 加载当前类别下的所有时节
     static func loadLocalSeasons(categoryId: String, completion: (_ seasons: [SeasonModel]) -> ()) {
-        if categoryId == "20190121222529767" {
-            let bg = BackgroundImageModel()
-            bg.type = .image
-            bg.name = "mountain"
-            
-            let colorModel = ColorModel()
-            colorModel.color = "#27349"
-            
-            var season = SeasonModel()
-            season.title = "好雨知时节，当春乃发生。"
-            season.backgroundModel = bg
-            season.textColorModel = colorModel
-            
-            completion([season])
-            
-        } else {
-            completion([])
+        var models: [SeasonModel] = [SeasonModel]()
+        if let seasonsData = HandlerDocumentManager.getSeasons(categoryId: categoryId) {
+            let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
+            if seasonJsons is Array<String>, let jsonStrs: [String] = seasonJsons as? [String] {
+                for jsonStr in jsonStrs {
+                    let json = JSON(parseJSON: jsonStr)
+                    let model = SeasonModel.convertToModel(json: json)
+                    models.append(model)
+                }
+            }
         }
-        
-        
-//       let season = SeasonModel()
-//        season
-//
-//        /// 所属类别
-//        var categoryModel: CategoryModel = CategoryModel()
-//        /// 标题
-//        var title: String = ""
-//        /// 时节时间
-//        var startDate: TimeModel = TimeModel()
-//        /// 显示单位
-//        var unitModel: InfoSelectedModel = InfoSelectedModel()
-//        /// 是否开启闹铃提醒
-//        var isOpenRemind: Bool = true
-//        /// 重复提醒类型
-//        var repeatRemindType: RepeatRemindType = RepeatRemindType.no
-//        /// 自定义背景
-//        var backgroundModel: BackgroundImageModel = BackgroundImageModel()
-//        /// 字体颜色
-//        var textColor: UIColor = UIColor.white
+        completion(models)
     }
 }

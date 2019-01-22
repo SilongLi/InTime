@@ -109,7 +109,7 @@ extension ITSelectedBackgroundImageTableViewCell: UICollectionViewDataSource, UI
             let model = bgM.images[indexPath.item]
             model.isSelected = true
             bgModel?.images[indexPath.item] = model
-            delegate?.didSelectedBackgroundImageAction(model: bgModel!)
+            delegate?.didSelectedBackgroundImageAction(model: model)
             
             collectionView.reloadData()
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)

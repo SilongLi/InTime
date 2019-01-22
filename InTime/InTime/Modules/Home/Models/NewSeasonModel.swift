@@ -22,7 +22,6 @@ class TimeModel: BaseModel {
     var noteIcon: String = ""
     var note: String = ""
     
-    var data: Date = Date()
     /// 农历时间字符串
     var lunarDataString: String = ""
     /// 公历时间字符串
@@ -31,11 +30,52 @@ class TimeModel: BaseModel {
     var isGregorian: Bool = true
 }
 
+extension TimeModel {
+    static func convertToModel(json: JSON) -> TimeModel {
+        let model = TimeModel()
+        model.noteName  = json["noteName"].stringValue
+        model.noteIcon  = json["noteIcon"].stringValue
+        model.note      = json["note"].stringValue
+        model.lunarDataString       = json["lunarDataString"].stringValue
+        model.gregoriandDataString  = json["gregoriandDataString"].stringValue
+        model.isGregorian           = json["isGregorian"].boolValue
+        return model
+    }
+    
+    func convertToJson() -> Dictionary<String, Any> {
+        return ["noteName": noteName,
+                "noteIcon": noteIcon,
+                "note": note,
+                "lunarDataString": lunarDataString,
+                "gregoriandDataString": gregoriandDataString,
+                "isGregorian": isGregorian]
+    }
+}
+
 /// 信息选择（显示单位、分类管理、动画效果...）
 class InfoSelectedModel: BaseModel {
+    var id: String = ""
     var type: InfoSelectedType = InfoSelectedType.unit
     var name: String = ""
     var info: String = ""
+}
+
+extension InfoSelectedModel {
+    static func convertToModel(json: JSON) -> InfoSelectedModel {
+        let model   = InfoSelectedModel()
+        model.id    = json["id"].stringValue
+        model.type  = InfoSelectedType(rawValue: json["type"].stringValue) ?? InfoSelectedType.unit
+        model.name  = json["name"].stringValue
+        model.info  = json["info"].stringValue
+        return model
+    }
+    
+    func convertToJson() -> Dictionary<String, Any> {
+        return ["id": id,
+                "type": type.rawValue,
+                "name": name,
+                "info": info]
+    }
 }
 
 /// 是否开启"时节"提醒
@@ -86,6 +126,22 @@ class BackgroundImageModel: BaseModel {
     }
 }
 
+extension BackgroundImageModel {
+    static func convertToModel(json: JSON) -> BackgroundImageModel {
+        let model  = BackgroundImageModel()
+        model.type = CustomBackgroundType(rawValue: json["type"].stringValue) ?? CustomBackgroundType.image
+        model.name = json["name"].stringValue
+        model.isSelected = json["isSelected"].boolValue
+        return model
+    }
+    
+    func convertToJson() -> Dictionary<String, Any> {
+        return ["type": type.rawValue,
+                "name": name,
+                "isSelected": isSelected]
+    }
+}
+
 /// 字体颜色
 class TextColorModel: BaseModel {
     var name: String = ""
@@ -102,6 +158,20 @@ class ColorModel: BaseModel {
     
     required init() {
         super.init()
+    }
+}
+
+extension ColorModel {
+    static func convertToModel(json: JSON) -> ColorModel {
+        let model  = ColorModel()
+        model.color = json["color"].stringValue
+        model.isSelected = json["isSelected"].boolValue
+        return model
+    }
+    
+    func convertToJson() -> Dictionary<String, Any> {
+        return ["color": color,
+                "isSelected": isSelected]
     }
 }
 

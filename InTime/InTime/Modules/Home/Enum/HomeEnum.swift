@@ -7,7 +7,7 @@
 //
 
 // MARK: - 重复提醒类型
-enum RepeatRemindType {
+enum RepeatRemindType: String {
     /// 不重复
     case no
     /// 每天
@@ -45,10 +45,16 @@ enum NewSeasonCellIdType: String {
     case input
     /// 时间选择
     case timeSelected
-    /// 信息选择
-    case info
+    /// 显示单位
+    case unit
+    /// 分类管理
+    case category
+    /// 动画效果
+    case animation
     /// 是否开启提醒
     case reminder
+    /// 提醒闹铃
+    case ring
     /// 重复提醒
     case repeatReminder
     /// 自定义背景
@@ -58,7 +64,7 @@ enum NewSeasonCellIdType: String {
 }
 
 /// 信息选择累心
-enum InfoSelectedType {
+enum InfoSelectedType: String {
     /// 显示单位
     case unit
     /// 分类管理
@@ -70,7 +76,7 @@ enum InfoSelectedType {
 }
 
 /// 自定义背景
-enum CustomBackgroundType {
+enum CustomBackgroundType: String {
     /// 自定义
     case custom
     /// 默认图片

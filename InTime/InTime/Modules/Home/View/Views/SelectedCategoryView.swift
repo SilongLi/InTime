@@ -26,7 +26,13 @@ class SelectedCategoryView: UIView {
         return tableView
     }()
     
-    var bgMaskView: UIView?
+    var bgMaskView: UIButton = {
+        let btn = UIButton()
+        btn.addTarget(self, action: #selector(maskViewAction), for: UIControl.Event.touchUpInside)
+        btn.backgroundColor = UIColor.tintColor.withAlphaComponent(0.3)
+        btn.alpha = 0.0
+        return btn
+    }()
     
     lazy var iconView: UIImageView = {
         let icon = UIImageView(image: UIImage(named: "showDetail"))
@@ -46,77 +52,73 @@ class SelectedCategoryView: UIView {
     var cellHeight: CGFloat = 50.0
     let margin: CGFloat = (IT_IPHONE_X || IT_IPHONE_6P) ? 40.0 : 30.0
     var selectedCategoryBlock: ((_ model: CategoryModel?) -> ())?
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupsubViews()
-    }
-    
+    var isShow: Bool = false
+  
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - setup
-    
-    func setupsubViews() {
-        let height: CGFloat = self.frame.size.height > 0.0 ? self.frame.size.height : 0.0
-        bgMaskView = UIView(frame: CGRect(x: 0.0, y: height, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT - height - IT_NaviHeight))
-        bgMaskView?.backgroundColor = UIColor.tintColor.withAlphaComponent(0.3)
-        bgMaskView?.alpha = 0
-        bgMaskView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(maskViewAction)))
-        bgMaskView?.isAccessibilityElement = true
-        
-        let tableViewH: CGFloat = self.frame.size.height > 0.0 ? self.frame.size.height : 0.0
-        tableView.frame = CGRect(x: margin, y: tableViewH, width: IT_SCREEN_WIDTH - margin * 2, height: 0.01)
-        addSubview(tableView)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
     // MARK: - actions
     
     /// 展示列表和遮罩
     func showListView() {
-        tableView.reloadData()
-        insertSubview(self.bgMaskView!, at: 0)
+        guard !isShow else {
+            return
+        }
+        isShow = true
+        addSubview(bgMaskView)
+        addSubview(tableView)
+        
+        bgMaskView.frame = CGRect.init(x: 0.0, y: 0.0, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT - IT_NaviHeight)
         UIView.animate(withDuration: self.duration, animations: {
-            self.bgMaskView?.alpha = 1
+            self.bgMaskView.alpha = 1
         })
+         
+        tableView.frame = CGRect(x: margin, y: 0.0, width: IT_SCREEN_WIDTH - margin * 2, height: 0.01)
         let count: CGFloat = CGFloat(dataSource.count)
         let markViewH = (IT_SCREEN_HEIGHT - IT_NaviHeight - cellHeight) * 0.8
         let tableViewH = count * self.cellHeight > markViewH ? markViewH : count * self.cellHeight + margin
         UIView.animate(withDuration: self.duration, animations: {
-            self.tableView.frame = CGRect(x: self.margin, y: self.bounds.size.height, width: IT_SCREEN_WIDTH - self.margin * 2, height: tableViewH)
+            self.tableView.frame = CGRect(x: self.margin, y: 0.0, width: IT_SCREEN_WIDTH - self.margin * 2, height: tableViewH)
         })
         tableView.layer.cornerRadius = 16.0
         tableView.layer.masksToBounds = true
+        tableView.reloadData()
     }
     
     /// 收起列表和遮罩
     func hiddenListView() {
+        isShow = false
         self.disminssMarkView()
         self.hiddenTableView()
     }
     
     /// 移除遮罩
     func disminssMarkView() {
-        guard self.bgMaskView?.superview != nil else {
+        guard self.bgMaskView.superview != nil else {
             return
         }
         UIView.animate(withDuration: self.duration, animations: {
-            self.bgMaskView?.alpha = 0
+            self.bgMaskView.alpha = 0
         }, completion: { (_) in
-            self.bgMaskView?.removeFromSuperview()
+            self.bgMaskView.removeFromSuperview()
         })
     }
     
     /// 隐藏列表
     private func hiddenTableView() {
-        guard self.tableView.frame.size.height > 10 else {
+        guard tableView.superview != nil else {
             return
         }
-        let height: CGFloat = self.frame.size.height
-        UIView.animate(withDuration: self.duration, animations: {
-            self.tableView.frame = CGRect(x: self.margin, y: height, width: IT_SCREEN_WIDTH - self.margin * 2, height: 0.01)
-        })
+        UIView.animate(withDuration: duration, animations: {
+            self.tableView.frame = CGRect(x: self.margin, y: 0.0, width: IT_SCREEN_WIDTH - self.margin * 2, height: 0.01)
+        }) { (_) in
+            self.tableView.removeFromSuperview()
+        }
     }
     
     /// 点击遮罩，退出列表页
@@ -179,6 +181,6 @@ extension SelectedCategoryView: UITableViewDelegate, UITableViewDataSource {
         if let block = self.selectedCategoryBlock {
             block(model)
         }
-        self.hiddenListView()
+        hiddenListView()
     }
 }

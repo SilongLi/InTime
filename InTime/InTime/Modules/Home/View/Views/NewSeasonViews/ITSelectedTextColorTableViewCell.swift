@@ -121,7 +121,7 @@ extension ITSelectedTextColorTableViewCell: UICollectionViewDataSource, UICollec
             let model = bgM.colors[indexPath.item]
             model.isSelected = true
             textColorModel?.colors[indexPath.item] = model
-            delegate?.didSelectedTextColorAction(model: textColorModel!)
+            delegate?.didSelectedTextColorAction(model: model)
             
             collectionView.reloadData()
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)

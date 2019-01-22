@@ -32,15 +32,15 @@ protocol NoteSwitchDelegate: class {
 
 // 重复提醒
 protocol RepeatRemindersDelegate: class {
-    func didSelectedRepeatRemindersAction(model: RepeatReminderModel)
+    func didSelectedRepeatRemindersAction(model: RepeatReminderTypeModel)
 }
 
 // 自定义背景
 protocol BackgroundImageDelegate: class {
-    func didSelectedBackgroundImageAction(model: BackgroundModel)
+    func didSelectedBackgroundImageAction(model: BackgroundImageModel)
 }
 
 // 字体颜色
 protocol TextColorDelegate: class {
-    func didSelectedTextColorAction(model: TextColorModel)
+    func didSelectedTextColorAction(model: ColorModel)
 }

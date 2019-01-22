@@ -8,6 +8,8 @@
 
 import CoreGraphics
 
+let StartSeasonDateFormat = "yyyy-MM-dd HH:mm"
+
 class AddNewSeasonViewModel {
     
     static let InputCellHeight: CGFloat = 60.0
@@ -18,7 +20,24 @@ class AddNewSeasonViewModel {
     static let TextColorCellHeight: CGFloat = 100.0
 }
 
-/// 创建新时节
+// MARK: - 保存新“时节”
+extension AddNewSeasonViewModel {
+    static func addNewSeason(season: SeasonModel) -> Bool {
+        let seasonJson: Dictionary = season.convertToJson()
+        let seasonJsonStr: String = seasonJson.convertToString
+        var seasonStrs = [seasonJsonStr]
+        if let seasonsData = HandlerDocumentManager.getSeasons(categoryId: season.categoryId) {
+            let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
+            if seasonJsons is Array<String>, let jsonStrs: [String] = seasonJsons as? [String] {
+                seasonStrs.append(contentsOf: jsonStrs)
+            }
+        }
+        let seasonsData = NSKeyedArchiver.archivedData(withRootObject: seasonStrs)
+        return HandlerDocumentManager.saveSeasons(categoryId: season.categoryId, data: seasonsData)
+    }
+}
+
+// MARK: - 创建新建时节的视图布局数据
 extension AddNewSeasonViewModel {
     /// 获取新建“时节”列表布局数据
     static func loadListSections(completion: (_ sections: [BaseSectionModel]) -> ()) {
@@ -38,8 +57,9 @@ extension AddNewSeasonViewModel {
         timeModel.noteName = "时节时间"
         timeModel.noteIcon = "question"
         timeModel.note = " 提示"
-        timeModel.lunarDataString = "2018戊戌年腊月十二 15:00"
-        timeModel.gregoriandDataString = "2019.01.15 15:00"
+        let date = NSDate()
+        timeModel.lunarDataString = date.solar(toLunar: DateFormatter.Style.full)
+        timeModel.gregoriandDataString = date.string(withFormat: StartSeasonDateFormat)
         timeModel.isGregorian = true
         let timeSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.timeSelected.rawValue,
                                            headerTitle: "",
@@ -53,8 +73,8 @@ extension AddNewSeasonViewModel {
         let unit  = InfoSelectedModel()
         unit.type = InfoSelectedType.unit
         unit.name = "显示单位"
-        unit.info = "天时分秒"
-        let unitSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.info.rawValue,
+        unit.info = DateUnitType.dayTime.rawValue
+        let unitSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.unit.rawValue,
                                            headerTitle: "",
                                            footerTitle: "",
                                            headerHeight: 0.001,
@@ -63,11 +83,21 @@ extension AddNewSeasonViewModel {
                                            showCellCount: 1,
                                            items: [unit])
         /// 分类管理
+        var categoty: CategoryModel = CategoryModel()
+        HomeSeasonViewModel.loadLocalCategorys { (models) in
+            for model in models {
+                if model.isDefalult {
+                    categoty = model
+                    break
+                }
+            }
+        }
         let type  = InfoSelectedModel()
+        type.id = categoty.id
         type.type = InfoSelectedType.classification
         type.name = "分类管理"
-        type.info = "全部"
-        let typeSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.info.rawValue,
+        type.info = categoty.title
+        let typeSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.category.rawValue,
                                            headerTitle: "",
                                            footerTitle: "",
                                            headerHeight: 0.001,
@@ -80,7 +110,7 @@ extension AddNewSeasonViewModel {
         animation.type = InfoSelectedType.animation
         animation.name = "动画效果"
         animation.info = "自动"
-        let animationSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.info.rawValue,
+        let animationSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.animation.rawValue,
                                                 headerTitle: "",
                                                 footerTitle: "",
                                                 headerHeight: 0.001,
@@ -105,9 +135,9 @@ extension AddNewSeasonViewModel {
         /// 提醒铃声
         let ring  = InfoSelectedModel()
         ring.type = InfoSelectedType.ring
-        ring.name = "动画效果"
-        ring.info = "Ceilivy"
-        let ringSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.info.rawValue,
+        ring.name = "提醒铃声"
+        ring.info = RemindVoiceType.ceilivy.rawValue
+        let ringSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.ring.rawValue,
                                            headerTitle: "",
                                            footerTitle: "",
                                            headerHeight: 0.001,
@@ -202,17 +232,19 @@ extension AddNewSeasonViewModel {
     
     /// 获取分类数据
     static func loadClassifyModel(completion: ((_ model: AlertCollectionModel) -> ())) {
-        let model1      = TextModel(type: "首页", text: "首页", isSelected: true)
-        let model2  = TextModel(type: "纪念日", text: "纪念日", isSelected: false)
-        let model3   = TextModel(type: "生日", text: "生日", isSelected: false)
-        let model4   = TextModel(type: "闹铃", text: "闹铃", isSelected: false)
-        let model5 = TextModel(type: "生活", text: "生活", isSelected: false)
-        
-        let alert = AlertCollectionModel()
-        alert.title = "分类管理"
-        alert.texts = [model1, model2, model3, model4, model5]
-        
-        completion(alert)
+        HomeSeasonViewModel.loadLocalCategorys { (models) in
+            var categorys = [TextModel]()
+            for model in models {
+                let category = TextModel(type: model.id, text: model.title, isSelected: model.isDefalult)
+                categorys.append(category)
+            }
+            
+            let alert = AlertCollectionModel()
+            alert.title = "分类管理"
+            alert.texts = categorys
+            
+            completion(alert)
+        }
     }
     
     /// 获取提醒铃声数据

@@ -111,18 +111,18 @@ class HomeViewController: BaseViewController {
     /// 背景图片
     lazy var bgImageView: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = UIColor.tintColor
+        view.backgroundColor = UIColor.clear
         return view
     }()
     lazy var bgTableView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.clear
         return view
     }()
     
     lazy var bgImageTableView: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = UIColor.tintColor
+        view.backgroundColor = UIColor.clear
         return view
     }()
     
@@ -215,10 +215,8 @@ class HomeViewController: BaseViewController {
                 self?.iconView.transform = CGAffineTransform.identity
             }
             self?.isShowCategoryView = isShow
-            var categoryId = ""
             
             if let category = model {
-                categoryId = category.id
                 self?.titleLabel.text = category.title
                 
                 /// 保存分类
@@ -233,10 +231,10 @@ class HomeViewController: BaseViewController {
                     self?.selectedCategoryView.dataSource = categoryModels
                     HomeSeasonViewModel.saveAllCategorys(categoryModels)
                 }
+                
+                /// 根据分类加载时节
+                self?.loadSeasions(categoryId: category.id)
             }
-            
-            /// 根据分类加载时节
-            self?.loadSeasions(categoryId: categoryId)
         }
     }
     
@@ -255,6 +253,10 @@ class HomeViewController: BaseViewController {
     }
     
     func loadSeasions(categoryId: String) {
+        guard !categoryId.isEmpty else {
+            CommonTools.printLog(message: "[Debug] 分类ID为空！")
+            return
+        }
         HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryId) { [weak self] (seasions) in
             self?.seasions = seasions
             self?.updateContentView()
@@ -262,27 +264,38 @@ class HomeViewController: BaseViewController {
     }
     
     func updateContentView() {
-        emptyInfoLabel.isHidden = seasions.count > 0
-        headerView.isHidden = seasions.count == 0
+        UIView.animate(withDuration: AnimateDuration) {
+            self.emptyInfoLabel.isHidden = self.seasions.count > 0
+            self.headerView.isHidden = self.seasions.count == 0
+        }
         
         if seasions.count > 0 {
             currentSeason = seasions.first!
 
             if currentSeason.backgroundModel.type == .image {
                 bgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
-                bgImageTableView.image = UIImage(named: currentSeason.backgroundModel.name)
             } else {
                 bgImageView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
-                bgImageTableView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
+            }
+            UIView.animate(withDuration: AnimateDuration, animations: {
+                self.bgImageView.alpha = 1
+            }) { (_) in
+                if self.currentSeason.backgroundModel.type == .image {
+                    self.bgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
+                } else {
+                    self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.textColorModel.color)
+                }
             }
             
             headerView.season = currentSeason
             tableView.reloadData()
             
         } else {
-            UIView.animate(withDuration: AnimateDuration) {
+            self.bgImageTableView.image = nil
+            UIView.animate(withDuration: AnimateDuration, animations: {
+                self.bgImageView.alpha = 0
+            }) { (_) in
                 self.bgImageView.image = nil
-                self.bgImageTableView.image = nil
             }
             tableView.reloadData()
         }
@@ -300,6 +313,9 @@ class HomeViewController: BaseViewController {
     }
     
     @objc func selectedTypeAction() {
+        guard !selectedCategoryView.isShow else {
+            return
+        }
         isShowCategoryView = !isShowCategoryView
         if isShowCategoryView {
             iconView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))

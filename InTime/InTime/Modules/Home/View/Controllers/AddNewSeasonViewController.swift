@@ -19,7 +19,10 @@ class AddNewSeasonViewController: BaseViewController {
         tableView.delegate   = self
         tableView.register(ITInputTextTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.input.rawValue)
         tableView.register(ITSelectedTimeTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.timeSelected.rawValue)
-        tableView.register(ITInfoSelectedTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.info.rawValue)
+        tableView.register(ITInfoSelectedTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.unit.rawValue)
+        tableView.register(ITInfoSelectedTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.category.rawValue)
+        tableView.register(ITInfoSelectedTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.animation.rawValue)
+        tableView.register(ITInfoSelectedTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.ring.rawValue)
         tableView.register(ITReminderTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.reminder.rawValue)
         tableView.register(ITRepeatReminderTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.repeatReminder.rawValue)
         tableView.register(ITSelectedBackgroundImageTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.background.rawValue)
@@ -36,11 +39,15 @@ class AddNewSeasonViewController: BaseViewController {
     }()
     
     var dataSource: [BaseSectionModel] = [BaseSectionModel]()
-
+    var newSeason: SeasonModel = SeasonModel()
+    var unitAlertModel: AlertCollectionModel = AlertCollectionModel()
+    var categoryAlertModel: AlertCollectionModel = AlertCollectionModel()
+    var reminderAlertModel: AlertCollectionModel = AlertCollectionModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviews()
-        setupContentView()
+        loadDataSource()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -52,6 +59,11 @@ class AddNewSeasonViewController: BaseViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated) 
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+    }
+    
+    deinit {
+        tableView.delegate = nil
+        tableView.dataSource = nil
     }
     
     // MARK: - setup
@@ -75,26 +87,108 @@ class AddNewSeasonViewController: BaseViewController {
         tableView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        
     }
     
-    func setupContentView() {
+    func setupSeasion() {
+        for section in dataSource {
+            switch section.cellIdentifier {
+            case NewSeasonCellIdType.timeSelected.rawValue: /// 开始时间
+                if let startTime: TimeModel = section.items.first as? TimeModel {
+                    newSeason.startDate = startTime
+                }
+            case NewSeasonCellIdType.unit.rawValue:  /// 显示单位
+                if let selectedModel: InfoSelectedModel = section.items.first as? InfoSelectedModel {
+                    newSeason.unitModel = selectedModel
+                }
+            case NewSeasonCellIdType.category.rawValue:  /// 分类管理
+                if let selectedModel: InfoSelectedModel = section.items.first as? InfoSelectedModel {
+                    newSeason.categoryId = selectedModel.id
+                }
+            case NewSeasonCellIdType.ring.rawValue:  /// 提醒铃声
+                if let selectedModel: InfoSelectedModel = section.items.first as? InfoSelectedModel {
+                    newSeason.ringType = RemindVoiceType(rawValue: selectedModel.info) ?? RemindVoiceType.defaultType
+                }
+            case NewSeasonCellIdType.reminder.rawValue: /// 是否开启提醒
+                if let model: OpenReminderModel = section.items.first as? OpenReminderModel {
+                    newSeason.isOpenRemind = model.isOpen
+                }
+            case NewSeasonCellIdType.repeatReminder.rawValue:   /// 重复提醒
+                if let models: RepeatReminderModel = section.items.first as? RepeatReminderModel {
+                    for model in models.types {
+                        if model.isSelected {
+                            newSeason.repeatRemindType = model.type
+                        }
+                    }
+                }
+            case NewSeasonCellIdType.background.rawValue:   /// 自定义背景
+                if let models: BackgroundModel = section.items.first as? BackgroundModel {
+                    for model in models.images {
+                        if model.isSelected {
+                            newSeason.backgroundModel = model
+                        }
+                    }
+                }
+            case NewSeasonCellIdType.textColor.rawValue:    /// 字体颜色
+                if let models: TextColorModel = section.items.first as? TextColorModel {
+                    for model in models.colors {
+                        if model.isSelected {
+                            newSeason.textColorModel = model
+                        }
+                    }
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+    // MARK: - load dataSource
+    func loadDataSource() {
         AddNewSeasonViewModel.loadListSections { [weak self] (sections) in
             self?.dataSource = sections
             self?.tableView.reloadData()
+            self?.setupSeasion()
+        }
+        
+        AddNewSeasonViewModel.loadUnitsModel { [weak self] (model) in
+            self?.unitAlertModel = model
+        }
+        AddNewSeasonViewModel.loadClassifyModel { [weak self] (model) in
+            self?.categoryAlertModel = model
+        }
+        AddNewSeasonViewModel.loadRemindVoicesModel { [weak self] (model) in
+            self?.reminderAlertModel = model
         }
     }
     
     // MARK: - actions
+    @objc func saveSeasonAction() {
+        view.endEditing(true)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
+            self.addNewSeason()
+        }
+    }
+    
+    func addNewSeason() {
+        guard !newSeason.title.isEmpty else {
+            view.showText("请输入标题!")
+            return
+        }
+        guard !newSeason.categoryId.isEmpty else {
+            view.showText("请选择分类!")
+            return
+        }
+        let success = AddNewSeasonViewModel.addNewSeason(season: newSeason)
+        if success {
+            navigationController?.popViewController(animated: true)
+        } else {
+            view.showText("保存失败!")
+        }
+    }
+    
     @objc func endTextFieldEditing() {
         view.endEditing(true)
     }
-    
-    @objc func saveSeasonAction() {
-        /// TODO: 保存“时节”
-        navigationController?.popViewController(animated: true)
-    }
-
 }
 
 // MARK: - <UITableViewDelegate, UITableViewDataSource>
@@ -148,7 +242,9 @@ extension AddNewSeasonViewController: UITableViewDelegate, UITableViewDataSource
 // MARK: - 输入框
 extension AddNewSeasonViewController: InputTextFieldDelegate {
     func didClickedEndEditing(model: InputModel) {
-        CommonTools.printLog(message: "输入框")
+        if !model.text.isEmpty {
+            newSeason.title = model.text
+        }
     }
 }
 
@@ -156,7 +252,6 @@ extension AddNewSeasonViewController: InputTextFieldDelegate {
 extension AddNewSeasonViewController: SelectedTimeDelegate {
     /// 提示
     func didClickedNoteInfoAction() {
-        
         CommonTools.printLog(message: "选择时间提示")
     }
     
@@ -165,9 +260,8 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
             guard let strongSelf = self else { return }
             guard let currentDate = date else { return }
             if let lunar = currentDate.solarToLunar() {
-                model.data = currentDate
                 model.lunarDataString = lunar
-                model.gregoriandDataString = (currentDate as NSDate).string(withFormat: "yyyy-MM-dd HH:mm")
+                model.gregoriandDataString = (currentDate as NSDate).string(withFormat: StartSeasonDateFormat)
                 for index in 0..<strongSelf.dataSource.count {
                     var section = strongSelf.dataSource[index]
                     if section.cellIdentifier == NewSeasonCellIdType.timeSelected.rawValue {
@@ -176,6 +270,7 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
                         break
                     }
                 }
+                strongSelf.newSeason.startDate = model
                 strongSelf.tableView.reloadData()
             }
         })
@@ -184,10 +279,22 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
         datePicker?.doneButtonColor = UIColor.greenColor
         datePicker?.show()
     }
+    
     /// 切换农历和公历
     func didClickedOpenGregorianSwitchAction(isGregorian: Bool) {
-        
-        CommonTools.printLog(message: "切换农历和公历")
+        for index in 0..<dataSource.count {
+            var section = dataSource[index]
+            if section.cellIdentifier == NewSeasonCellIdType.timeSelected.rawValue {
+                if let model: TimeModel = section.items.first as? TimeModel {
+                    model.isGregorian = isGregorian
+                    section.items = [model]
+                    dataSource[index] = section
+                    newSeason.startDate = model
+                    break
+                }
+            }
+        }
+        tableView.reloadData()
     }
 }
 
@@ -198,34 +305,82 @@ extension AddNewSeasonViewController: InfoSelectedDelegate {
         switch model.type {
         /// 显示单位
         case .unit:
-            AddNewSeasonViewModel.loadUnitsModel { [weak self] (model) in
+            let alert = CommonAlertTableView(model: unitAlertModel, selectedAction: { [weak self] (alertModel, textModel) in
                 guard let strongSelf = self else { return }
-                let alert = CommonAlertTableView(model: model, selectedAction: { (textModel) in
-                    print(textModel.text)
-                })
-                alert.showAlertView(inViewController: strongSelf, leftOrRightMargin: margin)
-            }
+                let unitModel = model
+                unitModel.info = textModel.text
+                strongSelf.newSeason.unitModel = unitModel
+                strongSelf.unitAlertModel = alertModel
+                
+                DispatchQueue.main.async {
+                    for index in 0..<strongSelf.dataSource.count {
+                        var section = strongSelf.dataSource[index]
+                        switch section.cellIdentifier {
+                        case NewSeasonCellIdType.unit.rawValue:
+                            section.items = [unitModel]
+                            strongSelf.dataSource[index] = section
+                        default:
+                            break
+                        }
+                    }
+                    strongSelf.tableView.reloadData()
+                }
+            })
+            alert.showAlertView(inViewController: self, leftOrRightMargin: margin)
+            
+            
         /// 分类管理
         case .classification:
-            AddNewSeasonViewModel.loadClassifyModel { [weak self] (model) in
+            let alert = CommonAlertTableView(model: categoryAlertModel, selectedAction: { [weak self](alertModel, textModel) in
                 guard let strongSelf = self else { return }
-                let alert = CommonAlertTableView(model: model, selectedAction: { (textModel) in
-                    print(textModel.text)
-                })
-                alert.showAlertView(inViewController: strongSelf, leftOrRightMargin: margin)
-            }
+                strongSelf.newSeason.categoryId = textModel.type
+                strongSelf.categoryAlertModel = alertModel
+                
+                DispatchQueue.main.async {
+                    for index in 0..<strongSelf.dataSource.count {
+                        var section = strongSelf.dataSource[index]
+                        switch section.cellIdentifier {
+                        case NewSeasonCellIdType.category.rawValue:
+                            let catgory = model
+                            catgory.id = textModel.type
+                            catgory.info = textModel.text
+                            section.items = [catgory]
+                            strongSelf.dataSource[index] = section
+                        default:
+                            break
+                        }
+                    }
+                    strongSelf.tableView.reloadData()
+                }
+            })
+            alert.showAlertView(inViewController: self, leftOrRightMargin: margin)
         /// 动画效果
         case .animation:
             break
         /// 提醒铃声
         case .ring:
-            AddNewSeasonViewModel.loadRemindVoicesModel { [weak self] (model) in
+            let alert = CommonAlertTableView(model: reminderAlertModel, selectedAction: { [weak self] (alertModel, textModel) in
                 guard let strongSelf = self else { return }
-                let alert = CommonAlertTableView(model: model, selectedAction: { (textModel) in
-                    print(textModel.text)
-                })
-                alert.showAlertView(inViewController: strongSelf, leftOrRightMargin: margin)
-            }
+                strongSelf.newSeason.ringType = RemindVoiceType(rawValue: textModel.type) ?? RemindVoiceType.defaultType
+                strongSelf.reminderAlertModel = alertModel
+                
+                DispatchQueue.main.async {
+                    for index in 0..<strongSelf.dataSource.count {
+                        var section = strongSelf.dataSource[index]
+                        switch section.cellIdentifier {
+                        case NewSeasonCellIdType.ring.rawValue:
+                            let ring = model
+                            ring.info = textModel.text
+                            section.items = [ring]
+                            strongSelf.dataSource[index] = section
+                        default:
+                            break
+                        }
+                    }
+                    strongSelf.tableView.reloadData()
+                }
+            })
+            alert.showAlertView(inViewController: self, leftOrRightMargin: margin)
         }
     }
 }
@@ -233,31 +388,27 @@ extension AddNewSeasonViewController: InfoSelectedDelegate {
 // MARK: - 是否开启时节提醒
 extension AddNewSeasonViewController: NoteSwitchDelegate {
     func didClickedReminderSwitchAction(isOpen: Bool) {
-        
-        CommonTools.printLog(message: "是否开启时节提醒")
+        newSeason.isOpenRemind = isOpen
     }
 }
 
 // MARK: - 重复提醒
 extension AddNewSeasonViewController: RepeatRemindersDelegate {
-    func didSelectedRepeatRemindersAction(model: RepeatReminderModel) {
-        
-        CommonTools.printLog(message: "重复提醒")
+    func didSelectedRepeatRemindersAction(model: RepeatReminderTypeModel) {
+        newSeason.repeatRemindType = model.type
     }
 }
 
 // MARK: - 自定义背景
 extension AddNewSeasonViewController: BackgroundImageDelegate {
-    func didSelectedBackgroundImageAction(model: BackgroundModel) {
-        
-        CommonTools.printLog(message: "自定义背景")
+    func didSelectedBackgroundImageAction(model: BackgroundImageModel) {
+        newSeason.backgroundModel = model
     }
 }
 
 // MARK: - 字体颜色
 extension AddNewSeasonViewController: TextColorDelegate {
-    func didSelectedTextColorAction(model: TextColorModel) {
-        
-        CommonTools.printLog(message: "字体颜色")
+    func didSelectedTextColorAction(model: ColorModel) {
+        newSeason.textColorModel = model
     }
 }

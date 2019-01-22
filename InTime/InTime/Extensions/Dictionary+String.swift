@@ -10,7 +10,7 @@
 extension Dictionary {
     
     /// 转字符串
-    var comvertToString: String {
+    var convertToString: String {
         let invalidJson = "{}"
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)

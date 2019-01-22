@@ -33,10 +33,10 @@ class CommonAlertTableView: CKAlertCommonView {
         return tableView
     }()
     
-    public var selectedActionBlock: ((_ textModel: TextModel) -> ())?
+    public var selectedActionBlock: ((_ alertModel: AlertCollectionModel, _ selectedTextModel: TextModel) -> ())?
     var alertModel: AlertCollectionModel?
 
-    init(model: AlertCollectionModel?, selectedAction: ((_ textModel: TextModel) -> ())? = nil) {
+    init(model: AlertCollectionModel?, selectedAction: ((_ alertModel: AlertCollectionModel, _ selectedTextModel: TextModel) -> ())? = nil) {
         super.init(animationStyle: .CKAlertFadePop, alertStyle: .CKAlertStyleAlert)
         
         self.alertModel = model
@@ -123,8 +123,17 @@ extension CommonAlertTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if let model = alertModel?.texts[indexPath.row], let block = selectedActionBlock {
-            block(model)
+        if let models = alertModel?.texts {
+            for model in models {
+                model.isSelected = false
+            }
+            let model = models[indexPath.item]
+            model.isSelected = true
+            alertModel?.texts[indexPath.item] = model
+        }
+        if let model = alertModel, let block = selectedActionBlock {
+            let selectedModel = model.texts[indexPath.row]
+            block(model, selectedModel)
         }
         hiddenAlertView()
     }
