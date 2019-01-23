@@ -523,9 +523,9 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 - (NSString *)solarToLunar:(NSDateFormatterStyle)style {
     NSCalendar *solarCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.year = self.year;
-    components.month = self.month;
-    components.day = self.day;
+    components.year     = self.year;
+    components.month    = self.month;
+    components.day      = self.day;
     components.hour     = 12;
     components.minute   = 0;
     components.second   = 0;

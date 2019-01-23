@@ -55,6 +55,9 @@ class ITInputTextTableViewCell: BaseTableViewCell {
         guard model is InputModel else { return }
         let model = model as! InputModel
         inputModel = model
+        
+        textField.text = model.text
+        
         let attributes =  [NSAttributedString.Key.foregroundColor: UIColor.tintColor,
                            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)]
         textField.attributedPlaceholder = NSAttributedString(string: model.placeholder, attributes: attributes)

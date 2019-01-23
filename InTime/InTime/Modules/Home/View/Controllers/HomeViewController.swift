@@ -145,20 +145,33 @@ class HomeViewController: BaseViewController {
         return label
     }()
     
-    static let HeaderHeight: CGFloat = 200.0
+    static let HeaderHeight: CGFloat = 220.0
     let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
     
     var isShowCategoryView: Bool = false
     var currentSeason: SeasonModel = SeasonModel()
+    var currentSelectedCategory: CategoryModel?
     var seasions: [SeasonModel] = [SeasonModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupNotification()
         setupSubviews()
         loadCategorys()
     }
     
+    deinit {
+        tableView.delegate = nil
+        tableView.dataSource = nil
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - setup
+    func setupNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(loadSeasions), name: NotificationAddNewSeason, object: nil)
+    }
+    
     func setupSubviews() {
         view.backgroundColor = UIColor.tintColor
         
@@ -207,6 +220,7 @@ class HomeViewController: BaseViewController {
             make.left.right.equalToSuperview()
             make.height.equalTo(0.01)
         }
+        
         selectedCategoryView.selectedCategoryBlock = { [weak self] (model) in
             let isShow = !(self?.isShowCategoryView ?? false)
             if isShow {
@@ -217,6 +231,7 @@ class HomeViewController: BaseViewController {
             self?.isShowCategoryView = isShow
             
             if let category = model {
+                self?.currentSelectedCategory = category
                 self?.titleLabel.text = category.title
                 
                 /// 保存分类
@@ -233,7 +248,7 @@ class HomeViewController: BaseViewController {
                 }
                 
                 /// 根据分类加载时节
-                self?.loadSeasions(categoryId: category.id)
+                self?.loadSeasions()
             }
         }
     }
@@ -244,15 +259,17 @@ class HomeViewController: BaseViewController {
             self?.selectedCategoryView.dataSource = models
             for model in models {
                 if model.isSelected {
+                    self?.currentSelectedCategory = model
                     self?.titleLabel.text = model.title
-                    self?.loadSeasions(categoryId: model.id)
+                    self?.loadSeasions()
                     break
                 }
             }
         }
     }
     
-    func loadSeasions(categoryId: String) {
+    @objc func loadSeasions() {
+        let categoryId: String = currentSelectedCategory?.id ?? ""
         guard !categoryId.isEmpty else {
             CommonTools.printLog(message: "[Debug] 分类ID为空！")
             return
@@ -271,7 +288,6 @@ class HomeViewController: BaseViewController {
         
         if seasions.count > 0 {
             currentSeason = seasions.first!
-
             if currentSeason.backgroundModel.type == .image {
                 bgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
             } else {

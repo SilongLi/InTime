@@ -22,6 +22,8 @@ class TimeModel: BaseModel {
     var noteIcon: String = ""
     var note: String = ""
     
+    /// 星期几
+    var weakDay: String = ""
     /// 农历时间字符串
     var lunarDataString: String = ""
     /// 公历时间字符串
@@ -36,6 +38,7 @@ extension TimeModel {
         model.noteName  = json["noteName"].stringValue
         model.noteIcon  = json["noteIcon"].stringValue
         model.note      = json["note"].stringValue
+        model.weakDay   = json["weakDay"].stringValue
         model.lunarDataString       = json["lunarDataString"].stringValue
         model.gregoriandDataString  = json["gregoriandDataString"].stringValue
         model.isGregorian           = json["isGregorian"].boolValue
@@ -46,6 +49,7 @@ extension TimeModel {
         return ["noteName": noteName,
                 "noteIcon": noteIcon,
                 "note": note,
+                "weakDay": weakDay,
                 "lunarDataString": lunarDataString,
                 "gregoriandDataString": gregoriandDataString,
                 "isGregorian": isGregorian]

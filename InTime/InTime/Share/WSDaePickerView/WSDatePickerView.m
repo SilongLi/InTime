@@ -238,6 +238,7 @@ typedef void(^doneBlock)(NSDate *);
     }
     
     /// 设置对应的农历日期
+    self.dateInfoLabel.adjustsFontSizeToFitWidth = YES;
     self.dateInfoLabel.text = [self.scrollToDate solarToLunar:NSDateFormatterFullStyle];
 }
 

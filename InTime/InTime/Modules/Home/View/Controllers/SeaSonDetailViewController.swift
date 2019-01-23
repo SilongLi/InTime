@@ -61,6 +61,8 @@ class SeaSonDetailViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupNotification()
         setupSubviews()
         setupContentView()
     }
@@ -70,7 +72,17 @@ class SeaSonDetailViewController: BaseViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     
+    deinit {
+        collectionView.delegate = nil
+        collectionView.dataSource = nil
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - setup
+    func setupNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(loadSeasions), name: NotificationAddNewSeason, object: nil)
+    }
+    
     func setupSubviews() {
         view.backgroundColor = UIColor.tintColor
         
@@ -118,16 +130,31 @@ class SeaSonDetailViewController: BaseViewController {
         currentShowBgImageView = bgImageView
         
         // 滚动到选中页
+        collectionView.reloadData()
         collectionView.performBatchUpdates({
-            collectionView.reloadData()
         }) { (_) in
             self.collectionView.scrollToItem(at: IndexPath(item: self.currentSelectedIndex, section: 0), at: .centeredHorizontally, animated: false)
         }
     }
     
+    // MARK: - load DataSource
+    @objc func loadSeasions() {
+        guard let season = seasons.first else {
+            return
+        }
+        HomeSeasonViewModel.loadLocalSeasons(categoryId: season.categoryId) { [weak self] (seasons) in
+            self?.seasons = seasons
+            self?.setupContentView()
+        }
+    }
+    
     // MARK: - actions
     @objc func gotoModifySeasonAction() {
+        guard currentSelectedIndex > -1, currentSelectedIndex < seasons.count else {
+            return
+        }
         let modifySeasonVC = AddNewSeasonViewController()
+        modifySeasonVC.newSeason = seasons[currentSelectedIndex]
         navigationController?.pushViewController(modifySeasonVC, animated: true)
     }
     

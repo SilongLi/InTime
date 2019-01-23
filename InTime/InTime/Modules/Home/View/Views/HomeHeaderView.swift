@@ -22,7 +22,7 @@ class HomeHeaderView: UIView {
     lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
-        label.font = UIFont.boldSystemFont(ofSize: 34.0)
+        label.font = UIFont.boldSystemFont(ofSize: 36.0)
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
         return label
@@ -36,43 +36,34 @@ class HomeHeaderView: UIView {
         return label
     }()
     
+    /// 定时刷新界面
+    private var refreshTimer: DispatchSourceTimer?
+    
     var season: SeasonModel?{
         didSet {
             titleLabel.text = season?.title
-            if let dateStr = season?.startDate.gregoriandDataString, let data = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
-                var intervals = Int(data.timeIntervalSinceNow)
-                let currentData = NSDate()
-                // 标准时间和北京时间差8个小时
-                intervals = intervals - 8 * 60 * 60
-                let years = data.year - currentData.year
-                let days = intervals / 60 / 60 / 24
-                let hours = intervals / 60 / 60 - (days * 24)
-                let minutes = intervals / 60 - (days * 24 * 60 + hours * 60)
-                let seconds = intervals - (days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60)
-                var dataText = ""
-                if years != 0 {
-                    dataText += "\(years)年"
-                }
-                if days != 0 {
-                    dataText += "\(days)天"
-                }
-                if hours != 0 {
-                    dataText += "\(hours)时"
-                }
-                if minutes != 0 {
-                    dataText += "\(minutes)分"
-                }
-                if seconds != 0 {
-                    dataText += "\(seconds)秒"
-                }
-                dateLabel.text = dataText
+            
+            if let dateStr = season?.startDate.gregoriandDataString, let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
+                let typeValue = season?.unitModel.info ?? DateUnitType.dayTime.rawValue
+                let type: DateUnitType = DateUnitType(rawValue: typeValue) ?? DateUnitType.dayTime
+                dateLabel.text = (date as Date).convertToTimeString(type: type)
             }
+            
+            var dateStr = ""
             if season?.startDate.isGregorian ?? true {
-                dateInfoLabel.text = season?.startDate.gregoriandDataString
+                dateStr = season?.startDate.gregoriandDataString ?? ""
             } else {
-                dateInfoLabel.text = season?.startDate.lunarDataString
+                dateStr = season?.startDate.lunarDataString ?? ""
             }
+            dateInfoLabel.text = "\(dateStr) \(season?.startDate.weakDay ?? "")"
         }
+    }
+    
+    func reloadContent() {
+        guard let model = season else {
+            return
+        }
+        self.season = model
     }
  
     override init(frame: CGRect) {
@@ -83,24 +74,35 @@ class HomeHeaderView: UIView {
         addSubview(titleLabel)
         addSubview(dateLabel)
         addSubview(dateInfoLabel)
+        
+        let margin: CGFloat = 15.0
         titleLabel.snp.makeConstraints { (make) in
             make.top.equalTo(40)
-            make.left.equalTo(15)
-            make.right.equalTo(-15)
+            make.left.equalTo(margin)
+            make.right.equalTo(-margin)
             make.height.equalTo(24)
         }
         dateLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(20)
-            make.left.equalTo(15)
-            make.right.equalTo(-15)
+            make.top.equalTo(titleLabel.snp.bottom).offset(25)
+            make.left.equalTo(margin)
+            make.right.equalTo(-margin)
             make.height.equalTo(44)
         }
         dateInfoLabel.snp.makeConstraints { (make) in
             make.left.equalTo(20)
-            make.right.equalTo(-15)
+            make.right.equalTo(-margin)
             make.height.equalTo(20)
             make.bottom.equalTo(-30)
         }
+        
+        refreshTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+        refreshTimer?.schedule(deadline: .now(), repeating: 1.0)
+        refreshTimer?.setEventHandler(handler: { [weak self] in
+            DispatchQueue.main.async {
+                self?.reloadContent()
+            }
+        })
+        refreshTimer?.resume()
     }
     
     required init?(coder aDecoder: NSCoder) {

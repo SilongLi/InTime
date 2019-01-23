@@ -10,6 +10,8 @@
 import Foundation
 
 struct SeasonModel {
+    /// 唯一标识
+    var id: String = ""
     /// 所属类别
     var categoryId: String = ""
     /// 标题
@@ -33,6 +35,7 @@ struct SeasonModel {
 extension SeasonModel {
     static func convertToModel(json: JSON) -> SeasonModel {
         var model = SeasonModel()
+        model.id                = json["id"].stringValue
         model.categoryId        = json["categoryId"].stringValue
         model.title             = json["title"].stringValue
         model.isOpenRemind      = json["isOpenRemind"].boolValue
@@ -50,7 +53,8 @@ extension SeasonModel {
         let unitModelStr = unitModel.convertToJson().convertToString
         let backgroundModelStr = backgroundModel.convertToJson().convertToString
         let textColorModelStr  = textColorModel.convertToJson().convertToString
-        return ["categoryId": categoryId,
+        return ["id": id,
+                "categoryId": categoryId,
                 "title": title,
                 "startDate": startDateStr,
                 "unitModel": unitModelStr,

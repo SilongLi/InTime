@@ -23,6 +23,7 @@ class HomeSeasonViewModel {
         category.id = NSDate().string(withFormat: DatestringWithFormat)
         category.title = "首页"
         category.isSelected = true
+        category.isDefalult = true
         let categoryJson = category.convertToJson()
         let categoryJsonStr = categoryJson.convertToString
         
@@ -30,7 +31,6 @@ class HomeSeasonViewModel {
         category1.id = NSDate().string(withFormat: DatestringWithFormat)
         category1.title = "时节"
         category1.isSelected = false
-        category1.isDefalult = true
         let categoryJson1 = category1.convertToJson()
         let categoryJsonStr1 = categoryJson1.convertToString
         

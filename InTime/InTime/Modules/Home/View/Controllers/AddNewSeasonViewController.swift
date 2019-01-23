@@ -43,6 +43,7 @@ class AddNewSeasonViewController: BaseViewController {
     var unitAlertModel: AlertCollectionModel = AlertCollectionModel()
     var categoryAlertModel: AlertCollectionModel = AlertCollectionModel()
     var reminderAlertModel: AlertCollectionModel = AlertCollectionModel()
+    var isModifySeason: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,6 +91,10 @@ class AddNewSeasonViewController: BaseViewController {
     }
     
     func setupSeasion() {
+        guard newSeason.title.isEmpty, newSeason.categoryId.isEmpty else {
+            isModifySeason = true
+            return
+        }
         for section in dataSource {
             switch section.cellIdentifier {
             case NewSeasonCellIdType.timeSelected.rawValue: /// 开始时间
@@ -144,19 +149,19 @@ class AddNewSeasonViewController: BaseViewController {
     
     // MARK: - load dataSource
     func loadDataSource() {
-        AddNewSeasonViewModel.loadListSections { [weak self] (sections) in
+        AddNewSeasonViewModel.loadListSections(originSeason: newSeason) { [weak self] (sections) in
             self?.dataSource = sections
             self?.tableView.reloadData()
             self?.setupSeasion()
         }
         
-        AddNewSeasonViewModel.loadUnitsModel { [weak self] (model) in
+        AddNewSeasonViewModel.loadUnitsModel(originSeason: newSeason) { [weak self] (model) in
             self?.unitAlertModel = model
         }
-        AddNewSeasonViewModel.loadClassifyModel { [weak self] (model) in
+        AddNewSeasonViewModel.loadClassifyModel(originSeason: newSeason) { [weak self] (model) in
             self?.categoryAlertModel = model
         }
-        AddNewSeasonViewModel.loadRemindVoicesModel { [weak self] (model) in
+        AddNewSeasonViewModel.loadRemindVoicesModel(originSeason: newSeason) { [weak self] (model) in
             self?.reminderAlertModel = model
         }
     }
@@ -178,8 +183,16 @@ class AddNewSeasonViewController: BaseViewController {
             view.showText("请选择分类!")
             return
         }
-        let success = AddNewSeasonViewModel.addNewSeason(season: newSeason)
+        
+        var success = false
+        if isModifySeason {
+            success = AddNewSeasonViewModel.saveSeason(season: newSeason)
+        } else {
+            newSeason.id = NSDate().string(withFormat: DatestringWithFormat)
+            success = AddNewSeasonViewModel.addNewSeason(season: newSeason)
+        }
         if success {
+            NotificationCenter.default.post(name: NotificationAddNewSeason, object: nil)
             navigationController?.popViewController(animated: true)
         } else {
             view.showText("保存失败!")
@@ -252,27 +265,36 @@ extension AddNewSeasonViewController: InputTextFieldDelegate {
 extension AddNewSeasonViewController: SelectedTimeDelegate {
     /// 提示
     func didClickedNoteInfoAction() {
+        view.endEditing(true)
         CommonTools.printLog(message: "选择时间提示")
     }
     
     func didClickedShowCalendarViewAction(model: TimeModel) {
-        let datePicker = WSDatePickerView(dateStyle: DateStyleShowYearMonthDayHourMinute, scrollTo: Date(), complete: { [weak self] (date) in
+        view.endEditing(true)
+        
+        var selectedDate = Date()
+        if isModifySeason {
+            let dateStr = newSeason.startDate.gregoriandDataString
+            if let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
+                selectedDate = date as Date
+            }
+        }
+        let datePicker = WSDatePickerView(dateStyle: DateStyleShowYearMonthDayHourMinute, scrollTo: selectedDate, complete: { [weak self] (date) in
             guard let strongSelf = self else { return }
             guard let currentDate = date else { return }
-            if let lunar = currentDate.solarToLunar() {
-                model.lunarDataString = lunar
-                model.gregoriandDataString = (currentDate as NSDate).string(withFormat: StartSeasonDateFormat)
-                for index in 0..<strongSelf.dataSource.count {
-                    var section = strongSelf.dataSource[index]
-                    if section.cellIdentifier == NewSeasonCellIdType.timeSelected.rawValue {
-                        section.items = [model]
-                        strongSelf.dataSource[index] = section
-                        break
-                    }
+            model.lunarDataString = currentDate.solarToLunar()
+            model.weakDay = currentDate.weekDay()
+            model.gregoriandDataString = (currentDate as NSDate).string(withFormat: StartSeasonDateFormat)
+            for index in 0..<strongSelf.dataSource.count {
+                var section = strongSelf.dataSource[index]
+                if section.cellIdentifier == NewSeasonCellIdType.timeSelected.rawValue {
+                    section.items = [model]
+                    strongSelf.dataSource[index] = section
+                    break
                 }
-                strongSelf.newSeason.startDate = model
-                strongSelf.tableView.reloadData()
             }
+            strongSelf.newSeason.startDate = model
+            strongSelf.tableView.reloadData()
         })
         datePicker?.dateLabelColor  = UIColor.tintColor
         datePicker?.datePickerColor = UIColor.tintColor
@@ -282,6 +304,8 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
     
     /// 切换农历和公历
     func didClickedOpenGregorianSwitchAction(isGregorian: Bool) {
+        view.endEditing(true)
+        
         for index in 0..<dataSource.count {
             var section = dataSource[index]
             if section.cellIdentifier == NewSeasonCellIdType.timeSelected.rawValue {
@@ -301,6 +325,8 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
 // MARK: - 信息选择
 extension AddNewSeasonViewController: InfoSelectedDelegate {
     func didClickedInfoSelectedAction(model: InfoSelectedModel) {
+        view.endEditing(true)
+        
         let margin: CGFloat = IT_IPHONE_4 || IT_IPHONE_5 ? 20.0 : 40.0
         switch model.type {
         /// 显示单位
@@ -388,6 +414,7 @@ extension AddNewSeasonViewController: InfoSelectedDelegate {
 // MARK: - 是否开启时节提醒
 extension AddNewSeasonViewController: NoteSwitchDelegate {
     func didClickedReminderSwitchAction(isOpen: Bool) {
+        view.endEditing(true)
         newSeason.isOpenRemind = isOpen
     }
 }
@@ -395,6 +422,7 @@ extension AddNewSeasonViewController: NoteSwitchDelegate {
 // MARK: - 重复提醒
 extension AddNewSeasonViewController: RepeatRemindersDelegate {
     func didSelectedRepeatRemindersAction(model: RepeatReminderTypeModel) {
+        view.endEditing(true)
         newSeason.repeatRemindType = model.type
     }
 }
@@ -402,6 +430,7 @@ extension AddNewSeasonViewController: RepeatRemindersDelegate {
 // MARK: - 自定义背景
 extension AddNewSeasonViewController: BackgroundImageDelegate {
     func didSelectedBackgroundImageAction(model: BackgroundImageModel) {
+        view.endEditing(true)
         newSeason.backgroundModel = model
     }
 }
@@ -409,6 +438,7 @@ extension AddNewSeasonViewController: BackgroundImageDelegate {
 // MARK: - 字体颜色
 extension AddNewSeasonViewController: TextColorDelegate {
     func didSelectedTextColorAction(model: ColorModel) {
+        view.endEditing(true)
         newSeason.textColorModel = model
     }
 }

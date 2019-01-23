@@ -50,45 +50,37 @@ class HomeTableViewCell: UITableViewCell {
         view.backgroundColor = UIColor.spaceLineColor
         return view
     }()
+    
+    /// 定时刷新界面
+    private var refreshTimer: DispatchSourceTimer?
  
     var season: SeasonModel? {
         didSet {
             nameLabel.text = season?.title
-            if let dateStr = season?.startDate.gregoriandDataString, let data = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
-                var intervals = Int(data.timeIntervalSinceNow)
-                let currentData = NSDate()
-                // 标准时间和北京时间差8个小时
-                intervals = intervals - 8 * 60 * 60
-                let years = data.year - currentData.year
-                let days = intervals / 60 / 60 / 24
-                let hours = intervals / 60 / 60 - (days * 24)
-                let minutes = intervals / 60 - (days * 24 * 60 + hours * 60)
-                let seconds = intervals - (days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60)
-                var dataText = ""
-                if years != 0 {
-                    dataText += "\(years)年"
-                }
-                if days != 0 {
-                    dataText += "\(days)天"
-                }
-                if hours != 0 {
-                    dataText += "\(hours)时"
-                }
-                if minutes != 0 {
-                    dataText += "\(minutes)分"
-                }
-                if seconds != 0 {
-                    dataText += "\(seconds)秒"
-                }
-                countDownLabel.text = dataText
+            
+            if let dateStr = season?.startDate.gregoriandDataString, let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
+                let typeValue = season?.unitModel.info ?? DateUnitType.dayTime.rawValue
+                let type: DateUnitType = DateUnitType(rawValue: typeValue) ?? DateUnitType.dayTime
+                countDownLabel.text = (date as Date).convertToTimeString(type: type)
             }
+            
+            var dateStr = ""
             if season?.startDate.isGregorian ?? true {
-                dateLabel.text = season?.startDate.gregoriandDataString
+                dateStr = season?.startDate.gregoriandDataString ?? ""
             } else {
-                dateLabel.text = season?.startDate.lunarDataString
+                dateStr = season?.startDate.lunarDataString ?? ""
             }
+            dateLabel.text = "\(dateStr) \(season?.startDate.weakDay ?? "")"
+            
             unitLabel.text = season?.unitModel.info
         }
+    }
+    
+    func reloadContent() {
+        guard let model = season else {
+            return
+        }
+        self.season = model
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -122,18 +114,18 @@ class HomeTableViewCell: UITableViewCell {
             make.width.greaterThanOrEqualTo(80.0)
             make.width.lessThanOrEqualTo(width)
         }
-        dateLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(nameLabel.snp.bottom).offset(10.0)
-            make.left.equalTo(nameLabel.snp.left)
-            make.height.equalTo(16.0)
-            make.width.greaterThanOrEqualTo(80.0)
-            make.width.lessThanOrEqualTo(width)
-        }
         unitLabel.snp.makeConstraints { (make) in
-            make.centerY.equalTo(dateLabel.snp.centerY)
-            make.height.equalTo(dateLabel.snp.height)
+            make.top.equalTo(countDownLabel.snp.bottom).offset(10.0)
             make.right.equalTo(countDownLabel.snp.right)
-            make.left.equalTo(dateLabel.snp.right).offset(5.0)
+            make.height.equalTo(16.0)
+            make.width.lessThanOrEqualTo(100.0)
+            make.width.greaterThanOrEqualTo(60.0)
+        }
+        dateLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(unitLabel.snp.centerY)
+            make.height.equalTo(unitLabel.snp.height)
+            make.left.equalTo(nameLabel.snp.left)
+            make.right.equalTo(unitLabel.snp.left).offset(10)
         }
         spaceLineView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(margin)
@@ -141,6 +133,15 @@ class HomeTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(0.5)
         }
+        
+        refreshTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+        refreshTimer?.schedule(deadline: .now(), repeating: 1.0)
+        refreshTimer?.setEventHandler(handler: { [weak self] in
+            DispatchQueue.main.async {
+                self?.reloadContent()
+            }
+        })
+        refreshTimer?.resume()
     }
     
     required init?(coder aDecoder: NSCoder) {
