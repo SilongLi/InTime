@@ -76,6 +76,7 @@
 		99C4F74421F6FB5D00A25386 /* TDLoadingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F73E21F6FB5D00A25386 /* TDLoadingManager.swift */; };
 		99C4F74A21F6FB8900A25386 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F74621F6FB8800A25386 /* MBProgressHUD.m */; };
 		99C4F74E21F804D900A25386 /* CommonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F74D21F804D900A25386 /* CommonInfo.swift */; };
+		99C4F75021F9B44100A25386 /* ITCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F74F21F9B44100A25386 /* ITCustomAlertView.swift */; };
 		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
 
@@ -157,6 +158,7 @@
 		99C4F74621F6FB8800A25386 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		99C4F74821F6FB8800A25386 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		99C4F74D21F804D900A25386 /* CommonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonInfo.swift; sourceTree = "<group>"; };
+		99C4F74F21F9B44100A25386 /* ITCustomAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ITCustomAlertView.swift; sourceTree = "<group>"; };
 		B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.release.xcconfig"; sourceTree = "<group>"; };
 		EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -265,6 +267,7 @@
 		995022BE21E729CD004FAC47 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				99C4F74F21F9B44100A25386 /* ITCustomAlertView.swift */,
 				995022C021E729E1004FAC47 /* ITViewMacros.swift */,
 				995022BF21E729E1004FAC47 /* Namespace.swift */,
 				995022E221E877E5004FAC47 /* CommonTools.swift */,
@@ -652,6 +655,7 @@
 				99857BE821EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift in Sources */,
 				995022C121E729E1004FAC47 /* Namespace.swift in Sources */,
 				995022DC21E87308004FAC47 /* HomeEnum.swift in Sources */,
+				99C4F75021F9B44100A25386 /* ITCustomAlertView.swift in Sources */,
 				99857BF721ED8D9A005C7F9B /* BaseViewModelProtocol.swift in Sources */,
 				99C4F74121F6FB5D00A25386 /* TDAnimationView.swift in Sources */,
 				99857C0921EDC677005C7F9B /* ITInfoSelectedTableViewCell.swift in Sources */,

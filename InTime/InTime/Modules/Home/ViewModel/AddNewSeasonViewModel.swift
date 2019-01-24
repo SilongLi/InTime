@@ -49,6 +49,7 @@ extension AddNewSeasonViewModel {
                     let jsonStr = jsonStrs[index]
                     if jsonStr.contains(season.id) {
                         jsonStrs[index] = newSeasonJsonStr
+                        break
                     }
                 }
                 seasonStrs = jsonStrs
@@ -56,6 +57,32 @@ extension AddNewSeasonViewModel {
         }
         let seasonsData = NSKeyedArchiver.archivedData(withRootObject: seasonStrs)
         return HandlerDocumentManager.saveSeasons(categoryId: season.categoryId, data: seasonsData)
+    }
+    
+    /// 删除时节
+    static func deleteSeason(season: SeasonModel) -> Bool {
+        guard !season.id.isEmpty else {
+            return false
+        }
+        if let seasonsData = HandlerDocumentManager.getSeasons(categoryId: season.categoryId) {
+            let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
+            if seasonJsons is Array<String>, var jsonStrs: [String] = seasonJsons as? [String] {
+                for index in 0..<jsonStrs.count {
+                    let jsonStr = jsonStrs[index]
+                    if jsonStr.contains(season.id) {
+                        jsonStrs.remove(at: index)
+                        break
+                    }
+                }
+                if jsonStrs.isEmpty {
+                    return HandlerDocumentManager.deleteSeasons(categoryId: season.categoryId)
+                } else {
+                    let seasonsData = NSKeyedArchiver.archivedData(withRootObject: jsonStrs)
+                    return HandlerDocumentManager.saveSeasons(categoryId: season.categoryId, data: seasonsData)
+                }
+            }
+        }
+        return false
     }
 }
 

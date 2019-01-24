@@ -431,4 +431,34 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         detail.currentSelectedIndex = indexPath.row
         navigationController?.pushViewController(detail, animated: true)
     }
+    
+    // MARK: - 添加左滑删除功能
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return UITableViewCell.EditingStyle.delete
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "删除"
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let season = seasions[indexPath.row]
+        let alert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "您确定要删除“\(season.title)”吗？", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) { [weak self] in
+            DispatchQueue.main.async {
+                if AddNewSeasonViewModel.deleteSeason(season: season) {
+                    self?.seasions.remove(at: indexPath.row)
+                    self?.updateContentView()
+                } else {
+                    self?.view.showText("删除失败！")
+                }
+            }
+        }
+        alert.doneButton.setTitleColor(UIColor.red, for: UIControl.State.normal)
+        alert.showAlertView(inViewController: self, leftOrRightMargin: 40.0)
+    }
 }
