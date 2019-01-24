@@ -15,6 +15,9 @@ class HomeViewController: BaseViewController {
     /// 图片展示动画
     let AnimateDuration: TimeInterval = 1.0
     
+    static let HeaderHeight: CGFloat = 280.0
+    let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
+    
     /// 导航栏
     lazy var iconView: UIImageView = {
         let icon = UIImageView(image: UIImage(named: "showDetail"))
@@ -144,9 +147,6 @@ class HomeViewController: BaseViewController {
         label.textAlignment = .center
         return label
     }()
-    
-    static let HeaderHeight: CGFloat = 220.0
-    let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
     
     var isShowCategoryView: Bool = false
     var currentSeason: SeasonModel = SeasonModel()
@@ -370,7 +370,7 @@ extension HomeViewController: UIScrollViewDelegate {
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         guard seasions.count > 0 else { return }
         
         /// 停止拖拽之后，返回到原位

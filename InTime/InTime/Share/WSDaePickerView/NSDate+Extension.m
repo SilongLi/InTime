@@ -658,7 +658,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     NSInteger minute = components.minute;
     NSInteger second = components.second;
     
-    NSMutableString *dateStr = [[NSMutableString alloc] init]; 
+    NSMutableString *dateStr = [[NSMutableString alloc] init];
     if (day != 0) {
         [dateStr appendFormat:@"%zd天", day];
     }

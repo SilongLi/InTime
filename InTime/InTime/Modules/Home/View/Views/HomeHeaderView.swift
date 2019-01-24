@@ -13,9 +13,10 @@ class HomeHeaderView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
-        label.font = UIFont.boldSystemFont(ofSize: 24.0)
+        label.textAlignment = .left
+        label.font = UIFont.boldSystemFont(ofSize: 44.0)
+        label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .center
         return label
     }()
     
@@ -24,7 +25,16 @@ class HomeHeaderView: UIView {
         label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 36.0)
         label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .center
+        label.textAlignment = .left
+        return label
+    }()
+    
+    lazy var infoLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.white
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 23.0)
+        label.text = "距离"
         return label
     }()
     
@@ -32,7 +42,8 @@ class HomeHeaderView: UIView {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.8)
         label.font = UIFont.systemFont(ofSize: 18.0)
-        label.textAlignment = .center
+        label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -44,9 +55,33 @@ class HomeHeaderView: UIView {
             titleLabel.text = season?.title
             
             if let dateStr = season?.startDate.gregoriandDataString, let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
+                infoLabel.text = (date as NSDate).isLaterThanDate(Date()) ? "距离" : "已过"
+                
                 let typeValue = season?.unitModel.info ?? DateUnitType.dayTime.rawValue
                 let type: DateUnitType = DateUnitType(rawValue: typeValue) ?? DateUnitType.dayTime
-                dateLabel.text = (date as Date).convertToTimeString(type: type)
+                var timeString = (date as Date).convertToTimeString(type: type)
+                dateLabel.text = timeString
+                switch type {
+                case .second, .minute, .hour, .day:
+                    if type == .second {
+                        timeString.append("秒")
+                    } else if type == .minute {
+                        timeString.append("分")
+                    } else if type == .hour {
+                        timeString.append("时")
+                    } else if type == .day {
+                        timeString.append("天")
+                    }
+                    if timeString.count > 1 {
+                        let attributedText = NSMutableAttributedString(string: timeString)
+                        attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),
+                                                      NSAttributedString.Key.foregroundColor: UIColor.white],
+                                                     range: NSRange(location: timeString.count - 1, length: 1))
+                        dateLabel.attributedText = attributedText
+                    }
+                default:
+                    break
+                }
             }
             
             var dateStr = ""
@@ -74,25 +109,34 @@ class HomeHeaderView: UIView {
         addSubview(titleLabel)
         addSubview(dateLabel)
         addSubview(dateInfoLabel)
+        addSubview(infoLabel)
         
-        let margin: CGFloat = 15.0
-        titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(40)
+        let margin: CGFloat = 20.0
+        let space: CGFloat  = 30.0
+        dateInfoLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.height.equalTo(24)
+            make.bottom.equalTo(-space)
+            make.height.equalTo(20)
+        }
+        infoLabel.snp.makeConstraints { (make) in
+            make.bottom.equalTo(dateInfoLabel.snp.top).offset(-margin)
+            make.left.equalTo(dateInfoLabel.snp.left)
+            make.right.equalTo(dateInfoLabel.snp.right)
+            make.height.equalTo(25.0)
         }
         dateLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(25)
-            make.left.equalTo(margin)
-            make.right.equalTo(-margin)
-            make.height.equalTo(44)
+            make.bottom.equalTo(infoLabel.snp.top).offset(-margin)
+            make.left.equalTo(dateInfoLabel.snp.left)
+            make.right.equalTo(dateInfoLabel.snp.right)
+            make.height.equalTo(34.0)
         }
-        dateInfoLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(20)
-            make.right.equalTo(-margin)
-            make.height.equalTo(20)
-            make.bottom.equalTo(-30)
+        titleLabel.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(space)
+            make.left.equalTo(dateLabel.snp.left)
+            make.right.equalTo(dateLabel.snp.right)
+            make.bottom.greaterThanOrEqualTo(dateLabel.snp.top).offset(-space)
+            make.height.lessThanOrEqualTo(80.0)
         }
         
         refreshTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())

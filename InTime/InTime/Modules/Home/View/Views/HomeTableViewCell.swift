@@ -30,7 +30,7 @@ class HomeTableViewCell: UITableViewCell {
     
     lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.white.withAlphaComponent(0.7)
+        label.textColor = UIColor.white.withAlphaComponent(0.85)
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16.0)
         label.adjustsFontSizeToFitWidth = true
@@ -39,7 +39,7 @@ class HomeTableViewCell: UITableViewCell {
     
     lazy var unitLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.white.withAlphaComponent(0.7)
+        label.textColor = UIColor.white.withAlphaComponent(0.85)
         label.textAlignment = .right
         label.font = UIFont.systemFont(ofSize: 16.0)
         return label
@@ -59,6 +59,12 @@ class HomeTableViewCell: UITableViewCell {
             nameLabel.text = season?.title
             
             if let dateStr = season?.startDate.gregoriandDataString, let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
+                let isLater = (date as NSDate).isLaterThanDate(Date())
+                nameLabel.textColor      = isLater ? UIColor.white : UIColor.white.withAlphaComponent(0.6)
+                countDownLabel.textColor = isLater ? UIColor.white : UIColor.white.withAlphaComponent(0.6)
+                dateLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : UIColor.white.withAlphaComponent(0.6)
+                unitLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : UIColor.white.withAlphaComponent(0.6) 
+                
                 let typeValue = season?.unitModel.info ?? DateUnitType.dayTime.rawValue
                 let type: DateUnitType = DateUnitType(rawValue: typeValue) ?? DateUnitType.dayTime
                 countDownLabel.text = (date as Date).convertToTimeString(type: type)
@@ -103,7 +109,7 @@ class HomeTableViewCell: UITableViewCell {
             make.top.equalTo(margin)
             make.left.equalTo(margin)
             make.height.greaterThanOrEqualTo(20.0)
-            make.height.greaterThanOrEqualTo(40.0)
+            make.height.lessThanOrEqualTo(50.0)
             make.width.greaterThanOrEqualTo(80.0)
             make.width.lessThanOrEqualTo(width)
         }
@@ -115,7 +121,7 @@ class HomeTableViewCell: UITableViewCell {
             make.width.lessThanOrEqualTo(width)
         }
         unitLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(countDownLabel.snp.bottom).offset(10.0)
+            make.top.equalTo(countDownLabel.snp.bottom).offset(margin)
             make.right.equalTo(countDownLabel.snp.right)
             make.height.equalTo(16.0)
             make.width.lessThanOrEqualTo(100.0)

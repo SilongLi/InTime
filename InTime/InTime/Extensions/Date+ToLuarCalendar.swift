@@ -54,7 +54,7 @@ extension Date {
     /// 倒计时
     func convertToTimeString(type: DateUnitType = DateUnitType.dayTime) -> String {
         switch type {
-        case .second:
+        case .second: 
             return (self as NSDate).convertToSecond().it.stringSeparateByCommaInteger()
         case .minute:
             return (self as NSDate).convertToMinute().it.stringSeparateByCommaInteger()

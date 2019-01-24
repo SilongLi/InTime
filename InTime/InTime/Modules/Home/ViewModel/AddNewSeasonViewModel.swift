@@ -89,6 +89,7 @@ extension AddNewSeasonViewModel {
             timeModel.noteIcon = "question"
             timeModel.note = " 提示"
             let date = Date()
+            timeModel.weakDay = date.weekDay()
             timeModel.lunarDataString = date.solarToLunar()
             timeModel.gregoriandDataString = (date as NSDate).string(withFormat: StartSeasonDateFormat)
             timeModel.isGregorian = true
