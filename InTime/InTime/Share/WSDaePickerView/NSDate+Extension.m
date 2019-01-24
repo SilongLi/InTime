@@ -540,4 +540,177 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     return [formatter stringFromDate:solarDate];
 }
 
+/// 计算两个日期的时间差，秒
+- (NSString *)convertToSecond {
+    NSDate *currentDate = [[NSDate alloc] init];
+    NSCalendarUnit unit = NSCalendarUnitSecond;
+    NSDateComponents *components;
+    if ([self isEarlierThanDate:currentDate]) {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    } else {
+        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+    }
+    NSInteger second = components.second;
+    NSMutableString *dateStr = [[NSMutableString alloc] init];
+    [dateStr appendFormat:@"%zd", second];
+    return dateStr;
+}
+
+/// 计算两个日期的时间差，分
+- (NSString *)convertToMinute {
+    NSDate *currentDate = [[NSDate alloc] init];
+    NSCalendarUnit unit = NSCalendarUnitSecond | NSCalendarUnitMinute;
+    NSDateComponents *components;
+    BOOL isLater = [self isLaterThanDate:currentDate];
+    if (isLater) {
+        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+    } else {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    }
+    NSInteger minute = components.minute;
+    if (isLater) {
+        minute += components.second > 0 ? 1 : 0;
+    }
+    NSMutableString *dateStr = [[NSMutableString alloc] init];
+    [dateStr appendFormat:@"%zd", minute];
+    return dateStr;
+}
+
+/// 计算两个日期的时间差，小时
+- (NSString *)convertToHour {
+    NSDate *currentDate = [[NSDate alloc] init];
+    NSCalendarUnit unit = NSCalendarUnitMinute | NSCalendarUnitHour;
+    NSDateComponents *components;
+    BOOL isLater = [self isLaterThanDate:currentDate];
+    if (isLater) {
+        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+    } else {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    }
+    NSInteger hour = components.hour;
+    if (isLater) {
+        hour += components.minute > 0 ? 1 : 0;
+    }
+    NSMutableString *dateStr = [[NSMutableString alloc] init];
+    [dateStr appendFormat:@"%zd", hour];
+    return dateStr;
+}
+
+/// 计算两个日期的时间差，天
+- (NSString *)convertToDay {
+    NSDate *currentDate = [[NSDate alloc] init];
+    NSCalendarUnit unit = NSCalendarUnitHour | NSCalendarUnitDay;
+    NSDateComponents *components;
+    BOOL isLater = [self isLaterThanDate:currentDate];
+    if (isLater) {
+        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+    } else {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    }
+    NSInteger day = components.day;
+    if (isLater) {
+        day += components.hour > 0 ? 1 : 0;
+    }
+    NSMutableString *dateStr = [[NSMutableString alloc] init];
+    [dateStr appendFormat:@"%zd", day];
+    return dateStr;
+}
+
+/// 计算两个日期的时间差，年月日
+- (NSString *)convertToYMD {
+    NSDate *currentDate = [[NSDate alloc] init];
+    NSCalendarUnit unit = NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
+    NSDateComponents *components;
+    if ([self isEarlierThanDate:currentDate]) {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    } else {
+        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+    }
+    NSInteger year   = components.year;
+    NSInteger month  = components.month;
+    NSInteger day    = components.day;
+    
+    NSMutableString *dateStr = [[NSMutableString alloc] init];
+    if (year > 0) {
+        [dateStr appendFormat:@"%zd年", year];
+    }
+    if (month > 0) {
+        [dateStr appendFormat:@"%zd月", month];
+    }
+    if (day > 0) {
+        [dateStr appendFormat:@"%zd天", day];
+    }
+    return dateStr;
+}
+
+/// 计算两个日期的时间差，天时分秒
+- (NSString *)convertToDHMS {
+    NSDate *currentDate = [[NSDate alloc] init];
+    NSCalendarUnit unit = NSCalendarUnitSecond | NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitDay;
+    NSDateComponents *components;
+    if ([self isEarlierThanDate:currentDate]) {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    } else {
+        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+    }
+    NSInteger day    = components.day;
+    NSInteger hour   = components.hour;
+    NSInteger minute = components.minute;
+    NSInteger second = components.second;
+    
+    NSMutableString *dateStr = [[NSMutableString alloc] init]; 
+    if (day != 0) {
+        [dateStr appendFormat:@"%zd天", day];
+    }
+    if (hour != 0) {
+        [dateStr appendFormat:@"%zd时", hour];
+    }
+    if (minute != 0) {
+        [dateStr appendFormat:@"%zd分", minute];
+    }
+    if (second != 0) {
+        [dateStr appendFormat:@"%zd秒", second];
+    }
+    return dateStr;
+}
+
+/// 计算两个日期的时间差，年月日时分秒
+- (NSString *)convertToYMDHMS {
+    NSDate *currentDate = [[NSDate alloc] init];
+    NSCalendarUnit unit = NSCalendarUnitSecond | NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
+    NSDateComponents *components;
+    if ([self isEarlierThanDate:currentDate]) {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    } else {
+        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+    }
+    NSInteger year   = components.year;
+    NSInteger month  = components.month;
+    NSInteger day    = components.day;
+    NSInteger hour   = components.hour;
+    NSInteger minute = components.minute;
+    NSInteger second = components.second;
+    
+    NSMutableString *dateStr = [[NSMutableString alloc] init];
+    if (year != 0) {
+        [dateStr appendFormat:@"%zd年", year];
+    }
+    if (month != 0) {
+        [dateStr appendFormat:@"%zd月", month];
+    }
+    if (day != 0) {
+        [dateStr appendFormat:@"%zd天", day];
+    }
+    if (hour != 0) {
+        [dateStr appendFormat:@"%zd时", hour];
+    }
+    if (minute != 0) {
+        [dateStr appendFormat:@"%zd分", minute];
+    }
+    if (second != 0) {
+        [dateStr appendFormat:@"%zd秒", second];
+    }
+    return dateStr;
+}
+
 @end

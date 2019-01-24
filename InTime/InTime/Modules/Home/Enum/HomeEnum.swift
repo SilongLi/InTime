@@ -34,6 +34,8 @@ enum DateUnitType: String {
     case dayTime    = "天时分秒"
     /// 年月天
     case year       = "年月天"
+    /// 年月天时分秒
+    case yearTime    = "年月天时分秒"
     /// 百分率
     case percentage = "百分率"
 }

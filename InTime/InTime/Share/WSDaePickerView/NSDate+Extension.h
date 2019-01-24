@@ -117,4 +117,19 @@
 /// 公历转农历
 - (NSString *)solarToLunar:(NSDateFormatterStyle)style;
 
+/// 计算两个日期的时间差，秒
+- (NSString *)convertToSecond;
+/// 计算两个日期的时间差，分
+- (NSString *)convertToMinute;
+/// 计算两个日期的时间差，小时
+- (NSString *)convertToHour;
+/// 计算两个日期的时间差，天
+- (NSString *)convertToDay;
+/// 计算两个日期的时间差，年月日
+- (NSString *)convertToYMD;
+/// 计算两个日期的时间差，天时分秒
+- (NSString *)convertToDHMS;
+/// 计算两个日期的时间差，年月日时分秒
+- (NSString *)convertToYMDHMS;
+
 @end

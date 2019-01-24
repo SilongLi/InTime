@@ -281,11 +281,12 @@ extension AddNewSeasonViewModel {
         let day         = TextModel(type: DateUnitType.day.rawValue, text: "天", isSelected: unitValue == DateUnitType.day.rawValue)
         let dayTime     = TextModel(type: DateUnitType.dayTime.rawValue, text: "天时分秒", isSelected: unitValue == DateUnitType.dayTime.rawValue)
         let year        = TextModel(type: DateUnitType.year.rawValue, text: "年月天", isSelected: unitValue == DateUnitType.year.rawValue)
+        let yearTime    = TextModel(type: DateUnitType.yearTime.rawValue, text: "年月天时分秒", isSelected: unitValue == DateUnitType.yearTime.rawValue)
         let percentage  = TextModel(type: DateUnitType.percentage.rawValue, text: "百分率", isSelected: unitValue == DateUnitType.percentage.rawValue)
         
         let alert = AlertCollectionModel()
         alert.title = "显示单位"
-        alert.texts = [second, minute, hour, day, dayTime, year, percentage]
+        alert.texts = [second, minute, hour, day, dayTime, year, yearTime, percentage]
         
         completion(alert)
     }

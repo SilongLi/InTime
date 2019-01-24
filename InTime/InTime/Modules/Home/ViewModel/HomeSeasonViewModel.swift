@@ -19,22 +19,29 @@ class HomeSeasonViewModel {
         guard data == nil else {
             return
         }
-        var category = CategoryModel()
-        category.id = NSDate().string(withFormat: DatestringWithFormat)
-        category.title = "首页"
-        category.isSelected = true
-        category.isDefalult = true
-        let categoryJson = category.convertToJson()
-        let categoryJsonStr = categoryJson.convertToString
+        var home = CategoryModel()
+        home.id = NSDate().string(withFormat: DatestringWithFormat)
+        home.title = "首页"
+        home.isSelected = true
+        home.isDefalult = true
+        let homeJson = home.convertToJson()
+        let homeJsonStr = homeJson.convertToString
         
-        var category1 = CategoryModel()
-        category1.id = NSDate().string(withFormat: DatestringWithFormat)
-        category1.title = "时节"
-        category1.isSelected = false
-        let categoryJson1 = category1.convertToJson()
-        let categoryJsonStr1 = categoryJson1.convertToString
+        var season = CategoryModel()
+        season.id = NSDate().string(withFormat: DatestringWithFormat)
+        season.title = "时节"
+        season.isSelected = false
+        let seasonJson = season.convertToJson()
+        let seasonJsonStr = seasonJson.convertToString
         
-        let categoryJsons = [categoryJsonStr, categoryJsonStr1]
+        var ring = CategoryModel()
+        ring.id = NSDate().string(withFormat: DatestringWithFormat)
+        ring.title = "闹铃"
+        ring.isSelected = false
+        let ringJson = ring.convertToJson()
+        let ringJsonStr = ringJson.convertToString
+        
+        let categoryJsons = [homeJsonStr, seasonJsonStr, ringJsonStr]
         let categoryData = NSKeyedArchiver.archivedData(withRootObject: categoryJsons)
         HandlerDocumentManager.saveCategorys(data: categoryData)
     }

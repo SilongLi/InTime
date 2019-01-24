@@ -29,7 +29,7 @@ class SelectedCategoryView: UIView {
     var bgMaskView: UIButton = {
         let btn = UIButton()
         btn.addTarget(self, action: #selector(maskViewAction), for: UIControl.Event.touchUpInside)
-        btn.backgroundColor = UIColor.tintColor.withAlphaComponent(0.3)
+        btn.backgroundColor = UIColor.clear
         btn.alpha = 0.0
         return btn
     }()
