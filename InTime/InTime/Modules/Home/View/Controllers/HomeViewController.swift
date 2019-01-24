@@ -152,6 +152,11 @@ class HomeViewController: BaseViewController {
     var currentSeason: SeasonModel = SeasonModel()
     var currentSelectedCategory: CategoryModel?
     var seasions: [SeasonModel] = [SeasonModel]()
+    
+    /// 拖拽cell
+    var isLongPressing: Bool = false
+    private var sourceIndexPath: IndexPath?
+    private var cellSnapshot: UIImageView? = UIImageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -220,6 +225,9 @@ class HomeViewController: BaseViewController {
             make.left.right.equalToSuperview()
             make.height.equalTo(0.01)
         }
+        
+//        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureRecognized))
+//        tableView.addGestureRecognizer(longPress)
         
         selectedCategoryView.selectedCategoryBlock = { [weak self] (model) in
             let isShow = !(self?.isShowCategoryView ?? false)
@@ -346,6 +354,7 @@ class HomeViewController: BaseViewController {
 // MARK: - <UIScrollViewDelegate>
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !isLongPressing else { return }
         guard seasions.count > 0 else { return }
         
         /// 更新背景图片布局
@@ -371,6 +380,7 @@ extension HomeViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        guard !isLongPressing else { return }
         guard seasions.count > 0 else { return }
         
         /// 停止拖拽之后，返回到原位
@@ -387,6 +397,84 @@ extension HomeViewController: UIScrollViewDelegate {
             make.top.equalTo(IT_NaviHeight)
             make.left.right.equalToSuperview()
             make.height.equalTo(HomeViewController.HeaderHeight)
+        }
+    }
+}
+
+// MARK: - 长按拖拽cell，进行排序
+
+extension HomeViewController {
+    
+    /// 获取cell快照imageView
+    private func getImageView(_ cell: UITableViewCell) -> UIImageView {
+        UIGraphicsBeginImageContextWithOptions(cell.bounds.size, false, 0)
+        cell.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        let imageView = UIImageView(image: image)
+        return imageView
+    }
+    
+    @objc func longPressGestureRecognized(_ longPress: UILongPressGestureRecognizer) {
+        let location: CGPoint = longPress.location(in: tableView)
+        let currentIndexPath = tableView.indexPathForRow(at: location)
+        guard currentIndexPath != nil else {
+            return
+        }
+        
+        let animateDuration = 0.25
+        switch longPress.state {
+        case .began:
+            isLongPressing = true
+            if let indexPath = currentIndexPath {
+                sourceIndexPath = indexPath
+                if let cell = tableView.cellForRow(at: indexPath) {
+                    cellSnapshot = getImageView(cell)
+                    var center = cell.center
+                    cellSnapshot?.center = center
+                    cellSnapshot?.alpha = 0.0
+                    tableView.addSubview(cellSnapshot!)
+                    
+                    UIView.animate(withDuration: animateDuration) {
+                        center.y = location.y
+                        self.cellSnapshot?.center = center
+                        self.cellSnapshot?.transform = CGAffineTransform(scaleX: 1.05, y: 1.05);
+                        self.cellSnapshot?.alpha = 0.98
+                        cell.alpha = 0.0
+                        cell.isHidden = true
+                    }
+                }
+            }
+        case .changed:
+            var center = cellSnapshot?.center ?? CGPoint.zero
+            center.y = location.y
+            cellSnapshot?.center = center
+            
+            if let indexPath = currentIndexPath, let sIndexPath = sourceIndexPath {
+                if indexPath.row != sIndexPath.row {
+                    (seasions as? NSMutableArray)?.exchangeObject(at: indexPath.row, withObjectAt: sIndexPath.row)
+                    tableView.moveRow(at: sIndexPath, to: indexPath)
+                    sourceIndexPath = indexPath
+                }
+            }
+        default:
+            isLongPressing = false
+            if let sIndexPath = sourceIndexPath {
+                if let cell = tableView.cellForRow(at: sIndexPath) {
+                    cell.alpha = 0.0
+                    UIView.animate(withDuration: animateDuration, animations: {
+                        self.cellSnapshot?.center = cell.center
+                        self.cellSnapshot?.transform = CGAffineTransform.identity
+                        self.cellSnapshot?.alpha = 0.0
+                        cell.alpha = 1.0;
+                    }) { (_) in
+                        cell.isHidden = false
+                        self.sourceIndexPath = nil;
+                        self.cellSnapshot?.removeFromSuperview()
+                        self.cellSnapshot = nil
+                    }
+                }
+            }
         }
     }
 }
@@ -424,6 +512,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return view
     }
     
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        view.isUserInteractionEnabled = false
+        return view
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let detail = SeaSonDetailViewController()
@@ -450,6 +545,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let season = seasions[indexPath.row]
         let alert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "您确定要删除“\(season.title)”吗？", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) { [weak self] in
             DispatchQueue.main.async {
+                
                 if AddNewSeasonViewModel.deleteSeason(season: season) {
                     self?.seasions.remove(at: indexPath.row)
                     self?.updateContentView()
