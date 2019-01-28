@@ -18,6 +18,21 @@ enum RepeatRemindType: String {
     case mounth
     /// 每年
     case year
+    
+    func converToString() -> String {
+        switch self {
+        case .no:
+            return "不重复"
+        case .day:
+            return "每天"
+        case .week:
+            return "每周"
+        case .mounth:
+            return "每月"
+        case .year:
+            return "每年"
+        }
+    }
 }
 
 /// 显示时间的单位

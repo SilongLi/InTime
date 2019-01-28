@@ -18,6 +18,8 @@ class HomeViewController: BaseViewController {
     static let HeaderHeight: CGFloat = 280.0
     let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
     
+    let defalutBgImage: UIImage? = UIImage(named: "bg7")
+    
     /// 导航栏
     lazy var iconView: UIImageView = {
         let icon = UIImageView(image: UIImage(named: "showDetail"))
@@ -115,6 +117,7 @@ class HomeViewController: BaseViewController {
     lazy var bgImageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor.clear
+        view.image = defalutBgImage
         return view
     }()
     lazy var bgTableView: UIView = {
@@ -153,8 +156,6 @@ class HomeViewController: BaseViewController {
     var currentSelectedCategory: CategoryModel?
     var seasions: [SeasonModel] = [SeasonModel]()
     
-    /// 拖拽cell
-    var isLongPressing: Bool = false
     private var sourceIndexPath: IndexPath?
     private var cellSnapshot: UIImageView? = UIImageView()
 
@@ -226,9 +227,6 @@ class HomeViewController: BaseViewController {
             make.height.equalTo(0.01)
         }
         
-//        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureRecognized))
-//        tableView.addGestureRecognizer(longPress)
-        
         selectedCategoryView.selectedCategoryBlock = { [weak self] (model) in
             let isShow = !(self?.isShowCategoryView ?? false)
             if isShow {
@@ -255,7 +253,7 @@ class HomeViewController: BaseViewController {
                     HomeSeasonViewModel.saveAllCategorys(categoryModels)
                 }
                 
-                /// 根据分类加载时节
+                /// 根据分类加载时节，并刷新数据
                 self?.loadSeasions()
             }
         }
@@ -310,16 +308,14 @@ class HomeViewController: BaseViewController {
                     self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.textColorModel.color)
                 }
             }
-            
             headerView.season = currentSeason
             tableView.reloadData()
             
         } else {
-            self.bgImageTableView.image = nil
-            UIView.animate(withDuration: AnimateDuration, animations: {
-                self.bgImageView.alpha = 0
-            }) { (_) in
-                self.bgImageView.image = nil
+            bgImageView.image = defalutBgImage
+            bgImageTableView.image = nil
+            UIView.animate(withDuration: AnimateDuration) {
+                self.bgImageView.alpha = 1
             }
             tableView.reloadData()
         }
@@ -327,8 +323,10 @@ class HomeViewController: BaseViewController {
     
     // MARK: - actions
     @objc func gotoSettingView() {
-        let VC = SettingViewController()
-        navigationController?.pushViewController(VC, animated: true)
+//        let VC = SettingViewController()
+//        navigationController?.pushViewController(VC, animated: true)
+        
+        tableView.setEditing(!tableView.isEditing, animated: true)
     }
     
     @objc func gotoAddNewTimeView() {
@@ -353,8 +351,8 @@ class HomeViewController: BaseViewController {
 
 // MARK: - <UIScrollViewDelegate>
 extension HomeViewController: UIScrollViewDelegate {
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !isLongPressing else { return }
         guard seasions.count > 0 else { return }
         
         /// 更新背景图片布局
@@ -380,7 +378,6 @@ extension HomeViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        guard !isLongPressing else { return }
         guard seasions.count > 0 else { return }
         
         /// 停止拖拽之后，返回到原位
@@ -397,84 +394,6 @@ extension HomeViewController: UIScrollViewDelegate {
             make.top.equalTo(IT_NaviHeight)
             make.left.right.equalToSuperview()
             make.height.equalTo(HomeViewController.HeaderHeight)
-        }
-    }
-}
-
-// MARK: - 长按拖拽cell，进行排序
-
-extension HomeViewController {
-    
-    /// 获取cell快照imageView
-    private func getImageView(_ cell: UITableViewCell) -> UIImageView {
-        UIGraphicsBeginImageContextWithOptions(cell.bounds.size, false, 0)
-        cell.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        let imageView = UIImageView(image: image)
-        return imageView
-    }
-    
-    @objc func longPressGestureRecognized(_ longPress: UILongPressGestureRecognizer) {
-        let location: CGPoint = longPress.location(in: tableView)
-        let currentIndexPath = tableView.indexPathForRow(at: location)
-        guard currentIndexPath != nil else {
-            return
-        }
-        
-        let animateDuration = 0.25
-        switch longPress.state {
-        case .began:
-            isLongPressing = true
-            if let indexPath = currentIndexPath {
-                sourceIndexPath = indexPath
-                if let cell = tableView.cellForRow(at: indexPath) {
-                    cellSnapshot = getImageView(cell)
-                    var center = cell.center
-                    cellSnapshot?.center = center
-                    cellSnapshot?.alpha = 0.0
-                    tableView.addSubview(cellSnapshot!)
-                    
-                    UIView.animate(withDuration: animateDuration) {
-                        center.y = location.y
-                        self.cellSnapshot?.center = center
-                        self.cellSnapshot?.transform = CGAffineTransform(scaleX: 1.05, y: 1.05);
-                        self.cellSnapshot?.alpha = 0.98
-                        cell.alpha = 0.0
-                        cell.isHidden = true
-                    }
-                }
-            }
-        case .changed:
-            var center = cellSnapshot?.center ?? CGPoint.zero
-            center.y = location.y
-            cellSnapshot?.center = center
-            
-            if let indexPath = currentIndexPath, let sIndexPath = sourceIndexPath {
-                if indexPath.row != sIndexPath.row {
-                    (seasions as? NSMutableArray)?.exchangeObject(at: indexPath.row, withObjectAt: sIndexPath.row)
-                    tableView.moveRow(at: sIndexPath, to: indexPath)
-                    sourceIndexPath = indexPath
-                }
-            }
-        default:
-            isLongPressing = false
-            if let sIndexPath = sourceIndexPath {
-                if let cell = tableView.cellForRow(at: sIndexPath) {
-                    cell.alpha = 0.0
-                    UIView.animate(withDuration: animateDuration, animations: {
-                        self.cellSnapshot?.center = cell.center
-                        self.cellSnapshot?.transform = CGAffineTransform.identity
-                        self.cellSnapshot?.alpha = 0.0
-                        cell.alpha = 1.0;
-                    }) { (_) in
-                        cell.isHidden = false
-                        self.sourceIndexPath = nil;
-                        self.cellSnapshot?.removeFromSuperview()
-                        self.cellSnapshot = nil
-                    }
-                }
-            }
         }
     }
 }
@@ -527,25 +446,41 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         navigationController?.pushViewController(detail, animated: true)
     }
     
-    // MARK: - 添加左滑删除功能
-    
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return UITableViewCell.EditingStyle.delete
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    // MARK: - 拖拽排序 
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        if sourceIndexPath.row != destinationIndexPath.row {
+            let itemValue = seasions[sourceIndexPath.row]
+            seasions.remove(at: sourceIndexPath.row)
+            if destinationIndexPath.row > seasions.count {
+                seasions.append(itemValue)
+            }else{
+                seasions.insert(itemValue, at:destinationIndexPath.row)
+            }
+        }
+    }
+    
+    // MARK: - 添加左滑删除功能
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return UITableViewCell.EditingStyle.delete
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return "删除"
     }
-    
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let season = seasions[indexPath.row]
         let alert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "您确定要删除“\(season.title)”吗？", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) { [weak self] in
             DispatchQueue.main.async {
-                
+
                 if AddNewSeasonViewModel.deleteSeason(season: season) {
                     self?.seasions.remove(at: indexPath.row)
                     self?.updateContentView()

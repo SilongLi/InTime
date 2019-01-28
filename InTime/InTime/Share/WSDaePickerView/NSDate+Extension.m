@@ -668,9 +668,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     if (minute != 0) {
         [dateStr appendFormat:@"%zd分", minute];
     }
-    if (second != 0) {
-        [dateStr appendFormat:@"%zd秒", second];
-    }
+    [dateStr appendFormat:@"%zd秒", second];
     return dateStr;
 }
 
@@ -707,9 +705,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     if (minute != 0) {
         [dateStr appendFormat:@"%zd分", minute];
     }
-    if (second != 0) {
-        [dateStr appendFormat:@"%zd秒", second];
-    }
+    [dateStr appendFormat:@"%zd秒", second];
     return dateStr;
 }
 

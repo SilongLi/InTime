@@ -261,7 +261,24 @@ extension AddNewSeasonViewModel {
         let imageColor3 = BackgroundImageModel(type: .color, name: "#99EBFF", isSelected: bgName == "#99EBFF")
         let imageColor4 = BackgroundImageModel(type: .color, name: "#B2E98E", isSelected: bgName == "#B2E98E")
         let imageColor5 = BackgroundImageModel(type: .color, name: "#E492D4", isSelected: bgName == "#E492D4")
-        background.images = [empty, image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, imageColor1, imageColor2, imageColor3, imageColor4, imageColor5]
+        
+        var bgImages = [empty]
+        var images   = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13]
+        let colors   = [imageColor1, imageColor2, imageColor3, imageColor4, imageColor5]
+        
+        /// 如果不是修改已有“时节”，则随机选中背景图片
+        if !isModifySeason {
+            let randomIndex = Int.random(in: 0..<images.count)
+            for index in 0..<images.count {
+                let image = images[index]
+                image.isSelected = index == randomIndex
+                images[index] = image
+            }
+        }
+        bgImages.append(contentsOf: images)
+        bgImages.append(contentsOf: colors)
+        background.images = bgImages
+        
         let backgroundSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.background.rawValue,
                                                  headerTitle: "",
                                                  footerTitle: "",

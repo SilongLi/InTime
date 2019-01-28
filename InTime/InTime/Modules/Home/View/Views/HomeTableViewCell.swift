@@ -97,11 +97,11 @@ class HomeTableViewCell: UITableViewCell {
         selectedBackgroundView = selectedView
         backgroundColor = .clear
         
-        addSubview(nameLabel)
-        addSubview(countDownLabel)
-        addSubview(dateLabel)
-        addSubview(unitLabel)
-        addSubview(spaceLineView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(countDownLabel)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(unitLabel)
+        contentView.addSubview(spaceLineView)
         
         let margin: CGFloat = 15.0
         let width: CGFloat = IT_SCREEN_WIDTH * 0.5 - margin - 10.0
