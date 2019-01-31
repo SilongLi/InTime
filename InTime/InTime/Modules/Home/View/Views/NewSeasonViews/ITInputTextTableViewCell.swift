@@ -42,7 +42,7 @@ class ITInputTextTableViewCell: BaseTableViewCell {
             make.right.equalTo(-NewSeasonMargin)
             make.bottom.equalTo(-10)
         }
-        textField.layer.cornerRadius = 5.0
+        textField.layer.cornerRadius  = 5.0
         textField.layer.masksToBounds = true
     }
     

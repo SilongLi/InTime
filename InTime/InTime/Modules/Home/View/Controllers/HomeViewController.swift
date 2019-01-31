@@ -159,7 +159,11 @@ class HomeViewController: BaseViewController {
     }()
     
     var isShowCategoryView: Bool = false
-    var currentSeason: SeasonModel = SeasonModel()
+    var currentSeason: SeasonModel = SeasonModel() {
+        didSet {
+            headerView.season = currentSeason
+        }
+    }
     var currentSelectedCategory: CategoryModel?
     var seasons: [SeasonModel] = [SeasonModel]()
     
@@ -308,18 +312,16 @@ class HomeViewController: BaseViewController {
         
         if seasons.count > 0 {
             currentSeason = seasons.first!
-            headerView.season = currentSeason
             updateBGView()
-            tableView.reloadData()
-            
         } else {
             bgImageView.image = defalutBgImage
             bgImageTableView.image = nil
             UIView.animate(withDuration: AnimateDuration) {
                 self.bgImageView.alpha = 1
             }
-            tableView.reloadData()
         }
+        
+        tableView.reloadData()
     }
     
     /// 切换背景样式
@@ -329,7 +331,7 @@ class HomeViewController: BaseViewController {
             if currentSeason.backgroundModel.type == .image {
                 bgImageViewAlternate.image = UIImage(named: currentSeason.backgroundModel.name)
             } else {
-                bgImageViewAlternate.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
+                bgImageViewAlternate.backgroundColor = UIColor.color(hex: currentSeason.backgroundModel.name)
             }
             UIView.animate(withDuration: AnimateDuration, animations: {
                 self.bgImageView.alpha = 0.0
@@ -341,7 +343,7 @@ class HomeViewController: BaseViewController {
                 if self.currentSeason.backgroundModel.type == .image {
                     self.bgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
                 } else {
-                    self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.textColorModel.color)
+                    self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.backgroundModel.name)
                 }
             }
             
@@ -352,7 +354,7 @@ class HomeViewController: BaseViewController {
             if currentSeason.backgroundModel.type == .image {
                 bgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
             } else {
-                bgImageView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
+                bgImageView.backgroundColor = UIColor.color(hex: currentSeason.backgroundModel.name)
             }
             UIView.animate(withDuration: AnimateDuration, animations: {
                 self.bgImageView.alpha = 1.0
@@ -364,7 +366,7 @@ class HomeViewController: BaseViewController {
                 if self.currentSeason.backgroundModel.type == .image {
                     self.bgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
                 } else {
-                    self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.textColorModel.color)
+                    self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.backgroundModel.name)
                 }
             }
             
@@ -518,7 +520,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
             if let firstSeason = seasons.first, firstSeason.id != currentSeason.id {
                 currentSeason = firstSeason
-                headerView.season = currentSeason
                 updateBGView()
             }
             AddNewSeasonViewModel.saveAllSeasons(seasons: seasons)
@@ -541,14 +542,18 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let season = seasons[indexPath.row]
         let alert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "您确定要删除“\(season.title)”吗？", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) { [weak self] in
-            DispatchQueue.main.async {
-
-                if AddNewSeasonViewModel.deleteSeason(season: season) {
-                    self?.seasons.remove(at: indexPath.row)
-                    self?.updateContentView()
+            if AddNewSeasonViewModel.deleteSeason(season: season) {
+                self?.seasons.remove(at: indexPath.row)
+                if indexPath.row == 0 || (self?.seasons.isEmpty ?? false) {
+                    self?.tableView.setContentOffset(CGPoint.zero, animated: true)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+                        self?.updateContentView()
+                    })
                 } else {
-                    self?.view.showText("删除失败！")
+                    self?.tableView.reloadData()
                 }
+            } else {
+                self?.view.showText("删除失败！")
             }
         }
         alert.doneButton.setTitleColor(UIColor.red, for: UIControl.State.normal)

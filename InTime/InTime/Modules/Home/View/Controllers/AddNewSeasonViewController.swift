@@ -272,7 +272,7 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
     func didClickedShowCalendarViewAction(model: TimeModel) {
         view.endEditing(true)
         
-        var selectedDate = Date()
+        var selectedDate: Date = NSDate(minutesFromNow: 5) as Date
         if isModifySeason {
             let dateStr = newSeason.startDate.gregoriandDataString
             if let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
