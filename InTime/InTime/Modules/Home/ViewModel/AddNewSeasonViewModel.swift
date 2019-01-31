@@ -37,6 +37,23 @@ extension AddNewSeasonViewModel {
         return HandlerDocumentManager.saveSeasons(categoryId: season.categoryId, data: seasonsData)
     }
     
+    /// 保存所有时节
+    @discardableResult
+    static func saveAllSeasons(seasons: [SeasonModel]) -> Bool {
+        let categoryId = seasons.first?.categoryId ?? ""
+        guard !seasons.isEmpty, !categoryId.isEmpty else {
+            return false
+        }
+        var seasonStrs: [String] = [String]()
+        for season in seasons {
+            let seasonJson: Dictionary = season.convertToJson()
+            let seasonJsonStr: String = seasonJson.convertToString
+            seasonStrs.append(seasonJsonStr)
+        }
+        let seasonsData = NSKeyedArchiver.archivedData(withRootObject: seasonStrs)
+        return HandlerDocumentManager.saveSeasons(categoryId: categoryId, data: seasonsData)
+    }
+    
     /// 保存被修改的时节
     static func saveSeason(season: SeasonModel) -> Bool {
         let seasonJson: Dictionary = season.convertToJson()

@@ -131,6 +131,13 @@ class HomeViewController: BaseViewController {
         view.backgroundColor = UIColor.clear
         return view
     }()
+    /// 交替背景图片，用于切换时的过度动画
+    lazy var bgImageViewAlternate: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = UIColor.tintColor
+        view.alpha = 0.0
+        return view
+    }()
     
     lazy var headerView: HomeHeaderView = {
         let view = HomeHeaderView()
@@ -154,10 +161,11 @@ class HomeViewController: BaseViewController {
     var isShowCategoryView: Bool = false
     var currentSeason: SeasonModel = SeasonModel()
     var currentSelectedCategory: CategoryModel?
-    var seasions: [SeasonModel] = [SeasonModel]()
+    var seasons: [SeasonModel] = [SeasonModel]()
     
     private var sourceIndexPath: IndexPath?
     private var cellSnapshot: UIImageView? = UIImageView()
+    var currentShowBgImageView: UIImageView = UIImageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -175,7 +183,7 @@ class HomeViewController: BaseViewController {
     
     // MARK: - setup
     func setupNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(loadSeasions), name: NotificationAddNewSeason, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadseasons), name: NotificationAddNewSeason, object: nil)
     }
     
     func setupSubviews() {
@@ -184,6 +192,7 @@ class HomeViewController: BaseViewController {
         fd_prefersNavigationBarHidden = true
         
         view.addSubview(bgImageView)
+        view.addSubview(bgImageViewAlternate)
         view.addSubview(headerView)
         view.addSubview(bgTableView)
         bgTableView.addSubview(bgImageTableView)
@@ -207,6 +216,10 @@ class HomeViewController: BaseViewController {
         bgImageView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+        bgImageViewAlternate.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
         navigationView.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
             make.height.equalTo(IT_NaviHeight)
@@ -254,7 +267,7 @@ class HomeViewController: BaseViewController {
                 }
                 
                 /// 根据分类加载时节，并刷新数据
-                self?.loadSeasions()
+                self?.loadseasons()
             }
         }
     }
@@ -267,48 +280,36 @@ class HomeViewController: BaseViewController {
                 if model.isSelected {
                     self?.currentSelectedCategory = model
                     self?.titleLabel.text = model.title
-                    self?.loadSeasions()
+                    self?.loadseasons()
                     break
                 }
             }
         }
     }
     
-    @objc func loadSeasions() {
+    @objc func loadseasons() {
         let categoryId: String = currentSelectedCategory?.id ?? ""
         guard !categoryId.isEmpty else {
             CommonTools.printLog(message: "[Debug] 分类ID为空！")
             return
         }
-        HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryId) { [weak self] (seasions) in
-            self?.seasions = seasions
+        HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryId) { [weak self] (seasons) in
+            self?.tableView.setContentOffset(CGPoint.zero, animated: false)
+            self?.seasons = seasons
             self?.updateContentView()
         }
     }
     
     func updateContentView() {
         UIView.animate(withDuration: AnimateDuration) {
-            self.emptyInfoLabel.isHidden = self.seasions.count > 0
-            self.headerView.isHidden = self.seasions.count == 0
+            self.emptyInfoLabel.isHidden = self.seasons.count > 0
+            self.headerView.isHidden = self.seasons.count == 0
         }
         
-        if seasions.count > 0 {
-            currentSeason = seasions.first!
-            if currentSeason.backgroundModel.type == .image {
-                bgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
-            } else {
-                bgImageView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
-            }
-            UIView.animate(withDuration: AnimateDuration, animations: {
-                self.bgImageView.alpha = 1
-            }) { (_) in
-                if self.currentSeason.backgroundModel.type == .image {
-                    self.bgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
-                } else {
-                    self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.textColorModel.color)
-                }
-            }
+        if seasons.count > 0 {
+            currentSeason = seasons.first!
             headerView.season = currentSeason
+            updateBGView()
             tableView.reloadData()
             
         } else {
@@ -320,6 +321,57 @@ class HomeViewController: BaseViewController {
             tableView.reloadData()
         }
     }
+    
+    /// 切换背景样式
+    func updateBGView() {
+        if currentShowBgImageView == bgImageView {
+            bgImageViewAlternate.image = nil
+            if currentSeason.backgroundModel.type == .image {
+                bgImageViewAlternate.image = UIImage(named: currentSeason.backgroundModel.name)
+            } else {
+                bgImageViewAlternate.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
+            }
+            UIView.animate(withDuration: AnimateDuration, animations: {
+                self.bgImageView.alpha = 0.0
+                self.bgImageViewAlternate.alpha = 1.0
+                self.bgImageTableView.alpha = 0.0
+            }) { (_) in
+                self.bgImageTableView.alpha = 1.0
+                self.bgImageTableView.image = nil
+                if self.currentSeason.backgroundModel.type == .image {
+                    self.bgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
+                } else {
+                    self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.textColorModel.color)
+                }
+            }
+            
+            currentShowBgImageView = bgImageViewAlternate
+            
+        } else {
+            bgImageView.image = nil
+            if currentSeason.backgroundModel.type == .image {
+                bgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
+            } else {
+                bgImageView.backgroundColor = UIColor.color(hex: currentSeason.textColorModel.color)
+            }
+            UIView.animate(withDuration: AnimateDuration, animations: {
+                self.bgImageView.alpha = 1.0
+                self.bgImageViewAlternate.alpha = 0.0
+                self.bgImageTableView.alpha = 0.0
+            }) { (_) in
+                self.bgImageTableView.alpha = 1.0
+                self.bgImageTableView.image = nil
+                if self.currentSeason.backgroundModel.type == .image {
+                    self.bgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
+                } else {
+                    self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.textColorModel.color)
+                }
+            }
+            
+            currentShowBgImageView = bgImageView
+        }
+    }
+    
     
     // MARK: - actions
     @objc func gotoSettingView() {
@@ -353,7 +405,7 @@ class HomeViewController: BaseViewController {
 extension HomeViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard seasions.count > 0 else { return }
+        guard seasons.count > 0 else { return }
         
         /// 更新背景图片布局
         let offsetY = scrollView.contentOffset.y
@@ -378,7 +430,7 @@ extension HomeViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        guard seasions.count > 0 else { return }
+        guard seasons.count > 0 else { return }
         
         /// 停止拖拽之后，返回到原位
         let contentOffsetY = scrollView.contentOffset.y + scrollView.contentInset.top
@@ -403,12 +455,12 @@ extension HomeViewController: UIScrollViewDelegate {
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return seasions.count
+        return seasons.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeCellId, for: indexPath) as! HomeTableViewCell
-        cell.season = seasions[indexPath.row]
+        cell.season = seasons[indexPath.row]
         return cell
     }
     
@@ -441,7 +493,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let detail = SeaSonDetailViewController()
-        detail.seasons = seasions
+        detail.seasons = seasons
         detail.currentSelectedIndex = indexPath.row
         navigationController?.pushViewController(detail, animated: true)
     }
@@ -453,13 +505,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         if sourceIndexPath.row != destinationIndexPath.row {
-            let itemValue = seasions[sourceIndexPath.row]
-            seasions.remove(at: sourceIndexPath.row)
-            if destinationIndexPath.row > seasions.count {
-                seasions.append(itemValue)
-            }else{
-                seasions.insert(itemValue, at:destinationIndexPath.row)
+            if destinationIndexPath.row == 0 || sourceIndexPath.row == 0 {
+                tableView.setContentOffset(CGPoint.zero, animated: true)
             }
+            
+            let season = seasons[sourceIndexPath.row]
+            seasons.remove(at: sourceIndexPath.row)
+            if destinationIndexPath.row > seasons.count {
+                seasons.append(season)
+            } else {
+                seasons.insert(season, at:destinationIndexPath.row)
+            }
+            if let firstSeason = seasons.first, firstSeason.id != currentSeason.id {
+                currentSeason = firstSeason
+                headerView.season = currentSeason
+                updateBGView()
+            }
+            AddNewSeasonViewModel.saveAllSeasons(seasons: seasons)
         }
     }
     
@@ -477,12 +539,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let season = seasions[indexPath.row]
+        let season = seasons[indexPath.row]
         let alert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "您确定要删除“\(season.title)”吗？", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) { [weak self] in
             DispatchQueue.main.async {
 
                 if AddNewSeasonViewModel.deleteSeason(season: season) {
-                    self?.seasions.remove(at: indexPath.row)
+                    self?.seasons.remove(at: indexPath.row)
                     self?.updateContentView()
                 } else {
                     self?.view.showText("删除失败！")
