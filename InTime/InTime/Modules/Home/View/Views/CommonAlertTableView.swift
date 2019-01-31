@@ -22,6 +22,18 @@ class CommonAlertTableView: CKAlertCommonView {
         return label
     }()
     
+    lazy var modifyBtn: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage.init(named: "revise"), for: .normal)
+        return btn
+    }()
+    
+    lazy var addNewBtn: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage.init(named: "add"), for: .normal)
+        return btn
+    }()
+    
     let AlertCellId = "AlertCellId"
     lazy var tableView: UITableView = {
         let tableView = UITableView.init(frame: CGRect.zero, style: .plain)
@@ -63,7 +75,20 @@ class CommonAlertTableView: CKAlertCommonView {
         
         addSubview(headerTitleLabel)
         addSubview(tableView)
+        addSubview(modifyBtn)
+        addSubview(addNewBtn)
         
+        let btnWidth: CGFloat = 36.0
+        addNewBtn.snp.makeConstraints { (make) in
+            make.top.bottom.equalToSuperview()
+            make.right.equalTo(-10.0)
+            make.width.equalTo(btnWidth)
+        }
+        modifyBtn.snp.makeConstraints { (make) in
+            make.top.bottom.equalToSuperview()
+            make.right.equalTo(addNewBtn.snp.left)
+            make.width.equalTo(btnWidth)
+        }
         headerTitleLabel.snp.updateConstraints { (make) in
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()

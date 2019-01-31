@@ -273,7 +273,7 @@ extension AddNewSeasonViewModel {
         let image11 = BackgroundImageModel(type: .image, name: "bg11", isSelected: bgName == "bg11")
         let image12 = BackgroundImageModel(type: .image, name: "bg12", isSelected: bgName == "bg12")
         let image13 = BackgroundImageModel(type: .image, name: "bg13", isSelected: bgName == "bg13")
-        let imageColor1 = BackgroundImageModel(type: .color, name: "#FFFFFF", isSelected: bgName == "#FFFFFF")
+        let imageColor1 = BackgroundImageModel(type: .color, name: "#000000", isSelected: bgName == "#000000")
         let imageColor2 = BackgroundImageModel(type: .color, name: "#55DDFF", isSelected: bgName == "#55DDFF")
         let imageColor3 = BackgroundImageModel(type: .color, name: "#99EBFF", isSelected: bgName == "#99EBFF")
         let imageColor4 = BackgroundImageModel(type: .color, name: "#B2E98E", isSelected: bgName == "#B2E98E")
