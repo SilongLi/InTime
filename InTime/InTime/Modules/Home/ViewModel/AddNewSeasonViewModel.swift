@@ -173,7 +173,7 @@ extension AddNewSeasonViewModel {
                         break
                     }
                 } else {
-                    if model.isDefalult {
+                    if model.isSelected {
                         categoty = model
                         break
                     }
@@ -354,22 +354,23 @@ extension AddNewSeasonViewModel {
     }
     
     /// 获取分类数据
-    static func loadClassifyModel(originSeason: SeasonModel, completion: ((_ model: AlertCollectionModel) -> ())) {
+    static func loadClassifyModel(originSeason: SeasonModel, completion: ((_ model: AlertCollectionModel, _ categoryModels: [CategoryModel]) -> ())) {
         HomeSeasonViewModel.loadLocalCategorys { (models) in
-            var categorys = [TextModel]()
-            for model in models {
-                let isModifySeason = !originSeason.title.isEmpty && !originSeason.categoryId.isEmpty
-                let isSelected = isModifySeason ? originSeason.categoryId == model.id : model.isDefalult
-                let category = TextModel(type: model.id, text: model.title, isSelected: isSelected)
-                categorys.append(category)
-            }
-            
-            let alert = AlertCollectionModel()
-            alert.title = "分类管理"
-            alert.texts = categorys
-            
-            completion(alert)
+            let alert = AddNewSeasonViewModel.handleClassifyModel(originSeason: originSeason, models)
+            completion(alert, models)
         }
+    }
+    
+    static func handleClassifyModel(originSeason: SeasonModel, _ models: [CategoryModel]) -> AlertCollectionModel {
+        var textModels = [TextModel]()
+        for model in models {
+            let textModel = TextModel(type: model.id, text: model.title, isSelected: model.isSelected)
+            textModels.append(textModel)
+        }
+        let alert = AlertCollectionModel()
+        alert.title = "分类管理"
+        alert.texts = textModels
+        return alert
     }
     
     /// 获取提醒铃声数据

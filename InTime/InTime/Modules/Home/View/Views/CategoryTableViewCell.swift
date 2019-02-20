@@ -71,6 +71,7 @@ class CategoryTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .clear
+        
         addSubview(nameLabel)
         addSubview(iconView)
         addSubview(spaceLineView)
@@ -100,4 +101,15 @@ class CategoryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        UIView.animate(withDuration: 1.0) {
+            self.nameLabel.snp.updateConstraints { (make) in
+                make.left.equalTo(self.margin + (editing ? 30.0 : 0.0))
+            }
+            self.iconView.snp.updateConstraints { (make) in
+                make.right.equalTo(-self.margin - (editing ? 30.0 : 0.0))
+            }
+        }
+    } 
 }

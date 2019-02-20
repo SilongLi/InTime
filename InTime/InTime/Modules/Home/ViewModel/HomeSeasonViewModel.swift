@@ -20,7 +20,7 @@ class HomeSeasonViewModel {
             return
         }
         var home = CategoryModel()
-        home.id = NSDate().string(withFormat: DatestringWithFormat)
+        home.id = NSDate().string(withFormat: DatestringWithFormat) + "1"
         home.title = "首页"
         home.isSelected = true
         home.isDefalult = true
@@ -28,14 +28,14 @@ class HomeSeasonViewModel {
         let homeJsonStr = homeJson.convertToString
         
         var season = CategoryModel()
-        season.id = NSDate().string(withFormat: DatestringWithFormat)
+        season.id = NSDate().string(withFormat: DatestringWithFormat) + "2"
         season.title = "时节"
         season.isSelected = false
         let seasonJson = season.convertToJson()
         let seasonJsonStr = seasonJson.convertToString
         
         var ring = CategoryModel()
-        ring.id = NSDate().string(withFormat: DatestringWithFormat)
+        ring.id = NSDate().string(withFormat: DatestringWithFormat) + "3"
         ring.title = "闹铃"
         ring.isSelected = false
         let ringJson = ring.convertToJson()

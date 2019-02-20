@@ -557,6 +557,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         alert.doneButton.setTitleColor(UIColor.red, for: UIControl.State.normal)
-        alert.showAlertView(inViewController: self, leftOrRightMargin: 40.0)
+        alert.showAlertView(inViewController: self, leftOrRightMargin: 35.0)
     }
 }

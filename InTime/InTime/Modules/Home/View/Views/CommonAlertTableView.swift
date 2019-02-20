@@ -25,12 +25,16 @@ class CommonAlertTableView: CKAlertCommonView {
     lazy var modifyBtn: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage.init(named: "revise"), for: .normal)
+        btn.addTarget(self, action: #selector(modifyAction), for: UIControl.Event.touchUpInside)
+        btn.isHidden = true
         return btn
     }()
     
     lazy var addNewBtn: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage.init(named: "add"), for: .normal)
+        btn.addTarget(self, action: #selector(addNewAction), for: UIControl.Event.touchUpInside)
+        btn.isHidden = true
         return btn
     }()
     
@@ -45,7 +49,23 @@ class CommonAlertTableView: CKAlertCommonView {
         return tableView
     }()
     
+    
+    var isShowModifySeasonButton: Bool = false {
+        didSet {
+            modifyBtn.isHidden = !isShowModifySeasonButton
+        }
+    }
+    
+    var isShowAddNewSeasonButton: Bool = false {
+        didSet {
+            addNewBtn.isHidden = !isShowAddNewSeasonButton
+        }
+    }
+    
     public var selectedActionBlock: ((_ alertModel: AlertCollectionModel, _ selectedTextModel: TextModel) -> ())?
+    public var modifyItemBlock: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> ())?
+    public var addNewItemBlock: (() -> ())?
+    public var deleteItemBlock: ((_ selectedTextModel: TextModel) -> ())?
     var alertModel: AlertCollectionModel?
 
     init(model: AlertCollectionModel?, selectedAction: ((_ alertModel: AlertCollectionModel, _ selectedTextModel: TextModel) -> ())? = nil) {
@@ -113,6 +133,24 @@ class CommonAlertTableView: CKAlertCommonView {
                                       width: bounds.size.width,
                                       height: height - HeaderHeight - 0.5)
     }
+    
+    func updateContentView(_ model: AlertCollectionModel) {
+        self.alertModel = model
+        headerTitleLabel.text = model.title
+        tableView.reloadData()
+    }
+    
+    /// 修改分类
+    @objc func modifyAction() {
+        tableView.setEditing(!tableView.isEditing, animated: true)
+    }
+    
+    /// 添加分类
+    @objc func addNewAction() {
+        if let block = addNewItemBlock {
+            block()
+        }
+    }
 }
 
 // MARK: - <UITableViewDelegate, UITableViewDataSource>
@@ -161,5 +199,38 @@ extension CommonAlertTableView: UITableViewDelegate, UITableViewDataSource {
             block(model, selectedModel)
         }
         hiddenAlertView()
+    }
+    
+    // MARK: - 拖拽排序
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        if sourceIndexPath.row != destinationIndexPath.row {
+            if let block = modifyItemBlock {
+                block(sourceIndexPath, destinationIndexPath)
+            }
+        }
+    }
+    
+    // MARK: - 添加左滑删除功能
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return UITableViewCell.EditingStyle.delete
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "删除"
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if let model = alertModel, let block = deleteItemBlock {
+            let selectedModel = model.texts[indexPath.row]
+            block(selectedModel)
+        }
     }
 }
