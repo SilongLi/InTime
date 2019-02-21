@@ -17,6 +17,7 @@
 		990B64B921F075840063BD34 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990B64B521F075840063BD34 /* NSDate+Extension.m */; };
 		990B64BA21F075840063BD34 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990B64B621F075840063BD34 /* UIView+Extension.m */; };
 		990B64BD21F083780063BD34 /* Date+ToLuarCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64BC21F083780063BD34 /* Date+ToLuarCalendar.swift */; };
+		9940094B221E4BDF00C3E955 /* InputTextFieldAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9940094A221E4BDF00C3E955 /* InputTextFieldAlertView.swift */; };
 		9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9950227E21E6F5EF004FAC47 /* AppDelegate.swift */; };
 		9950228421E6F5EF004FAC47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9950228221E6F5EF004FAC47 /* Main.storyboard */; };
 		9950228621E6F5F1004FAC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9950228521E6F5F1004FAC47 /* Assets.xcassets */; };
@@ -96,6 +97,7 @@
 		990B64B621F075840063BD34 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		990B64BB21F076380063BD34 /* InTime⁩-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InTime⁩-Bridging-Header.h"; sourceTree = "<group>"; };
 		990B64BC21F083780063BD34 /* Date+ToLuarCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ToLuarCalendar.swift"; sourceTree = "<group>"; };
+		9940094A221E4BDF00C3E955 /* InputTextFieldAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextFieldAlertView.swift; sourceTree = "<group>"; };
 		9950227B21E6F5EF004FAC47 /* InTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9950227E21E6F5EF004FAC47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9950228321E6F5EF004FAC47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */,
 				99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */,
 				99C4F72B21F1AC0B00A25386 /* CommonAlertTableView.swift */,
+				9940094A221E4BDF00C3E955 /* InputTextFieldAlertView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -661,6 +664,7 @@
 				99857C0921EDC677005C7F9B /* ITInfoSelectedTableViewCell.swift in Sources */,
 				99857BF521ED8D9A005C7F9B /* BaseCollectionViewCell.swift in Sources */,
 				995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */,
+				9940094B221E4BDF00C3E955 /* InputTextFieldAlertView.swift in Sources */,
 				99857BED21EC9315005C7F9B /* SettingViewController.swift in Sources */,
 				995022D721E83EDA004FAC47 /* ThemeModel.swift in Sources */,
 				99857BFE21EDB396005C7F9B /* AddNewSeasonViewModel.swift in Sources */,

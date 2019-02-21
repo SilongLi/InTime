@@ -38,6 +38,16 @@ class CommonAlertTableView: CKAlertCommonView {
         return btn
     }()
     
+    lazy var finishBtn: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("完成", for: UIControl.State.normal)
+        btn.addTarget(self, action: #selector(finishBtnAction), for: UIControl.Event.touchUpInside)
+        btn.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        btn.isHidden = true
+        return btn
+    }()
+    
     let AlertCellId = "AlertCellId"
     lazy var tableView: UITableView = {
         let tableView = UITableView.init(frame: CGRect.zero, style: .plain)
@@ -97,6 +107,7 @@ class CommonAlertTableView: CKAlertCommonView {
         addSubview(tableView)
         addSubview(modifyBtn)
         addSubview(addNewBtn)
+        addSubview(finishBtn)
         
         let btnWidth: CGFloat = 36.0
         addNewBtn.snp.makeConstraints { (make) in
@@ -107,6 +118,11 @@ class CommonAlertTableView: CKAlertCommonView {
         modifyBtn.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview()
             make.right.equalTo(addNewBtn.snp.left)
+            make.width.equalTo(btnWidth)
+        }
+        finishBtn.snp.makeConstraints { (make) in
+            make.top.bottom.equalToSuperview()
+            make.right.equalTo(-15.0)
             make.width.equalTo(btnWidth)
         }
         headerTitleLabel.snp.updateConstraints { (make) in
@@ -137,12 +153,16 @@ class CommonAlertTableView: CKAlertCommonView {
     func updateContentView(_ model: AlertCollectionModel) {
         self.alertModel = model
         headerTitleLabel.text = model.title
+        layoutSubviews()
         tableView.reloadData()
     }
     
     /// 修改分类
     @objc func modifyAction() {
-        tableView.setEditing(!tableView.isEditing, animated: true)
+        tableView.setEditing(true, animated: true)
+        finishBtn.isHidden = false
+        addNewBtn.isHidden = true
+        modifyBtn.isHidden = true
     }
     
     /// 添加分类
@@ -150,6 +170,13 @@ class CommonAlertTableView: CKAlertCommonView {
         if let block = addNewItemBlock {
             block()
         }
+    }
+    
+    @objc func finishBtnAction() {
+        tableView.setEditing(false, animated: true)
+        finishBtn.isHidden = true
+        addNewBtn.isHidden = false
+        modifyBtn.isHidden = false
     }
 }
 
@@ -224,7 +251,7 @@ extension CommonAlertTableView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        return "删除"
+        return "修改"
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

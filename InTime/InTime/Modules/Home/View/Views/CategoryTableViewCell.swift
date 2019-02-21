@@ -111,5 +111,5 @@ class CategoryTableViewCell: UITableViewCell {
                 make.right.equalTo(-self.margin - (editing ? 30.0 : 0.0))
             }
         }
-    } 
+    }
 }

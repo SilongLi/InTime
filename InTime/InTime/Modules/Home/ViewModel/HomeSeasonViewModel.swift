@@ -67,8 +67,11 @@ class HomeSeasonViewModel {
             let categoryJsons = NSKeyedUnarchiver.unarchiveObject(with: data)
             if categoryJsons is Array<String>, let jsonStrs: [String] = categoryJsons as? [String] {
                 /// 判断是否已经存在
-                guard jsonStrs.contains(categoryJsonStr) == false else {
-                    return false
+                for jsonStr in jsonStrs {
+                    let json = JSON(parseJSON: jsonStr)
+                    if json["title"].stringValue == name {
+                        return false
+                    }
                 }
                 categoryStrs.append(contentsOf: jsonStrs)
             }
