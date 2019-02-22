@@ -198,11 +198,31 @@ class AddNewSeasonViewController: BaseViewController {
             success = AddNewSeasonViewModel.addNewSeason(season: newSeason)
         }
         if success {
+            addNewAlarm()
             NotificationCenter.default.post(name: NotificationAddNewSeason, object: nil)
             navigationController?.popViewController(animated: true)
         } else {
             view.showText("保存失败!")
         }
+    }
+    
+    // MARK: - 添加新闹钟
+    func addNewAlarm() {
+        guard let date = NSDate(newSeason.startDate.gregoriandDataString, withFormat: StartSeasonDateFormat) else {
+            return
+        }
+        let isLater = date.isLaterThanDate(Date())
+        if isLater {
+            var dateStr = newSeason.startDate.isGregorian ? newSeason.startDate.gregoriandDataString : newSeason.startDate.lunarDataString
+            dateStr = "\(dateStr) \(newSeason.startDate.weakDay)"
+            LocalNotificationManage.shared.sendLocalNotification(title: newSeason.title,
+                                                                 subTitle: dateStr,
+                                                                 body: "",
+                                                                 identifier: newSeason.id,
+                                                                 soundName: "ring.caf",
+                                                                 date: date as Date,
+                                                                 isRepeats: true)
+        } else {}
     }
     
     @objc func endTextFieldEditing() {
