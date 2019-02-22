@@ -544,7 +544,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let alert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "您确定要删除“\(season.title)”吗？", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) { [weak self] in
             if AddNewSeasonViewModel.deleteSeason(season: season) {
                 /// 取消本地通知
-                LocalNotificationManage.shared.cancelLocalNotification(identifier: season.id)
+                LocalNotificationManage.shared.cancelLocalNotification(identifier: season.id, title: season.title)
                 
                 self?.seasons.remove(at: indexPath.row)
                 if indexPath.row == 0 || (self?.seasons.isEmpty ?? false) {

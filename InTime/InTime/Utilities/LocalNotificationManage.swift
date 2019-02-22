@@ -15,7 +15,7 @@ class LocalNotificationManage: NSObject {
     
     // MARK: - 发送本地推送方法
     func sendLocalNotification(title: String, subTitle: String, body: String?, identifier: String, soundName: String, date: Date, isRepeats: Bool) -> () {
-        LocalNotificationManage.shared.cancelLocalNotification(identifier: identifier)
+        LocalNotificationManage.shared.cancelLocalNotification(identifier: identifier, title: title)
         if #available(iOS 10.0, *) {
             LocalNotificationManage.shared.sendLocalNotificationOniOS10(title: title,
                                                                         subTitle: subTitle,
@@ -81,10 +81,10 @@ class LocalNotificationManage: NSObject {
     }
     
     // MARK: - 取消本地通知
-    func cancelLocalNotification(identifier: String, title: String = "") {
+    func cancelLocalNotification(identifier: String, title: String) {
         if let notifications = UIApplication.shared.scheduledLocalNotifications {
             for noti: UILocalNotification in notifications {
-                if noti.userInfo?[identifier] != nil {
+                if noti.category == identifier {
                     UIApplication.shared.cancelLocalNotification(noti)
                     CommonTools.printLog(message: "[知时节]：取消”\(title)“闹铃成功！")
                 }
