@@ -28,6 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+    
     func setupWindow() {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let NAV = UINavigationController(rootViewController: HomeViewController())
@@ -102,8 +106,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     // MARK: - iOS 10.0之后，收到通知 应用在前台时接受到通知
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // 需要执行这个方法，选择是否提醒用户，有Sound、Alert三种类型可以设置
-        completionHandler([.alert, .sound])
+        // 需要执行这个方法，选择是否提醒用户，有sound、alert、badge三种类型可以设置
+        completionHandler([.alert, .sound, .badge])
     }
     
     // MARK: iOS 10.0之后，通知的点击事件，应用在前台或后台时收到新消息

@@ -46,6 +46,17 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    lazy var ringInfoLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.white.withAlphaComponent(0.9)
+        label.font = UIFont.systemFont(ofSize: 8.0)
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.pinkColor
+        label.layer.cornerRadius = 2.0
+        label.layer.masksToBounds = true
+        return label
+    }()
+    
     /// 定时刷新界面
     private var refreshTimer: DispatchSourceTimer?
     
@@ -69,45 +80,33 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
     }
     
     func reloadContent() {
-        nameLabel.text = season?.title
+        guard let model = season else {
+            return
+        }
+        nameLabel.text = model.title
+        ringInfoLabel.text = model.repeatRemindType.converToString()
         
-        if let dateStr = season?.startDate.gregoriandDataString, let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
-            infoLabel.text = (date as NSDate).isLaterThanDate(Date()) ? "距离" : "已过"
-            
-            let typeValue = season?.unitModel.info ?? DateUnitType.dayTime.rawValue
-            let type: DateUnitType = DateUnitType(rawValue: typeValue) ?? DateUnitType.dayTime
-            var timeString = (date as Date).convertToTimeString(type: type)
-            countDownLabel.text = timeString
-            switch type {
-            case .second, .minute, .hour, .day:
-                if type == .second {
-                    timeString.append("秒")
-                } else if type == .minute {
-                    timeString.append("分")
-                } else if type == .hour {
-                    timeString.append("时")
-                } else if type == .day {
-                    timeString.append("天")
-                }
-                if timeString.count > 1 {
-                    let attributedText = NSMutableAttributedString(string: timeString)
-                    attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),
-                                                  NSAttributedString.Key.foregroundColor: UIColor.white],
-                                                 range: NSRange(location: timeString.count - 1, length: 1))
-                    countDownLabel.attributedText = attributedText
-                }
-            default:
-                break
+        let (timeIntervalStr, info, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
+        
+        infoLabel.text = info
+        infoLabel.textColor = isLater ? UIColor.white : UIColor.red
+        
+        countDownLabel.text = timeIntervalStr
+        let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
+        switch type {
+        case .second, .minute, .hour, .day:
+            if timeIntervalStr.count > 1 {
+                let attributedText = NSMutableAttributedString(string: timeIntervalStr)
+                attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),
+                                              NSAttributedString.Key.foregroundColor: UIColor.white],
+                                             range: NSRange(location: timeIntervalStr.count - 1, length: 1))
+                countDownLabel.attributedText = attributedText
             }
+        default:
+            break
         }
         
-        var dateStr = ""
-        if season?.startDate.isGregorian ?? true {
-            dateStr = season?.startDate.gregoriandDataString ?? ""
-        } else {
-            dateStr = season?.startDate.lunarDataString ?? ""
-        }
-        dateLabel.text = "\(dateStr) \(season?.startDate.weakDay ?? "")"
+        dateLabel.text = dateInfo
     }
     
     override init(frame: CGRect) {
@@ -119,6 +118,7 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         addSubview(countDownLabel)
         addSubview(dateLabel)
         addSubview(infoLabel)
+        addSubview(ringInfoLabel)
         
         let margin: CGFloat = 20.0
         let space: CGFloat  = 30.0
@@ -147,8 +147,14 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         dateLabel.snp.makeConstraints { (make) in
             make.top.equalTo(infoLabel.snp.bottom).offset(space)
             make.left.equalTo(nameLabel.snp.left)
-            make.right.equalTo(nameLabel.snp.right)
+            make.right.equalTo(ringInfoLabel.snp.left).offset(-10)
             make.height.greaterThanOrEqualTo(16.0)
+        }
+        ringInfoLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(dateLabel.snp.right).offset(10)
+            make.width.greaterThanOrEqualTo(20.0)
+            make.centerY.equalTo(dateLabel.snp.centerY).offset(2)
+            make.height.equalTo(12.0)
         }
         
         refreshTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())

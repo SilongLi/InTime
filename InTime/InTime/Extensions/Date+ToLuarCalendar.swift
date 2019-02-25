@@ -73,6 +73,31 @@ extension Date {
         }
     }
     
+    func convertToTimeAndUnitString(type: DateUnitType = DateUnitType.dayTime) -> String {
+        switch type {
+        case .second:
+            let dateStr = (self as NSDate).convertToSecond().it.stringSeparateByCommaInteger()
+            return "\(dateStr)秒"
+        case .minute:
+            let dateStr = (self as NSDate).convertToMinute().it.stringSeparateByCommaInteger()
+            return "\(dateStr)分"
+        case .hour:
+            let dateStr = (self as NSDate).convertToHour().it.stringSeparateByCommaInteger()
+            return "\(dateStr)时"
+        case .day:
+            let dateStr = (self as NSDate).convertToDay().it.stringSeparateByCommaInteger()
+            return "\(dateStr)天"
+        case .dayTime:
+            return (self as NSDate).convertToDHMS()
+        case .year:
+            return (self as NSDate).convertToYMD()
+        case .yearTime:
+            return (self as NSDate).convertToYMDHMS()
+        case .percentage:
+            return convertToPercentage()
+        }
+    }
+    
     private func convertToPercentage() -> String {
         return "49.999"
     }

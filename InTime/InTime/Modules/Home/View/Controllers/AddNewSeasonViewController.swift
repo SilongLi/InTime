@@ -221,7 +221,7 @@ class AddNewSeasonViewController: BaseViewController {
                                                                  identifier: newSeason.id,
                                                                  soundName: "ring.caf",
                                                                  date: date as Date,
-                                                                 isRepeats: true)
+                                                                 isOpenRemind: newSeason.isOpenRemind)
         } else {}
     }
     

@@ -14,7 +14,14 @@ class LocalNotificationManage: NSObject {
     static let shared = LocalNotificationManage()
     
     // MARK: - 发送本地推送方法
-    func sendLocalNotification(title: String, subTitle: String, body: String?, identifier: String, soundName: String, date: Date, isRepeats: Bool) -> () {
+    func sendLocalNotification(title: String,
+                               subTitle: String,
+                               body: String?,
+                               identifier: String,
+                               soundName: String,
+                               date: Date,
+                               repeatRemindType: RepeatRemindType = RepeatRemindType.no,
+                               isOpenRemind: Bool) -> () {
         LocalNotificationManage.shared.cancelLocalNotification(identifier: identifier, title: title)
         if #available(iOS 10.0, *) {
             LocalNotificationManage.shared.sendLocalNotificationOniOS10(title: title,
@@ -23,7 +30,8 @@ class LocalNotificationManage: NSObject {
                                                                         identifier: identifier,
                                                                         soundName: soundName,
                                                                         date: date,
-                                                                        isRepeats: isRepeats)
+                                                                        repeatRemindType: repeatRemindType,
+                                                                        isOpenRemind: isOpenRemind)
         } else {
             // TODO:
         }
@@ -31,7 +39,14 @@ class LocalNotificationManage: NSObject {
     
     /// iOS 10.0以上系统，发送本地推送方法
     @available(iOS 10.0, *)
-    private func sendLocalNotificationOniOS10(title: String, subTitle: String, body: String?, identifier: String, soundName: String, date: Date, isRepeats: Bool) -> () {
+    private func sendLocalNotificationOniOS10(title: String,
+                                              subTitle: String,
+                                              body: String?,
+                                              identifier: String,
+                                              soundName: String,
+                                              date: Date,
+                                              repeatRemindType: RepeatRemindType = RepeatRemindType.no,
+                                              isOpenRemind: Bool) -> () {
         
         // 通知内容
         let content = UNMutableNotificationContent()
@@ -43,30 +58,40 @@ class LocalNotificationManage: NSObject {
         content.categoryIdentifier = identifier
         
         // 通知附件内容
-        let path = Bundle.main.path(forResource: "ring.caf", ofType: nil)
-        let url  = URL(fileURLWithPath: path ?? "")
-        let attachment = try? UNNotificationAttachment(identifier: identifier, url: url, options: nil)
-        if let att: UNNotificationAttachment = attachment {
-            content.attachments = [att]
-        }
+//        let path = Bundle.main.path(forResource: "ring.caf", ofType: nil)
+//        let url  = URL(fileURLWithPath: path ?? "")
+//        let attachment = try? UNNotificationAttachment(identifier: identifier, url: url, options: nil)
+//        if let att: UNNotificationAttachment = attachment {
+//            content.attachments = [att]
+//        }
         
         // 闹铃
-        if !soundName.isEmpty {
-            content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: soundName))
-        } else {
-            content.sound = UNNotificationSound.default
+        if isOpenRemind {
+            if !soundName.isEmpty {
+                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: soundName))
+            } else {
+                content.sound = UNNotificationSound.default
+            }
         }
         
         // 触发模式
-        let timeInterval = date.timeIntervalSinceNow
-        guard timeInterval > 0 else {
-            return
+        var isRepeats  = true
+        var components = Set<Calendar.Component>([.year, .month, .day, .hour, .minute, .second])
+        switch repeatRemindType {
+        case .year:
+            components = Set<Calendar.Component>([.year, .month, .day, .hour, .minute, .second])
+        case .month:
+            components = Set<Calendar.Component>([.month, .day, .hour, .minute, .second])
+        case .week:
+            components = Set<Calendar.Component>([.weekday, .hour, .minute, .second])
+        case .day, .workDay:
+            components = Set<Calendar.Component>([.day, .hour, .minute, .second])
+        default:
+            isRepeats  = false
         }
-        var repeats = isRepeats
-        if repeats, timeInterval <= 60.0 {
-            repeats = false
-        }
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: repeats)
+        let calendar = Calendar(identifier: .gregorian)
+        let dateComponents = calendar.dateComponents(components, from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: isRepeats)
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
         
         // 把通知加到UNUserNotificationCenter, 到指定触发点会被触发

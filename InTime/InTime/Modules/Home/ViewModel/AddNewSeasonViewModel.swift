@@ -9,6 +9,9 @@
 import CoreGraphics
 
 let StartSeasonDateFormat = "yyyy.MM.dd HH:mm"
+let StartSeasonDateMDHMFormat = "MM.dd HH:mm"
+let StartSeasonDateDHMFormat = "dd HH:mm"
+let StartSeasonDateHMFormat = "HH:mm"
 
 class AddNewSeasonViewModel {
     
@@ -243,10 +246,12 @@ extension AddNewSeasonViewModel {
         let repeatRemindType = isModifySeason ? originSeason.repeatRemindType : .no
         let no      = RepeatReminderTypeModel(type: .no, title: "不重复", isSelected: repeatRemindType == .no)
         let day     = RepeatReminderTypeModel(type: .day, title: "每天", isSelected: repeatRemindType == .day)
+        let workDay = RepeatReminderTypeModel(type: .workDay, title: "工作日", isSelected: repeatRemindType == .workDay)
         let week    = RepeatReminderTypeModel(type: .week, title: "每周", isSelected: repeatRemindType == .week)
-        let mounth  = RepeatReminderTypeModel(type: .mounth, title: "每月", isSelected: repeatRemindType == .mounth)
+        ///（第一版先不上）
+//        let month  = RepeatReminderTypeModel(type: .month, title: "每月", isSelected: repeatRemindType == .month)
         let year    = RepeatReminderTypeModel(type: .year, title: "每年", isSelected: repeatRemindType == .year)
-        repeatModel.types = [no, day, week, mounth, year]
+        repeatModel.types = [no, day, workDay, week, year]
         let repeatSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.repeatReminder.rawValue,
                                              headerTitle: "",
                                              footerTitle: "",

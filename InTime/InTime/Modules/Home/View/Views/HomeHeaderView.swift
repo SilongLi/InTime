@@ -20,7 +20,7 @@ class HomeHeaderView: UIView {
         return label
     }()
     
-    lazy var dateLabel: UILabel = {
+    lazy var countDownLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 36.0)
@@ -40,10 +40,21 @@ class HomeHeaderView: UIView {
     
     lazy var dateInfoLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.white.withAlphaComponent(0.8)
-        label.font = UIFont.systemFont(ofSize: 18.0)
+        label.textColor = UIColor.white.withAlphaComponent(0.9)
+        label.font = UIFont.systemFont(ofSize: 20.0)
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    lazy var ringInfoLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.white.withAlphaComponent(0.9)
+        label.font = UIFont.systemFont(ofSize: 8.0)
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.pinkColor
+        label.layer.cornerRadius = 2.0
+        label.layer.masksToBounds = true
         return label
     }()
     
@@ -52,45 +63,33 @@ class HomeHeaderView: UIView {
     
     var season: SeasonModel?{
         didSet {
-            titleLabel.text = season?.title
+            guard let model = season else {
+                return
+            }
+            titleLabel.text = model.title
+            ringInfoLabel.text = model.repeatRemindType.converToString()
             
-            if let dateStr = season?.startDate.gregoriandDataString, let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
-                infoLabel.text = (date as NSDate).isLaterThanDate(Date()) ? "距离" : "已过"
-                
-                let typeValue = season?.unitModel.info ?? DateUnitType.dayTime.rawValue
-                let type: DateUnitType = DateUnitType(rawValue: typeValue) ?? DateUnitType.dayTime
-                var timeString = (date as Date).convertToTimeString(type: type)
-                dateLabel.text = timeString
-                switch type {
-                case .second, .minute, .hour, .day:
-                    if type == .second {
-                        timeString.append("秒")
-                    } else if type == .minute {
-                        timeString.append("分")
-                    } else if type == .hour {
-                        timeString.append("时")
-                    } else if type == .day {
-                        timeString.append("天")
-                    }
-                    if timeString.count > 1 {
-                        let attributedText = NSMutableAttributedString(string: timeString)
-                        attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),
-                                                      NSAttributedString.Key.foregroundColor: UIColor.white],
-                                                     range: NSRange(location: timeString.count - 1, length: 1))
-                        dateLabel.attributedText = attributedText
-                    }
-                default:
-                    break
+            let (timeIntervalStr, info, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
+            
+            infoLabel.text = info
+            infoLabel.textColor = isLater ? UIColor.white : UIColor.red
+            
+            countDownLabel.text = timeIntervalStr
+            let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
+            switch type {
+            case .second, .minute, .hour, .day:
+                if timeIntervalStr.count > 1 {
+                    let attributedText = NSMutableAttributedString(string: timeIntervalStr)
+                    attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),
+                                                  NSAttributedString.Key.foregroundColor: UIColor.white],
+                                                 range: NSRange(location: timeIntervalStr.count - 1, length: 1))
+                    countDownLabel.attributedText = attributedText
                 }
+            default:
+                break
             }
             
-            var dateStr = ""
-            if season?.startDate.isGregorian ?? true {
-                dateStr = season?.startDate.gregoriandDataString ?? ""
-            } else {
-                dateStr = season?.startDate.lunarDataString ?? ""
-            }
-            dateInfoLabel.text = "\(dateStr) \(season?.startDate.weakDay ?? "")"
+            dateInfoLabel.text = dateInfo
         }
     }
     
@@ -107,35 +106,42 @@ class HomeHeaderView: UIView {
         isUserInteractionEnabled = false
         
         addSubview(titleLabel)
-        addSubview(dateLabel)
+        addSubview(countDownLabel)
         addSubview(dateInfoLabel)
         addSubview(infoLabel)
+        addSubview(ringInfoLabel)
         
         let margin: CGFloat = 20.0
         let space: CGFloat  = 30.0
         dateInfoLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)
-            make.right.equalTo(-margin)
-            make.bottom.equalTo(-space)
+            make.right.equalTo(ringInfoLabel.snp.left).offset(-10)
             make.height.equalTo(20)
+            make.bottom.equalTo(-space)
+        }
+        ringInfoLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(dateInfoLabel.snp.right).offset(10)
+            make.width.greaterThanOrEqualTo(20.0)
+            make.centerY.equalTo(dateInfoLabel.snp.centerY).offset(4)
+            make.height.equalTo(12.0)
         }
         infoLabel.snp.makeConstraints { (make) in
             make.bottom.equalTo(dateInfoLabel.snp.top).offset(-margin)
-            make.left.equalTo(dateInfoLabel.snp.left)
-            make.right.equalTo(dateInfoLabel.snp.right)
+            make.left.equalTo(margin)
+            make.right.equalTo(-margin)
             make.height.equalTo(25.0)
         }
-        dateLabel.snp.makeConstraints { (make) in
+        countDownLabel.snp.makeConstraints { (make) in
             make.bottom.equalTo(infoLabel.snp.top).offset(-margin)
-            make.left.equalTo(dateInfoLabel.snp.left)
-            make.right.equalTo(dateInfoLabel.snp.right)
+            make.left.equalTo(margin)
+            make.right.equalTo(-margin)
             make.height.equalTo(34.0)
         }
         titleLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(space)
-            make.left.equalTo(dateLabel.snp.left)
-            make.right.equalTo(dateLabel.snp.right)
-            make.bottom.greaterThanOrEqualTo(dateLabel.snp.top).offset(-space)
+            make.left.equalTo(margin)
+            make.right.equalTo(-margin)
+            make.bottom.greaterThanOrEqualTo(countDownLabel.snp.top).offset(-space)
             make.height.lessThanOrEqualTo(80.0)
         }
         

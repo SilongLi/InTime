@@ -12,10 +12,12 @@ enum RepeatRemindType: String {
     case no
     /// 每天
     case day
+    /// 工作日
+    case workDay
     /// 每周
     case week
     /// 每月
-    case mounth
+    case month
     /// 每年
     case year
     
@@ -25,9 +27,11 @@ enum RepeatRemindType: String {
             return "不重复"
         case .day:
             return "每天"
+        case .workDay:
+            return "工作日"
         case .week:
             return "每周"
-        case .mounth:
+        case .month:
             return "每月"
         case .year:
             return "每年"

@@ -41,6 +41,7 @@
 		995022E721E8890C004FAC47 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E621E8890B004FAC47 /* UILabel+Extension.swift */; };
 		995022E921E8C372004FAC47 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022E821E8C372004FAC47 /* CategoryTableViewCell.swift */; };
 		995022EB21E8D52E004FAC47 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */; };
+		9968B57B2223EAC900792EC5 /* SeasonTextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9968B57A2223EAC900792EC5 /* SeasonTextManager.swift */; };
 		99857BE821EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */; };
 		99857BED21EC9315005C7F9B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BEC21EC9315005C7F9B /* SettingViewController.swift */; };
 		99857BEF21EC9381005C7F9B /* AddNewSeasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BEE21EC9381005C7F9B /* AddNewSeasonViewController.swift */; };
@@ -125,6 +126,7 @@
 		995022E621E8890B004FAC47 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		995022E821E8C372004FAC47 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		9968B57A2223EAC900792EC5 /* SeasonTextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonTextManager.swift; sourceTree = "<group>"; };
 		99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		99857BEC21EC9315005C7F9B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		99857BEE21EC9381005C7F9B /* AddNewSeasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSeasonViewController.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 			children = (
 				99C4F73421F5A99D00A25386 /* HandlerDocumentManager.swift */,
 				99C4F74D21F804D900A25386 /* CommonInfo.swift */,
+				9968B57A2223EAC900792EC5 /* SeasonTextManager.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -682,6 +685,7 @@
 				995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */,
 				9940094B221E4BDF00C3E955 /* InputTextFieldAlertView.swift in Sources */,
 				99857BED21EC9315005C7F9B /* SettingViewController.swift in Sources */,
+				9968B57B2223EAC900792EC5 /* SeasonTextManager.swift in Sources */,
 				995022D721E83EDA004FAC47 /* ThemeModel.swift in Sources */,
 				99857BFE21EDB396005C7F9B /* AddNewSeasonViewModel.swift in Sources */,
 				99857C0521EDBB62005C7F9B /* UIView+Helper.swift in Sources */,

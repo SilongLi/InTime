@@ -37,6 +37,17 @@ class HomeTableViewCell: UITableViewCell {
         return label
     }()
     
+    lazy var ringInfoLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.white.withAlphaComponent(0.9)
+        label.font = UIFont.systemFont(ofSize: 8.0)
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.pinkColor
+        label.layer.cornerRadius = 2.0
+        label.layer.masksToBounds = true
+        return label
+    }()
+    
     lazy var unitLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.85)
@@ -56,29 +67,37 @@ class HomeTableViewCell: UITableViewCell {
  
     var season: SeasonModel? {
         didSet {
-            nameLabel.text = season?.title
+            guard let model = season else {
+                return
+            }
+            nameLabel.text = model.title
+            unitLabel.text = model.unitModel.info
+            ringInfoLabel.text = model.repeatRemindType.converToString()
             
-            if let dateStr = season?.startDate.gregoriandDataString, let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
-                let isLater = (date as NSDate).isLaterThanDate(Date())
-                nameLabel.textColor      = isLater ? UIColor.white : UIColor.white.withAlphaComponent(0.6)
-                countDownLabel.textColor = isLater ? UIColor.white : UIColor.white.withAlphaComponent(0.6)
-                dateLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : UIColor.white.withAlphaComponent(0.6)
-                unitLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : UIColor.white.withAlphaComponent(0.6) 
-                
-                let typeValue = season?.unitModel.info ?? DateUnitType.dayTime.rawValue
-                let type: DateUnitType = DateUnitType(rawValue: typeValue) ?? DateUnitType.dayTime
-                countDownLabel.text = (date as Date).convertToTimeString(type: type)
+            let (timeIntervalStr, _, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
+            
+            nameLabel.textColor      = isLater ? UIColor.white : UIColor.white.withAlphaComponent(0.6)
+            countDownLabel.textColor = isLater ? UIColor.white : UIColor.white.withAlphaComponent(0.6)
+            dateLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : UIColor.white.withAlphaComponent(0.6)
+            unitLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : UIColor.white.withAlphaComponent(0.6)
+            ringInfoLabel.backgroundColor = isLater ? UIColor.pinkColor : UIColor.pinkColor.withAlphaComponent(0.6)
+             
+            countDownLabel.text = timeIntervalStr
+            let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
+            switch type {
+            case .second, .minute, .hour, .day:
+                if timeIntervalStr.count > 1 {
+                    let attributedText = NSMutableAttributedString(string: timeIntervalStr)
+                    attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),
+                                                  NSAttributedString.Key.foregroundColor: UIColor.white],
+                                                 range: NSRange(location: timeIntervalStr.count - 1, length: 1))
+                    countDownLabel.attributedText = attributedText
+                }
+            default:
+                break
             }
             
-            var dateStr = ""
-            if season?.startDate.isGregorian ?? true {
-                dateStr = season?.startDate.gregoriandDataString ?? ""
-            } else {
-                dateStr = season?.startDate.lunarDataString ?? ""
-            }
-            dateLabel.text = "\(dateStr) \(season?.startDate.weakDay ?? "")"
-            
-            unitLabel.text = season?.unitModel.info
+            dateLabel.text = dateInfo
         }
     }
     
@@ -102,6 +121,7 @@ class HomeTableViewCell: UITableViewCell {
         contentView.addSubview(dateLabel)
         contentView.addSubview(unitLabel)
         contentView.addSubview(spaceLineView)
+        addSubview(ringInfoLabel)
         
         let margin: CGFloat = 15.0
         let width: CGFloat = IT_SCREEN_WIDTH * 0.5 - margin - 10.0
@@ -131,7 +151,13 @@ class HomeTableViewCell: UITableViewCell {
             make.centerY.equalTo(unitLabel.snp.centerY)
             make.height.equalTo(unitLabel.snp.height)
             make.left.equalTo(nameLabel.snp.left)
-            make.right.equalTo(unitLabel.snp.left).offset(10)
+            make.right.equalTo(ringInfoLabel.snp.left).offset(-5)
+        }
+        ringInfoLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(dateLabel.snp.right).offset(5)
+            make.width.greaterThanOrEqualTo(20.0)
+            make.centerY.equalTo(dateLabel.snp.centerY).offset(2)
+            make.height.equalTo(12.0)
         }
         spaceLineView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(margin)
