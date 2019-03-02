@@ -15,7 +15,7 @@ class HomeViewController: BaseViewController {
     /// 图片展示动画
     let AnimateDuration: TimeInterval = 1.0
     
-    static let HeaderHeight: CGFloat = 280.0
+    static let HeaderHeight: CGFloat = 290.0
     let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
     
     let defalutBgImage: UIImage? = UIImage(named: "bg7")
@@ -317,6 +317,9 @@ class HomeViewController: BaseViewController {
                 
                 /// 根据分类加载时节，并刷新数据
                 self?.loadseasons()
+                
+                // TODO: 暂时不支持“所有”类型的排序
+                self?.sortBtn.isHidden = category.isDefalult
             }
         }
     }

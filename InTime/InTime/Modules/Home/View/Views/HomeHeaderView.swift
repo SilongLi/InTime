@@ -41,7 +41,7 @@ class HomeHeaderView: UIView {
     lazy var dateInfoLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.9)
-        label.font = UIFont.systemFont(ofSize: 20.0)
+        label.font = UIFont.systemFont(ofSize: 18.0)
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -117,7 +117,7 @@ class HomeHeaderView: UIView {
             make.left.equalTo(margin)
             make.right.equalTo(ringInfoLabel.snp.left).offset(-10)
             make.height.equalTo(20)
-            make.bottom.equalTo(-space)
+            make.bottom.equalTo(-(space + 10))
         }
         ringInfoLabel.snp.makeConstraints { (make) in
             make.left.equalTo(dateInfoLabel.snp.right).offset(10)

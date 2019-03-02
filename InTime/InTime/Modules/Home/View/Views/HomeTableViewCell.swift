@@ -78,11 +78,12 @@ class HomeTableViewCell: UITableViewCell {
             
             let (timeIntervalStr, _, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
             
-            nameLabel.textColor      = isLater ? UIColor.white : UIColor.white.withAlphaComponent(0.6)
-            countDownLabel.textColor = isLater ? UIColor.white : UIColor.white.withAlphaComponent(0.6)
-            dateLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : UIColor.white.withAlphaComponent(0.6)
-            unitLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : UIColor.white.withAlphaComponent(0.6)
-            ringInfoLabel.backgroundColor = isLater ? UIColor.pinkColor : UIColor.pinkColor.withAlphaComponent(0.6)
+            let laterColor = UIColor.white.withAlphaComponent(0.5)
+            nameLabel.textColor      = isLater ? UIColor.white : laterColor
+            countDownLabel.textColor = isLater ? UIColor.white : laterColor
+            dateLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : laterColor
+            unitLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : laterColor
+            ringInfoLabel.backgroundColor = isLater ? UIColor.pinkColor : UIColor.pinkColor.withAlphaComponent(0.5)
              
             countDownLabel.text = timeIntervalStr
             let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
