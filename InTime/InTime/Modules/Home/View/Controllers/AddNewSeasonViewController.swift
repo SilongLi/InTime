@@ -299,11 +299,9 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
         view.endEditing(true)
         
         var selectedDate: Date = NSDate(minutesFromNow: 5) as Date
-        if isModifySeason {
-            let dateStr = newSeason.startDate.gregoriandDataString
-            if let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
-                selectedDate = date as Date
-            }
+        let dateStr = newSeason.startDate.gregoriandDataString
+        if let date = NSDate(dateStr, withFormat: StartSeasonDateFormat) {
+            selectedDate = date as Date
         }
         let datePicker = WSDatePickerView(dateStyle: DateStyleShowYearMonthDayHourMinute, scrollTo: selectedDate, complete: { [weak self] (date) in
             guard let strongSelf = self else { return }
@@ -322,9 +320,9 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
             strongSelf.newSeason.startDate = model
             strongSelf.tableView.reloadData()
         })
-        datePicker?.dateLabelColor  = UIColor.tintColor
-        datePicker?.datePickerColor = UIColor.tintColor
-        datePicker?.doneButtonColor = UIColor.greenColor
+        datePicker?.dateLabelColor  = UIColor.white
+        datePicker?.datePickerColor = UIColor.white
+        datePicker?.doneButtonColor = UIColor.tintColor.withAlphaComponent(0.8)
         datePicker?.show()
     }
     
@@ -382,6 +380,7 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
             } else {
                 let success = HomeSeasonViewModel.saveCategory(name: title)
                 if success {
+                    NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
                     AddNewSeasonViewModel.loadClassifyModel(originSeason: strongSelf.newSeason) { (model, categorys) in
                         strongSelf.categoryAlertModel = model
                         strongSelf.categoryModels = categorys
@@ -421,6 +420,7 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
         // 保存分类数据并更新视图
         if originModels.count != categoryModels.count {
             HomeSeasonViewModel.saveAllCategorys(categoryModels)
+            NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
             
             let alertModel = AddNewSeasonViewModel.handleClassifyModel(originSeason: newSeason, categoryModels)
            categoryAlertModel = alertModel
@@ -517,6 +517,7 @@ extension AddNewSeasonViewController: InfoSelectedDelegate {
                     }
                     self?.categoryModels = models
                     HomeSeasonViewModel.saveAllCategorys(models)
+                    NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
                     
                     // 更新视图
                     if let season = self?.newSeason {

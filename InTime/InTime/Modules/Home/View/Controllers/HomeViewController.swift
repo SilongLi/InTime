@@ -114,19 +114,18 @@ class HomeViewController: BaseViewController {
     }()
   
     /// 背景图片
-    lazy var bgImageView: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = UIColor.clear
-        view.image = defalutBgImage
-        return view
-    }()
     lazy var bgTableView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clear
         return view
     }()
-    
-    lazy var bgImageTableView: UIImageView = {
+    lazy var topBgImageView: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = UIColor.clear
+        view.image = defalutBgImage
+        return view
+    }()
+    lazy var bottomBgImageTableView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor.clear
         return view
@@ -169,7 +168,7 @@ class HomeViewController: BaseViewController {
     
     private var sourceIndexPath: IndexPath?
     private var cellSnapshot: UIImageView? = UIImageView()
-    var currentShowBgImageView: UIImageView = UIImageView()
+    var currentShowtopBgImageView: UIImageView = UIImageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -188,6 +187,7 @@ class HomeViewController: BaseViewController {
     // MARK: - setup
     func setupNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(loadseasons), name: NotificationAddNewSeason, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadCategorys), name: NotificationUpdateSeasonCategory, object: nil)
     }
     
     func setupSubviews() {
@@ -195,11 +195,11 @@ class HomeViewController: BaseViewController {
         
         fd_prefersNavigationBarHidden = true
         
-        view.addSubview(bgImageView)
+        view.addSubview(topBgImageView)
         view.addSubview(bgImageViewAlternate)
         view.addSubview(headerView)
         view.addSubview(bgTableView)
-        bgTableView.addSubview(bgImageTableView)
+        bgTableView.addSubview(bottomBgImageTableView)
         view.addSubview(tableView)
         view.addSubview(selectedCategoryView)
         view.addSubview(emptyInfoLabel)
@@ -215,9 +215,9 @@ class HomeViewController: BaseViewController {
         let y: CGFloat = IT_SCREEN_HEIGHT - height
         bgTableView.frame = CGRect.init(x: 0.0, y: y, width: IT_SCREEN_WIDTH, height: height)
         bgTableView.clipsToBounds = true
-        bgImageTableView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
+        bottomBgImageTableView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
         
-        bgImageView.snp.makeConstraints { (make) in
+        topBgImageView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
         bgImageViewAlternate.snp.makeConstraints { (make) in
@@ -277,7 +277,7 @@ class HomeViewController: BaseViewController {
     }
     
     // MARK: - load DataSource
-    func loadCategorys() {
+    @objc func loadCategorys() {
         HomeSeasonViewModel.loadLocalCategorys { [weak self] (models) in
             self?.selectedCategoryView.dataSource = models
             for model in models {
@@ -314,10 +314,22 @@ class HomeViewController: BaseViewController {
             currentSeason = seasons.first!
             updateBGView()
         } else {
-            bgImageView.image = defalutBgImage
-            bgImageTableView.image = nil
-            UIView.animate(withDuration: AnimateDuration) {
-                self.bgImageView.alpha = 1
+            if currentShowtopBgImageView == topBgImageView {
+                bgImageViewAlternate.image = defalutBgImage
+                topBgImageView.alpha = 0.0
+                bottomBgImageTableView.alpha = 0.0
+                UIView.animate(withDuration: AnimateDuration) {
+                    self.bgImageViewAlternate.alpha = 1
+                }
+                currentShowtopBgImageView = bgImageViewAlternate
+            } else {
+                bgImageViewAlternate.alpha = 0.0
+                topBgImageView.image = defalutBgImage
+                bottomBgImageTableView.alpha = 0.0
+                UIView.animate(withDuration: AnimateDuration) {
+                    self.topBgImageView.alpha = 1
+                }
+                currentShowtopBgImageView = topBgImageView
             }
         }
         
@@ -326,7 +338,7 @@ class HomeViewController: BaseViewController {
     
     /// 切换背景样式
     func updateBGView() {
-        if currentShowBgImageView == bgImageView {
+        if currentShowtopBgImageView == topBgImageView {
             bgImageViewAlternate.image = nil
             if currentSeason.backgroundModel.type == .image {
                 bgImageViewAlternate.image = UIImage(named: currentSeason.backgroundModel.name)
@@ -334,43 +346,41 @@ class HomeViewController: BaseViewController {
                 bgImageViewAlternate.backgroundColor = UIColor.color(hex: currentSeason.backgroundModel.name)
             }
             UIView.animate(withDuration: AnimateDuration, animations: {
-                self.bgImageView.alpha = 0.0
+                self.topBgImageView.alpha = 0.0
                 self.bgImageViewAlternate.alpha = 1.0
-                self.bgImageTableView.alpha = 0.0
+                self.bottomBgImageTableView.alpha = 0.0
             }) { (_) in
-                self.bgImageTableView.alpha = 1.0
-                self.bgImageTableView.image = nil
+                self.bottomBgImageTableView.alpha = 1.0
+                self.bottomBgImageTableView.image = nil
                 if self.currentSeason.backgroundModel.type == .image {
-                    self.bgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
+                    self.bottomBgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
                 } else {
-                    self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.backgroundModel.name)
+                    self.bottomBgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.backgroundModel.name)
                 }
             }
-            
-            currentShowBgImageView = bgImageViewAlternate
+            currentShowtopBgImageView = bgImageViewAlternate
             
         } else {
-            bgImageView.image = nil
+            topBgImageView.image = nil
             if currentSeason.backgroundModel.type == .image {
-                bgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
+                topBgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
             } else {
-                bgImageView.backgroundColor = UIColor.color(hex: currentSeason.backgroundModel.name)
+                topBgImageView.backgroundColor = UIColor.color(hex: currentSeason.backgroundModel.name)
             }
             UIView.animate(withDuration: AnimateDuration, animations: {
-                self.bgImageView.alpha = 1.0
+                self.topBgImageView.alpha = 1.0
                 self.bgImageViewAlternate.alpha = 0.0
-                self.bgImageTableView.alpha = 0.0
+                self.bottomBgImageTableView.alpha = 0.0
             }) { (_) in
-                self.bgImageTableView.alpha = 1.0
-                self.bgImageTableView.image = nil
+                self.bottomBgImageTableView.alpha = 1.0
+                self.bottomBgImageTableView.image = nil
                 if self.currentSeason.backgroundModel.type == .image {
-                    self.bgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
+                    self.bottomBgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
                 } else {
-                    self.bgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.backgroundModel.name)
+                    self.bottomBgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.backgroundModel.name)
                 }
             }
-            
-            currentShowBgImageView = bgImageView
+            currentShowtopBgImageView = topBgImageView
         }
     }
     
@@ -416,7 +426,7 @@ extension HomeViewController: UIScrollViewDelegate {
             let y: CGFloat = IT_SCREEN_HEIGHT - height
             if height <= IT_SCREEN_HEIGHT {
                 bgTableView.frame = CGRect.init(x: 0.0, y: y, width: IT_SCREEN_WIDTH, height: height)
-                bgImageTableView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
+                bottomBgImageTableView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
             }
         }
         bgTableView.isHidden = offsetY <= 0.0
@@ -440,7 +450,7 @@ extension HomeViewController: UIScrollViewDelegate {
         let originY: CGFloat = IT_SCREEN_HEIGHT - BGViewHiehgt
         if contentOffsetY == 0.0, abs(currentY) < originY {
             bgTableView.frame = CGRect.init(x: 0.0, y: originY, width: IT_SCREEN_WIDTH, height: BGViewHiehgt)
-            bgImageTableView.frame = CGRect.init(x: 0.0, y: -originY, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
+            bottomBgImageTableView.frame = CGRect.init(x: 0.0, y: -originY, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
         }
         
         /// 更新HeaderView布局
@@ -463,6 +473,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeCellId, for: indexPath) as! HomeTableViewCell
         cell.season = seasons[indexPath.row]
+        cell.indexPath = indexPath
         return cell
     }
     
@@ -561,5 +572,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
         alert.doneButton.setTitleColor(UIColor.red, for: UIControl.State.normal)
         alert.showAlertView(inViewController: self, leftOrRightMargin: 35.0)
+    }
+}
+
+// MARK: - <HomeTableViewCellDelegate>
+extension HomeViewController: HomeTableViewCellDelegate {
+    func didLongPressGestureRecognizer(indexPath: IndexPath) {
     }
 }

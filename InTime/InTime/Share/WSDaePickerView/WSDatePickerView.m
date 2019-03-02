@@ -191,11 +191,12 @@ typedef void(^doneBlock)(NSDate *);
     [self addGestureRecognizer:tap];
     
     self.bottomConstraint.constant = -self.height;
-    self.backgroundColor = RGBA(0, 0, 0, 0);
+    self.backgroundColor = RGBA(44, 45, 57, 1.0);
     [self layoutIfNeeded];
     
     [[UIApplication sharedApplication].keyWindow bringSubviewToFront:self];
     
+    self.showYearView.backgroundColor = RGBA(44, 45, 57, 1.0);
     [self.showYearView addSubview:self.datePicker];
 }
 
@@ -250,7 +251,7 @@ typedef void(^doneBlock)(NSDate *);
     }
     
     if (!_dateLabelColor) {
-        _dateLabelColor =  RGB(247, 133, 51);
+        _dateLabelColor = [UIColor whiteColor]; // RGB(247, 133, 51);
     }
     
     for (int i=0; i<nameArr.count; i++) {
@@ -679,7 +680,7 @@ typedef void(^doneBlock)(NSDate *);
     [[UIApplication sharedApplication].keyWindow addSubview:self];
     [UIView animateWithDuration:.3 animations:^{
         self.bottomConstraint.constant = bottom_height;
-        self.backgroundColor = RGBA(0, 0, 0, 0.7);
+        self.backgroundColor = RGBA(0, 0, 0, 0.5);
         [self layoutIfNeeded];
     }];
 }
@@ -807,6 +808,8 @@ typedef void(^doneBlock)(NSDate *);
         _datePicker.showsSelectionIndicator = YES;
         _datePicker.delegate = self;
         _datePicker.dataSource = self;
+        _datePicker.backgroundColor = RGBA(44, 45, 57, 1.0);
+        _datePicker.tintColor = [UIColor whiteColor];
     }
     return _datePicker;
 }

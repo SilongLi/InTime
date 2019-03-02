@@ -116,11 +116,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         /// 在没有启动本App时，收到服务器推送消息，下拉消息会有快捷回复的按钮，点击按钮后调用的方法，根据actionIdentifier来判断点击的哪个按钮
         UIApplication.shared.applicationIconBadgeNumber = 0
         
-        /// 取消闹铃
-        let request = response.notification.request
-        let title   =  request.content.title
-        LocalNotificationManage.shared.cancelLocalNotification(identifier: request.identifier, title: title)
-        
         completionHandler()
     }
 }

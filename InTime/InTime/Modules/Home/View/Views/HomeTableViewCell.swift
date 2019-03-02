@@ -64,6 +64,8 @@ class HomeTableViewCell: UITableViewCell {
     
     /// 定时刷新界面
     private var refreshTimer: DispatchSourceTimer?
+    weak var delegate: HomeTableViewCellDelegate?
+    var indexPath: IndexPath?
  
     var season: SeasonModel? {
         didSet {
@@ -174,9 +176,18 @@ class HomeTableViewCell: UITableViewCell {
             }
         })
         refreshTimer?.resume()
+        
+        let longP = UILongPressGestureRecognizer.init(target: self, action: #selector(longPressGestureRecognizer))
+        self.addGestureRecognizer(longP)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func longPressGestureRecognizer() {
+        if let indexP = indexPath {
+            delegate?.didLongPressGestureRecognizer(indexPath: indexP)
+        }
     }
 }

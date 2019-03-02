@@ -10,3 +10,5 @@
 
 /// 新增“时节”
 public let NotificationAddNewSeason: Notification.Name = Notification.Name("Notification_Add_New_Season")
+/// 更新“时节”分类
+public let NotificationUpdateSeasonCategory: Notification.Name = Notification.Name("Notification_Update_Season_Category")

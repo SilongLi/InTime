@@ -264,7 +264,7 @@ extension AddNewSeasonViewModel {
         let background  = BackgroundModel()
         background.name = "自定义背景"
         let bgName = isModifySeason ? originSeason.backgroundModel.name : "bg1"
-        let empty   = BackgroundImageModel(type: .custom, name: "")
+//        let empty   = BackgroundImageModel(type: .custom, name: "")
         let image1  = BackgroundImageModel(type: .image, name: "bg1", isSelected: bgName == "bg1")
         let image2  = BackgroundImageModel(type: .image, name: "bg2", isSelected: bgName == "bg2")
         let image3  = BackgroundImageModel(type: .image, name: "bg3", isSelected: bgName == "bg3")
@@ -284,11 +284,11 @@ extension AddNewSeasonViewModel {
         let imageColor4 = BackgroundImageModel(type: .color, name: "#B2E98E", isSelected: bgName == "#B2E98E")
         let imageColor5 = BackgroundImageModel(type: .color, name: "#E492D4", isSelected: bgName == "#E492D4")
         
-        var bgImages = [empty]
-        var images   = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13]
-        let colors   = [imageColor1, imageColor2, imageColor3, imageColor4, imageColor5]
+        var images = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13]
+        let colors = [imageColor1, imageColor2, imageColor3, imageColor4, imageColor5]
         
         /// 如果不是修改已有“时节”，则随机选中背景图片
+        var bgImages = [BackgroundImageModel]()
         if !isModifySeason {
             let randomIndex = Int.random(in: 0..<images.count)
             for index in 0..<images.count {

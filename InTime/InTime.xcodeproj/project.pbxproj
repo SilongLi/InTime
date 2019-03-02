@@ -17,6 +17,7 @@
 		990B64B921F075840063BD34 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990B64B521F075840063BD34 /* NSDate+Extension.m */; };
 		990B64BA21F075840063BD34 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990B64B621F075840063BD34 /* UIView+Extension.m */; };
 		990B64BD21F083780063BD34 /* Date+ToLuarCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64BC21F083780063BD34 /* Date+ToLuarCalendar.swift */; };
+		99277CF62229117600B7395D /* HomeTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99277CF52229117600B7395D /* HomeTableViewCellDelegate.swift */; };
 		9940094B221E4BDF00C3E955 /* InputTextFieldAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9940094A221E4BDF00C3E955 /* InputTextFieldAlertView.swift */; };
 		9940094E221E9D4B00C3E955 /* ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9940094D221E9D4B00C3E955 /* ring.caf */; };
 		99400950221FA9B000C3E955 /* LocalNotificationManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9940094F221FA9B000C3E955 /* LocalNotificationManage.swift */; };
@@ -100,6 +101,7 @@
 		990B64B621F075840063BD34 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		990B64BB21F076380063BD34 /* InTime⁩-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InTime⁩-Bridging-Header.h"; sourceTree = "<group>"; };
 		990B64BC21F083780063BD34 /* Date+ToLuarCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ToLuarCalendar.swift"; sourceTree = "<group>"; };
+		99277CF52229117600B7395D /* HomeTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCellDelegate.swift; sourceTree = "<group>"; };
 		9940094A221E4BDF00C3E955 /* InputTextFieldAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextFieldAlertView.swift; sourceTree = "<group>"; };
 		9940094D221E9D4B00C3E955 /* ring.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ring.caf; sourceTree = "<group>"; };
 		9940094F221FA9B000C3E955 /* LocalNotificationManage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManage.swift; sourceTree = "<group>"; };
@@ -220,11 +222,11 @@
 			children = (
 				990B64B121F075840063BD34 /* WSDatePickerView.h */,
 				990B64B421F075840063BD34 /* WSDatePickerView.m */,
+				990B64B321F075840063BD34 /* WSDatePickerView.xib */,
 				990B64B021F075840063BD34 /* NSDate+Extension.h */,
 				990B64B521F075840063BD34 /* NSDate+Extension.m */,
 				990B64B621F075840063BD34 /* UIView+Extension.m */,
 				990B64B221F075840063BD34 /* UIView+Extension.h */,
-				990B64B321F075840063BD34 /* WSDatePickerView.xib */,
 			);
 			path = WSDaePickerView;
 			sourceTree = "<group>";
@@ -445,6 +447,7 @@
 		99857C0121EDBA7F005C7F9B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				99277CF52229117600B7395D /* HomeTableViewCellDelegate.swift */,
 				99857C0221EDBA8F005C7F9B /* AddNewSeasonDelegate.swift */,
 			);
 			path = Protocol;
@@ -669,6 +672,7 @@
 				99857C0B21EDDC38005C7F9B /* ITReminderTableViewCell.swift in Sources */,
 				99C4F73521F5A99D00A25386 /* HandlerDocumentManager.swift in Sources */,
 				99C4F72E21F5677E00A25386 /* HomeSeasonViewModel.swift in Sources */,
+				99277CF62229117600B7395D /* HomeTableViewCellDelegate.swift in Sources */,
 				995022CA21E72AB0004FAC47 /* HomeViewController.swift in Sources */,
 				990B64B921F075840063BD34 /* NSDate+Extension.m in Sources */,
 				99C4F72621F1AA3E00A25386 /* CKAlertBaseAnimation.swift in Sources */,
