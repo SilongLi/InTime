@@ -21,7 +21,7 @@ class HomeSeasonViewModel {
         }
         var home = CategoryModel()
         home.id = NSDate().string(withFormat: DatestringWithFormat) + "1"
-        home.title = "首页"
+        home.title = "所有"
         home.isSelected = true
         home.isDefalult = true
         let homeJson = home.convertToJson()
@@ -36,7 +36,7 @@ class HomeSeasonViewModel {
         
         var ring = CategoryModel()
         ring.id = NSDate().string(withFormat: DatestringWithFormat) + "3"
-        ring.title = "闹铃"
+        ring.title = "纪念日"
         ring.isSelected = false
         let ringJson = ring.convertToJson()
         let ringJsonStr = ringJson.convertToString
@@ -125,5 +125,37 @@ class HomeSeasonViewModel {
             }
         }
         completion(models)
+    }
+    
+    /// 获取所有时节
+    static func loadAllSeasons(completion: (_ seasons: [SeasonModel]) -> ()) {
+        /// 获取所有分类
+        var categoryModels: [CategoryModel] = [CategoryModel]()
+        if let data = HandlerDocumentManager.getCategorys() {
+            let categoryJsons = NSKeyedUnarchiver.unarchiveObject(with: data)
+            if categoryJsons is Array<String>, let jsonStrs: [String] = categoryJsons as? [String] {
+                for jsonStr in jsonStrs {
+                    let json = JSON(parseJSON: jsonStr)
+                    let model = CategoryModel.convertToModel(json: json)
+                    categoryModels.append(model)
+                }
+            }
+        }
+        
+        /// 获取分类下的时节
+        var seasons = [SeasonModel]()
+        for category in categoryModels {
+            if let seasonsData = HandlerDocumentManager.getSeasons(categoryId: category.id) {
+                let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
+                if seasonJsons is Array<String>, let jsonStrs: [String] = seasonJsons as? [String] {
+                    for jsonStr in jsonStrs {
+                        let json = JSON(parseJSON: jsonStr)
+                        let model = SeasonModel.convertToModel(json: json)
+                        seasons.append(model)
+                    }
+                }
+            }
+        }
+        completion(seasons)
     }
 }

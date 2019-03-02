@@ -44,7 +44,6 @@
 		995022EB21E8D52E004FAC47 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */; };
 		9968B57B2223EAC900792EC5 /* SeasonTextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9968B57A2223EAC900792EC5 /* SeasonTextManager.swift */; };
 		99857BE821EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */; };
-		99857BED21EC9315005C7F9B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BEC21EC9315005C7F9B /* SettingViewController.swift */; };
 		99857BEF21EC9381005C7F9B /* AddNewSeasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BEE21EC9381005C7F9B /* AddNewSeasonViewController.swift */; };
 		99857BF521ED8D9A005C7F9B /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BF121ED8D9A005C7F9B /* BaseCollectionViewCell.swift */; };
 		99857BF621ED8D9A005C7F9B /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857BF221ED8D9A005C7F9B /* BaseTableViewCell.swift */; };
@@ -130,7 +129,6 @@
 		995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		9968B57A2223EAC900792EC5 /* SeasonTextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonTextManager.swift; sourceTree = "<group>"; };
 		99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonDetailCollectionViewCell.swift; sourceTree = "<group>"; };
-		99857BEC21EC9315005C7F9B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		99857BEE21EC9381005C7F9B /* AddNewSeasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSeasonViewController.swift; sourceTree = "<group>"; };
 		99857BF121ED8D9A005C7F9B /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		99857BF221ED8D9A005C7F9B /* BaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -301,7 +299,6 @@
 				995022DF21E87776004FAC47 /* Base */,
 				99C4F73221F5A97500A25386 /* Tools */,
 				995022C421E72A1A004FAC47 /* Home */,
-				99857BE921EC92EA005C7F9B /* Setting */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -404,30 +401,6 @@
 				99857BF121ED8D9A005C7F9B /* BaseCollectionViewCell.swift */,
 			);
 			path = Base;
-			sourceTree = "<group>";
-		};
-		99857BE921EC92EA005C7F9B /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-				99857BEA21EC92F7005C7F9B /* View */,
-			);
-			path = Setting;
-			sourceTree = "<group>";
-		};
-		99857BEA21EC92F7005C7F9B /* View */ = {
-			isa = PBXGroup;
-			children = (
-				99857BEB21EC92FB005C7F9B /* Controllers */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		99857BEB21EC92FB005C7F9B /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				99857BEC21EC9315005C7F9B /* SettingViewController.swift */,
-			);
-			path = Controllers;
 			sourceTree = "<group>";
 		};
 		99857BF021ED7F67005C7F9B /* NewSeasonViews */ = {
@@ -688,7 +661,6 @@
 				99857BF521ED8D9A005C7F9B /* BaseCollectionViewCell.swift in Sources */,
 				995022D521E78A3D004FAC47 /* CategoryModel.swift in Sources */,
 				9940094B221E4BDF00C3E955 /* InputTextFieldAlertView.swift in Sources */,
-				99857BED21EC9315005C7F9B /* SettingViewController.swift in Sources */,
 				9968B57B2223EAC900792EC5 /* SeasonTextManager.swift in Sources */,
 				995022D721E83EDA004FAC47 /* ThemeModel.swift in Sources */,
 				99857BFE21EDB396005C7F9B /* AddNewSeasonViewModel.swift in Sources */,

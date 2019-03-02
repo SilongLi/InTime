@@ -34,6 +34,46 @@ class HomeViewController: BaseViewController {
         return titleLabel
     }()
     
+    /// 导航栏
+    lazy var sortBtn: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(named: "sort"), for: .normal)
+        btn.addTarget(self, action: #selector(sortSeasonAction), for: .touchUpInside)
+        return btn
+    }()
+    lazy var titleActionBtn: UIButton = {
+        let btn = UIButton()
+        btn.addTarget(self, action: #selector(selectedTypeAction), for: .touchUpInside)
+        return btn
+    }()
+    lazy var addNewSeasonBtn: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(named: "add"), for: .normal)
+        btn.addTarget(self, action: #selector(gotoAddNewSeasonView), for: .touchUpInside)
+        return btn
+    }()
+    lazy var finishSortSeasonBtn: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("完成", for: UIControl.State.normal)
+        btn.layer.cornerRadius  = 3.0
+        btn.layer.masksToBounds = true
+        btn.layer.borderColor = UIColor.white.cgColor
+        btn.layer.borderWidth = 1.0
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        btn.addTarget(self, action: #selector(finishSortSeasonAction), for: .touchUpInside)
+        return btn
+    }()
+    lazy var sortInfoLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.pinkColor
+        label.text = "请长按最右侧按钮\n拖动按钮进行排序"
+        label.numberOfLines = 2
+        label.isHidden = true
+        return label
+    }()
+    
     lazy var navigationView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clear
@@ -41,12 +81,8 @@ class HomeViewController: BaseViewController {
         let iconW: CGFloat = 26.0
         let bottom: CGFloat = 10.0
         
-        /// 设置
-        let leftBtn = UIButton()
-        leftBtn.setImage(UIImage(named: "setting"), for: .normal)
-        leftBtn.addTarget(self, action: #selector(gotoSettingView), for: .touchUpInside)
-        view.addSubview(leftBtn)
-        leftBtn.snp.makeConstraints({ (make) in
+        view.addSubview(sortBtn)
+        sortBtn.snp.makeConstraints({ (make) in
             make.left.equalToSuperview().offset(15)
             make.bottom.equalToSuperview().offset(-bottom)
             make.size.equalTo(CGSize.init(width: iconW, height: iconW))
@@ -68,21 +104,30 @@ class HomeViewController: BaseViewController {
             make.size.equalTo(CGSize(width: 20.0, height: 14.0))
         })
         
-        let titleBtn: UIButton = UIButton()
-        titleBtn.addTarget(self, action: #selector(selectedTypeAction), for: .touchUpInside)
-        view.addSubview(titleBtn)
-        titleBtn.snp.makeConstraints({ (make) in
+        view.addSubview(titleActionBtn)
+        titleActionBtn.snp.makeConstraints({ (make) in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(5)
             make.size.equalTo(CGSize(width: 80.0, height: 60.0))
         })
         
-        /// 添加新计划
-        let rightBtn = UIButton()
-        rightBtn.setImage(UIImage(named: "add"), for: .normal)
-        rightBtn.addTarget(self, action: #selector(gotoAddNewTimeView), for: .touchUpInside)
-        view.addSubview(rightBtn)
-        rightBtn.snp.makeConstraints({ (make) in
+        view.addSubview(finishSortSeasonBtn)
+        finishSortSeasonBtn.isHidden = true
+        finishSortSeasonBtn.snp.makeConstraints({ (make) in
+            make.right.equalToSuperview().offset(-15)
+            make.bottom.equalToSuperview().offset(-7)
+            make.size.equalTo(CGSize.init(width: 44.0, height: 25.0))
+        })
+        
+        view.addSubview(sortInfoLabel)
+        sortInfoLabel.snp.makeConstraints({ (make) in
+            make.bottom.equalToSuperview().offset(0)
+            make.centerX.equalToSuperview()
+            make.size.equalTo(CGSize.init(width: 160, height: 40.0))
+        })
+        
+        view.addSubview(addNewSeasonBtn)
+        addNewSeasonBtn.snp.makeConstraints({ (make) in
             make.right.equalToSuperview().offset(-15)
             make.bottom.equalToSuperview().offset(-bottom)
             make.size.equalTo(CGSize.init(width: iconW, height: iconW))
@@ -201,9 +246,9 @@ class HomeViewController: BaseViewController {
         view.addSubview(bgTableView)
         bgTableView.addSubview(bottomBgImageTableView)
         view.addSubview(tableView)
-        view.addSubview(selectedCategoryView)
         view.addSubview(emptyInfoLabel)
         view.addSubview(navigationView)
+        view.addSubview(selectedCategoryView)
         
         headerView.snp.updateConstraints { (make) in
             make.top.equalTo(IT_NaviHeight)
@@ -239,7 +284,7 @@ class HomeViewController: BaseViewController {
             make.height.equalTo(300.0)
         }
         selectedCategoryView.snp.updateConstraints { (make) in
-            make.top.equalToSuperview().offset(IT_NaviHeight)
+            make.top.equalToSuperview()//.offset(IT_NaviHeight)
             make.left.right.equalToSuperview()
             make.height.equalTo(0.01)
         }
@@ -292,15 +337,22 @@ class HomeViewController: BaseViewController {
     }
     
     @objc func loadseasons() {
-        let categoryId: String = currentSelectedCategory?.id ?? ""
-        guard !categoryId.isEmpty else {
+        guard let category = currentSelectedCategory else {
             CommonTools.printLog(message: "[Debug] 分类ID为空！")
             return
         }
-        HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryId) { [weak self] (seasons) in
-            self?.tableView.setContentOffset(CGPoint.zero, animated: false)
-            self?.seasons = seasons
-            self?.updateContentView()
+        if category.isDefalult {
+            HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
+                self?.tableView.setContentOffset(CGPoint.zero, animated: false)
+                self?.seasons = seasons
+                self?.updateContentView()
+            }
+        } else {
+            HomeSeasonViewModel.loadLocalSeasons(categoryId: category.id) { [weak self] (seasons) in
+                self?.tableView.setContentOffset(CGPoint.zero, animated: false)
+                self?.seasons = seasons
+                self?.updateContentView()
+            }
         }
     }
     
@@ -314,86 +366,92 @@ class HomeViewController: BaseViewController {
             currentSeason = seasons.first!
             updateBGView()
         } else {
-            if currentShowtopBgImageView == topBgImageView {
+            bottomBgImageTableView.alpha = 0.0
+            bottomBgImageTableView.image = nil
+            bottomBgImageTableView.backgroundColor = UIColor.clear
+            
+            let isTopBgViewShow = currentShowtopBgImageView == topBgImageView
+            if isTopBgViewShow {
                 bgImageViewAlternate.image = defalutBgImage
-                topBgImageView.alpha = 0.0
-                bottomBgImageTableView.alpha = 0.0
-                UIView.animate(withDuration: AnimateDuration) {
-                    self.bgImageViewAlternate.alpha = 1
-                }
-                currentShowtopBgImageView = bgImageViewAlternate
             } else {
-                bgImageViewAlternate.alpha = 0.0
                 topBgImageView.image = defalutBgImage
-                bottomBgImageTableView.alpha = 0.0
-                UIView.animate(withDuration: AnimateDuration) {
-                    self.topBgImageView.alpha = 1
-                }
-                currentShowtopBgImageView = topBgImageView
             }
+            UIView.animate(withDuration: AnimateDuration) {
+                self.topBgImageView.alpha = isTopBgViewShow ? 0.0 : 1.0
+                self.bgImageViewAlternate.alpha = isTopBgViewShow ? 1 : 0.0
+            }
+            currentShowtopBgImageView = isTopBgViewShow ? bgImageViewAlternate : topBgImageView
         }
-        
+ 
         tableView.reloadData()
     }
     
     /// 切换背景样式
     func updateBGView() {
-        if currentShowtopBgImageView == topBgImageView {
+        bottomBgImageTableView.alpha = 0.0
+        bottomBgImageTableView.image = nil
+        bottomBgImageTableView.backgroundColor = UIColor.clear
+        
+        let bgImage = UIImage(named: currentSeason.backgroundModel.name)
+        let bgColor = UIColor.color(hex: currentSeason.backgroundModel.name)
+        
+        let isTopBgViewShow = currentShowtopBgImageView == topBgImageView
+        if isTopBgViewShow {
             bgImageViewAlternate.image = nil
             if currentSeason.backgroundModel.type == .image {
-                bgImageViewAlternate.image = UIImage(named: currentSeason.backgroundModel.name)
+                bgImageViewAlternate.image = bgImage
             } else {
-                bgImageViewAlternate.backgroundColor = UIColor.color(hex: currentSeason.backgroundModel.name)
+                bgImageViewAlternate.backgroundColor = bgColor
             }
-            UIView.animate(withDuration: AnimateDuration, animations: {
-                self.topBgImageView.alpha = 0.0
-                self.bgImageViewAlternate.alpha = 1.0
-                self.bottomBgImageTableView.alpha = 0.0
-            }) { (_) in
-                self.bottomBgImageTableView.alpha = 1.0
-                self.bottomBgImageTableView.image = nil
-                if self.currentSeason.backgroundModel.type == .image {
-                    self.bottomBgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
-                } else {
-                    self.bottomBgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.backgroundModel.name)
-                }
-            }
-            currentShowtopBgImageView = bgImageViewAlternate
-            
         } else {
             topBgImageView.image = nil
             if currentSeason.backgroundModel.type == .image {
-                topBgImageView.image = UIImage(named: currentSeason.backgroundModel.name)
+                topBgImageView.image = bgImage
             } else {
-                topBgImageView.backgroundColor = UIColor.color(hex: currentSeason.backgroundModel.name)
+                topBgImageView.backgroundColor = bgColor
             }
-            UIView.animate(withDuration: AnimateDuration, animations: {
-                self.topBgImageView.alpha = 1.0
-                self.bgImageViewAlternate.alpha = 0.0
-                self.bottomBgImageTableView.alpha = 0.0
-            }) { (_) in
+        }
+        
+        UIView.animate(withDuration: AnimateDuration, animations: {
+            self.topBgImageView.alpha = isTopBgViewShow ? 0.0 : 10.0
+            self.bgImageViewAlternate.alpha = isTopBgViewShow ? 1.0 : 0.0
+        }) { (_) in
+            if self.seasons.count > 0 {
                 self.bottomBgImageTableView.alpha = 1.0
-                self.bottomBgImageTableView.image = nil
                 if self.currentSeason.backgroundModel.type == .image {
-                    self.bottomBgImageTableView.image = UIImage(named: self.currentSeason.backgroundModel.name)
+                    self.bottomBgImageTableView.image = bgImage
                 } else {
-                    self.bottomBgImageTableView.backgroundColor = UIColor.color(hex: self.currentSeason.backgroundModel.name)
+                    self.bottomBgImageTableView.backgroundColor = bgColor
                 }
             }
-            currentShowtopBgImageView = topBgImageView
         }
+        
+        currentShowtopBgImageView = isTopBgViewShow ? bgImageViewAlternate : topBgImageView
     }
     
     
     // MARK: - actions
-    @objc func gotoSettingView() {
-//        let VC = SettingViewController()
-//        navigationController?.pushViewController(VC, animated: true)
-        
-        tableView.setEditing(!tableView.isEditing, animated: true)
+    @objc func sortSeasonAction() {
+        handlerSortSeason(isSort: true)
     }
     
-    @objc func gotoAddNewTimeView() {
+    @objc func finishSortSeasonAction() {
+        handlerSortSeason(isSort: false)
+    }
+    
+    func handlerSortSeason(isSort: Bool) {
+        tableView.setEditing(isSort, animated: true)
+        
+        sortBtn.isHidden = isSort
+        titleLabel.isHidden = isSort
+        iconView.isHidden = isSort
+        titleActionBtn.isHidden = isSort
+        addNewSeasonBtn.isHidden = isSort
+        finishSortSeasonBtn.isHidden = !isSort
+        sortInfoLabel.isHidden = !isSort
+    }
+    
+    @objc func gotoAddNewSeasonView() {
         let VC = AddNewSeasonViewController()
         navigationController?.pushViewController(VC, animated: true)
     }

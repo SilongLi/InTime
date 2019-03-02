@@ -78,12 +78,12 @@ class SelectedCategoryView: UIView {
             self.bgMaskView.alpha = 1
         })
          
-        tableView.frame = CGRect(x: margin, y: 0.0, width: IT_SCREEN_WIDTH - margin * 2, height: 0.01)
+        tableView.frame = CGRect(x: margin, y: IT_NaviHeight, width: IT_SCREEN_WIDTH - margin * 2, height: 0.01)
         let count: CGFloat = CGFloat(dataSource.count)
         let markViewH = (IT_SCREEN_HEIGHT - IT_NaviHeight - cellHeight) * 0.8
         let tableViewH = count * self.cellHeight > markViewH ? markViewH : count * self.cellHeight + margin
         UIView.animate(withDuration: self.duration, animations: {
-            self.tableView.frame = CGRect(x: self.margin, y: 0.0, width: IT_SCREEN_WIDTH - self.margin * 2, height: tableViewH)
+            self.tableView.frame = CGRect(x: self.margin, y: IT_NaviHeight, width: IT_SCREEN_WIDTH - self.margin * 2, height: tableViewH)
         })
         tableView.layer.cornerRadius = 16.0
         tableView.layer.masksToBounds = true
@@ -115,7 +115,7 @@ class SelectedCategoryView: UIView {
             return
         }
         UIView.animate(withDuration: duration, animations: {
-            self.tableView.frame = CGRect(x: self.margin, y: 0.0, width: IT_SCREEN_WIDTH - self.margin * 2, height: 0.01)
+            self.tableView.frame = CGRect(x: self.margin, y: IT_NaviHeight, width: IT_SCREEN_WIDTH - self.margin * 2, height: 0.01)
         }) { (_) in
             self.tableView.removeFromSuperview()
         }

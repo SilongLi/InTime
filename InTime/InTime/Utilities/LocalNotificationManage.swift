@@ -33,11 +33,65 @@ class LocalNotificationManage: NSObject {
                                                                         repeatRemindType: repeatRemindType,
                                                                         isOpenRemind: isOpenRemind)
         } else {
-            // TODO:
+            LocalNotificationManage.shared.sendLocalNotificationOniOS9(title: title,
+                                                                       subTitle: subTitle,
+                                                                       body: body,
+                                                                       identifier: identifier,
+                                                                       soundName: soundName,
+                                                                       date: date,
+                                                                       repeatRemindType: repeatRemindType,
+                                                                       isOpenRemind: isOpenRemind)
         }
     }
     
-    /// iOS 10.0以上系统，发送本地推送方法
+    // MARK: - iOS 9.0及以下系统，发送本地推送方法
+    @available(iOS 9.0, *)
+    private func sendLocalNotificationOniOS9(title: String,
+                                             subTitle: String,
+                                             body: String?,
+                                             identifier: String,
+                                             soundName: String,
+                                             date: Date,
+                                             repeatRemindType: RepeatRemindType = RepeatRemindType.no,
+                                             isOpenRemind: Bool) -> () {
+        // 重复间隔
+        var repeatInterval = NSCalendar.Unit.day
+        switch repeatRemindType {
+        case .year:
+            repeatInterval = NSCalendar.Unit.year
+        case .month:
+            repeatInterval = NSCalendar.Unit.month
+        case .week:
+            repeatInterval = NSCalendar.Unit.weekday
+        case .day:
+            repeatInterval = NSCalendar.Unit.day
+        case .workDay:
+            repeatInterval = NSCalendar.Unit.weekdayOrdinal
+        default:
+            break
+        }
+        let notification = UILocalNotification()
+        notification.fireDate           = date
+        notification.repeatInterval     = repeatInterval
+        notification.timeZone           = NSTimeZone.default
+        notification.repeatCalendar     = Calendar.current
+        notification.alertTitle         = title
+        notification.alertBody          = body ?? ""
+        notification.category           = identifier
+        notification.alertLaunchImage   = "InTime"
+        if isOpenRemind {
+            if !soundName.isEmpty {
+                notification.soundName  = soundName
+            } else {
+                notification.soundName  = UILocalNotificationDefaultSoundName
+            }
+        }
+        notification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        
+        UIApplication.shared.scheduleLocalNotification(notification)
+    }
+    
+    // MARK: - iOS 10.0以上系统，发送本地推送方法
     @available(iOS 10.0, *)
     private func sendLocalNotificationOniOS10(title: String,
                                               subTitle: String,
@@ -84,8 +138,10 @@ class LocalNotificationManage: NSObject {
             components = Set<Calendar.Component>([.month, .day, .hour, .minute, .second])
         case .week:
             components = Set<Calendar.Component>([.weekday, .hour, .minute, .second])
-        case .day, .workDay:
+        case .day:
             components = Set<Calendar.Component>([.day, .hour, .minute, .second])
+        case .workDay:
+            components = Set<Calendar.Component>([.weekdayOrdinal, .hour, .minute, .second])
         default:
             isRepeats  = false
         }

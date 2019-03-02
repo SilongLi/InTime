@@ -346,11 +346,12 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
     }
     
     func modifyCategory(_ textModel: TextModel?, categoryView: CommonAlertTableView) {
-        let inputAlert = InputTextFieldAlertView(title: "修改分类", textFieldText: textModel?.text, placeholder: "请输入分类名称", cancelAction: nil, doneAction: { [weak self] (text) in
+        let alertTitle = textModel != nil ? "修改分类" : "添加分类"
+        let inputAlert = InputTextFieldAlertView(title: alertTitle, textFieldText: textModel?.text, placeholder: "请输入分类名称", cancelAction: nil, doneAction: { [weak self] (text) in
             guard let strongSelf = self else { return }
             guard let title: String = text else { return }
             let maxLenght = 60
-            if title.count == 0 {
+            if title.count == 0 {   // 删除分类
                 if let model = textModel {
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0, execute: {
                         HomeSeasonViewModel.loadLocalSeasons(categoryId: model.type) { (seasons) in
@@ -378,7 +379,21 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
                 UIApplication.shared.keyWindow?.showText("请输入少于\(maxLenght)字符长度的分类名称！")
                 return
             } else {
-                let success = HomeSeasonViewModel.saveCategory(name: title)
+                var success = false
+                if let currentModel = textModel { // 更新分类标题
+                    if var models = self?.categoryModels {
+                        for index in 0..<models.count {
+                            var model = models[index]
+                            if model.id == currentModel.type {
+                                model.title = title
+                            }
+                            models[index] = model
+                        }
+                        success = HomeSeasonViewModel.saveAllCategorys(models)
+                    }
+                } else { // 添加分类标题
+                    success = HomeSeasonViewModel.saveCategory(name: title)
+                }
                 if success {
                     NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
                     AddNewSeasonViewModel.loadClassifyModel(originSeason: strongSelf.newSeason) { (model, categorys) in
