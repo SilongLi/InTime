@@ -50,9 +50,10 @@ class SeaSonDetailViewController: BaseViewController {
         return btn
     }()
     
-    /// 图片展示动画
+    /// 图片展示动画的时间
     let AnimateDuration: TimeInterval = 1.0
     
+    var category: CategoryModel?
     var seasons: [SeasonModel] = [SeasonModel]()
     var currentSelectedIndex: Int = 0
     
@@ -139,12 +140,20 @@ class SeaSonDetailViewController: BaseViewController {
     
     // MARK: - load DataSource
     @objc func loadSeasions() {
-        guard let season = seasons.first else {
+        guard let categoryModel = category else {
+            CommonTools.printLog(message: "[Debug] 分类ID为空！")
             return
         }
-        HomeSeasonViewModel.loadLocalSeasons(categoryId: season.categoryId) { [weak self] (seasons) in
-            self?.seasons = seasons
-            self?.setupContentView()
+        if categoryModel.isDefalult {
+            HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
+                self?.seasons = seasons
+                self?.setupContentView()
+            }
+        } else {
+            HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryModel.id) { [weak self] (seasons) in
+                self?.seasons = seasons
+                self?.setupContentView()
+            }
         }
     }
     

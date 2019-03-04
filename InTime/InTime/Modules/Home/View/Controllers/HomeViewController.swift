@@ -35,6 +35,12 @@ class HomeViewController: BaseViewController {
     }()
     
     /// 导航栏
+    lazy var settingBtn: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(named: "setting"), for: .normal)
+        btn.addTarget(self, action: #selector(gotoSettingViewAction), for: .touchUpInside)
+        return btn
+    }()
     lazy var sortBtn: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(named: "sort"), for: .normal)
@@ -81,8 +87,8 @@ class HomeViewController: BaseViewController {
         let iconW: CGFloat = 26.0
         let bottom: CGFloat = 10.0
         
-        view.addSubview(sortBtn)
-        sortBtn.snp.makeConstraints({ (make) in
+        view.addSubview(settingBtn)
+        settingBtn.snp.makeConstraints({ (make) in
             make.left.equalToSuperview().offset(15)
             make.bottom.equalToSuperview().offset(-bottom)
             make.size.equalTo(CGSize.init(width: iconW, height: iconW))
@@ -129,6 +135,13 @@ class HomeViewController: BaseViewController {
         view.addSubview(addNewSeasonBtn)
         addNewSeasonBtn.snp.makeConstraints({ (make) in
             make.right.equalToSuperview().offset(-15)
+            make.bottom.equalToSuperview().offset(-bottom)
+            make.size.equalTo(CGSize.init(width: iconW, height: iconW))
+        })
+        
+        view.addSubview(sortBtn)
+        sortBtn.snp.makeConstraints({ (make) in
+            make.right.equalTo(addNewSeasonBtn.snp.left).offset(-15)
             make.bottom.equalToSuperview().offset(-bottom)
             make.size.equalTo(CGSize.init(width: iconW, height: iconW))
         })
@@ -208,7 +221,11 @@ class HomeViewController: BaseViewController {
             headerView.season = currentSeason
         }
     }
-    var currentSelectedCategory: CategoryModel?
+    var currentSelectedCategory: CategoryModel? {
+        didSet {
+            sortBtn.isHidden = currentSelectedCategory?.isDefalult ?? false
+        }
+    }
     var seasons: [SeasonModel] = [SeasonModel]()
     
     private var sourceIndexPath: IndexPath?
@@ -284,7 +301,7 @@ class HomeViewController: BaseViewController {
             make.height.equalTo(300.0)
         }
         selectedCategoryView.snp.updateConstraints { (make) in
-            make.top.equalToSuperview()//.offset(IT_NaviHeight)
+            make.top.equalToSuperview()
             make.left.right.equalToSuperview()
             make.height.equalTo(0.01)
         }
@@ -317,9 +334,6 @@ class HomeViewController: BaseViewController {
                 
                 /// 根据分类加载时节，并刷新数据
                 self?.loadseasons()
-                
-                // TODO: 暂时不支持“所有”类型的排序
-                self?.sortBtn.isHidden = category.isDefalult
             }
         }
     }
@@ -434,6 +448,10 @@ class HomeViewController: BaseViewController {
     
     
     // MARK: - actions
+    @objc func gotoSettingViewAction() {
+        
+    }
+    
     @objc func sortSeasonAction() {
         handlerSortSeason(isSort: true)
     }
@@ -444,7 +462,8 @@ class HomeViewController: BaseViewController {
     
     func handlerSortSeason(isSort: Bool) {
         tableView.setEditing(isSort, animated: true)
-        
+
+        settingBtn.isHidden = isSort
         sortBtn.isHidden = isSort
         titleLabel.isHidden = isSort
         iconView.isHidden = isSort
@@ -567,7 +586,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let detail = SeaSonDetailViewController()
-        detail.seasons = seasons
+        detail.category = currentSelectedCategory
+        detail.seasons  = seasons
         detail.currentSelectedIndex = indexPath.row
         navigationController?.pushViewController(detail, animated: true)
     }
