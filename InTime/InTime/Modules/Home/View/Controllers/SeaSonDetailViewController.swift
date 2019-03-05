@@ -144,7 +144,7 @@ class SeaSonDetailViewController: BaseViewController {
             CommonTools.printLog(message: "[Debug] 分类ID为空！")
             return
         }
-        if categoryModel.isDefalult {
+        if categoryModel.isDefault {
             HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
                 self?.seasons = seasons
                 self?.setupContentView()

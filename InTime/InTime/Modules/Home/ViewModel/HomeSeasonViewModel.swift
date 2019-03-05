@@ -19,29 +19,30 @@ class HomeSeasonViewModel {
         guard data == nil else {
             return
         }
+        
         var home = CategoryModel()
         home.id = NSDate().string(withFormat: DatestringWithFormat) + "1"
-        home.title = "所有"
+        home.title = "全部"
         home.isSelected = true
-        home.isDefalult = true
+        home.isDefault = true
         let homeJson = home.convertToJson()
         let homeJsonStr = homeJson.convertToString
         
-        var season = CategoryModel()
-        season.id = NSDate().string(withFormat: DatestringWithFormat) + "2"
-        season.title = "时节"
-        season.isSelected = false
-        let seasonJson = season.convertToJson()
-        let seasonJsonStr = seasonJson.convertToString
-        
         var ring = CategoryModel()
-        ring.id = NSDate().string(withFormat: DatestringWithFormat) + "3"
-        ring.title = "纪念日"
+        ring.id = NSDate().string(withFormat: DatestringWithFormat) + "2"
+        ring.title = "闹铃"
         ring.isSelected = false
         let ringJson = ring.convertToJson()
         let ringJsonStr = ringJson.convertToString
         
-        let categoryJsons = [homeJsonStr, seasonJsonStr, ringJsonStr]
+        var anniversaries = CategoryModel()
+        anniversaries.id = NSDate().string(withFormat: DatestringWithFormat) + "3"
+        anniversaries.title = "纪念日"
+        anniversaries.isSelected = false
+        let anniversariesJson = anniversaries.convertToJson()
+        let anniversariesJsonStr = anniversariesJson.convertToString
+        
+        let categoryJsons = [homeJsonStr, ringJsonStr, anniversariesJsonStr]
         let categoryData = NSKeyedArchiver.archivedData(withRootObject: categoryJsons)
         HandlerDocumentManager.saveCategorys(data: categoryData)
     }
@@ -113,46 +114,27 @@ class HomeSeasonViewModel {
     
     /// 加载当前类别下的所有时节
     static func loadLocalSeasons(categoryId: String, completion: (_ seasons: [SeasonModel]) -> ()) {
-        var models: [SeasonModel] = [SeasonModel]()
-        if let seasonsData = HandlerDocumentManager.getSeasons(categoryId: categoryId) {
+        HomeSeasonViewModel.loadAllSeasons { (seasons) in
+            var models: [SeasonModel] = [SeasonModel]()
+            for season in seasons {
+                if season.categoryId == categoryId {
+                    models.append(season)
+                }
+            }
+            completion(models)
+        }
+    }
+    
+    /// 获取所有时节
+    static func loadAllSeasons(completion: (_ seasons: [SeasonModel]) -> ()) {
+        var seasons = [SeasonModel]()
+        if let seasonsData = HandlerDocumentManager.getSeasons(seasonType: HomeRingSeasonsKey) {
             let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
             if seasonJsons is Array<String>, let jsonStrs: [String] = seasonJsons as? [String] {
                 for jsonStr in jsonStrs {
                     let json = JSON(parseJSON: jsonStr)
                     let model = SeasonModel.convertToModel(json: json)
-                    models.append(model)
-                }
-            }
-        }
-        completion(models)
-    }
-    
-    /// 获取所有时节
-    static func loadAllSeasons(completion: (_ seasons: [SeasonModel]) -> ()) {
-        /// 获取所有分类
-        var categoryModels: [CategoryModel] = [CategoryModel]()
-        if let data = HandlerDocumentManager.getCategorys() {
-            let categoryJsons = NSKeyedUnarchiver.unarchiveObject(with: data)
-            if categoryJsons is Array<String>, let jsonStrs: [String] = categoryJsons as? [String] {
-                for jsonStr in jsonStrs {
-                    let json = JSON(parseJSON: jsonStr)
-                    let model = CategoryModel.convertToModel(json: json)
-                    categoryModels.append(model)
-                }
-            }
-        }
-        
-        /// 获取分类下的时节
-        var seasons = [SeasonModel]()
-        for category in categoryModels {
-            if let seasonsData = HandlerDocumentManager.getSeasons(categoryId: category.id) {
-                let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
-                if seasonJsons is Array<String>, let jsonStrs: [String] = seasonJsons as? [String] {
-                    for jsonStr in jsonStrs {
-                        let json = JSON(parseJSON: jsonStr)
-                        let model = SeasonModel.convertToModel(json: json)
-                        seasons.append(model)
-                    }
+                    seasons.append(model)
                 }
             }
         }

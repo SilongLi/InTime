@@ -189,7 +189,6 @@ extension CommonAlertTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {let cell = tableView.dequeueReusableCell(withIdentifier: AlertCellId, for: indexPath) as! CategoryTableViewCell
         cell.model = alertModel?.texts[indexPath.row]
-        cell.margin = 20.0
         return cell
     }
     

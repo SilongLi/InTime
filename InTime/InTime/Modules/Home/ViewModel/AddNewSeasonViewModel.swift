@@ -13,6 +13,9 @@ let StartSeasonDateMDHMFormat = "MM.dd HH:mm"
 let StartSeasonDateDHMFormat = "dd HH:mm"
 let StartSeasonDateHMFormat = "HH:mm"
 
+/// 首页闹铃模块
+public let HomeRingSeasonsKey: String = "HomeRingSeasonsKey"
+
 class AddNewSeasonViewModel {
     
     static let InputCellHeight: CGFloat = 60.0
@@ -30,21 +33,20 @@ extension AddNewSeasonViewModel {
         let seasonJson: Dictionary = season.convertToJson()
         let seasonJsonStr: String = seasonJson.convertToString
         var seasonStrs = [seasonJsonStr]
-        if let seasonsData = HandlerDocumentManager.getSeasons(categoryId: season.categoryId) {
+        if let seasonsData = HandlerDocumentManager.getSeasons(seasonType: HomeRingSeasonsKey) {
             let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
             if seasonJsons is Array<String>, let jsonStrs: [String] = seasonJsons as? [String] {
                 seasonStrs.append(contentsOf: jsonStrs)
             }
         }
         let seasonsData = NSKeyedArchiver.archivedData(withRootObject: seasonStrs)
-        return HandlerDocumentManager.saveSeasons(categoryId: season.categoryId, data: seasonsData)
+        return HandlerDocumentManager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
     }
     
     /// 保存所有时节
     @discardableResult
     static func saveAllSeasons(seasons: [SeasonModel]) -> Bool {
-        let categoryId = seasons.first?.categoryId ?? ""
-        guard !seasons.isEmpty, !categoryId.isEmpty else {
+        guard seasons.isEmpty == false else {
             return false
         }
         var seasonStrs: [String] = [String]()
@@ -54,7 +56,7 @@ extension AddNewSeasonViewModel {
             seasonStrs.append(seasonJsonStr)
         }
         let seasonsData = NSKeyedArchiver.archivedData(withRootObject: seasonStrs)
-        return HandlerDocumentManager.saveSeasons(categoryId: categoryId, data: seasonsData)
+        return HandlerDocumentManager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
     }
     
     /// 保存被修改的时节
@@ -62,7 +64,7 @@ extension AddNewSeasonViewModel {
         let seasonJson: Dictionary = season.convertToJson()
         let newSeasonJsonStr: String = seasonJson.convertToString
         var seasonStrs = [newSeasonJsonStr]
-        if let seasonsData = HandlerDocumentManager.getSeasons(categoryId: season.categoryId) {
+        if let seasonsData = HandlerDocumentManager.getSeasons(seasonType: HomeRingSeasonsKey) {
             let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
             if seasonJsons is Array<String>, var jsonStrs: [String] = seasonJsons as? [String] {
                 for index in 0..<jsonStrs.count {
@@ -76,7 +78,7 @@ extension AddNewSeasonViewModel {
             }
         }
         let seasonsData = NSKeyedArchiver.archivedData(withRootObject: seasonStrs)
-        return HandlerDocumentManager.saveSeasons(categoryId: season.categoryId, data: seasonsData)
+        return HandlerDocumentManager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
     }
     
     /// 删除时节
@@ -84,7 +86,7 @@ extension AddNewSeasonViewModel {
         guard !season.id.isEmpty else {
             return false
         }
-        if let seasonsData = HandlerDocumentManager.getSeasons(categoryId: season.categoryId) {
+        if let seasonsData = HandlerDocumentManager.getSeasons(seasonType: HomeRingSeasonsKey) {
             let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
             if seasonJsons is Array<String>, var jsonStrs: [String] = seasonJsons as? [String] {
                 for index in 0..<jsonStrs.count {
@@ -94,12 +96,8 @@ extension AddNewSeasonViewModel {
                         break
                     }
                 }
-                if jsonStrs.isEmpty {
-                    return HandlerDocumentManager.deleteSeasons(categoryId: season.categoryId)
-                } else {
-                    let seasonsData = NSKeyedArchiver.archivedData(withRootObject: jsonStrs)
-                    return HandlerDocumentManager.saveSeasons(categoryId: season.categoryId, data: seasonsData)
-                }
+                let seasonsData = NSKeyedArchiver.archivedData(withRootObject: jsonStrs)
+                return HandlerDocumentManager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
             }
         }
         return false
@@ -167,27 +165,40 @@ extension AddNewSeasonViewModel {
                                            showCellCount: 1,
                                            items: [unit])
         /// 分类管理
-        var categoty: CategoryModel = CategoryModel()
+        var category: CategoryModel = CategoryModel()
         HomeSeasonViewModel.loadLocalCategorys { (models) in
-            for model in models {
+            // 默认类型不添加时节
+            var categorys = models
+            for index in 0..<models.count {
+                let model = models[index]
+                if model.isDefault {
+                    categorys.remove(at: index)
+                    if model.isSelected, var first = categorys.first {
+                        first.isSelected = true
+                        categorys[0] = first
+                    }
+                    break
+                }
+            }
+            for model in categorys {
                 if isModifySeason {
                     if model.id == originSeason.categoryId {
-                        categoty = model
+                        category = model
                         break
                     }
                 } else {
                     if model.isSelected {
-                        categoty = model
+                        category = model
                         break
                     }
                 }
             }
         }
         let type  = InfoSelectedModel()
-        type.id   = categoty.id
+        type.id   = category.id
         type.type = InfoSelectedType.classification
         type.name = "分类管理"
-        type.info = categoty.title
+        type.info = category.title
         let typeSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.category.rawValue,
                                            headerTitle: "",
                                            footerTitle: "",
@@ -361,8 +372,21 @@ extension AddNewSeasonViewModel {
     /// 获取分类数据
     static func loadClassifyModel(originSeason: SeasonModel, completion: ((_ model: AlertCollectionModel, _ categoryModels: [CategoryModel]) -> ())) {
         HomeSeasonViewModel.loadLocalCategorys { (models) in
-            let alert = AddNewSeasonViewModel.handleClassifyModel(originSeason: originSeason, models)
-            completion(alert, models)
+            // 默认类型不添加时节
+            var categorys = models
+            for index in 0..<models.count {
+                let model = models[index]
+                if model.isDefault {
+                    categorys.remove(at: index)
+                    if model.isSelected, var first = categorys.first {
+                        first.isSelected = true
+                        categorys[0] = first
+                    }
+                    break
+                }
+            }
+            let alert = AddNewSeasonViewModel.handleClassifyModel(originSeason: originSeason, categorys)
+            completion(alert, categorys)
         }
     }
     

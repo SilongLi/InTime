@@ -20,25 +20,9 @@ let IT_IPHONE_6 = UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.
 let IT_IPHONE_6P = UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.currentMode)) ? __CGSizeEqualToSize(CGSize(width: 1242, height: 2208), (UIScreen.main.currentMode?.size)!) : false
 let IT_IPHONE_6PBigMode = UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.currentMode)) ? __CGSizeEqualToSize(CGSize(width: 1125, height: 2001), (UIScreen.main.currentMode?.size)!) : false
 
-// 是否为"刘海屏"系列 iPhone X / iPhone XR / iPhone XS Max / iPhone XS
+/// 目前iPhoneX系列都是“刘海屏”，状态栏的高度均为44.0
 let IT_IPHONE_X: Bool = {
-    var isFaceIDCapableDevices = false
-    // iPhone X / iPhone XR
-    isFaceIDCapableDevices = UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.currentMode)) ? __CGSizeEqualToSize(CGSize(width: 1125, height: 2436), (UIScreen.main.currentMode?.size)!) : false
-    guard isFaceIDCapableDevices == false else {
-        return isFaceIDCapableDevices
-    }
-    
-    // iPhone XS
-    isFaceIDCapableDevices = UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.currentMode)) ? __CGSizeEqualToSize(CGSize(width: 828, height: 1792), (UIScreen.main.currentMode?.size)!) : false
-    guard isFaceIDCapableDevices == false else {
-        return isFaceIDCapableDevices
-    }
-    
-    // iPhone XS Max
-    isFaceIDCapableDevices = UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.currentMode)) ? __CGSizeEqualToSize(CGSize(width: 1242, height: 2688), (UIScreen.main.currentMode?.size)!) : false
-    
-    return isFaceIDCapableDevices
+    return UIApplication.shared.statusBarFrame.size.height == 44.0
 }()
 
 let IT_NaviHeight: CGFloat   = IT_IPHONE_X ? 88 : 64

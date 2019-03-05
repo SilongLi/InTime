@@ -190,6 +190,14 @@ class AddNewSeasonViewController: BaseViewController {
             return
         }
         
+        var isLater = true
+        if let date = NSDate(newSeason.startDate.gregoriandDataString, withFormat: StartSeasonDateFormat) {
+            isLater = date.isLaterThanDate(Date())
+            if isLater { /// 重置本地通知
+                newSeason.hasCancelNotification = false
+            }
+        }
+        
         var success = false
         if isModifySeason {
             success = AddNewSeasonViewModel.saveSeason(season: newSeason)
@@ -198,7 +206,10 @@ class AddNewSeasonViewController: BaseViewController {
             success = AddNewSeasonViewModel.addNewSeason(season: newSeason)
         }
         if success {
-            addNewAlarm()
+            /// 只要是未过期或者设置了重复提醒的时节，都添加本地通知
+            if isLater, newSeason.repeatRemindType != .no {
+                addNewAlarm()
+            }
             NotificationCenter.default.post(name: NotificationAddNewSeason, object: nil)
             navigationController?.popViewController(animated: true)
         } else {
@@ -344,104 +355,6 @@ extension AddNewSeasonViewController: SelectedTimeDelegate {
         }
         tableView.reloadData()
     }
-    
-    func modifyCategory(_ textModel: TextModel?, categoryView: CommonAlertTableView) {
-        let alertTitle = textModel != nil ? "修改分类" : "添加分类"
-        let inputAlert = InputTextFieldAlertView(title: alertTitle, textFieldText: textModel?.text, placeholder: "请输入分类名称", cancelAction: nil, doneAction: { [weak self] (text) in
-            guard let strongSelf = self else { return }
-            guard let title: String = text else { return }
-            let maxLenght = 60
-            if title.count == 0 {   // 删除分类
-                if let model = textModel {
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0, execute: {
-                        HomeSeasonViewModel.loadLocalSeasons(categoryId: model.type) { (seasons) in
-                            if seasons.count > 0 {
-                                let deleteAlert = ITCustomAlertView.init(title: "温馨提示",
-                                                                         detailTitle: "删除分类后，改分类下的”时节“自动转到”全部“分类下。",
-                                                                         topIcon: nil,
-                                                                         contentIcon: nil,
-                                                                         isTwoButton: true, cancelAction: nil) {
-                                    strongSelf.deleteCategory(model, categoryView: categoryView)
-                                }
-                                deleteAlert.doneButton.setTitleColor(UIColor.red, for: UIControl.State.normal)
-                                deleteAlert.doneButton.setTitle("删除", for: UIControl.State.normal)
-                                deleteAlert.showAlertView(inViewController: strongSelf, leftOrRightMargin: strongSelf.margin)
-                            } else {
-                                strongSelf.deleteCategory(model, categoryView: categoryView)
-                            }
-                        }
-                    })
-                } else {
-                    UIApplication.shared.keyWindow?.showText("请输入合法分类名称！")
-                }
-                return
-            } else if title.count > maxLenght {
-                UIApplication.shared.keyWindow?.showText("请输入少于\(maxLenght)字符长度的分类名称！")
-                return
-            } else {
-                var success = false
-                if let currentModel = textModel { // 更新分类标题
-                    if var models = self?.categoryModels {
-                        for index in 0..<models.count {
-                            var model = models[index]
-                            if model.id == currentModel.type {
-                                model.title = title
-                            }
-                            models[index] = model
-                        }
-                        success = HomeSeasonViewModel.saveAllCategorys(models)
-                    }
-                } else { // 添加分类标题
-                    success = HomeSeasonViewModel.saveCategory(name: title)
-                }
-                if success {
-                    NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
-                    AddNewSeasonViewModel.loadClassifyModel(originSeason: strongSelf.newSeason) { (model, categorys) in
-                        strongSelf.categoryAlertModel = model
-                        strongSelf.categoryModels = categorys
-                        categoryView.updateContentView(model)
-                    }
-                } else {
-                    UIApplication.shared.keyWindow?.showText("分类名称已存在！")
-                    return
-                }
-            }
-        })
-        inputAlert.showAlertView(inViewController: self, leftOrRightMargin: margin)
-    }
-    
-    func deleteCategory(_ textModel: TextModel, categoryView: CommonAlertTableView) {
-        let originModels = categoryModels
-        for index in 0..<originModels.count {
-            let model = originModels[index]
-            if model.id == textModel.type {
-                if model.isDefalult {
-                    UIApplication.shared.keyWindow?.showText("默认类型不可删除！")
-                    break
-                } else {
-                    categoryModels.remove(at: index)
-                }
-            }
-        }
-        /// 如果删除的是被选中类，则默认分类变为选中
-        for index in 0..<categoryModels.count {
-            var model = categoryModels[index]
-            if textModel.isSelected, model.isDefalult {
-                model.isSelected = true
-                categoryModels[index] = model
-            }
-        }
-        
-        // 保存分类数据并更新视图
-        if originModels.count != categoryModels.count {
-            HomeSeasonViewModel.saveAllCategorys(categoryModels)
-            NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
-            
-            let alertModel = AddNewSeasonViewModel.handleClassifyModel(originSeason: newSeason, categoryModels)
-           categoryAlertModel = alertModel
-            categoryView.updateContentView(alertModel)
-        }
-    }
 }
 
 // MARK: - 信息选择
@@ -478,6 +391,36 @@ extension AddNewSeasonViewController: InfoSelectedDelegate {
             
         /// 分类管理
         case .classification:
+            let categoryManagerVC = CategoryManagerViewController()
+            categoryManagerVC.currentCategoryId = newSeason.categoryId
+            categoryManagerVC.didSelectedCategory = { [weak self] (category) in
+                guard let strongSelf = self else { return }
+                strongSelf.newSeason.categoryId = category.id
+                /// 更新列表视图
+                DispatchQueue.main.async {
+                    for index in 0..<strongSelf.dataSource.count {
+                        var section = strongSelf.dataSource[index]
+                        switch section.cellIdentifier {
+                        case NewSeasonCellIdType.category.rawValue:
+                            let catgory = model
+                            catgory.id = category.id
+                            catgory.info = category.title
+                            section.items = [catgory]
+                            strongSelf.dataSource[index] = section
+                        default:
+                            break
+                        }
+                    }
+                    strongSelf.tableView.reloadData()
+                }
+            }
+            
+            let NAV = UINavigationController(rootViewController: categoryManagerVC)
+            navigationController?.present(NAV, animated: true, completion: nil)
+            return
+            
+            
+            
             let categoryView = CommonAlertTableView(model: categoryAlertModel, selectedAction: { [weak self](alertModel, textModel) in
                 guard let strongSelf = self else { return }
                 strongSelf.newSeason.categoryId = textModel.type
@@ -518,7 +461,7 @@ extension AddNewSeasonViewController: InfoSelectedDelegate {
             /// 添加分类
             categoryView.addNewItemBlock = { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.modifyCategory(nil, categoryView: categoryView)
+//                strongSelf.modifyCategory(nil, categoryView: categoryView)
             }
             /// 更新分类次序
             categoryView.modifyItemBlock = { [weak self] (sourceIndexPath, destinationIndexPath) in
@@ -545,7 +488,7 @@ extension AddNewSeasonViewController: InfoSelectedDelegate {
             /// 删除分类
             categoryView.deleteItemBlock = { [weak self] (textModel) in
                 guard let strongSelf = self else { return }
-                strongSelf.modifyCategory(textModel, categoryView: categoryView)
+//                strongSelf.modifyCategory(textModel, categoryView: categoryView)
             }
             categoryView.showAlertView(inViewController: self, leftOrRightMargin: margin)
             

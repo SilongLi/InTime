@@ -23,8 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         HomeSeasonViewModel.initDefaultCategorys()
         
-        setupLocalNotification()
-        
+        setupLocalNotification() 
         return true
     }
     

@@ -45,36 +45,17 @@ class CategoryTableViewCell: UITableViewCell {
             nameLabel.font = (model?.isSelected ?? false) ? UIFont.boldSystemFont(ofSize: 16.0) : UIFont.systemFont(ofSize: 16.0)
         }
     }
-    
-    var margin: CGFloat = 50.0 {
-        didSet {
-            nameLabel.snp.updateConstraints { (make) in
-                make.left.equalTo(margin)
-                make.top.bottom.equalToSuperview()
-                make.width.equalTo(IT_SCREEN_WIDTH * 0.6)
-            }
-            iconView.snp.updateConstraints { (make) in
-                make.centerY.equalToSuperview()
-                make.right.equalTo(-margin)
-                make.size.equalTo(CGSize.init(width: 20.0, height: 20.0))
-            }
-            spaceLineView.snp.updateConstraints { (make) in
-                make.left.equalToSuperview().offset(margin)
-                make.right.equalToSuperview().offset(-margin)
-                make.bottom.equalToSuperview()
-                make.height.equalTo(0.5)
-            }
-        }
-    }
      
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .clear
         
-        addSubview(nameLabel)
-        addSubview(iconView)
-        addSubview(spaceLineView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(iconView)
+        contentView.addSubview(spaceLineView)
+        
+        let margin: CGFloat = 20.0
         nameLabel.snp.updateConstraints { (make) in
             make.left.equalTo(margin)
             make.top.bottom.equalToSuperview()
@@ -99,17 +80,5 @@ class CategoryTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        UIView.animate(withDuration: 1.0) {
-            self.nameLabel.snp.updateConstraints { (make) in
-                make.left.equalTo(self.margin + (editing ? 30.0 : 0.0))
-            }
-            self.iconView.snp.updateConstraints { (make) in
-                make.right.equalTo(-self.margin - (editing ? 30.0 : 0.0))
-            }
-        }
     }
 }

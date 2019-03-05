@@ -33,34 +33,18 @@ class HandlerDocumentManager {
     
     // MARK: - 时节处理
     @discardableResult
-    public static func saveSeasons(categoryId: String, data: Data?) -> Bool {
-        guard data != nil, let filePath = self.getSeasonsFilePath(categoryId) else {
+    public static func saveSeasons(seasonType: String, data: Data?) -> Bool {
+        guard data != nil, let filePath = self.getSeasonsFilePath(seasonType) else {
             return false
         }
         return NSKeyedArchiver.archiveRootObject(data!, toFile: filePath)
     }
     
-    public static func getSeasons(categoryId: String) -> Data? {
-        guard let filePath = self.getSeasonsFilePath(categoryId) else {
+    public static func getSeasons(seasonType: String) -> Data? {
+        guard let filePath = self.getSeasonsFilePath(seasonType) else {
             return nil
         }
         return NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? Data
-    }
-    
-    @discardableResult
-    public static func deleteSeasons(categoryId: String) -> Bool {
-        guard let filePath = self.getSeasonsFilePath(categoryId) else {
-            return false
-        }
-        if FileManager.default.fileExists(atPath: filePath) {
-            do {
-                try FileManager.default.removeItem(at: URL(fileURLWithPath: filePath))
-            } catch {
-                print(error)
-                return false
-            }
-        }
-        return true
     }
     
     // MARK: - 文件路径

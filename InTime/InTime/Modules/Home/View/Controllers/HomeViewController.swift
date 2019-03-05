@@ -60,12 +60,7 @@ class HomeViewController: BaseViewController {
     }()
     lazy var finishSortSeasonBtn: UIButton = {
         let btn = UIButton()
-        btn.setTitle("完成", for: UIControl.State.normal)
-        btn.layer.cornerRadius  = 3.0
-        btn.layer.masksToBounds = true
-        btn.layer.borderColor = UIColor.white.cgColor
-        btn.layer.borderWidth = 1.0
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        btn.setImage(UIImage(named: "save"), for: UIControl.State.normal)
         btn.addTarget(self, action: #selector(finishSortSeasonAction), for: .touchUpInside)
         return btn
     }()
@@ -122,7 +117,7 @@ class HomeViewController: BaseViewController {
         finishSortSeasonBtn.snp.makeConstraints({ (make) in
             make.right.equalToSuperview().offset(-15)
             make.bottom.equalToSuperview().offset(-7)
-            make.size.equalTo(CGSize.init(width: 44.0, height: 25.0))
+            make.size.equalTo(CGSize.init(width: 30.0, height: 30.0))
         })
         
         view.addSubview(sortInfoLabel)
@@ -221,12 +216,9 @@ class HomeViewController: BaseViewController {
             headerView.season = currentSeason
         }
     }
-    var currentSelectedCategory: CategoryModel? {
-        didSet {
-            sortBtn.isHidden = currentSelectedCategory?.isDefalult ?? false
-        }
-    }
+    var currentSelectedCategory: CategoryModel?
     var seasons: [SeasonModel] = [SeasonModel]()
+    var allSeasons: [SeasonModel] = [SeasonModel]()
     
     private var sourceIndexPath: IndexPath?
     private var cellSnapshot: UIImageView? = UIImageView()
@@ -238,6 +230,7 @@ class HomeViewController: BaseViewController {
         setupNotification()
         setupSubviews()
         loadCategorys()
+        cancleExpiredAndNoRepeatSeasons()
     }
     
     deinit {
@@ -358,7 +351,7 @@ class HomeViewController: BaseViewController {
             CommonTools.printLog(message: "[Debug] 分类ID为空！")
             return
         }
-        if category.isDefalult {
+        if category.isDefault {
             HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
                 self?.tableView.setContentOffset(CGPoint.zero, animated: false)
                 self?.seasons = seasons
@@ -454,6 +447,9 @@ class HomeViewController: BaseViewController {
     
     @objc func sortSeasonAction() {
         handlerSortSeason(isSort: true)
+        HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
+            self?.allSeasons = seasons
+        }
     }
     
     @objc func finishSortSeasonAction() {
@@ -489,6 +485,31 @@ class HomeViewController: BaseViewController {
         } else {
             iconView.transform = CGAffineTransform.identity
             selectedCategoryView.hiddenListView()
+        }
+    }
+    
+    // MARK: - 取消已过期且不重复提醒的“时节”
+    func cancleExpiredAndNoRepeatSeasons() {
+        DispatchQueue.main.async {
+            HomeSeasonViewModel.loadAllSeasons { (seasons) in
+                var seasonModels = seasons
+                var hasChanged = false
+                for index in 0..<seasonModels.count {
+                    var season = seasonModels[index]
+                    if let date = NSDate(season.startDate.gregoriandDataString, withFormat: StartSeasonDateFormat) {
+                        let isLater = date.isLaterThanDate(Date())
+                        if isLater == false, season.repeatRemindType == .no, season.hasCancelNotification == false {
+                            season.hasCancelNotification = true
+                            seasonModels[index] = season
+                            LocalNotificationManage.shared.cancelLocalNotification(identifier: season.id, title: season.title)
+                            hasChanged = true
+                        }
+                    }
+                }
+                if hasChanged {
+                    AddNewSeasonViewModel.saveAllSeasons(seasons: seasonModels)
+                }
+            }
         }
     }
 }
@@ -603,21 +624,45 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 tableView.setContentOffset(CGPoint.zero, animated: true)
             }
             
-            let season = seasons[sourceIndexPath.row]
+            let sourceSeason = seasons[sourceIndexPath.row]
+            let destinationSeason = seasons[destinationIndexPath.row]
+            
             seasons.remove(at: sourceIndexPath.row)
             if destinationIndexPath.row > seasons.count {
-                seasons.append(season)
+                seasons.append(sourceSeason)
             } else {
-                seasons.insert(season, at:destinationIndexPath.row)
+                seasons.insert(sourceSeason, at:destinationIndexPath.row)
             }
             if let firstSeason = seasons.first, firstSeason.id != currentSeason.id {
                 currentSeason = firstSeason
                 updateBGView()
             }
-            AddNewSeasonViewModel.saveAllSeasons(seasons: seasons)
+            
+            /// 保存数据
+            if self.currentSelectedCategory?.isDefault ?? false {
+                AddNewSeasonViewModel.saveAllSeasons(seasons: seasons)
+            } else {
+                var sourceIndex = -1
+                var destinationIndex = -1
+                for index in 0..<allSeasons.count {
+                    let model = allSeasons[index]
+                    if model.id == sourceSeason.id {
+                        sourceIndex = index
+                    }
+                    if model.id == destinationSeason.id {
+                        destinationIndex = index
+                    }
+                }
+                if sourceIndex != -1, destinationIndex != -1 {
+                    let sourceS = allSeasons[sourceIndex]
+                    allSeasons[sourceIndex] = allSeasons[destinationIndex]
+                    allSeasons[destinationIndex] = sourceS
+                    AddNewSeasonViewModel.saveAllSeasons(seasons: allSeasons)
+                }
+            }
         }
     }
-    
+
     // MARK: - 添加左滑删除功能
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return UITableViewCell.EditingStyle.delete

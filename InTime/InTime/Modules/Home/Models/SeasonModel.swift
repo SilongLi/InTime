@@ -30,6 +30,9 @@ struct SeasonModel {
     var backgroundModel: BackgroundImageModel = BackgroundImageModel()
     /// 字体颜色
     var textColorModel: ColorModel = ColorModel()
+    
+    /// 是否已经取消本地通知
+    var hasCancelNotification: Bool = false
 }
 
 extension SeasonModel {
@@ -45,6 +48,7 @@ extension SeasonModel {
         model.unitModel         = InfoSelectedModel.convertToModel(json: JSON(parseJSON: json["unitModel"].stringValue))
         model.backgroundModel   = BackgroundImageModel.convertToModel(json: JSON(parseJSON: json["backgroundModel"].stringValue))
         model.textColorModel    = ColorModel.convertToModel(json: JSON(parseJSON: json["textColorModel"].stringValue))
+        model.hasCancelNotification = json["hasCancelNotification"].boolValue
         return model
     }
     
@@ -62,6 +66,7 @@ extension SeasonModel {
                 "ringType": ringType.rawValue,
                 "repeatRemindType": repeatRemindType.rawValue,
                 "backgroundModel": backgroundModelStr,
-                "textColorModel": textColorModelStr]
+                "textColorModel": textColorModelStr,
+                "hasCancelNotification": hasCancelNotification]
     }
 }

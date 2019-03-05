@@ -50,7 +50,7 @@ class SelectedCategoryView: UIView {
     
     var dataSource: [CategoryModel] = [CategoryModel]()
     var cellHeight: CGFloat = 50.0
-    let margin: CGFloat = (IT_IPHONE_X || IT_IPHONE_6P) ? 40.0 : 30.0
+    let margin: CGFloat = (IT_IPHONE_X || IT_IPHONE_6P) ? 70.0 : 50.0
     var selectedCategoryBlock: ((_ model: CategoryModel?) -> ())?
     var isShow: Bool = false
   
@@ -81,7 +81,7 @@ class SelectedCategoryView: UIView {
         tableView.frame = CGRect(x: margin, y: IT_NaviHeight, width: IT_SCREEN_WIDTH - margin * 2, height: 0.01)
         let count: CGFloat = CGFloat(dataSource.count)
         let markViewH = (IT_SCREEN_HEIGHT - IT_NaviHeight - cellHeight) * 0.8
-        let tableViewH = count * self.cellHeight > markViewH ? markViewH : count * self.cellHeight + margin
+        let tableViewH = count * self.cellHeight > markViewH ? markViewH : count * self.cellHeight
         UIView.animate(withDuration: self.duration, animations: {
             self.tableView.frame = CGRect(x: self.margin, y: IT_NaviHeight, width: IT_SCREEN_WIDTH - self.margin * 2, height: tableViewH)
         })

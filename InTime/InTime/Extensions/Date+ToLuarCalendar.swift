@@ -41,9 +41,7 @@ extension Date {
     func weekDay() -> String {
         let weekDays = [NSNull(), "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"] as [Any]
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
-        if let timeZone = NSTimeZone(name:"Asia/Shanghai") {
-            calendar?.timeZone = timeZone as TimeZone
-        }
+        calendar?.timeZone = TimeZone(identifier: "Asia/Beijing") ?? TimeZone.current
         let theComponents = calendar?.components(NSCalendar.Unit.weekday, from: self)
         if let index = theComponents?.weekday, index != 0 {
             return weekDays[index] as! String
