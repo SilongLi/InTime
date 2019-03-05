@@ -168,34 +168,34 @@ class CategoryManagerViewController: BaseViewController {
 //        inputAlert.showAlertView(inViewController: self, leftOrRightMargin: margin)
 //    }
 
-    func deleteCategory(_ category: CategoryModel, categoryView: CommonAlertTableView) {
-        var originModels = categorys
-        for index in 0..<originModels.count {
-            let model = originModels[index]
-            if model.id == category.id {
-                categoryModels.remove(at: index)
-            }
-        }
-        // TODO:
-        /// 如果删除的是被选中类，则默认分类变为选中
-        for index in 0..<categoryModels.count {
-            var model = categoryModels[index]
-            //            if textModel.isSelected, model.isDefalult {
-            //                model.isSelected = true
-            //                categoryModels[index] = model
-            //            }
-        }
-
-        // 保存分类数据并更新视图
-        if originModels.count != categoryModels.count {
-            HomeSeasonViewModel.saveAllCategorys(categoryModels)
-            NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
-
-            let alertModel = AddNewSeasonViewModel.handleClassifyModel(originSeason: newSeason, categoryModels)
-            categoryAlertModel = alertModel
-            categoryView.updateContentView(alertModel)
-        }
-    }
+//    func deleteCategory(_ category: CategoryModel, categoryView: CommonAlertTableView) {
+//        var originModels = categorys
+//        for index in 0..<originModels.count {
+//            let model = originModels[index]
+//            if model.id == category.id {
+//                categoryModels.remove(at: index)
+//            }
+//        }
+//        // TODO:
+//        /// 如果删除的是被选中类，则默认分类变为选中
+//        for index in 0..<categoryModels.count {
+//            var model = categoryModels[index]
+//            //            if textModel.isSelected, model.isDefalult {
+//            //                model.isSelected = true
+//            //                categoryModels[index] = model
+//            //            }
+//        }
+//
+//        // 保存分类数据并更新视图
+//        if originModels.count != categoryModels.count {
+//            HomeSeasonViewModel.saveAllCategorys(categoryModels)
+//            NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
+//
+//            let alertModel = AddNewSeasonViewModel.handleClassifyModel(originSeason: newSeason, categoryModels)
+//            categoryAlertModel = alertModel
+//            categoryView.updateContentView(alertModel)
+//        }
+//    }
 }
 
 // MARK: - <UITableViewDelegate, UITableViewDataSource>
