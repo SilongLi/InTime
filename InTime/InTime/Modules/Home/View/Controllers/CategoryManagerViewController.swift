@@ -50,19 +50,31 @@ class CategoryManagerViewController: BaseViewController {
         loadDataSource()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let shadowImage = UIImage.creatImage(color: UIColor.spaceLineColor,
+                                             size: CGSize.init(width: IT_SCREEN_WIDTH, height: 0.2))
+        navigationController?.navigationBar.shadowImage = shadowImage
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
     // MARK: - setup
     func setupSubviews() {
         navigationItem.title = "分类管理"
         view.backgroundColor = UIColor.tintColor
+        
+        navigationItem.leftBarButtonItem   = closeItem
+        navigationItem.rightBarButtonItems = [addItem, sortItem]
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(IT_NaviHeight)
             make.left.right.bottom.equalToSuperview()
         }
-        
-        navigationItem.leftBarButtonItem = closeItem
-        navigationItem.rightBarButtonItems = [addItem, sortItem]
     }
 
     // MARK: - load dataSource
@@ -91,111 +103,117 @@ class CategoryManagerViewController: BaseViewController {
     
     @objc func sortCategorysAction() {
         tableView.setEditing(true, animated: true)
-        navigationItem.leftBarButtonItem = nil
+        navigationItem.leftBarButtonItem   = nil
         navigationItem.rightBarButtonItems = [finishSortedItem]
     }
     
     @objc func finishSortBtnAction() {
         tableView.setEditing(false, animated: true)
-        navigationItem.leftBarButtonItem = closeItem
+        navigationItem.leftBarButtonItem   = closeItem
         navigationItem.rightBarButtonItems = [addItem, sortItem]
     }
     
     @objc func gotoAddNewCategoryAction() {
-        
+        addNewCategory()
     }
-     
-//    func modifyCategory(_ catetory: CategoryModel?, categoryView: CommonAlertTableView) {
-//        let alertTitle = (currentCategoryId?.isEmpty ?? false) ? "修改分类" : "添加分类"
-//        let inputAlert = InputTextFieldAlertView(title: alertTitle, textFieldText: catetory?.title, placeholder: "请输入分类名称", cancelAction: nil, doneAction: { [weak self] (text) in
-//            guard let strongSelf = self else { return }
-//            guard let title: String = text else { return }
-//            let maxLenght = 60
-//            if title.count == 0 {   //id 删除分类
-//                if let categoryId = strongSelf.currentCategoryId {
-////                    HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryId) { (seasons) in
-////                        if seasons.count > 0 {
-////                            let deleteAlert = ITCustomAlertView.init(title: "温馨提示",
-////                                                                     detailTitle: "删除分类后，改分类下的”时节“自动转到”全部“分类下。",
-////                                                                     topIcon: nil,
-////                                                                     contentIcon: nil,
-////                                                                     isTwoButton: true, cancelAction: nil) {
-////                                                                        strongSelf.deleteCategory(catetory, categoryView: categoryView)
-////                            }
-////                            deleteAlert.doneButton.setTitleColor(UIColor.red, for: UIControl.State.normal)
-////                            deleteAlert.doneButton.setTitle("删除", for: UIControl.State.normal)
-////                            deleteAlert.showAlertView(inViewController: strongSelf, leftOrRightMargin: strongSelf.margin)
-////                        } else {
-////                            strongSelf.deleteCategory(model, categoryView: categoryView)
-////                        }
-////                    }
-//                } else {
-//                    UIApplication.shared.keyWindow?.showText("请输入合法分类名称！")
-//                }
-//                return
-//            } else if title.count > maxLenght {
-//                UIApplication.shared.keyWindow?.showText("请输入少于\(maxLenght)字符长度的分类名称！")
-//                return
-//            } else {
-//                var success = false
-//                if let currentModel = textModel { // 更新分类标题
-//                    if var models = self?.categoryModels {
-//                        for index in 0..<models.count {
-//                            var model = models[index]
-//                            if model.id == currentModel.type {
-//                                model.title = title
-//                            }
-//                            models[index] = model
-//                        }
-//                        success = HomeSeasonViewModel.saveAllCategorys(models)
-//                    }
-//                } else { // 添加分类标题
-//                    success = HomeSeasonViewModel.saveCategory(name: title)
-//                }
-//                if success {
-//                    NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
-//                    AddNewSeasonViewModel.loadClassifyModel(originSeason: strongSelf.newSeason) { (model, categorys) in
-//                        strongSelf.categoryAlertModel = model
-//                        strongSelf.categoryModels = categorys
-//                        categoryView.updateContentView(model)
-//                    }
-//                } else {
-//                    UIApplication.shared.keyWindow?.showText("分类名称已存在！")
-//                    return
-//                }
-//            }
-//        })
-//        inputAlert.showAlertView(inViewController: self, leftOrRightMargin: margin)
-//    }
-
-//    func deleteCategory(_ category: CategoryModel, categoryView: CommonAlertTableView) {
-//        var originModels = categorys
-//        for index in 0..<originModels.count {
-//            let model = originModels[index]
-//            if model.id == category.id {
-//                categoryModels.remove(at: index)
-//            }
-//        }
-//        // TODO:
-//        /// 如果删除的是被选中类，则默认分类变为选中
-//        for index in 0..<categoryModels.count {
-//            var model = categoryModels[index]
-//            //            if textModel.isSelected, model.isDefalult {
-//            //                model.isSelected = true
-//            //                categoryModels[index] = model
-//            //            }
-//        }
-//
-//        // 保存分类数据并更新视图
-//        if originModels.count != categoryModels.count {
-//            HomeSeasonViewModel.saveAllCategorys(categoryModels)
-//            NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
-//
-//            let alertModel = AddNewSeasonViewModel.handleClassifyModel(originSeason: newSeason, categoryModels)
-//            categoryAlertModel = alertModel
-//            categoryView.updateContentView(alertModel)
-//        }
-//    }
+    
+    /// 删除分类
+    func deleteCategory(_ category: CategoryModel) {
+        guard !category.isDefault else {
+            view.showText("此分类不可删除！")
+            return
+        }
+        for index in 0..<categorys.count {
+            let model = categorys[index]
+            if model.id == category.id {
+                categorys.remove(at: index)
+                break
+            }
+        }
+        /// 如果删除的是被选中类，则默认分类变为选中
+        if category.isSelected {
+            for index in 0..<categorys.count {
+                if categorys[index].isDefault {
+                    categorys[index].isSelected = true
+                    break
+                }
+            }
+        }
+        
+        HomeSeasonViewModel.saveAllCategorys(categorys)
+        tableView.reloadData()
+        NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
+    }
+    
+    /// 修改分类名称
+    func modifyCategory(_ catetory: CategoryModel) {
+        let inputAlert = InputTextFieldAlertView(title: "修改分类名称", textFieldText: catetory.title, placeholder: "请输入分类名称", cancelAction: nil, doneAction: { [weak self] (text) in
+            guard let strongSelf = self else { return }
+            guard let title: String = text else {
+                strongSelf.view.showText("请输入合法分类名称！")
+                return
+            }
+            let maxLenght = 60
+            if title.isEmpty {
+                strongSelf.view.showText("请输入合法分类名称！")
+                return
+            } else if title.count > maxLenght {
+                strongSelf.view.showText("请输入少于\(maxLenght)字符长度的分类名称！")
+                return
+            } else {
+                var success = false
+                var models = strongSelf.categorys
+                for index in 0..<models.count {
+                    if models[index].id == catetory.id {
+                        models[index].title = title
+                        break
+                    }
+                }
+                success = HomeSeasonViewModel.saveAllCategorys(models)
+                if success {
+                    strongSelf.categorys = models
+                    strongSelf.tableView.reloadData()
+                    NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
+                } else {
+                    strongSelf.view.showText("分类名称已存在！")
+                    return
+                }
+            }
+        })
+        inputAlert.showAlertView(inViewController: self, leftOrRightMargin: 35.0)
+    }
+    
+    /// 添加分类
+    func addNewCategory() {
+        let inputAlert = InputTextFieldAlertView(title: "添加分类", textFieldText: nil, placeholder: "请输入分类名称", cancelAction: nil, doneAction: { [weak self] (text) in
+            guard let strongSelf = self else { return }
+            guard let title: String = text else {
+                strongSelf.view.showText("请输入合法分类名称！")
+                return
+            }
+            let maxLenght = 60
+            if title.isEmpty {
+                strongSelf.view.showText("请输入合法分类名称！")
+                return
+            } else if title.count > maxLenght {
+                strongSelf.view.showText("请输入少于\(maxLenght)字符长度的分类名称！")
+                return
+            } else {
+                let success = HomeSeasonViewModel.saveCategory(name: title)
+                if success {
+                    HomeSeasonViewModel.loadLocalCategorys(completion: { (categorys) in
+                        strongSelf.categorys = categorys
+                        strongSelf.tableView.reloadData()
+                        NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
+                    })
+                } else {
+                    strongSelf.view.showText("分类名称已存在！")
+                    return
+                }
+            }
+        })
+        inputAlert.showAlertView(inViewController: self, leftOrRightMargin: 35.0)
+    }
 }
 
 // MARK: - <UITableViewDelegate, UITableViewDataSource>
@@ -231,6 +249,10 @@ extension CategoryManagerViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard !categorys[indexPath.row].isDefault else {
+            view.showText("新“时节”不可添加在此分类下！")
+            return
+        }
         for var model in categorys {
             model.isSelected = false
         }
@@ -261,23 +283,37 @@ extension CategoryManagerViewController: UITableViewDelegate, UITableViewDataSou
         NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
     }
     
-    // MARK: - 添加左滑删除功能
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return UITableViewCell.EditingStyle.delete
-    }
+    // MARK: - 添加左滑修改和删除功能
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        return "修改"
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if let model = alertModel, let block = deleteItemBlock {
-//            let selectedModel = model.texts[indexPath.row]
-//            block(selectedModel)
-//        }
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let category = categorys[indexPath.row]
+        let delete = UITableViewRowAction.init(style: UITableViewRowAction.Style.destructive, title: "删除") { [weak self] (action, indexPath) in
+            HomeSeasonViewModel.loadLocalSeasons(categoryId: category.id) { [weak self] (seasons) in
+                guard let strongSelf = self else { return }
+                if seasons.count > 0 {
+                    let deleteAlert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "删除分类后，改分类下的”时节“自动转到”全部“分类下。", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) {
+                        strongSelf.deleteCategory(category)
+                    }
+                    deleteAlert.doneButton.setTitleColor(UIColor.red, for: UIControl.State.normal)
+                    deleteAlert.doneButton.setTitle("删除", for: UIControl.State.normal)
+                    deleteAlert.showAlertView(inViewController: strongSelf, leftOrRightMargin: 35.0)
+                } else {
+                    strongSelf.deleteCategory(category)
+                }
+            }
+            tableView.setEditing(false, animated: true)
+        }
+        
+        let modify = UITableViewRowAction.init(style: UITableViewRowAction.Style.default, title: "修改") { [weak self] (action, indexPath) in
+             self?.modifyCategory(category)
+            tableView.setEditing(false, animated: true)
+        }
+        modify.backgroundColor = UIColor.darkGaryColor
+        
+        return [delete, modify]
     }
 }

@@ -31,7 +31,7 @@ class CategoryTableViewCell: UITableViewCell {
     
     lazy var spaceLineView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.spaceLineColor
+        view.backgroundColor = UIColor.spaceLineColor.withAlphaComponent(0.2)
         return view
     }()
     

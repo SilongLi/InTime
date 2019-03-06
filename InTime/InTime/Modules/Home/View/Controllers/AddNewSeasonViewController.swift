@@ -56,14 +56,14 @@ class AddNewSeasonViewController: BaseViewController {
         loadDataSource()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         let navbarBackgroundImage: UIImage = UIImage.creatImage(color: UIColor.tintColor)
         navigationController?.navigationBar.setBackgroundImage(navbarBackgroundImage, for: .default)
-    } 
-    
+    }
+
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated) 
+        super.viewDidDisappear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     
@@ -414,83 +414,8 @@ extension AddNewSeasonViewController: InfoSelectedDelegate {
                     strongSelf.tableView.reloadData()
                 }
             }
-            
             let NAV = UINavigationController(rootViewController: categoryManagerVC)
             navigationController?.present(NAV, animated: true, completion: nil)
-            return
-            
-            
-            
-            let categoryView = CommonAlertTableView(model: categoryAlertModel, selectedAction: { [weak self](alertModel, textModel) in
-                guard let strongSelf = self else { return }
-                strongSelf.newSeason.categoryId = textModel.type
-                strongSelf.categoryAlertModel = alertModel
-                /// 重置被选中分类
-                if var models = self?.categoryModels {
-                    for index in 0..<models.count {
-                        var model = models[index]
-                        model.isSelected = false
-                        if model.id == textModel.type {
-                            model.isSelected = true
-                        }
-                        models[index] = model
-                    }
-                    self?.categoryModels = models
-                }
-                
-                /// 更新列表视图
-                DispatchQueue.main.async {
-                    for index in 0..<strongSelf.dataSource.count {
-                        var section = strongSelf.dataSource[index]
-                        switch section.cellIdentifier {
-                        case NewSeasonCellIdType.category.rawValue:
-                            let catgory = model
-                            catgory.id = textModel.type
-                            catgory.info = textModel.text
-                            section.items = [catgory]
-                            strongSelf.dataSource[index] = section
-                        default:
-                            break
-                        }
-                    }
-                    strongSelf.tableView.reloadData()
-                }
-            })
-            categoryView.isShowAddNewSeasonButton = true
-            categoryView.isShowModifySeasonButton = true
-            /// 添加分类
-            categoryView.addNewItemBlock = { [weak self] in
-                guard let strongSelf = self else { return }
-//                strongSelf.modifyCategory(nil, categoryView: categoryView)
-            }
-            /// 更新分类次序
-            categoryView.modifyItemBlock = { [weak self] (sourceIndexPath, destinationIndexPath) in
-                if var models = self?.categoryModels {
-                    let model = models[sourceIndexPath.row]
-                    models.remove(at: sourceIndexPath.row)
-                    if destinationIndexPath.row > models.count {
-                        models.append(model)
-                    } else {
-                        models.insert(model, at:destinationIndexPath.row)
-                    }
-                    self?.categoryModels = models
-                    HomeSeasonViewModel.saveAllCategorys(models)
-                    NotificationCenter.default.post(name: NotificationUpdateSeasonCategory, object: nil)
-                    
-                    // 更新视图
-                    if let season = self?.newSeason {
-                        let alertModel = AddNewSeasonViewModel.handleClassifyModel(originSeason: season, models)
-                        self?.categoryAlertModel = alertModel
-                        categoryView.updateContentView(alertModel)
-                    }
-                }
-            }
-            /// 删除分类
-            categoryView.deleteItemBlock = { [weak self] (textModel) in
-                guard let strongSelf = self else { return }
-//                strongSelf.modifyCategory(textModel, categoryView: categoryView)
-            }
-            categoryView.showAlertView(inViewController: self, leftOrRightMargin: margin)
             
         /// 动画效果
         case .animation:

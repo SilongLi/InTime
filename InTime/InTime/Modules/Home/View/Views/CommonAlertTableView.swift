@@ -18,34 +18,8 @@ class CommonAlertTableView: CKAlertCommonView {
         label.textColor = UIColor.white
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 17.0)
-        label.backgroundColor = UIColor.garyColor.withAlphaComponent(0.6)
+        label.backgroundColor = UIColor.darkGaryColor
         return label
-    }()
-    
-    lazy var modifyBtn: UIButton = {
-        let btn = UIButton()
-        btn.setImage(UIImage.init(named: "revise"), for: .normal)
-        btn.addTarget(self, action: #selector(modifyAction), for: UIControl.Event.touchUpInside)
-        btn.isHidden = true
-        return btn
-    }()
-    
-    lazy var addNewBtn: UIButton = {
-        let btn = UIButton()
-        btn.setImage(UIImage.init(named: "add"), for: .normal)
-        btn.addTarget(self, action: #selector(addNewAction), for: UIControl.Event.touchUpInside)
-        btn.isHidden = true
-        return btn
-    }()
-    
-    lazy var finishBtn: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("完成", for: UIControl.State.normal)
-        btn.addTarget(self, action: #selector(finishBtnAction), for: UIControl.Event.touchUpInside)
-        btn.setTitleColor(UIColor.white, for: UIControl.State.normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        btn.isHidden = true
-        return btn
     }()
     
     let AlertCellId = "AlertCellId"
@@ -59,23 +33,7 @@ class CommonAlertTableView: CKAlertCommonView {
         return tableView
     }()
     
-    
-    var isShowModifySeasonButton: Bool = false {
-        didSet {
-            modifyBtn.isHidden = !isShowModifySeasonButton
-        }
-    }
-    
-    var isShowAddNewSeasonButton: Bool = false {
-        didSet {
-            addNewBtn.isHidden = !isShowAddNewSeasonButton
-        }
-    }
-    
     public var selectedActionBlock: ((_ alertModel: AlertCollectionModel, _ selectedTextModel: TextModel) -> ())?
-    public var modifyItemBlock: ((_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) -> ())?
-    public var addNewItemBlock: (() -> ())?
-    public var deleteItemBlock: ((_ selectedTextModel: TextModel) -> ())?
     var alertModel: AlertCollectionModel?
 
     init(model: AlertCollectionModel?, selectedAction: ((_ alertModel: AlertCollectionModel, _ selectedTextModel: TextModel) -> ())? = nil) {
@@ -105,26 +63,7 @@ class CommonAlertTableView: CKAlertCommonView {
         
         addSubview(headerTitleLabel)
         addSubview(tableView)
-        addSubview(modifyBtn)
-        addSubview(addNewBtn)
-        addSubview(finishBtn)
         
-        let btnWidth: CGFloat = 36.0
-        addNewBtn.snp.makeConstraints { (make) in
-            make.top.bottom.equalToSuperview()
-            make.right.equalTo(-10.0)
-            make.width.equalTo(btnWidth)
-        }
-        modifyBtn.snp.makeConstraints { (make) in
-            make.top.bottom.equalToSuperview()
-            make.right.equalTo(addNewBtn.snp.left)
-            make.width.equalTo(btnWidth)
-        }
-        finishBtn.snp.makeConstraints { (make) in
-            make.top.bottom.equalToSuperview()
-            make.right.equalTo(-15.0)
-            make.width.equalTo(btnWidth)
-        }
         headerTitleLabel.snp.updateConstraints { (make) in
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()
@@ -155,28 +94,6 @@ class CommonAlertTableView: CKAlertCommonView {
         headerTitleLabel.text = model.title
         layoutSubviews()
         tableView.reloadData()
-    }
-    
-    /// 修改分类
-    @objc func modifyAction() {
-        tableView.setEditing(true, animated: true)
-        finishBtn.isHidden = false
-        addNewBtn.isHidden = true
-        modifyBtn.isHidden = true
-    }
-    
-    /// 添加分类
-    @objc func addNewAction() {
-        if let block = addNewItemBlock {
-            block()
-        }
-    }
-    
-    @objc func finishBtnAction() {
-        tableView.setEditing(false, animated: true)
-        finishBtn.isHidden = true
-        addNewBtn.isHidden = false
-        modifyBtn.isHidden = false
     }
 }
 
@@ -225,38 +142,5 @@ extension CommonAlertTableView: UITableViewDelegate, UITableViewDataSource {
             block(model, selectedModel)
         }
         hiddenAlertView()
-    }
-    
-    // MARK: - 拖拽排序
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        if sourceIndexPath.row != destinationIndexPath.row {
-            if let block = modifyItemBlock {
-                block(sourceIndexPath, destinationIndexPath)
-            }
-        }
-    }
-    
-    // MARK: - 添加左滑删除功能
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return UITableViewCell.EditingStyle.delete
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        return "修改"
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if let model = alertModel, let block = deleteItemBlock {
-            let selectedModel = model.texts[indexPath.row]
-            block(selectedModel)
-        }
     }
 }
