@@ -663,41 +663,51 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    // MARK: - 添加左滑删除功能
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return UITableViewCell.EditingStyle.delete
-    }
-
+    // MARK: - 添加左滑修改和删除功能
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-
-    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        return "删除"
-    }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let season = seasons[indexPath.row]
-        let alert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "您确定要删除“\(season.title)”吗？", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) { [weak self] in
-            if AddNewSeasonViewModel.deleteSeason(season: season) {
-                /// 取消本地通知
-                LocalNotificationManage.shared.cancelLocalNotification(identifier: season.id, title: season.title)
-                
-                self?.seasons.remove(at: indexPath.row)
-                if indexPath.row == 0 || (self?.seasons.isEmpty ?? false) {
-                    self?.tableView.setContentOffset(CGPoint.zero, animated: true)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
-                        self?.updateContentView()
-                    })
+        let delete = UITableViewRowAction.init(style: UITableViewRowAction.Style.destructive, title: "删除") { [weak self] (action, indexPath) in
+            guard let strongSelf = self else { return } 
+            tableView.setEditing(false, animated: true)
+            
+            let alert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "您确定要删除“\(season.title)”吗？", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) {
+                if AddNewSeasonViewModel.deleteSeason(season: season) {
+                    /// 取消本地通知
+                    LocalNotificationManage.shared.cancelLocalNotification(identifier: season.id, title: season.title)
+                    
+                    strongSelf.seasons.remove(at: indexPath.row)
+                    if indexPath.row == 0 || strongSelf.seasons.isEmpty {
+                        strongSelf.tableView.setContentOffset(CGPoint.zero, animated: true)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+                            strongSelf.updateContentView()
+                        })
+                    } else {
+                        strongSelf.tableView.reloadData()
+                    }
                 } else {
-                    self?.tableView.reloadData()
+                    strongSelf.view.showText("删除失败！")
                 }
-            } else {
-                self?.view.showText("删除失败！")
             }
+            alert.doneButton.setTitleColor(UIColor.red, for: UIControl.State.normal)
+            alert.showAlertView(inViewController: strongSelf, leftOrRightMargin: 35.0)
         }
-        alert.doneButton.setTitleColor(UIColor.red, for: UIControl.State.normal)
-        alert.showAlertView(inViewController: self, leftOrRightMargin: 35.0)
+        
+        let modify = UITableViewRowAction.init(style: UITableViewRowAction.Style.default, title: "修改") { [weak self] (action, indexPath) in
+            guard let strongSelf = self else { return }
+            tableView.setEditing(false, animated: true)
+            
+            let modifySeasonVC = AddNewSeasonViewController()
+            modifySeasonVC.newSeason = season
+            strongSelf.navigationController?.pushViewController(modifySeasonVC, animated: true)
+        }
+        modify.backgroundColor = UIColor.garyColor
+        
+        return [delete, modify]
     }
 }
 
