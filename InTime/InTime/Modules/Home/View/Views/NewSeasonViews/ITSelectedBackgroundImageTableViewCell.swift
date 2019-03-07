@@ -181,12 +181,13 @@ class BackgroundImageDetailCollectionViewCell: BaseCollectionViewCell {
         switch model.type {
         case .custom:
             layer.borderWidth  = 1.0
-            nameLabel.isHidden = false
-            bgImageView.isHidden = true
-            if model.name.isEmpty {
+            let imageData = HandlerDocumentManager.getCustomImage(seasonId: model.name)
+            if model.name.isEmpty || imageData == nil {
+                nameLabel.isHidden = false
+                bgImageView.isHidden = true
                 nameLabel.text = "自定义"
             } else {
-                bgImageView.image = UIImage(named: model.name)
+                bgImageView.image = UIImage(data: imageData!)
             }
         case .image:
             bgImageView.image = UIImage(named: model.name)

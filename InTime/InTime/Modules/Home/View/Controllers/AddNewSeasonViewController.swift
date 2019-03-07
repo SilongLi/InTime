@@ -101,6 +101,10 @@ class AddNewSeasonViewController: BaseViewController {
             isModifySeason = true
             return
         }
+        
+        // 初始化新“时节”
+        newSeason.id = NSDate().string(withFormat: DatestringWithFormat)
+        
         for section in dataSource {
             switch section.cellIdentifier {
             case NewSeasonCellIdType.timeSelected.rawValue: /// 开始时间
@@ -203,7 +207,6 @@ class AddNewSeasonViewController: BaseViewController {
         if isModifySeason {
             success = AddNewSeasonViewModel.saveSeason(season: newSeason)
         } else {
-            newSeason.id = NSDate().string(withFormat: DatestringWithFormat)
             success = AddNewSeasonViewModel.addNewSeason(season: newSeason)
         }
         if success {
@@ -239,6 +242,25 @@ class AddNewSeasonViewController: BaseViewController {
     
     @objc func endTextFieldEditing() {
         view.endEditing(true)
+    }
+    
+    // MARK: - 选择相片
+    func selectedBgImageFromPhotoLibrary() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            picker.navigationBar.tintColor = UIColor.white
+            picker.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+            picker.navigationBar.setBackgroundImage(UIImage.creatImage(color: UIColor.tintColor), for: .default)
+            self.present(picker, animated: true, completion: nil)
+        } else {
+            /// 跳转到设置界面开启相册权限
+            let settingUrl = URL(string: UIApplication.openSettingsURLString)
+            if let url = settingUrl, UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.openURL(url)
+            }
+        }
     }
 }
 
@@ -470,6 +492,10 @@ extension AddNewSeasonViewController: BackgroundImageDelegate {
     func didSelectedBackgroundImageAction(model: BackgroundImageModel) {
         view.endEditing(true)
         newSeason.backgroundModel = model
+        /// 自定义背景图片
+        if model.type == .custom {
+            selectedBgImageFromPhotoLibrary()
+        } else {}
     }
 }
 
@@ -478,5 +504,54 @@ extension AddNewSeasonViewController: TextColorDelegate {
     func didSelectedTextColorAction(model: ColorModel) {
         view.endEditing(true)
         newSeason.textColorModel = model
+    }
+}
+
+// MARK: - 选择相片
+extension AddNewSeasonViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let originalImage = info[UIImagePickerController.InfoKey.originalImage]
+        if originalImage is UIImage {
+            let image: UIImage = originalImage as! UIImage
+            // TODO: 图片剪切处理
+            
+            let imageData = image.pngData()
+            let success = HandlerDocumentManager.saveCustomImage(seasonId: newSeason.id, imageData: imageData)
+            if success {
+                newSeason.backgroundModel.name = newSeason.id
+                
+                /// 更新列表视图
+                for index in 0..<dataSource.count {
+                    var section = dataSource[index]
+                    if section.cellIdentifier == NewSeasonCellIdType.background.rawValue {
+                        if let item = section.items.first, item is BackgroundModel, let bgModel: BackgroundModel = item as? BackgroundModel {
+                            var images = bgModel.images
+                            for i in 0..<images.count {
+                                let model = images[i]
+                                if model.type == .custom {
+                                    model.name = newSeason.id
+                                    images[i] = model
+                                    bgModel.images = images
+                                    section.items[0] = bgModel
+                                    dataSource[index] = section
+                                    break
+                                }
+                            }
+                        }
+                        break
+                    }
+                }
+                tableView.reloadData()
+                
+            } else {
+                newSeason.backgroundModel.name = ""
+                view.showText("获取图片失败！")
+            }
+        }
+        picker.dismiss(animated: true, completion:nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }

@@ -176,11 +176,13 @@ class HomeViewController: BaseViewController {
         let view = UIImageView()
         view.backgroundColor = UIColor.clear
         view.image = defalutBgImage
+        view.contentMode = .scaleAspectFill
         return view
     }()
     lazy var bottomBgImageTableView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor.clear
+        view.contentMode = .scaleAspectFill
         return view
     }()
     /// 交替背景图片，用于切换时的过度动画
@@ -188,6 +190,7 @@ class HomeViewController: BaseViewController {
         let view = UIImageView()
         view.backgroundColor = UIColor.tintColor
         view.alpha = 0.0
+        view.contentMode = .scaleAspectFill
         return view
     }()
     
@@ -219,6 +222,7 @@ class HomeViewController: BaseViewController {
     var currentSelectedCategory: CategoryModel?
     var seasons: [SeasonModel] = [SeasonModel]()
     var allSeasons: [SeasonModel] = [SeasonModel]()
+    var cacheImages: Dictionary<String, UIImage>?
     
     private var sourceIndexPath: IndexPath?
     private var cellSnapshot: UIImageView? = UIImageView()
@@ -394,6 +398,20 @@ class HomeViewController: BaseViewController {
         }
  
         tableView.reloadData()
+        
+        /// 缓存自定义图片
+        DispatchQueue.main.async {
+            self.cacheImages = Dictionary<String, UIImage>()
+            for model in self.seasons {
+                if model.backgroundModel.type == .custom {
+                    let imageData = HandlerDocumentManager.getCustomImage(seasonId: model.backgroundModel.name)
+                    if imageData != nil {
+                        let image = UIImage(data: imageData!)
+                        self.cacheImages?[model.id] = image
+                    }
+                }
+            }
+        }
     }
     
     /// 切换背景样式
@@ -402,20 +420,31 @@ class HomeViewController: BaseViewController {
         bottomBgImageTableView.image = nil
         bottomBgImageTableView.backgroundColor = UIColor.clear
         
-        let bgImage = UIImage(named: currentSeason.backgroundModel.name)
+        var bgImage = UIImage(named: currentSeason.backgroundModel.name)
         let bgColor = UIColor.color(hex: currentSeason.backgroundModel.name)
+        if currentSeason.backgroundModel.type == .custom {
+            if let image = self.cacheImages?[currentSeason.id] {  // 取缓存
+                bgImage = image
+            } else {
+                let imageData = HandlerDocumentManager.getCustomImage(seasonId: currentSeason.backgroundModel.name)
+                if imageData != nil {
+                    bgImage = UIImage(data: imageData!)
+                }
+            }
+        }
         
+        let isImage = currentSeason.backgroundModel.type == .custom || currentSeason.backgroundModel.type == .image
         let isTopBgViewShow = currentShowtopBgImageView == topBgImageView
         if isTopBgViewShow {
             bgImageViewAlternate.image = nil
-            if currentSeason.backgroundModel.type == .image {
+            if isImage {
                 bgImageViewAlternate.image = bgImage
             } else {
                 bgImageViewAlternate.backgroundColor = bgColor
             }
         } else {
             topBgImageView.image = nil
-            if currentSeason.backgroundModel.type == .image {
+            if isImage {
                 topBgImageView.image = bgImage
             } else {
                 topBgImageView.backgroundColor = bgColor
@@ -428,7 +457,7 @@ class HomeViewController: BaseViewController {
         }) { (_) in
             if self.seasons.count > 0 {
                 self.bottomBgImageTableView.alpha = 1.0
-                if self.currentSeason.backgroundModel.type == .image {
+                if isImage {
                     self.bottomBgImageTableView.image = bgImage
                 } else {
                     self.bottomBgImageTableView.backgroundColor = bgColor
@@ -672,7 +701,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let season = seasons[indexPath.row]
         let delete = UITableViewRowAction.init(style: UITableViewRowAction.Style.destructive, title: "删除") { [weak self] (action, indexPath) in
-            guard let strongSelf = self else { return } 
+            guard let strongSelf = self else { return }
             tableView.setEditing(false, animated: true)
             
             let alert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "您确定要删除“\(season.title)”吗？", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) {

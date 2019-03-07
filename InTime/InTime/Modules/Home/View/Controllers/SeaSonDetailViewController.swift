@@ -14,12 +14,14 @@ class SeaSonDetailViewController: BaseViewController {
     lazy var bgImageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor.tintColor
+        view.contentMode = .scaleAspectFill
         return view
     }()
     lazy var bgImageViewAlternate: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor.tintColor
         view.alpha = 0.0
+        view.contentMode = .scaleAspectFill
         return view
     }()
     
@@ -56,6 +58,7 @@ class SeaSonDetailViewController: BaseViewController {
     var category: CategoryModel?
     var seasons: [SeasonModel] = [SeasonModel]()
     var currentSelectedIndex: Int = 0
+    var cacheImages: Dictionary<String, UIImage>?
     
     var originContentOffsetX: CGFloat = 0.0
     var currentShowBgImageView: UIImageView = UIImageView()
@@ -122,11 +125,20 @@ class SeaSonDetailViewController: BaseViewController {
         navigationItem.title = "\(currentSelectedIndex + 1) / \(seasons.count)"
         
         let seasion = seasons[currentSelectedIndex]
-        if seasion.backgroundModel.type == .image {
-            bgImageView.image = UIImage(named: seasion.backgroundModel.name)
+        var bgImage = UIImage(named: seasion.backgroundModel.name)
+        let bgColor = UIColor.color(hex: seasion.backgroundModel.name)
+        if seasion.backgroundModel.type == .custom {
+            let imageData = HandlerDocumentManager.getCustomImage(seasonId: seasion.backgroundModel.name)
+            if imageData != nil {
+                bgImage = UIImage(data: imageData!)
+            }
+        }
+        
+        if seasion.backgroundModel.type == .custom || seasion.backgroundModel.type == .image {
+            bgImageView.image = bgImage
         } else {
             bgImageView.image = nil
-            bgImageView.backgroundColor = UIColor.color(hex: seasion.backgroundModel.name)
+            bgImageView.backgroundColor = bgColor
         }
         currentShowBgImageView = bgImageView
         
@@ -135,6 +147,20 @@ class SeaSonDetailViewController: BaseViewController {
         collectionView.performBatchUpdates({
         }) { (_) in
             self.collectionView.scrollToItem(at: IndexPath(item: self.currentSelectedIndex, section: 0), at: .centeredHorizontally, animated: false)
+        }
+        
+        /// 缓存自定义图片
+        DispatchQueue.main.async {
+            self.cacheImages = Dictionary<String, UIImage>()
+            for model in self.seasons {
+                if model.backgroundModel.type == .custom {
+                    let imageData = HandlerDocumentManager.getCustomImage(seasonId: model.backgroundModel.name)
+                    if imageData != nil {
+                        let image = UIImage(data: imageData!)
+                        self.cacheImages?[model.id] = image
+                    }
+                }
+            }
         }
     }
     
@@ -209,48 +235,58 @@ extension SeaSonDetailViewController: UIScrollViewDelegate {
         }
         let seasion = seasons[index]
         let newSeasion = seasons[newIndex]
-        if currentShowBgImageView == bgImageView {
-            if seasion.backgroundModel.type == .image {
-                bgImageView.image = UIImage(named: seasion.backgroundModel.name)
+        
+        var bgImage = UIImage(named: seasion.backgroundModel.name)
+        let bgColor = UIColor.color(hex: seasion.backgroundModel.name)
+        if seasion.backgroundModel.type == .custom {
+            if let image = self.cacheImages?[seasion.id] {  // 取缓存
+                bgImage = image
             } else {
-                bgImageView.image = nil
-                bgImageView.backgroundColor = UIColor.color(hex: seasion.backgroundModel.name)
-            }
-            
-            if newSeasion.backgroundModel.type == .image {
-                bgImageViewAlternate.image = UIImage(named: newSeasion.backgroundModel.name)
-            } else {
-                bgImageViewAlternate.image = nil
-                bgImageViewAlternate.backgroundColor = UIColor.color(hex: newSeasion.backgroundModel.name)
-            }
-            
-            UIView.animate(withDuration: AnimateDuration) {
-                self.bgImageView.alpha = 0.0
-                self.bgImageViewAlternate.alpha = 1.0
-            }
-            
-        } else {
-            if newSeasion.backgroundModel.type == .image {
-                bgImageView.image = UIImage(named: newSeasion.backgroundModel.name)
-            } else {
-                bgImageView.image = nil
-                bgImageView.backgroundColor = UIColor.color(hex: newSeasion.backgroundModel.name)
-            }
-            
-            if seasion.backgroundModel.type == .image {
-                bgImageViewAlternate.image = UIImage(named: seasion.backgroundModel.name)
-            } else {
-                bgImageViewAlternate.image = nil
-                bgImageViewAlternate.backgroundColor = UIColor.color(hex: seasion.backgroundModel.name)
-            }
-            
-            UIView.animate(withDuration: AnimateDuration) {
-                self.bgImageView.alpha = 1.0
-                self.bgImageViewAlternate.alpha = 0.0
+                let imageData = HandlerDocumentManager.getCustomImage(seasonId: seasion.backgroundModel.name)
+                if imageData != nil {
+                    bgImage = UIImage(data: imageData!)
+                }
             }
         }
-        currentSelectedIndex = newIndex
-        currentShowBgImageView = currentShowBgImageView == bgImageView ? bgImageViewAlternate : bgImageView
+        
+        var newBgImage = UIImage(named: newSeasion.backgroundModel.name)
+        let newBgColor = UIColor.color(hex: newSeasion.backgroundModel.name)
+        if newSeasion.backgroundModel.type == .custom {
+            if let image = self.cacheImages?[newSeasion.id] {  // 取缓存
+                newBgImage = image
+            } else {
+                let newImageData = HandlerDocumentManager.getCustomImage(seasonId: newSeasion.backgroundModel.name)
+                if newImageData != nil {
+                    newBgImage = UIImage(data: newImageData!)
+                }
+            }
+        }
+        
+        let isBgimageView = currentShowBgImageView == bgImageView
+        let isImage = seasion.backgroundModel.type == .custom || seasion.backgroundModel.type == .image
+        let isImageNewSeason = newSeasion.backgroundModel.type == .custom || newSeasion.backgroundModel.type == .image
+        
+        if (isBgimageView && isImage) || (!isBgimageView && isImageNewSeason) {
+            bgImageView.image = isBgimageView ? bgImage : newBgImage
+        } else {
+            bgImageView.image = nil
+            bgImageView.backgroundColor = isBgimageView ? bgColor : newBgColor
+        }
+        
+        if (isBgimageView && isImageNewSeason) || (!isBgimageView && isImage) {
+            bgImageViewAlternate.image = isBgimageView ? newBgImage : bgImage
+        } else {
+            bgImageViewAlternate.image = nil
+            bgImageViewAlternate.backgroundColor = isBgimageView ? newBgColor : bgColor
+        }
+        
+        UIView.animate(withDuration: AnimateDuration) {
+            self.bgImageView.alpha = isBgimageView ? 0.0 : 1.0
+            self.bgImageViewAlternate.alpha = isBgimageView ? 1.0 : 0.0
+        }
+        
+        currentSelectedIndex   = newIndex
+        currentShowBgImageView = isBgimageView ? bgImageViewAlternate : bgImageView
         
         /// 修改标题
         navigationItem.title = "\(currentSelectedIndex + 1) / \(seasons.count)"

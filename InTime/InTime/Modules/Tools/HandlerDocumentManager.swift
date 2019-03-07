@@ -11,6 +11,7 @@ import CoreGraphics
 enum DocumentType: String {
     case categorys = "Categorys"
     case seasons = "Seasons"
+    case images = "images"
 }
 
 class HandlerDocumentManager {
@@ -46,6 +47,27 @@ class HandlerDocumentManager {
         }
         return NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? Data
     }
+    
+    // MARK: - 自定义背景图片处理
+    @discardableResult
+    public static func saveCustomImage(seasonId: String, imageData: Data?) -> Bool {
+        guard imageData != nil, var filePath = self.rootFilePath(type: .images) else {
+            return false
+        }
+        filePath = (filePath as NSString).appendingPathComponent("\(seasonId).png")
+        return NSKeyedArchiver.archiveRootObject(imageData!, toFile: filePath)
+    }
+    
+    /// 获取自定义背景图片
+    @discardableResult
+    public static func getCustomImage(seasonId: String) -> Data? {
+        guard !seasonId.isEmpty, var filePath = self.rootFilePath(type: .images) else {
+            return nil
+        }
+        filePath = (filePath as NSString).appendingPathComponent("\(seasonId).png")
+        return NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? Data
+    }
+    
     
     // MARK: - 文件路径
     
