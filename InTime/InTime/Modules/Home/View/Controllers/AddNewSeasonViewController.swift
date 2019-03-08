@@ -211,8 +211,8 @@ class AddNewSeasonViewController: BaseViewController {
             success = AddNewSeasonViewModel.addNewSeason(season: newSeason)
         }
         if success {
-            /// 只要是未过期或者设置了重复提醒的时节，都添加本地通知
-            if isLater, newSeason.repeatRemindType != .no {
+            /// 只要是未过期的时节，都添加本地通知
+            if isLater {
                 addNewAlarm()
             }
             NotificationCenter.default.post(name: NotificationAddNewSeason, object: nil)
