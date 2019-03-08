@@ -4,6 +4,9 @@ def libraries
 
     pod 'SnapKit'
     pod 'FDFullscreenPopGesture'
+    
+    # 图片裁剪框架
+    pod 'CropViewController'
 
 end
 

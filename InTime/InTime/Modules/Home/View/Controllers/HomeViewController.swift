@@ -708,6 +708,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 if AddNewSeasonViewModel.deleteSeason(season: season) {
                     /// 取消本地通知
                     LocalNotificationManage.shared.cancelLocalNotification(identifier: season.id, title: season.title)
+                    /// 删除自定义图片
+                    HandlerDocumentManager.deleteCustomImage(seasonId: season.id)
                     
                     strongSelf.seasons.remove(at: indexPath.row)
                     if indexPath.row == 0 || strongSelf.seasons.isEmpty {

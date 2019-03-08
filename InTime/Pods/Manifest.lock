@@ -1,20 +1,24 @@
 PODS:
+  - CropViewController (2.4.0)
   - FDFullscreenPopGesture (1.1)
   - SnapKit (4.2.0)
 
 DEPENDENCIES:
+  - CropViewController
   - FDFullscreenPopGesture
   - SnapKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - CropViewController
     - FDFullscreenPopGesture
     - SnapKit
 
 SPEC CHECKSUMS:
+  CropViewController: a090820b15fc3da68e694d7c192a4708c576828b
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: 1f2e9f43c18c7ac14d86c504945e80483271511d
+PODFILE CHECKSUM: 786ee1957b6989a3b7b192c9166d60966ae74c8c
 
 COCOAPODS: 1.5.3

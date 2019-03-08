@@ -9,6 +9,7 @@
 
 import UIKit
 import FDFullscreenPopGesture
+import CropViewController
 
 let NewSeasonMargin: CGFloat = IT_IPHONE_X || IT_IPHONE_6P ? 20.0 : 15.0
 
@@ -510,48 +511,66 @@ extension AddNewSeasonViewController: TextColorDelegate {
 // MARK: - 选择相片
 extension AddNewSeasonViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let originalImage = info[UIImagePickerController.InfoKey.originalImage]
-        if originalImage is UIImage {
-            let image: UIImage = originalImage as! UIImage
-            // TODO: 图片剪切处理
-            
-            let imageData = image.pngData()
-            let success = HandlerDocumentManager.saveCustomImage(seasonId: newSeason.id, imageData: imageData)
-            if success {
-                newSeason.backgroundModel.name = newSeason.id
-                
-                /// 更新列表视图
-                for index in 0..<dataSource.count {
-                    var section = dataSource[index]
-                    if section.cellIdentifier == NewSeasonCellIdType.background.rawValue {
-                        if let item = section.items.first, item is BackgroundModel, let bgModel: BackgroundModel = item as? BackgroundModel {
-                            var images = bgModel.images
-                            for i in 0..<images.count {
-                                let model = images[i]
-                                if model.type == .custom {
-                                    model.name = newSeason.id
-                                    images[i] = model
-                                    bgModel.images = images
-                                    section.items[0] = bgModel
-                                    dataSource[index] = section
-                                    break
-                                }
-                            }
-                        }
-                        break
-                    }
+        /// 裁剪并保存图片
+        picker.dismiss(animated: true) {
+            DispatchQueue.main.async {
+                let originalImage = info[UIImagePickerController.InfoKey.originalImage]
+                if originalImage is UIImage {
+                    let image: UIImage = originalImage as! UIImage
+                    let cropVC = CropViewController(image: image)
+                    cropVC.delegate = self
+                    self.navigationController?.present(cropVC, animated: true, completion: nil)
                 }
-                tableView.reloadData()
-                
-            } else {
-                newSeason.backgroundModel.name = ""
-                view.showText("获取图片失败！")
             }
         }
-        picker.dismiss(animated: true, completion:nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - <CropViewControllerDelegate>
+extension AddNewSeasonViewController: CropViewControllerDelegate {
+
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        /// 保存图片到沙盒
+        let imageData = image.pngData()
+        let success = HandlerDocumentManager.saveCustomImage(seasonId: newSeason.id, imageData: imageData)
+        if success {
+            newSeason.backgroundModel.name = newSeason.id
+            
+            /// 更新列表视图
+            for index in 0..<dataSource.count {
+                var section = dataSource[index]
+                if section.cellIdentifier == NewSeasonCellIdType.background.rawValue {
+                    if let item = section.items.first, item is BackgroundModel, let bgModel: BackgroundModel = item as? BackgroundModel {
+                        var images = bgModel.images
+                        for i in 0..<images.count {
+                            let model = images[i]
+                            if model.type == .custom {
+                                model.name = newSeason.id
+                                images[i] = model
+                                bgModel.images = images
+                                section.items[0] = bgModel
+                                dataSource[index] = section
+                                break
+                            }
+                        }
+                    }
+                    break
+                }
+            }
+            tableView.reloadData()
+        } else {
+            newSeason.backgroundModel.name = ""
+            view.showText("获取图片失败！")
+        }
+        
+        cropViewController.dismiss(animated: true, completion: nil)
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+        cropViewController.dismiss(animated: true, completion: nil)
     }
 }
