@@ -371,6 +371,8 @@ class HomeViewController: BaseViewController {
     }
     
     func updateContentView() {
+        sortBtn.isHidden = seasons.isEmpty
+        
         UIView.animate(withDuration: AnimateDuration) {
             self.emptyInfoLabel.isHidden = self.seasons.count > 0
             self.headerView.isHidden = self.seasons.count == 0

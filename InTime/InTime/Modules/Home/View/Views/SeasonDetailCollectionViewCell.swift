@@ -62,34 +62,27 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
     
     var season: SeasonModel? {
         didSet {
-            reloadContent()
+            let textColor = UIColor.color(hex: season?.textColorModel.color ?? "#FFFFFF")
+            nameLabel.textColor      = textColor
+            countDownLabel.textColor = textColor
+            dateLabel.textColor      = textColor.withAlphaComponent(0.7)
+            infoLabel.textColor      = textColor
             
-            if let textColor = season?.textColorModel.color, !textColor.isEmpty {
-                let color = UIColor.color(hex: textColor)
-                nameLabel.textColor      = color
-                countDownLabel.textColor = color
-                dateLabel.textColor      = color.withAlphaComponent(0.7)
-                infoLabel.textColor      = color
-            } else {
-                nameLabel.textColor      = UIColor.white
-                countDownLabel.textColor = UIColor.white
-                dateLabel.textColor      = UIColor.white.withAlphaComponent(0.7)
-                infoLabel.textColor      = UIColor.white
-            }
+            reloadContent()
         }
     }
     
     func reloadContent() {
         guard let model = season else {
             return
-        }
+        } 
         nameLabel.text = model.title
         ringInfoLabel.text = model.repeatRemindType.converToString()
         
         let (timeIntervalStr, info, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
         
         infoLabel.text = info
-        infoLabel.textColor = isLater ? UIColor.white : UIColor.red
+        infoLabel.textColor = isLater ? infoLabel.textColor : UIColor.red
         
         countDownLabel.text = timeIntervalStr
         let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
@@ -97,8 +90,7 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         case .second, .minute, .hour, .day:
             if timeIntervalStr.count > 1 {
                 let attributedText = NSMutableAttributedString(string: timeIntervalStr)
-                attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),
-                                              NSAttributedString.Key.foregroundColor: UIColor.white],
+                attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13)],
                                              range: NSRange(location: timeIntervalStr.count - 1, length: 1))
                 countDownLabel.attributedText = attributedText
             }
