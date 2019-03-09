@@ -79,7 +79,7 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         nameLabel.text = model.title
         ringInfoLabel.text = model.repeatRemindType.converToString()
         
-        let (timeIntervalStr, info, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
+        let (timeIntervalStr, info, date, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
         
         infoLabel.text = info
         infoLabel.textColor = isLater ? infoLabel.textColor : UIColor.red

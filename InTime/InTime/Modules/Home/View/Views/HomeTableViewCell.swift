@@ -32,7 +32,7 @@ class HomeTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.85)
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16.0)
+        label.font = UIFont.systemFont(ofSize: 15.0)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -40,7 +40,7 @@ class HomeTableViewCell: UITableViewCell {
     lazy var ringInfoLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.9)
-        label.font = UIFont.systemFont(ofSize: 8.0)
+        label.font = UIFont.systemFont(ofSize: 6.0)
         label.textAlignment = .center
         label.backgroundColor = UIColor.pinkColor
         label.layer.cornerRadius = 2.0
@@ -76,7 +76,7 @@ class HomeTableViewCell: UITableViewCell {
             unitLabel.text = model.unitModel.info
             ringInfoLabel.text = model.repeatRemindType.converToString()
             
-            let (timeIntervalStr, _, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
+            let (timeIntervalStr, _, _, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
             
             let laterColor = UIColor.white.withAlphaComponent(0.5)
             nameLabel.textColor      = isLater ? UIColor.white : laterColor
@@ -84,7 +84,7 @@ class HomeTableViewCell: UITableViewCell {
             dateLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : laterColor
             unitLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : laterColor
             ringInfoLabel.backgroundColor = isLater ? UIColor.pinkColor : UIColor.pinkColor.withAlphaComponent(0.5)
-             
+            
             countDownLabel.text = timeIntervalStr
             let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
             switch type {
@@ -154,13 +154,13 @@ class HomeTableViewCell: UITableViewCell {
             make.centerY.equalTo(unitLabel.snp.centerY)
             make.height.equalTo(unitLabel.snp.height)
             make.left.equalTo(nameLabel.snp.left)
-            make.right.equalTo(ringInfoLabel.snp.left).offset(-5)
+            make.right.lessThanOrEqualTo(unitLabel.snp.left).offset(-40)
         }
         ringInfoLabel.snp.makeConstraints { (make) in
             make.left.equalTo(dateLabel.snp.right).offset(5)
             make.width.greaterThanOrEqualTo(20.0)
             make.centerY.equalTo(dateLabel.snp.centerY).offset(2)
-            make.height.equalTo(12.0)
+            make.height.equalTo(10.0)
         }
         spaceLineView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(margin)

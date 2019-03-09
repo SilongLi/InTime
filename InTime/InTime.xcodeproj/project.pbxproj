@@ -83,6 +83,7 @@
 		99C4F74A21F6FB8900A25386 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F74621F6FB8800A25386 /* MBProgressHUD.m */; };
 		99C4F74E21F804D900A25386 /* CommonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F74D21F804D900A25386 /* CommonInfo.swift */; };
 		99C4F75021F9B44100A25386 /* ITCustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F74F21F9B44100A25386 /* ITCustomAlertView.swift */; };
+		99F419B52233CA3D00B737B4 /* ITCountdownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F419B42233CA3D00B737B4 /* ITCountdownLabel.swift */; };
 		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
 
@@ -174,6 +175,7 @@
 		99C4F74821F6FB8800A25386 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		99C4F74D21F804D900A25386 /* CommonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonInfo.swift; sourceTree = "<group>"; };
 		99C4F74F21F9B44100A25386 /* ITCustomAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ITCustomAlertView.swift; sourceTree = "<group>"; };
+		99F419B42233CA3D00B737B4 /* ITCountdownLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITCountdownLabel.swift; sourceTree = "<group>"; };
 		B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.release.xcconfig"; sourceTree = "<group>"; };
 		EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -463,6 +465,7 @@
 				9968B57A2223EAC900792EC5 /* SeasonTextManager.swift */,
 				99C4F73421F5A99D00A25386 /* HandlerDocumentManager.swift */,
 				9940094F221FA9B000C3E955 /* LocalNotificationManage.swift */,
+				99F419B42233CA3D00B737B4 /* ITCountdownLabel.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -581,6 +584,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-InTime/Pods-InTime-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CountdownLabel/CountdownLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -589,6 +593,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountdownLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FDFullscreenPopGesture.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
@@ -636,6 +641,7 @@
 				990B64AB21F030C90063BD34 /* LabelSwitchBackView.swift in Sources */,
 				995022D221E78016004FAC47 /* SelectedCategoryView.swift in Sources */,
 				995022CF21E72B13004FAC47 /* UIColor+Extension.swift in Sources */,
+				99F419B52233CA3D00B737B4 /* ITCountdownLabel.swift in Sources */,
 				995022CE21E72B13004FAC47 /* String+Extension.swift in Sources */,
 				995022DE21E8772A004FAC47 /* SeaSonDetailViewController.swift in Sources */,
 				995022EB21E8D52E004FAC47 /* HomeTableViewCell.swift in Sources */,

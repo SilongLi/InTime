@@ -7,10 +7,13 @@ def libraries
     
     # 图片裁剪框架
     pod 'CropViewController'
+    
+    # 倒计时动画框架
+    pod 'CountdownLabel'
 
 end
 
 target 'InTime' do
-    platform :ios, '8.0'
+    platform :ios, '9.0'
     libraries
 end

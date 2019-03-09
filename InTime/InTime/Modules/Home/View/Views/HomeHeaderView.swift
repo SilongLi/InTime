@@ -20,8 +20,8 @@ class HomeHeaderView: UIView {
         return label
     }()
     
-    lazy var countDownLabel: UILabel = {
-        let label = UILabel()
+    lazy var countDownLabel: ITCountdownLabel = {
+        let label = ITCountdownLabel()
         label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 36.0)
         label.adjustsFontSizeToFitWidth = true
@@ -69,25 +69,17 @@ class HomeHeaderView: UIView {
             titleLabel.text = model.title
             ringInfoLabel.text = model.repeatRemindType.converToString()
             
-            let (timeIntervalStr, info, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
+            let (_, info, date, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
             
             infoLabel.text = info
             infoLabel.textColor = isLater ? UIColor.white : UIColor.red
             
-            countDownLabel.text = timeIntervalStr
             let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
-            switch type {
-            case .second, .minute, .hour, .day:
-                if timeIntervalStr.count > 1 {
-                    let attributedText = NSMutableAttributedString(string: timeIntervalStr)
-                    attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),
-                                                  NSAttributedString.Key.foregroundColor: UIColor.white],
-                                                 range: NSRange(location: timeIntervalStr.count - 1, length: 1))
-                    countDownLabel.attributedText = attributedText
-                }
-            default:
-                break
-            }
+            countDownLabel.isRound = isLater
+            countDownLabel.setCountDownDate(targetDate: date as NSDate)
+            countDownLabel.timeFormat = SeasonTextManager.handleDateFormat(type: type)
+            countDownLabel.animationType = .Fall
+            countDownLabel.start()
             
             dateInfoLabel.text = dateInfo
         }
@@ -144,15 +136,6 @@ class HomeHeaderView: UIView {
             make.bottom.greaterThanOrEqualTo(countDownLabel.snp.top).offset(-space)
             make.height.lessThanOrEqualTo(80.0)
         }
-        
-        refreshTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
-        refreshTimer?.schedule(deadline: .now(), repeating: 1.0)
-        refreshTimer?.setEventHandler(handler: { [weak self] in
-            DispatchQueue.main.async {
-                self?.reloadContent()
-            }
-        })
-        refreshTimer?.resume()
     }
     
     required init?(coder aDecoder: NSCoder) {

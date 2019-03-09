@@ -9,8 +9,30 @@
 
 
 class SeasonTextManager {
+    
+    /// 动画时间格式
+    static func handleDateFormat(type: DateUnitType = DateUnitType.dayTime) -> String {
+        switch type {
+        case .second:
+            return "ss秒"
+        case .minute:
+            return "mm分"
+        case .hour:
+            return "HH时"
+        case .day:
+            return "dd天"
+        case .dayTime:
+            return "dd天HH时mm分ss秒"
+        case .year:
+            return "yy年mm月dd天"
+        case .yearTime:
+            return "yy年mm月dd天HH时mm分ss秒"
+        case .percentage:
+            return ""
+        }
+    }
 
-    static func handleSeasonInfo(_ season: SeasonModel) -> (String, info: String, dateInfo: String, isLater: Bool) {
+    static func handleSeasonInfo(_ season: SeasonModel) -> (String, info: String, date: Date, dateInfo: String, isLater: Bool) {
         var timeIntervalString = "--"
         var info = "距离"
         var dateInfo = "--"
@@ -18,7 +40,7 @@ class SeasonTextManager {
         var isLater = true
         
         guard var date = NSDate(season.startDate.gregoriandDataString, withFormat: StartSeasonDateFormat) else {
-            return (timeIntervalString, info, dateInfo, isLater)
+            return (timeIntervalString, info, Date(), dateInfo, isLater)
         }
         // 倒计时显示类型
         let type: DateUnitType = DateUnitType(rawValue: season.unitModel.info) ?? DateUnitType.dayTime
@@ -78,6 +100,6 @@ class SeasonTextManager {
         
         isLater = date.isLaterThanDate(Date())
         timeIntervalString = (date as Date).convertToTimeAndUnitString(type: type)
-        return (timeIntervalString, info, dateInfo, isLater)
+        return (timeIntervalString, info, date as Date, dateInfo, isLater)
     }
 }
