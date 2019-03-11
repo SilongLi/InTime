@@ -49,6 +49,8 @@ class AddNewSeasonViewController: BaseViewController {
     var categoryModels: [CategoryModel] = [CategoryModel]()
     var categoryAlertModel: AlertCollectionModel = AlertCollectionModel()
     
+    var animationAlertModel: AlertCollectionModel = AlertCollectionModel()
+    
     var reminderAlertModel: AlertCollectionModel = AlertCollectionModel()
     var isModifySeason: Bool = false
     
@@ -172,6 +174,9 @@ class AddNewSeasonViewController: BaseViewController {
         AddNewSeasonViewModel.loadClassifyModel(originSeason: newSeason) { [weak self] (model, categorys) in
             self?.categoryAlertModel = model
             self?.categoryModels = categorys
+        }
+        AddNewSeasonViewModel.loadAnimationModels(originSeason: newSeason) { [weak self] (model) in
+            self?.animationAlertModel = model
         }
         AddNewSeasonViewModel.loadRemindVoicesModel(originSeason: newSeason) { [weak self] (model) in
             self?.reminderAlertModel = model
@@ -443,7 +448,30 @@ extension AddNewSeasonViewController: InfoSelectedDelegate {
             
         /// 动画效果
         case .animation:
+            let alert = CommonAlertTableView(model: animationAlertModel, selectedAction: { [weak self] (alertModel, textModel) in
+                guard let strongSelf = self else { return }
+                strongSelf.newSeason.animationType = CountdownEffect(rawValue: textModel.type) ?? CountdownEffect.Fall
+                strongSelf.animationAlertModel = alertModel
+                
+                DispatchQueue.main.async {
+                    for index in 0..<strongSelf.dataSource.count {
+                        var section = strongSelf.dataSource[index]
+                        switch section.cellIdentifier {
+                        case NewSeasonCellIdType.animation.rawValue:
+                            let ring = model
+                            ring.info = textModel.text
+                            section.items = [ring]
+                            strongSelf.dataSource[index] = section
+                        default:
+                            break
+                        }
+                    }
+                    strongSelf.tableView.reloadData()
+                }
+            })
+            alert.showAlertView(inViewController: self, leftOrRightMargin: margin)
             break
+            
         /// 提醒铃声
         case .ring:
             let alert = CommonAlertTableView(model: reminderAlertModel, selectedAction: { [weak self] (alertModel, textModel) in

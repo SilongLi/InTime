@@ -9,7 +9,7 @@ def libraries
     pod 'CropViewController'
     
     # 倒计时动画框架
-    pod 'CountdownLabel'
+    pod 'LTMorphingLabel'
 
 end
 

@@ -10,7 +10,8 @@
 #endif
 #endif
 
+#import "LTMorphingLabel.h"
 
-FOUNDATION_EXPORT double CountdownLabelVersionNumber;
-FOUNDATION_EXPORT const unsigned char CountdownLabelVersionString[];
+FOUNDATION_EXPORT double LTMorphingLabelVersionNumber;
+FOUNDATION_EXPORT const unsigned char LTMorphingLabelVersionString[];
 

@@ -24,8 +24,8 @@ class HomeHeaderView: UIView {
         let label = ITCountdownLabel()
         label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 36.0)
-        label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -69,17 +69,15 @@ class HomeHeaderView: UIView {
             titleLabel.text = model.title
             ringInfoLabel.text = model.repeatRemindType.converToString()
             
-            let (_, info, date, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
+            let (timeInfo, info, date, dateInfo, _) = SeasonTextManager.handleSeasonInfo(model)
             
             infoLabel.text = info
-            infoLabel.textColor = isLater ? UIColor.white : UIColor.red
             
-            let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
-            countDownLabel.isRound = isLater
-            countDownLabel.setCountDownDate(targetDate: date as NSDate)
-            countDownLabel.timeFormat = SeasonTextManager.handleDateFormat(type: type)
-            countDownLabel.animationType = .Fall
-            countDownLabel.start()
+            countDownLabel.text = timeInfo
+            let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
+            countDownLabel.setupContent(date: date, unitType: unitType, animationType: model.animationType) { [weak self] (isLater) in
+                self?.infoLabel.textColor = isLater ? UIColor.white : UIColor.red
+            }
             
             dateInfoLabel.text = dateInfo
         }
@@ -127,7 +125,7 @@ class HomeHeaderView: UIView {
             make.bottom.equalTo(infoLabel.snp.top).offset(-margin)
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.height.equalTo(34.0)
+            make.height.equalTo(84.0)
         }
         titleLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(space)

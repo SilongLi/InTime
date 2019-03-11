@@ -114,7 +114,7 @@ extension LTMorphingLabel {
                             width: rect.size.width,
                             height: 1
                         )
-                        layer.renderMode = CAEmitterLayerRenderMode.oldestFirst
+                        layer.renderMode = CAEmitterLayerRenderMode.additive
                         layer.emitterMode = CAEmitterLayerEmitterMode.outline
                         cell.emissionLongitude = CGFloat(Double.pi / 2)
                         cell.scale = self.font.pointSize / 160.0

@@ -199,7 +199,7 @@ extension AddNewSeasonViewModel {
         type.type = InfoSelectedType.classification
         type.name = "分类管理"
         type.info = category.title
-        let typeSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.category.rawValue,
+        let categorySection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.category.rawValue,
                                            headerTitle: "",
                                            footerTitle: "",
                                            headerHeight: 0.001,
@@ -211,7 +211,11 @@ extension AddNewSeasonViewModel {
         let animation  = InfoSelectedModel()
         animation.type = InfoSelectedType.animation
         animation.name = "动画效果"
-        animation.info = "自动"
+        if isModifySeason {
+            animation.info = originSeason.animationType.desc()
+        } else {
+            animation.info = "坠落"
+        }
         let animationSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.animation.rawValue,
                                                 headerTitle: "",
                                                 footerTitle: "",
@@ -347,10 +351,10 @@ extension AddNewSeasonViewModel {
                                             showCellCount: 1,
                                             items: [color])
         
-        completion([inputSeason, timeSection, unitSection, typeSection, reminderSection, ringSection, repeatSection, backgroundSection, colorSection])
+        completion([inputSeason, timeSection, unitSection, categorySection, animationSection, reminderSection, ringSection, repeatSection, backgroundSection, colorSection])
     }
     
-    /// 获取显示单位数据
+    // MARK: - 获取显示单位数据
     static func loadUnitsModel(originSeason: SeasonModel, completion: ((_ model: AlertCollectionModel) -> ())) {
         let isModifySeason = !originSeason.title.isEmpty && !originSeason.categoryId.isEmpty
         let unitValue = isModifySeason ? originSeason.unitModel.info : DateUnitType.dayTime.rawValue
@@ -371,7 +375,7 @@ extension AddNewSeasonViewModel {
         completion(alert)
     }
     
-    /// 获取分类数据
+    // MARK: - 获取分类数据
     static func loadClassifyModel(originSeason: SeasonModel, completion: ((_ model: AlertCollectionModel, _ categoryModels: [CategoryModel]) -> ())) {
         HomeSeasonViewModel.loadLocalCategorys { (models) in
             // 默认类型不添加时节
@@ -404,12 +408,38 @@ extension AddNewSeasonViewModel {
         return alert
     }
     
-    /// 获取提醒铃声数据
+    // MARK: - 获取动画效果数据
+    static func loadAnimationModels(originSeason: SeasonModel, completion: ((_ model: AlertCollectionModel) -> ())) {
+        let isModifySeason = !originSeason.title.isEmpty && !originSeason.categoryId.isEmpty
+        let animationType = isModifySeason ? originSeason.animationType : CountdownEffect.Fall
+        
+        let types = [CountdownEffect.None,
+                    CountdownEffect.Burn,
+                    CountdownEffect.Evaporate,
+                    CountdownEffect.Fall,
+                    CountdownEffect.Pixelate,
+                    CountdownEffect.Scale,
+                    CountdownEffect.Sparkle,
+                    CountdownEffect.Anvil]
+        var textModels = [TextModel]()
+        for type in types {
+            let model = TextModel(type: type.rawValue, text: type.desc(), isSelected: animationType == type)
+            textModels.append(model)
+        }
+        
+        let alert = AlertCollectionModel()
+        alert.title = "动画效果"
+        alert.texts = textModels
+        
+        completion(alert)
+    }
+    
+    // MARK: - 获取提醒铃声数据
     static func loadRemindVoicesModel(originSeason: SeasonModel, completion: ((_ model: AlertCollectionModel) -> ())) {
         let isModifySeason = !originSeason.title.isEmpty && !originSeason.categoryId.isEmpty
         let ringType = isModifySeason ? originSeason.ringType : RemindVoiceType.ceilivy
         
-        let def      = TextModel(type: RemindVoiceType.defaultType.rawValue, text: "系统默认", isSelected: ringType == RemindVoiceType.defaultType)
+        let def      = TextModel(type: RemindVoiceType.defaultType.rawValue, text: "默认", isSelected: ringType == RemindVoiceType.defaultType)
         let ceilivy  = TextModel(type: RemindVoiceType.ceilivy.rawValue, text: "Ceilivy", isSelected: ringType == RemindVoiceType.ceilivy)
         let afloat   = TextModel(type: RemindVoiceType.afloat.rawValue, text: "Afloat", isSelected: ringType == RemindVoiceType.afloat)
         let chords   = TextModel(type: RemindVoiceType.chords.rawValue, text: "Chords", isSelected: ringType == RemindVoiceType.chords)

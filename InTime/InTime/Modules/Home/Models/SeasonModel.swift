@@ -22,6 +22,8 @@ struct SeasonModel {
     var unitModel: InfoSelectedModel = InfoSelectedModel()
     /// 是否开启闹铃提醒
     var isOpenRemind: Bool = true
+    /// 动画类型
+    var animationType: CountdownEffect = CountdownEffect.Fall
     /// 提醒铃声
     var ringType: RemindVoiceType = RemindVoiceType.defaultType
     /// 重复提醒类型
@@ -42,6 +44,7 @@ extension SeasonModel {
         model.categoryId        = json["categoryId"].stringValue
         model.title             = json["title"].stringValue
         model.isOpenRemind      = json["isOpenRemind"].boolValue
+        model.animationType     = CountdownEffect(rawValue: json["animationType"].stringValue) ?? CountdownEffect.Fall
         model.ringType          = RemindVoiceType(rawValue: json["ringType"].stringValue) ?? RemindVoiceType.defaultType
         model.repeatRemindType  = RepeatRemindType(rawValue: json["repeatRemindType"].stringValue) ?? RepeatRemindType.no
         model.startDate         = TimeModel.convertToModel(json: JSON(parseJSON: json["startDate"].stringValue))
@@ -63,6 +66,7 @@ extension SeasonModel {
                 "startDate": startDateStr,
                 "unitModel": unitModelStr,
                 "isOpenRemind": isOpenRemind,
+                "animationType": animationType.rawValue,
                 "ringType": ringType.rawValue,
                 "repeatRemindType": repeatRemindType.rawValue,
                 "backgroundModel": backgroundModelStr,
