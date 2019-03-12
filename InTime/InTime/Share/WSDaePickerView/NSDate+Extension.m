@@ -551,9 +551,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
         components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
     }
     NSInteger second = components.second;
-    NSMutableString *dateStr = [[NSMutableString alloc] init];
-    [dateStr appendFormat:@"%zd", second];
-    return dateStr;
+    return [NSString stringWithFormat:@"%zd", second];
 }
 
 /// 计算两个日期的时间差，分
@@ -571,9 +569,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     if (isLater) {
         minute += components.second > 0 ? 1 : 0;
     }
-    NSMutableString *dateStr = [[NSMutableString alloc] init];
-    [dateStr appendFormat:@"%zd", minute];
-    return dateStr;
+    return [NSString stringWithFormat:@"%zd", minute];
 }
 
 /// 计算两个日期的时间差，小时
@@ -591,9 +587,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     if (isLater) {
         hour += components.minute > 0 ? 1 : 0;
     }
-    NSMutableString *dateStr = [[NSMutableString alloc] init];
-    [dateStr appendFormat:@"%zd", hour];
-    return dateStr;
+    return [NSString stringWithFormat:@"%zd", hour];
 }
 
 /// 计算两个日期的时间差，天
@@ -611,9 +605,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     if (isLater) {
         day += components.hour > 0 ? 1 : 0;
     }
-    NSMutableString *dateStr = [[NSMutableString alloc] init];
-    [dateStr appendFormat:@"%zd", day];
-    return dateStr;
+    return [NSString stringWithFormat:@"%zd", day];
 }
 
 /// 计算两个日期的时间差，年月日

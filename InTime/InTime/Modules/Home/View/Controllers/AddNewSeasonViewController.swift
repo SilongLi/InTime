@@ -74,6 +74,7 @@ class AddNewSeasonViewController: BaseViewController {
     deinit {
         tableView.delegate = nil
         tableView.dataSource = nil
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - setup
@@ -85,12 +86,14 @@ class AddNewSeasonViewController: BaseViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "save"), style: UIBarButtonItem.Style.done, target: self, action: #selector(saveSeasonAction))
         
         /// 当键盘升起的时候，添加点击手势
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.main) { (_) in
-            self.view.addGestureRecognizer(self.tapGestureRecognizer)
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.main) { [weak self] (_) in
+            guard let strongSelf = self else { return }
+            strongSelf.view.addGestureRecognizer(strongSelf.tapGestureRecognizer)
         }
         /// 当键盘收起的时候，移除点击手势
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.main) { (_) in
-            self.view.removeGestureRecognizer(self.tapGestureRecognizer)
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.main) { [weak self] (_) in
+            guard let strongSelf = self else { return }
+            strongSelf.view.removeGestureRecognizer(strongSelf.tapGestureRecognizer)
         }
         
         view.addSubview(tableView)
@@ -198,6 +201,10 @@ class AddNewSeasonViewController: BaseViewController {
         }
         guard !newSeason.categoryId.isEmpty else {
             view.showText("请选择分类!")
+            return
+        }
+        if newSeason.backgroundModel.type == .custom, newSeason.backgroundModel.name.isEmpty {
+            view.showText("请选择自定义背景图片!")
             return
         }
         

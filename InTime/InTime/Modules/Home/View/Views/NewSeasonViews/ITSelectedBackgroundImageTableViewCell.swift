@@ -43,7 +43,7 @@ class ITSelectedBackgroundImageTableViewCell: BaseTableViewCell {
         return collection
     }()
     
-    var delegate: BackgroundImageDelegate?
+    weak var delegate: BackgroundImageDelegate?
     var bgModel: BackgroundModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

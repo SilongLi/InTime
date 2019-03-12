@@ -43,7 +43,7 @@ class ITRepeatReminderTableViewCell: BaseTableViewCell {
         return collection
     }()
     
-    var delegate: RepeatRemindersDelegate?
+    weak var delegate: RepeatRemindersDelegate?
     var rrModel: RepeatReminderModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

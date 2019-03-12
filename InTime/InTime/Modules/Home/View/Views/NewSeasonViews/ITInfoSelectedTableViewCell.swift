@@ -32,7 +32,7 @@ class ITInfoSelectedTableViewCell: BaseTableViewCell {
         return btn
     }()
     
-    var delegate: InfoSelectedDelegate?
+    weak var delegate: InfoSelectedDelegate?
     var infoModel: InfoSelectedModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

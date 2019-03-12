@@ -27,7 +27,7 @@ class ITReminderTableViewCell: BaseTableViewCell {
         return view
     }()
     
-    var delegate: NoteSwitchDelegate?
+    weak var delegate: NoteSwitchDelegate?
     var reminder: OpenReminderModel?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

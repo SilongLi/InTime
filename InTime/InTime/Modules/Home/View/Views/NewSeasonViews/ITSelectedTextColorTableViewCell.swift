@@ -43,7 +43,7 @@ class ITSelectedTextColorTableViewCell: BaseTableViewCell {
         return collection
     }()
     
-    var delegate: TextColorDelegate?
+    weak var delegate: TextColorDelegate?
     var textColorModel: TextColorModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

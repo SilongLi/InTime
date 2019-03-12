@@ -61,7 +61,7 @@ class ITSelectedTimeTableViewCell: BaseTableViewCell {
         return labelSwitch
     }()
     
-    var delegate: SelectedTimeDelegate?
+    weak var delegate: SelectedTimeDelegate?
     var timeModel: TimeModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

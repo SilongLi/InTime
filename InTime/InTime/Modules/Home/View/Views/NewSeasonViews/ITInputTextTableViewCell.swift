@@ -27,7 +27,7 @@ class ITInputTextTableViewCell: BaseTableViewCell {
         return field
     }()
     
-    var delegate: InputTextFieldDelegate?
+    weak var delegate: InputTextFieldDelegate?
     var inputModel: InputModel?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
