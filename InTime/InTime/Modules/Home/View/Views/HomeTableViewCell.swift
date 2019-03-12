@@ -86,20 +86,6 @@ class HomeTableViewCell: UITableViewCell {
             ringInfoLabel.backgroundColor = isLater ? UIColor.pinkColor : UIColor.pinkColor.withAlphaComponent(0.5)
             
             countDownLabel.text = timeIntervalStr
-            let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
-            switch type {
-            case .second, .minute, .hour, .day:
-                if timeIntervalStr.count > 1 {
-                    let attributedText = NSMutableAttributedString(string: timeIntervalStr)
-                    attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),
-                                                  NSAttributedString.Key.foregroundColor: UIColor.white],
-                                                 range: NSRange(location: timeIntervalStr.count - 1, length: 1))
-                    countDownLabel.attributedText = attributedText
-                }
-            default:
-                break
-            }
-            
             dateLabel.text = dateInfo
         }
     }
