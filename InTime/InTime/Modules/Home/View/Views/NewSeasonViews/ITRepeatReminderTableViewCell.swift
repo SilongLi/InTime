@@ -14,7 +14,7 @@ class ITRepeatReminderTableViewCell: BaseTableViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.init(name: FontName, size: 16)
         label.textColor = UIColor.white
         return label
     }()
@@ -104,7 +104,7 @@ extension ITRepeatReminderTableViewCell: UICollectionViewDataSource, UICollectio
             if titleLabel == nil {
                 titleLabel = UILabel()
                 titleLabel?.tag = 1997
-                titleLabel?.font = UIFont.systemFont(ofSize: 13)
+                titleLabel?.font = UIFont.init(name: FontName, size: 13.0)
                 titleLabel?.textAlignment = .center
                 titleLabel?.textColor = UIColor.greenColor
                 cell.contentView.addSubview(titleLabel!)

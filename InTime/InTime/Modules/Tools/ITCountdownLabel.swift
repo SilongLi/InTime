@@ -69,7 +69,7 @@ public class ITCountdownLabel: LTMorphingLabel {
     internal var targetDate: NSDate = NSDate()
     
     /// 时间显示格式
-//    var unitType: DateUnitType = DateUnitType.dayTime
+    var unitType: DateUnitType = DateUnitType.dayTime
     
     var completion: ((_ isLater: Bool) -> ())?
     

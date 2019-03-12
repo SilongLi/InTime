@@ -14,7 +14,7 @@ class HomeHeaderView: UIView {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .left
-        label.font = UIFont.boldSystemFont(ofSize: 44.0)
+        label.font = UIFont.init(name: FontName, size: 44.0)
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -23,7 +23,7 @@ class HomeHeaderView: UIView {
     lazy var countDownLabel: ITCountdownLabel = {
         let label = ITCountdownLabel()
         label.textColor = UIColor.white
-        label.font = UIFont.boldSystemFont(ofSize: 36.0)
+        label.font = UIFont.init(name: FontName, size: 40)
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -33,7 +33,7 @@ class HomeHeaderView: UIView {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 23.0)
+        label.font = UIFont.init(name: FontName, size: 23.0)
         label.text = "距离"
         return label
     }()
@@ -41,7 +41,7 @@ class HomeHeaderView: UIView {
     lazy var dateInfoLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.9)
-        label.font = UIFont.systemFont(ofSize: 18.0)
+        label.font = UIFont.init(name: FontName, size: 18.0)
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -50,7 +50,7 @@ class HomeHeaderView: UIView {
     lazy var ringInfoLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.9)
-        label.font = UIFont.systemFont(ofSize: 8.0)
+        label.font = UIFont.init(name: FontName, size: 8.0)
         label.textAlignment = .center
         label.backgroundColor = UIColor.pinkColor
         label.layer.cornerRadius = 2.0

@@ -13,8 +13,8 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
-        label.textAlignment = .left
-        label.font = UIFont.boldSystemFont(ofSize: 44.0)
+        label.textAlignment = .left 
+        label.font = UIFont.init(name: FontName, size: 44.0)
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -24,7 +24,7 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         let label = ITCountdownLabel()
         label.textColor = UIColor.white
         label.textAlignment = .left
-        label.font = UIFont.boldSystemFont(ofSize: 36.0)
+        label.font = UIFont.init(name: FontName, size: 36.0)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -33,7 +33,7 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 23.0)
+        label.font = UIFont.init(name: FontName, size: 23.0)
         label.text = "距离"
         return label
     }()
@@ -41,15 +41,15 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
     lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.8)
+        label.font = UIFont.init(name: FontName, size: 18.0)
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 18.0)
         return label
     }()
     
     lazy var ringInfoLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.9)
-        label.font = UIFont.systemFont(ofSize: 8.0)
+        label.font = UIFont.init(name: FontName, size: 8.0)
         label.textAlignment = .center
         label.backgroundColor = UIColor.pinkColor
         label.layer.cornerRadius = 2.0
@@ -85,19 +85,6 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
         countDownLabel.setupContent(date: date, unitType: unitType, animationType: model.animationType) { [weak self] (isLater) in
             self?.infoLabel.textColor = isLater ? UIColor.white : UIColor.red
-        }
-        
-        let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
-        switch type {
-        case .second, .minute, .hour, .day:
-            if timeIntervalStr.count > 1 {
-                let attributedText = NSMutableAttributedString(string: timeIntervalStr)
-                attributedText.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13)],
-                                             range: NSRange(location: timeIntervalStr.count - 1, length: 1))
-                countDownLabel.attributedText = attributedText
-            }
-        default:
-            break
         }
         
         dateLabel.text = dateInfo

@@ -88,13 +88,13 @@ private class LabelSwitchPart {
     
     private var switchConfigL: LabelSwitchConfig! {
         didSet {
-            stateL.backgroundColor     = switchConfigL.backgroundColor
+            stateL.backgroundColor = switchConfigL.backgroundColor
             leftPart.setConfig(switchConfigL)
         }
     }
     private var switchConfigR: LabelSwitchConfig! {
         didSet {
-            stateR.backgroundColor    = switchConfigR.backgroundColor
+            stateR.backgroundColor = switchConfigR.backgroundColor
             rightPart.setConfig(switchConfigR)
         }
     }
@@ -228,8 +228,7 @@ private class LabelSwitchPart {
     }
     
     /// Called when the circle is touched
-    @objc
-    func switchTaped(sender: Any) {
+    @objc func switchTaped(sender: Any) {
         UIView.animate(withDuration: 0.3) {
             switch self.curState {
             case .L:

@@ -19,7 +19,7 @@ class CategoryTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16.0)
+        label.font = UIFont.init(name: FontName, size: 16.0)
         return label
     }()
     
@@ -42,7 +42,6 @@ class CategoryTableViewCell: UITableViewCell {
             nameLabel.text = model?.title
             iconView.isHidden = !(model?.isSelected ?? false)
             nameLabel.textColor = (model?.isSelected ?? false) ? UIColor.greenColor : nameNormalColor
-            nameLabel.font = (model?.isSelected ?? false) ? UIFont.boldSystemFont(ofSize: 16.0) : UIFont.systemFont(ofSize: 16.0)
         }
     }
      

@@ -16,7 +16,7 @@ class InputTextFieldAlertView: CKAlertCommonView {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 17.0)
+        label.font = UIFont.init(name: FontName, size: 17.0)
         label.backgroundColor = UIColor.garyColor.withAlphaComponent(0.6)
         return label
     }()
@@ -51,7 +51,7 @@ class InputTextFieldAlertView: CKAlertCommonView {
     public lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(UIColor.white, for: UIControl.State.normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        button.titleLabel?.font = UIFont.init(name: FontName, size: 17.0)
         button.setTitle("取消", for: UIControl.State.normal)
         button.addTarget(self, action: #selector(cancelAction), for: UIControl.Event.touchUpInside)
         return button
@@ -60,7 +60,7 @@ class InputTextFieldAlertView: CKAlertCommonView {
     public lazy var doneButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(UIColor.greenColor, for: UIControl.State.normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        button.titleLabel?.font = UIFont.init(name: FontName, size: 17.0)
         button.setTitle("确定", for: UIControl.State.normal)
         button.addTarget(self, action: #selector(doneAction), for: UIControl.Event.touchUpInside)
         return button

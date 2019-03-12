@@ -14,7 +14,7 @@ class HomeTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .left
-        label.font = UIFont.boldSystemFont(ofSize: 18.0)
+        label.font = UIFont.init(name: FontName, size: 18.0)
         label.numberOfLines = 2
         return label
     }()
@@ -23,7 +23,7 @@ class HomeTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .right
-        label.font = UIFont.boldSystemFont(ofSize: 18.0)
+        label.font = UIFont.init(name: FontName, size: 18.0)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -32,7 +32,7 @@ class HomeTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.85)
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 15.0)
+        label.font = UIFont.init(name: FontName, size: 15.0)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -40,7 +40,7 @@ class HomeTableViewCell: UITableViewCell {
     lazy var ringInfoLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.9)
-        label.font = UIFont.systemFont(ofSize: 6.0)
+        label.font = UIFont.init(name: FontName, size: 6.0)
         label.textAlignment = .center
         label.backgroundColor = UIColor.pinkColor
         label.layer.cornerRadius = 2.0
@@ -51,8 +51,8 @@ class HomeTableViewCell: UITableViewCell {
     lazy var unitLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.85)
-        label.textAlignment = .right
-        label.font = UIFont.systemFont(ofSize: 16.0)
+        label.textAlignment = .right 
+        label.font = UIFont.init(name: FontName, size: 16.0)
         return label
     }()
     

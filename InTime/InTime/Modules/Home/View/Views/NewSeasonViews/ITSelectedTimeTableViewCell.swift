@@ -14,7 +14,7 @@ class ITSelectedTimeTableViewCell: BaseTableViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.init(name: FontName, size: 16)
         label.textColor = UIColor.white
         label.text = "时节时间"
         return label
@@ -26,7 +26,7 @@ class ITSelectedTimeTableViewCell: BaseTableViewCell {
         attr.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attr.length))
         attr.addAttribute(.foregroundColor, value: UIColor.lightGrayColor, range: NSRange(location: 0, length: attr.length))
         btn.setAttributedTitle(attr, for: UIControl.State.normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        btn.titleLabel?.font = UIFont.init(name: FontName, size: 16)
         btn.setImage(UIImage.init(named: "question"), for: UIControl.State.normal)
         btn.addTarget(self, action: #selector(showNoteViewAction), for: UIControl.Event.touchUpInside)
         return btn
@@ -35,21 +35,21 @@ class ITSelectedTimeTableViewCell: BaseTableViewCell {
     lazy var timeBtn: UIButton = {
         let btn = UIButton()
         btn.titleLabel?.textAlignment = .left
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        btn.titleLabel?.font = UIFont.init(name: FontName, size: 16)
         btn.addTarget(self, action: #selector(showCalendarViewAction), for: UIControl.Event.touchUpInside)
         return btn
     }()
     
     lazy var switchView: LabelSwitch = {
-        let ls = LabelSwitchConfig(text: "农历",
+        var ls = LabelSwitchConfig(text: "农历",
                                    textColor: .white,
-                                   font: .boldSystemFont(ofSize: 13),
+                                   font: UIFont.init(name: FontName, size: 13) ?? .boldSystemFont(ofSize: 13),
                                    gradientColors: [UIColor.pinkColor.cgColor, UIColor.pinkColor.cgColor],
                                    startPoint: CGPoint(x: 0.0, y: 0.5),
                                    endPoint: CGPoint(x: 1, y: 0.5))
-        let rs = LabelSwitchConfig(text: "公历",
+        var rs = LabelSwitchConfig(text: "公历",
                                    textColor: .white,
-                                   font: .boldSystemFont(ofSize: 13),
+                                   font: UIFont.init(name: FontName, size: 13) ?? .boldSystemFont(ofSize: 13),
                                    gradientColors: [UIColor.greenColor.cgColor, UIColor.greenColor.cgColor],
                                    startPoint: CGPoint(x: 0.0, y: 0.5),
                                    endPoint: CGPoint(x: 1, y: 0.5))
@@ -70,7 +70,7 @@ class ITSelectedTimeTableViewCell: BaseTableViewCell {
         backgroundColor = UIColor.clear
         selectionStyle = .none
         addSubview(nameLabel)
-        addSubview(noteBtn)
+//        addSubview(noteBtn)
         addSubview(timeBtn)
         addSubview(switchView)
         nameLabel.snp.makeConstraints { (make) in
@@ -79,12 +79,12 @@ class ITSelectedTimeTableViewCell: BaseTableViewCell {
             make.width.greaterThanOrEqualTo(60.0)
             make.height.equalTo(20.0)
         }
-        noteBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(nameLabel.snp.right).offset(10)
-            make.centerY.equalTo(nameLabel.snp.centerY)
-            make.width.greaterThanOrEqualTo(50.0)
-            make.height.equalTo(20.0)
-        }
+//        noteBtn.snp.makeConstraints { (make) in
+//            make.left.equalTo(nameLabel.snp.right).offset(10)
+//            make.centerY.equalTo(nameLabel.snp.centerY)
+//            make.width.greaterThanOrEqualTo(50.0)
+//            make.height.equalTo(20.0)
+//        }
         timeBtn.snp.makeConstraints { (make) in
             make.left.equalTo(NewSeasonMargin)
             make.width.greaterThanOrEqualTo(100.0)
@@ -111,8 +111,8 @@ class ITSelectedTimeTableViewCell: BaseTableViewCell {
         timeModel = model
         
         nameLabel.text = model.noteName
-        noteBtn.setTitle(model.note, for: UIControl.State.normal)
-        noteBtn.setImage(UIImage(named: model.noteIcon), for: UIControl.State.normal)
+//        noteBtn.setTitle(model.note, for: UIControl.State.normal)
+//        noteBtn.setImage(UIImage(named: model.noteIcon), for: UIControl.State.normal)
         
         let timeStr = model.isGregorian ? model.gregoriandDataString : model.lunarDataString
         let attr = NSMutableAttributedString(string: timeStr)

@@ -14,7 +14,7 @@ class ITSelectedBackgroundImageTableViewCell: BaseTableViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.init(name: FontName, size: 16)
         label.textColor = UIColor.white
         return label
     }()
@@ -122,7 +122,7 @@ class BackgroundImageDetailCollectionViewCell: BaseCollectionViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.init(name: FontName, size: 13)
         label.textColor = UIColor.greenColor
         label.isHidden = true
         return label

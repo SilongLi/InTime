@@ -32,24 +32,24 @@ public struct LabelSwitchConfig {
     }
     
     public init(text: String, textColor: UIColor, font: UIFont, gradientColors: [CGColor], startPoint: CGPoint, endPoint: CGPoint) {
-        self.init(text: text, textColor: textColor, font: font, backgroundColor: .white)
+        self.init(text: text, textColor: textColor, font: font, backgroundColor: .clear)
         self.backGradient = GradientBack(colors: gradientColors, startPoint: startPoint, endPoint: endPoint)
     }
     
     public init(text: String, textColor: UIColor, font: UIFont, image: UIImage?) {
-        self.init(text: text, textColor: textColor, font: font, backgroundColor: .white)
+        self.init(text: text, textColor: textColor, font: font, backgroundColor: .clear)
         self.backImage = image
     }
     
     public static let defaultLeft = LabelSwitchConfig(text: "Left",
                                                  textColor: .white,
-                                                      font: .boldSystemFont(ofSize: 20),
-                                           backgroundColor: UIColor.red)
+                                                      font: UIFont(name: FontName, size: 20) ?? .boldSystemFont(ofSize: 20),
+                                           backgroundColor: UIColor.clear)
     
     public static let defaultRight = LabelSwitchConfig(text: "Right",
                                                   textColor: .white,
-                                                       font: .boldSystemFont(ofSize: 20),
-                                            backgroundColor: UIColor.blue)
+                                                       font: UIFont(name: FontName, size: 20) ?? .boldSystemFont(ofSize: 20),
+                                            backgroundColor: UIColor.clear)
 }
 
 public enum LabelSwitchState {

@@ -16,8 +16,8 @@ class CommonAlertTableView: CKAlertCommonView {
     lazy var headerTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 17.0)
+        label.textAlignment = .center 
+        label.font = UIFont.init(name: FontName, size: 17.0)
         label.backgroundColor = UIColor.darkGaryColor
         return label
     }()

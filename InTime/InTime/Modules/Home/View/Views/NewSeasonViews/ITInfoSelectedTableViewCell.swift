@@ -13,7 +13,7 @@ class ITInfoSelectedTableViewCell: BaseTableViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.init(name: FontName, size: 16)
         label.textColor = UIColor.white
         return label
     }()
@@ -21,7 +21,7 @@ class ITInfoSelectedTableViewCell: BaseTableViewCell {
     lazy var infoLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.init(name: FontName, size: 16)
         label.textColor = UIColor.white
         return label
     }()
@@ -54,7 +54,7 @@ class ITInfoSelectedTableViewCell: BaseTableViewCell {
             make.right.equalTo(-NewSeasonMargin)
             make.centerY.equalTo(nameLabel.snp.centerY)
             make.left.equalTo(nameLabel.snp.right).offset(10)
-            make.height.equalTo(20.0)
+            make.height.equalTo(30.0)
         }
         infoBtn.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview()

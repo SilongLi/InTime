@@ -14,7 +14,7 @@ class ITSelectedTextColorTableViewCell: BaseTableViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.init(name: FontName, size: 16)
         label.textColor = UIColor.white
         return label
     }()

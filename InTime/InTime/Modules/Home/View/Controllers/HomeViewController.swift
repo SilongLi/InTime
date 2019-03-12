@@ -26,12 +26,12 @@ class HomeViewController: BaseViewController {
         return icon
     }()
     lazy var titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.systemFont(ofSize: 18)
-        titleLabel.textColor = UIColor.white
-        titleLabel.text = "全部"
-        return titleLabel
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = UIFont.init(name: FontName, size: 17.0)
+        label.textColor = UIColor.white
+        label.text = "全部"
+        return label
     }()
     
     /// 导航栏
@@ -67,7 +67,7 @@ class HomeViewController: BaseViewController {
     lazy var sortInfoLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.init(name: FontName, size: 16)
         label.textColor = UIColor.pinkColor
         label.text = "请长按最右侧按钮\n拖动按钮进行排序"
         label.numberOfLines = 2
@@ -102,7 +102,7 @@ class HomeViewController: BaseViewController {
         iconView.snp.makeConstraints({ (make) in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(2)
-            make.size.equalTo(CGSize(width: 20.0, height: 14.0))
+            make.size.equalTo(CGSize(width: 20.0, height: 20.0))
         })
         
         view.addSubview(titleActionBtn)
@@ -124,7 +124,8 @@ class HomeViewController: BaseViewController {
         sortInfoLabel.snp.makeConstraints({ (make) in
             make.bottom.equalToSuperview().offset(0)
             make.centerX.equalToSuperview()
-            make.size.equalTo(CGSize.init(width: 160, height: 40.0))
+            make.width.equalTo(160.0)
+            make.height.greaterThanOrEqualTo(44.0)
         })
         
         view.addSubview(addNewSeasonBtn)

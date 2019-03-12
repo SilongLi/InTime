@@ -12,3 +12,7 @@
 public let NotificationAddNewSeason: Notification.Name = Notification.Name("Notification_Add_New_Season")
 /// 更新“时节”分类
 public let NotificationUpdateSeasonCategory: Notification.Name = Notification.Name("Notification_Update_Season_Category")
+
+
+// MARK: - 字体
+public let FontName = "KohinoorBangla-Semibold"

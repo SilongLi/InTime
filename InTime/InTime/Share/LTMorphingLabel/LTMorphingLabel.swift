@@ -119,10 +119,6 @@ typealias LTMorphingSkipFramesClosure =
         }
     }
     
-    
-    /// 时间显示格式
-    var unitType: DateUnitType = DateUnitType.dayTime
-    
     override open var text: String! {
         get {
             return super.text ?? ""
