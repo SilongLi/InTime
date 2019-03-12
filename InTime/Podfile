@@ -7,9 +7,6 @@ def libraries
     
     # 图片裁剪框架
     pod 'CropViewController'
-    
-    # 倒计时动画框架
-    pod 'LTMorphingLabel'
 
 end
 

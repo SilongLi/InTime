@@ -371,7 +371,7 @@ class HomeViewController: BaseViewController {
     }
     
     func updateContentView() {
-        sortBtn.isHidden = seasons.isEmpty
+        sortBtn.isHidden = (tableView.isEditing || seasons.isEmpty) ? true : false
         
         UIView.animate(withDuration: AnimateDuration) {
             self.emptyInfoLabel.isHidden = self.seasons.count > 0
@@ -704,7 +704,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let season = seasons[indexPath.row]
         let delete = UITableViewRowAction.init(style: UITableViewRowAction.Style.destructive, title: "删除") { [weak self] (action, indexPath) in
             guard let strongSelf = self else { return }
-            tableView.setEditing(false, animated: true)
             
             let alert = ITCustomAlertView.init(title: "温馨提示", detailTitle: "您确定要删除“\(season.title)”吗？", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) {
                 if AddNewSeasonViewModel.deleteSeason(season: season) {
@@ -720,7 +719,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                             strongSelf.updateContentView()
                         })
                     } else {
-                        strongSelf.tableView.reloadData()
+                        strongSelf.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.right)
                     }
                 } else {
                     strongSelf.view.showText("删除失败！")
@@ -733,6 +732,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let modify = UITableViewRowAction.init(style: UITableViewRowAction.Style.default, title: "修改") { [weak self] (action, indexPath) in
             guard let strongSelf = self else { return }
             tableView.setEditing(false, animated: true)
+            strongSelf.finishSortSeasonAction()
             
             let modifySeasonVC = AddNewSeasonViewController()
             modifySeasonVC.newSeason = season

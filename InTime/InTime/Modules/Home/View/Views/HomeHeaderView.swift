@@ -125,7 +125,7 @@ class HomeHeaderView: UIView {
             make.bottom.equalTo(infoLabel.snp.top).offset(-margin)
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.height.equalTo(84.0)
+            make.height.equalTo(44.0)
         }
         titleLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(space)

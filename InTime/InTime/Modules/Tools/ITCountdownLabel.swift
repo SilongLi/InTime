@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import LTMorphingLabel
 
 /// 动画类型
 public enum CountdownEffect: String {
@@ -35,13 +34,13 @@ public enum CountdownEffect: String {
     
     func desc() -> String {
         switch self {
-        case .Anvil     : return "碎片化"
+        case .Anvil     : return "震撼"
         case .Burn      : return "燃烧"
         case .Evaporate : return "蒸发"
         case .Fall      : return "坠落"
         case .Pixelate  : return "像素化"
         case .Scale     : return "缩放"
-        case .Sparkle   : return "闪烁"
+        case .Sparkle   : return "魔法"
         case .None      : return "默认"
         }
     }
@@ -70,7 +69,7 @@ public class ITCountdownLabel: LTMorphingLabel {
     internal var targetDate: NSDate = NSDate()
     
     /// 时间显示格式
-    var unitType: DateUnitType = DateUnitType.dayTime
+//    var unitType: DateUnitType = DateUnitType.dayTime
     
     var completion: ((_ isLater: Bool) -> ())?
     
@@ -88,12 +87,15 @@ public class ITCountdownLabel: LTMorphingLabel {
         disposeTimer()
     }
     
+    var aType: CountdownEffect?
+    
     // MARK: - setup
     
     func setupContent(date: NSDate, unitType: DateUnitType, animationType: CountdownEffect, completion: ((_ isLater: Bool) -> ())?) {
         self.targetDate = date
         self.unitType = unitType
         self.animationType = animationType
+        self.aType = animationType
         self.completion = completion
         
         setupTimer()
@@ -126,6 +128,10 @@ public class ITCountdownLabel: LTMorphingLabel {
     
     // MARK: - 时间显示格式处理
     @objc func updateLabel() {
+        if let type = aType {
+            self.animationType = type
+        }
+        
         switch unitType {
         case .second:
             let dateStr = targetDate.convertToSecond().it.stringSeparateByCommaInteger()

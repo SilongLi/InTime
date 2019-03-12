@@ -1,28 +1,24 @@
 PODS:
   - CropViewController (2.4.0)
   - FDFullscreenPopGesture (1.1)
-  - LTMorphingLabel (0.6.0)
   - SnapKit (4.2.0)
 
 DEPENDENCIES:
   - CropViewController
   - FDFullscreenPopGesture
-  - LTMorphingLabel
   - SnapKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - CropViewController
     - FDFullscreenPopGesture
-    - LTMorphingLabel
     - SnapKit
 
 SPEC CHECKSUMS:
   CropViewController: a090820b15fc3da68e694d7c192a4708c576828b
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
-  LTMorphingLabel: c73ebfef9009c0a098546c29f566024442d1a91e
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: e9da585a75620da3569bb5ba35e888312d108ccd
+PODFILE CHECKSUM: 25ee527e6748d2036d83931d7c9f589bbc661c57
 
 COCOAPODS: 1.5.3

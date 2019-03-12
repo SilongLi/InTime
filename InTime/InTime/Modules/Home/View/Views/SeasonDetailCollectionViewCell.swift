@@ -20,8 +20,8 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var countDownLabel: UILabel = {
-        let label = UILabel()
+    lazy var countDownLabel: ITCountdownLabel = {
+        let label = ITCountdownLabel()
         label.textColor = UIColor.white
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 36.0)
@@ -57,9 +57,6 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    /// 定时刷新界面
-    private var refreshTimer: DispatchSourceTimer?
-    
     var season: SeasonModel? {
         didSet {
             let textColor = UIColor.color(hex: season?.textColorModel.color ?? "#FFFFFF")
@@ -85,6 +82,11 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         infoLabel.textColor = isLater ? infoLabel.textColor : UIColor.red
         
         countDownLabel.text = timeIntervalStr
+        let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
+        countDownLabel.setupContent(date: date, unitType: unitType, animationType: model.animationType) { [weak self] (isLater) in
+            self?.infoLabel.textColor = isLater ? UIColor.white : UIColor.red
+        }
+        
         let type: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
         switch type {
         case .second, .minute, .hour, .day:
@@ -148,15 +150,6 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
             make.centerY.equalTo(dateLabel.snp.centerY).offset(2)
             make.height.equalTo(12.0)
         }
-        
-        refreshTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
-        refreshTimer?.schedule(deadline: .now(), repeating: 1.0)
-        refreshTimer?.setEventHandler(handler: { [weak self] in
-            DispatchQueue.main.async {
-                self?.reloadContent()
-            }
-        })
-        refreshTimer?.resume()
     }
     
     required init?(coder aDecoder: NSCoder) {
