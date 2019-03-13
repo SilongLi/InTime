@@ -102,7 +102,7 @@ class HomeHeaderView: UIView {
         addSubview(infoLabel)
         addSubview(ringInfoLabel)
         
-        let margin: CGFloat = 20.0
+        let margin: CGFloat = 15.0
         dateInfoLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)
             make.right.equalTo(ringInfoLabel.snp.left).offset(-10.0)

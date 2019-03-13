@@ -16,3 +16,9 @@ public let NotificationUpdateSeasonCategory: Notification.Name = Notification.Na
 
 // MARK: - 字体
 public let FontName = "KohinoorBangla-Semibold"
+
+
+// MARK: - UserDefault
+/// 是否开启磨砂效果
+public let IsOpenBlurEffect: String = "IsOpenBlurEffect"
+

@@ -25,6 +25,23 @@ class SeaSonDetailViewController: BaseViewController {
         return view
     }()
     
+    /// 磨砂背景
+    let blurViewTag = 999
+    lazy var blurView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.frame.size = UIScreen.main.bounds.size
+        view.tag = blurViewTag
+        return view
+    }()
+    lazy var blurViewAlternate: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.frame.size = UIScreen.main.bounds.size
+        view.tag = blurViewTag
+        return view
+    }()
+    
     let CellId = "SeasonDetailCellId"
     
     lazy var collectionView: UICollectionView = {
@@ -110,6 +127,20 @@ class SeaSonDetailViewController: BaseViewController {
             make.right.equalTo(-20)
             make.bottom.equalTo(IT_IPHONE_X ? -50 : -30)
             make.size.equalTo(CGSize.init(width: 40.0, height: 40.0))
+        }
+        
+        /// 添加磨砂效果
+        let isBlurEffect = UserDefaults.standard.bool(forKey: IsOpenBlurEffect)
+        if isBlurEffect {
+            bgImageView.addSubview(blurView)
+            bgImageViewAlternate.addSubview(blurViewAlternate)
+            
+            blurView.snp.makeConstraints { (make) in
+                make.edges.equalToSuperview()
+            }
+            blurViewAlternate.snp.makeConstraints { (make) in
+                make.edges.equalToSuperview()
+            }
         }
         
         // 处理系统右滑返回手势和scrollView滑动手势冲突问题

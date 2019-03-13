@@ -14,6 +14,7 @@ class HomeViewController: BaseViewController {
     
     /// 图片展示动画
     let AnimateDuration: TimeInterval = 1.0
+    let blurViewTag = 999
     
     static let HeaderHeight: CGFloat = 290.0
     let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
@@ -180,10 +181,11 @@ class HomeViewController: BaseViewController {
         view.contentMode = .scaleAspectFill
         return view
     }()
-    lazy var bottomBgImageTableView: UIImageView = {
+    lazy var bottomBgImageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor.clear
         view.contentMode = .scaleAspectFill
+        view.isHidden = true
         return view
     }()
     /// 交替背景图片，用于切换时的过度动画
@@ -192,6 +194,29 @@ class HomeViewController: BaseViewController {
         view.backgroundColor = UIColor.tintColor
         view.alpha = 0.0
         view.contentMode = .scaleAspectFill
+        return view
+    }()
+    
+    /// 磨砂背景
+    lazy var topBlurView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.frame.size = UIScreen.main.bounds.size
+        view.tag = blurViewTag
+        return view
+    }()
+    lazy var bottomBlurView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.frame.size = UIScreen.main.bounds.size
+        view.tag = blurViewTag
+        return view
+    }()
+    lazy var blurViewAlternate: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.frame.size = UIScreen.main.bounds.size
+        view.tag = blurViewTag
         return view
     }()
     
@@ -259,7 +284,7 @@ class HomeViewController: BaseViewController {
         view.addSubview(bgImageViewAlternate)
         view.addSubview(headerView)
         view.addSubview(bgTableView)
-        bgTableView.addSubview(bottomBgImageTableView)
+        bgTableView.addSubview(bottomBgImageView)
         view.addSubview(tableView)
         view.addSubview(emptyInfoLabel)
         view.addSubview(navigationView)
@@ -275,7 +300,7 @@ class HomeViewController: BaseViewController {
         let y: CGFloat = IT_SCREEN_HEIGHT - height
         bgTableView.frame = CGRect.init(x: 0.0, y: y, width: IT_SCREEN_WIDTH, height: height)
         bgTableView.clipsToBounds = true
-        bottomBgImageTableView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
+        bottomBgImageView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
         
         topBgImageView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
@@ -304,6 +329,11 @@ class HomeViewController: BaseViewController {
             make.height.equalTo(0.01)
         }
         
+        /// 添加磨砂效果
+        let isBlurEffect = UserDefaults.standard.bool(forKey: IsOpenBlurEffect)
+        handleBgBlurEffect(isBlurEffect)
+        
+        /// 分类处理回调
         selectedCategoryView.selectedCategoryBlock = { [weak self] (model) in
             let isShow = !(self?.isShowCategoryView ?? false)
             if isShow {
@@ -383,9 +413,9 @@ class HomeViewController: BaseViewController {
             currentSeason = seasons.first!
             updateBGView()
         } else {
-            bottomBgImageTableView.alpha = 0.0
-            bottomBgImageTableView.image = nil
-            bottomBgImageTableView.backgroundColor = UIColor.clear
+            bottomBgImageView.alpha = 0.0
+            bottomBgImageView.image = nil
+            bottomBgImageView.backgroundColor = UIColor.clear
             
             let isTopBgViewShow = currentShowtopBgImageView == topBgImageView
             if isTopBgViewShow {
@@ -419,9 +449,9 @@ class HomeViewController: BaseViewController {
     
     /// 切换背景样式
     func updateBGView() {
-        bottomBgImageTableView.alpha = 0.0
-        bottomBgImageTableView.image = nil
-        bottomBgImageTableView.backgroundColor = UIColor.clear
+        bottomBgImageView.alpha = 0.0
+        bottomBgImageView.image = nil
+        bottomBgImageView.backgroundColor = UIColor.clear
         
         var bgImage = UIImage(named: currentSeason.backgroundModel.name)
         let bgColor = UIColor.color(hex: currentSeason.backgroundModel.name)
@@ -459,11 +489,11 @@ class HomeViewController: BaseViewController {
             self.bgImageViewAlternate.alpha = isTopBgViewShow ? 1.0 : 0.0
         }) { (_) in
             if self.seasons.count > 0 {
-                self.bottomBgImageTableView.alpha = 1.0
+                self.bottomBgImageView.alpha = 1.0
                 if isImage {
-                    self.bottomBgImageTableView.image = bgImage
+                    self.bottomBgImageView.image = bgImage
                 } else {
-                    self.bottomBgImageTableView.backgroundColor = bgColor
+                    self.bottomBgImageView.backgroundColor = bgColor
                 }
             }
         }
@@ -473,10 +503,18 @@ class HomeViewController: BaseViewController {
     
     
     // MARK: - actions
+    
+    /// 更多操作视图
     @objc func gotoSettingViewAction() {
+        var isBlurEffect = UserDefaults.standard.bool(forKey: IsOpenBlurEffect)
+        isBlurEffect = !isBlurEffect
+        UserDefaults.standard.set(isBlurEffect, forKey: IsOpenBlurEffect)
+        UserDefaults.standard.synchronize()
         
+        handleBgBlurEffect(isBlurEffect)
     }
     
+    /// 进入排序
     @objc func sortSeasonAction() {
         handlerSortSeason(isSort: true)
         HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
@@ -484,6 +522,7 @@ class HomeViewController: BaseViewController {
         }
     }
     
+    /// 完成排序
     @objc func finishSortSeasonAction() {
         handlerSortSeason(isSort: false)
     }
@@ -501,11 +540,13 @@ class HomeViewController: BaseViewController {
         sortInfoLabel.isHidden = !isSort
     }
     
+    /// 添加新“时节”
     @objc func gotoAddNewSeasonView() {
         let VC = AddNewSeasonViewController()
         navigationController?.pushViewController(VC, animated: true)
     }
     
+    /// 展示分类视图
     @objc func selectedTypeAction() {
         guard !selectedCategoryView.isShow else {
             return
@@ -517,6 +558,36 @@ class HomeViewController: BaseViewController {
         } else {
             iconView.transform = CGAffineTransform.identity
             selectedCategoryView.hiddenListView()
+        }
+    }
+    
+    // MARK: - 处理磨砂效果
+    func handleBgBlurEffect(_ isBlurEffect: Bool) {
+        if isBlurEffect {
+            topBlurView.frame = topBgImageView.bounds.isEmpty ? UIScreen.main.bounds : topBgImageView.bounds
+            if topBgImageView.viewWithTag(blurViewTag) == nil {
+                topBgImageView.addSubview(topBlurView)
+            }
+            
+            bottomBlurView.frame = bottomBgImageView.bounds.isEmpty ? UIScreen.main.bounds : bottomBgImageView.bounds
+            if bottomBgImageView.viewWithTag(blurViewTag) == nil {
+                bottomBgImageView.addSubview(bottomBlurView)
+            }
+            
+            blurViewAlternate.frame = bgImageViewAlternate.bounds.isEmpty ? UIScreen.main.bounds : bgImageViewAlternate.bounds
+            if bgImageViewAlternate.viewWithTag(blurViewTag) == nil {
+                bgImageViewAlternate.addSubview(blurViewAlternate)
+            }
+        } else {
+            if let view = topBgImageView.viewWithTag(blurViewTag) {
+                view.removeFromSuperview()
+            }
+            if let view = bottomBgImageView.viewWithTag(blurViewTag) {
+                view.removeFromSuperview()
+            }
+            if let view = bgImageViewAlternate.viewWithTag(blurViewTag) {
+                view.removeFromSuperview()
+            }
         }
     }
     
@@ -559,10 +630,11 @@ extension HomeViewController: UIScrollViewDelegate {
             let y: CGFloat = IT_SCREEN_HEIGHT - height
             if height <= IT_SCREEN_HEIGHT {
                 bgTableView.frame = CGRect.init(x: 0.0, y: y, width: IT_SCREEN_WIDTH, height: height)
-                bottomBgImageTableView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
+                bottomBgImageView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
             }
         }
-        bgTableView.isHidden = offsetY <= 0.0
+        bgTableView.isHidden = offsetY <= 40.0
+        bottomBgImageView.isHidden = bgTableView.isHidden
         
         /// 更新HeaderView布局
         if offsetY < 0.0 {
@@ -583,7 +655,7 @@ extension HomeViewController: UIScrollViewDelegate {
         let originY: CGFloat = IT_SCREEN_HEIGHT - BGViewHiehgt
         if contentOffsetY == 0.0, abs(currentY) < originY {
             bgTableView.frame = CGRect.init(x: 0.0, y: originY, width: IT_SCREEN_WIDTH, height: BGViewHiehgt)
-            bottomBgImageTableView.frame = CGRect.init(x: 0.0, y: -originY, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
+            bottomBgImageView.frame = CGRect.init(x: 0.0, y: -originY, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
         }
         
         /// 更新HeaderView布局
