@@ -6,7 +6,7 @@
 //  Copyright © 2019 BruceLi. All rights reserved.
 //
 
-import CoreGraphics
+import Foundation
 
 let DatestringWithFormat: String = "yyyyMMddHHmmssSSS"
 

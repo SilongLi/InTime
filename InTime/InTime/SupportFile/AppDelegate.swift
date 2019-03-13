@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import Bugly
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,7 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         HomeSeasonViewModel.initDefaultCategorys()
         
-        setupLocalNotification() 
+        setupLocalNotification()
+        
+        Bugly.start(withAppId: BuglyAPPID)
+        
         return true
     }
     

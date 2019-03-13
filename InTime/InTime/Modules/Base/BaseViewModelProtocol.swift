@@ -6,8 +6,7 @@
 //  Copyright © 2019 BruceLi. All rights reserved.
 //
 
-import Foundation
-import CoreGraphics
+import Foundation 
 
 /// TableView section 信息结构体模型协议，包含 section 标题信息等
 protocol TableViewSectionProtocol {

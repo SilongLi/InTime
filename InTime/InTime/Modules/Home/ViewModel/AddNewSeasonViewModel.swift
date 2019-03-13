@@ -6,7 +6,7 @@
 //  Copyright © 2019 BruceLi. All rights reserved.
 //
 
-import CoreGraphics
+import Foundation
 
 let StartSeasonDateFormat = "yyyy.MM.dd HH:mm"
 let StartSeasonDateMDHMFormat = "MM.dd HH:mm"

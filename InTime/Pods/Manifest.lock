@@ -1,24 +1,28 @@
 PODS:
+  - Bugly (2.5.0)
   - CropViewController (2.4.0)
   - FDFullscreenPopGesture (1.1)
   - SnapKit (4.2.0)
 
 DEPENDENCIES:
+  - Bugly
   - CropViewController
   - FDFullscreenPopGesture
   - SnapKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Bugly
     - CropViewController
     - FDFullscreenPopGesture
     - SnapKit
 
 SPEC CHECKSUMS:
+  Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
   CropViewController: a090820b15fc3da68e694d7c192a4708c576828b
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: 25ee527e6748d2036d83931d7c9f589bbc661c57
+PODFILE CHECKSUM: 119b360d6123c8d939221bd4fb383bfaf1f2eff3
 
 COCOAPODS: 1.5.3

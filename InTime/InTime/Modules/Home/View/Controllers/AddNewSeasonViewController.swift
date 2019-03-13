@@ -260,13 +260,16 @@ class AddNewSeasonViewController: BaseViewController {
     // MARK: - 选择相片
     func selectedBgImageFromPhotoLibrary() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            view.showLeftAnimationLoading("加载中...")
             let picker = UIImagePickerController()
             picker.delegate = self
             picker.navigationBar.tintColor = UIColor.white
             picker.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
             picker.sourceType = UIImagePickerController.SourceType.photoLibrary
             picker.navigationBar.setBackgroundImage(UIImage.creatImage(color: UIColor.tintColor), for: .default)
-            self.present(picker, animated: true, completion: nil)
+            self.present(picker, animated: true, completion: { [weak self] in
+                self?.view.hideHud()
+            })
         } else {
             /// 跳转到设置界面开启相册权限
             let settingUrl = URL(string: UIApplication.openSettingsURLString)

@@ -90,6 +90,8 @@ class LocalNotificationManage: NSObject {
         notification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
         
         UIApplication.shared.scheduleLocalNotification(notification)
+        
+        CommonTools.printLog(message: "[知时节]：设置“\(title)“闹铃成功！")
     }
     
     // MARK: - iOS 10.0以上系统，发送本地推送方法

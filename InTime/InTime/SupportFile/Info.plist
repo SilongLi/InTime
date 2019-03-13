@@ -49,5 +49,10 @@
 	<string>“知时节”需要您的同意,才能访问相册</string>
 	<key>NSCameraUsageDescription</key>
 	<string>“知时节”需要您的同意,才能访问相机</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

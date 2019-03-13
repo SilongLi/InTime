@@ -8,6 +8,8 @@ def libraries
     # 图片裁剪框架
     pod 'CropViewController'
 
+    # 奔溃收集
+    pod 'Bugly'
 end
 
 target 'InTime' do
