@@ -10,7 +10,7 @@
 
 class SeasonTextManager {
 
-    static func handleSeasonInfo(_ season: SeasonModel) -> (String, info: String, date: NSDate, dateInfo: String, isLater: Bool) {
+    static func handleSeasonInfo(_ season: SeasonModel, isNeedWeekDayInfo: Bool = true) -> (String, info: String, date: NSDate, dateInfo: String, isLater: Bool) {
         var timeIntervalString = "--"
         var info = "距离"
         var dateInfo = "--"
@@ -37,7 +37,7 @@ class SeasonTextManager {
             } else {
                 dateStr = (date as Date).solarToLunar()
             }
-            dateInfo = "\(dateStr) \(season.startDate.weakDay)"
+            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \(season.startDate.weakDay)" : dateStr
             
         case .week:
             if isLater == false {
@@ -46,7 +46,7 @@ class SeasonTextManager {
             }
             
             let dateStr: String = date.string(withFormat: StartSeasonDateHMFormat)
-            dateInfo = "\(dateStr) \((date as Date).weekDay())"
+            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \((date as Date).weekDay())" : dateStr
             break
         case .workDay:
             if isLater == false {
@@ -54,7 +54,7 @@ class SeasonTextManager {
                 date = date.addingDays(count + 1) as NSDate
             }
             let dateStr: String = date.string(withFormat: StartSeasonDateHMFormat)
-            dateInfo = "\(dateStr) \((date as Date).weekDay())"
+            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \((date as Date).weekDay())" : dateStr
             
         case .day:
             if isLater == false {
@@ -62,7 +62,7 @@ class SeasonTextManager {
                 date = date.addingDays(count + 1) as NSDate
             }
             let dateStr: String = date.string(withFormat: StartSeasonDateHMFormat)
-            dateInfo = "\(dateStr) \((date as Date).weekDay())"
+            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \((date as Date).weekDay())" : dateStr
             
         default: // 默认
             info = isLater ? "距离" : "已过"
@@ -73,7 +73,12 @@ class SeasonTextManager {
             } else {
                 dateStr = season.startDate.lunarDataString
             }
-            dateInfo = "\(dateStr) \(season.startDate.weakDay.isEmpty ? (date as Date).weekDay() : season.startDate.weakDay)"
+            
+            if isNeedWeekDayInfo {
+                dateInfo = "\(dateStr) \(season.startDate.weakDay.isEmpty ? (date as Date).weekDay() : season.startDate.weakDay)"
+            } else {
+                dateInfo = dateStr
+            }
         }
         
         isLater = date.isLaterThanDate(Date())
