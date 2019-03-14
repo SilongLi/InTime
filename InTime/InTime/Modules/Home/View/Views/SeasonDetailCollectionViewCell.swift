@@ -120,7 +120,7 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
             make.centerY.equalToSuperview().offset(-20)
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.height.equalTo(180.0)
+            make.height.equalTo(200.0)
         }
         nameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)

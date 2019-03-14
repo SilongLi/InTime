@@ -118,7 +118,7 @@ class HomeHeaderView: UIView {
             make.left.equalTo(margin)
             make.right.equalTo(ringInfoLabel.snp.left).offset(-10.0)
             make.height.equalTo(20.0)
-            make.bottom.equalTo(-50.0)
+            make.bottom.equalTo(-44.0)
         }
         ringInfoLabel.snp.makeConstraints { (make) in
             make.left.equalTo(dateInfoLabel.snp.right).offset(10.0)
@@ -127,15 +127,15 @@ class HomeHeaderView: UIView {
             make.height.equalTo(11.0)
         }
         countDownLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(dateInfoLabel.snp.top)
+            make.bottom.equalTo(dateInfoLabel.snp.top).offset(20)
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.height.equalTo(160.0)
+            make.height.equalTo(200.0)
         }
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.bottom.equalTo(countDownLabel.snp.top)
+            make.bottom.equalTo(countDownLabel.snp.top).offset(25)
             make.height.greaterThanOrEqualTo(60.0)
         }
     }
