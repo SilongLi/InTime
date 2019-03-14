@@ -54,16 +54,16 @@ extension Date {
         switch type {
         case .second:
             let dateStr = (self as NSDate).convertToSecond().it.stringSeparateByCommaInteger()
-            return "\(dateStr)秒"
+            return "\(dateStr)"
         case .minute:
             let dateStr = (self as NSDate).convertToMinute().it.stringSeparateByCommaInteger()
-            return "\(dateStr)分"
+            return "\(dateStr)"
         case .hour:
             let dateStr = (self as NSDate).convertToHour().it.stringSeparateByCommaInteger()
-            return "\(dateStr)时"
+            return "\(dateStr)"
         case .day:
             let dateStr = (self as NSDate).convertToDay().it.stringSeparateByCommaInteger()
-            return "\(dateStr)天"
+            return "\(dateStr)"
         case .weak:
             let dateStr = (self as NSDate).convertToWeek() ?? ""
             return dateStr.isEmpty ? "0天" : dateStr

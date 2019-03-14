@@ -10,11 +10,13 @@ import UIKit
 
 class HomeTableViewCell: UITableViewCell {
     
+    let smallFontSize: CGFloat = 12.0
+    
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
         label.textAlignment = .left
-        label.font = UIFont.init(name: FontName, size: 10.0)
+        label.font = UIFont.init(name: FontName, size: smallFontSize)
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingMiddle
         return label
@@ -80,27 +82,34 @@ class HomeTableViewCell: UITableViewCell {
         guard let model = season else {
             return
         }
+        let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
         let (timeIntervalStr, _, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
         let isEffective = isLater || model.repeatRemindType != .no
         let unEffectiveColor = UIColor.white.withAlphaComponent(0.5)
         
-        nameLabel.text = model.title
-        ringInfoLabel.text = model.repeatRemindType.converToString()
-        
         nameLabel.textColor = isEffective ? UIColor.greenColor : unEffectiveColor
-        let font = UIFont(name: FontName, size: 18.0) ?? .boldSystemFont(ofSize: 18.0)
+        let font  = UIFont(name: FontName, size: 18.0) ?? .boldSystemFont(ofSize: 18.0)
         let title = model.title + (isEffective ? " 还有" : " 已经")
-        let attr = NSMutableAttributedString(string: title)
+        let attr  = NSMutableAttributedString(string: title)
         attr.addAttributes([NSAttributedString.Key.font: font,
                             NSAttributedString.Key.foregroundColor: isEffective ? UIColor.white : unEffectiveColor],
                            range: NSRange(location: 0, length: title.count - 2))
         nameLabel.attributedText = attr
         
-        countDownLabel.text      = timeIntervalStr
-        dateLabel.text           = dateInfo
         
+        if unitType == .second || unitType == .minute || unitType == .hour || unitType == .day {
+            countDownLabel.text  = timeIntervalStr + unitType.rawValue
+        } else {
+            countDownLabel.text  = timeIntervalStr
+        }
         countDownLabel.textColor = isEffective ? UIColor.white : unEffectiveColor
-        dateLabel.textColor      = isEffective ? UIColor.white.withAlphaComponent(0.85) : unEffectiveColor
+        
+        
+        dateLabel.textColor = isEffective ? UIColor.white.withAlphaComponent(0.85) : unEffectiveColor
+        dateLabel.text      = dateInfo
+        
+        
+        ringInfoLabel.text = model.repeatRemindType.converToString()
         ringInfoLabel.backgroundColor = isEffective ? UIColor.pinkColor : UIColor.pinkColor.withAlphaComponent(0.5)
     }
     

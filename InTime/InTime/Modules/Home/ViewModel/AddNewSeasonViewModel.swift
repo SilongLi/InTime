@@ -292,7 +292,8 @@ extension AddNewSeasonViewModel {
                             "bg10",
                             "bg11",
                             "bg12",
-                            "bg13"]
+                            "bg13",
+                            "bg14"]
         var imageModels = [BackgroundImageModel]()
         for type in bgImageTypes {
             let model = BackgroundImageModel(type: .image, name: type, isSelected: bgName == type)

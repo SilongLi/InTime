@@ -16,7 +16,7 @@ class HomeViewController: BaseViewController {
     let AnimateDuration: TimeInterval = 1.0
     let blurViewTag = 999
     
-    static let HeaderHeight: CGFloat = 290.0
+    static let HeaderHeight: CGFloat = 320.0
     let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
     
     let defalutBgImage: UIImage? = UIImage(named: "bg7")
