@@ -263,6 +263,19 @@ class HomeViewController: BaseViewController {
         cancleExpiredAndNoRepeatSeasons()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        /// 回来的时候重新刷新界面（恢复动画）
+        headerView.season = currentSeason
+        tableView.reloadData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        /// 消失的时候，取消所有定时器
+        disableAllTimer()
+    }
+    
     deinit {
         tableView.delegate = nil
         tableView.dataSource = nil
@@ -389,19 +402,26 @@ class HomeViewController: BaseViewController {
         if category.isDefault {
             HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
                 self?.tableView.setContentOffset(CGPoint.zero, animated: false)
-                self?.seasons = seasons
-                self?.updateContentView()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
+                    self?.seasons = seasons
+                    self?.updateContentView()
+                })
             }
         } else {
             HomeSeasonViewModel.loadLocalSeasons(categoryId: category.id) { [weak self] (seasons) in
                 self?.tableView.setContentOffset(CGPoint.zero, animated: false)
-                self?.seasons = seasons
-                self?.updateContentView()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
+                    self?.seasons = seasons
+                    self?.updateContentView()
+                })
             }
         }
     }
     
     func updateContentView() {
+        /// 刷新界面之前，先取消定时器
+        disableAllTimer()
+        
         sortBtn.isHidden = (tableView.isEditing || seasons.isEmpty) ? true : false
         
         UIView.animate(withDuration: AnimateDuration) {
@@ -429,14 +449,6 @@ class HomeViewController: BaseViewController {
             }
             currentShowtopBgImageView = isTopBgViewShow ? bgImageViewAlternate : topBgImageView
         }
- 
-        /// 刷新界面之前，先取消定时器
-        for view in tableView.subviews {
-            if view is HomeTableViewCell {
-                let cell: HomeTableViewCell = view as! HomeTableViewCell
-                cell.disableTimer()
-            }
-        }
         tableView.reloadData()
         
         /// 缓存自定义图片
@@ -450,6 +462,18 @@ class HomeViewController: BaseViewController {
                         self.cacheImages?[model.id] = image
                     }
                 }
+            }
+        }
+    }
+    
+    // MARK: - 取消所有定时器
+    func disableAllTimer() {
+        headerView.countDownLabel.disposeTimer()
+        
+        for view in tableView.subviews {
+            if view is HomeTableViewCell {
+                let cell: HomeTableViewCell = view as! HomeTableViewCell
+                cell.disableTimer()
             }
         }
     }
@@ -640,7 +664,7 @@ extension HomeViewController: UIScrollViewDelegate {
                 bottomBgImageView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
             }
         }
-        bgTableView.isHidden = offsetY <= 40.0
+        bgTableView.isHidden = offsetY <= 10.0
         bottomBgImageView.isHidden = bgTableView.isHidden
         
         /// 更新HeaderView布局

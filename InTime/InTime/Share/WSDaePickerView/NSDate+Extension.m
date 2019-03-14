@@ -608,6 +608,35 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     return [NSString stringWithFormat:@"%zd", day];
 }
 
+
+/// 计算两个日期的时间差，周
+- (NSString *)convertToWeek {
+    NSDate *currentDate = [[NSDate alloc] init];
+    NSCalendarUnit unit = NSCalendarUnitHour | NSCalendarUnitDay;
+    NSDateComponents *components;
+    BOOL isLater = [self isLaterThanDate:currentDate];
+    if (isLater) {
+        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+    } else {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    }
+    NSInteger totayDay = components.day;
+    if (isLater) {
+        totayDay += components.hour > 0 ? 1 : 0;
+    }
+    NSInteger weak = totayDay / 7;
+    NSInteger day = totayDay - weak * 7;
+    
+    NSMutableString *dateStr = [[NSMutableString alloc] init];
+    if (weak > 0) {
+        [dateStr appendFormat:@"%zd周", weak];
+    }
+    if (day > 0) {
+        [dateStr appendFormat:@"%zd天", day];
+    }
+    return dateStr;
+}
+
 /// 计算两个日期的时间差，年月日
 - (NSString *)convertToYMD {
     NSDate *currentDate = [[NSDate alloc] init];

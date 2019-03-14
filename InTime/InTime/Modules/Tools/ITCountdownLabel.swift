@@ -131,29 +131,5 @@ public class ITCountdownLabel: LTMorphingLabel {
         if let type = aType {
             self.animationType = type
         }
-        
-        switch unitType {
-        case .second:
-            let dateStr = targetDate.convertToSecond().it.stringSeparateByCommaInteger()
-            text = "\(dateStr)秒"
-        case .minute:
-            let dateStr = targetDate.convertToMinute().it.stringSeparateByCommaInteger()
-            text = "\(dateStr)分"
-        case .hour:
-            let dateStr = targetDate.convertToHour().it.stringSeparateByCommaInteger()
-            text = "\(dateStr)时"
-        case .day:
-            let dateStr = targetDate.convertToDay().it.stringSeparateByCommaInteger()
-            text = "\(dateStr)天"
-        case .dayTime:
-            text = targetDate.convertToDHMS()
-        case .year:
-            let dateInfo = targetDate.convertToYMD() ?? ""
-            text = dateInfo.isEmpty ? "0天" : dateInfo
-        case .yearTime:
-            text = targetDate.convertToYMDHMS()
-        default:
-            text = "--"
-        }
-    }
-}
+        text = (targetDate as Date).convertToTimeAndUnitString(type: unitType)
+    }}

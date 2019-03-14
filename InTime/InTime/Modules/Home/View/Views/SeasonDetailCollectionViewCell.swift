@@ -47,26 +47,26 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         label.layer.masksToBounds = true
         return label
     }()
+    let margin: CGFloat = 20.0
     
     var season: SeasonModel? {
         didSet {
             guard let model = season else {
                 return
             }
+            let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
             let textColor = UIColor.color(hex: model.textColorModel.color)
-            countDownLabel.textColor = textColor
-            dateLabel.textColor      = textColor.withAlphaComponent(0.8)
-            
+            let font = UIFont(name: FontName, size: 30.0) ?? .boldSystemFont(ofSize: 30.0)
             let (timeIntervalStr, date, dateInfo, _) = SeasonTextManager.handleSeasonInfo(model)
             
-            if IT_IPHONE_4 || IT_IPHONE_5 {
-                countDownLabel.font = UIFont(name: FontName, size: timeIntervalStr.count > 11 ? 30.0 : 40)
-            } else {
-                countDownLabel.font = UIFont(name: FontName, size: timeIntervalStr.count > 11 ? 38.0 : 44)
-            }
+            dateLabel.textColor = textColor.withAlphaComponent(0.8)
+            dateLabel.text = dateInfo
             
-            let font = UIFont(name: FontName, size: 28.0) ?? .boldSystemFont(ofSize: 28.0)
-            let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
+            ringInfoLabel.text = model.repeatRemindType.converToString()
+            
+            countDownLabel.textColor = textColor
+            countDownLabel.font = SeasonTextManager.calculateFontSize(timeIntervalStr, margin: margin)
+            countDownLabel.disposeTimer()
             countDownLabel.setupContent(date: date, unitType: unitType, animationType: model.animationType) { [weak self] (isLater) in
                 self?.nameLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
                 let title = model.title + ((isLater || model.repeatRemindType != .no) ? " 还有" : " 已经")
@@ -76,10 +76,6 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
                                    range: NSRange(location: 0, length: title.count - 2))
                 self?.nameLabel.attributedText = attr
             }
-            
-            
-            dateLabel.text = dateInfo
-            ringInfoLabel.text = model.repeatRemindType.converToString()
         }
     }
     
@@ -93,21 +89,20 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         addSubview(dateLabel)
         addSubview(ringInfoLabel)
         
-        let margin: CGFloat = 20.0
         countDownLabel.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview().offset(-20.0)
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.height.equalTo(120.0)
+            make.height.equalTo(160.0)
         }
         nameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.bottom.equalTo(countDownLabel.snp.top)
+            make.bottom.equalTo(countDownLabel.snp.top).offset(-20)
             make.height.lessThanOrEqualTo(100.0)
         }
         dateLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(countDownLabel.snp.bottom).offset(margin)
+            make.top.equalTo(countDownLabel.snp.bottom)
             make.left.equalTo(nameLabel.snp.left)
             make.right.equalTo(ringInfoLabel.snp.left).offset(-10)
             make.height.greaterThanOrEqualTo(20.0)

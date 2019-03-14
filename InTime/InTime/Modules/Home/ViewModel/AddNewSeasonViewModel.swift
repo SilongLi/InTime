@@ -276,46 +276,55 @@ extension AddNewSeasonViewModel {
                                              showCellCount: 1,
                                              items: [repeatModel])
         /// 自定义背景
-        let background  = BackgroundModel()
-        background.name = "自定义背景"
-        
         let isSelectedCustom = originSeason.backgroundModel.type == .custom
         let bgName  = isModifySeason ? originSeason.backgroundModel.name : "bg1"
         let empty   = BackgroundImageModel(type: .custom, name: isModifySeason ? originSeason.id : "", isSelected: isSelectedCustom)
-        let image1  = BackgroundImageModel(type: .image, name: "bg1", isSelected: bgName == "bg1")
-        let image2  = BackgroundImageModel(type: .image, name: "bg2", isSelected: bgName == "bg2")
-        let image3  = BackgroundImageModel(type: .image, name: "bg3", isSelected: bgName == "bg3")
-        let image4  = BackgroundImageModel(type: .image, name: "bg4", isSelected: bgName == "bg4")
-        let image5  = BackgroundImageModel(type: .image, name: "bg5", isSelected: bgName == "bg5")
-        let image6  = BackgroundImageModel(type: .image, name: "bg6", isSelected: bgName == "bg6")
-        let image7  = BackgroundImageModel(type: .image, name: "bg7", isSelected: bgName == "bg7")
-        let image8  = BackgroundImageModel(type: .image, name: "bg8", isSelected: bgName == "bg8")
-        let image9  = BackgroundImageModel(type: .image, name: "bg9", isSelected: bgName == "bg9")
-        let image10 = BackgroundImageModel(type: .image, name: "bg10", isSelected: bgName == "bg10")
-        let image11 = BackgroundImageModel(type: .image, name: "bg11", isSelected: bgName == "bg11")
-        let image12 = BackgroundImageModel(type: .image, name: "bg12", isSelected: bgName == "bg12")
-        let image13 = BackgroundImageModel(type: .image, name: "bg13", isSelected: bgName == "bg13")
-        let imageColor1 = BackgroundImageModel(type: .color, name: "#000000", isSelected: bgName == "#000000")
-        let imageColor2 = BackgroundImageModel(type: .color, name: "#55DDFF", isSelected: bgName == "#55DDFF")
-        let imageColor3 = BackgroundImageModel(type: .color, name: "#99EBFF", isSelected: bgName == "#99EBFF")
-        let imageColor4 = BackgroundImageModel(type: .color, name: "#B2E98E", isSelected: bgName == "#B2E98E")
-        let imageColor5 = BackgroundImageModel(type: .color, name: "#E492D4", isSelected: bgName == "#E492D4")
         
-        var images = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13]
-        let colors = [imageColor1, imageColor2, imageColor3, imageColor4, imageColor5]
+        let bgImageTypes = ["bg1",
+                            "bg2",
+                            "bg3",
+                            "bg4",
+                            "bg5",
+                            "bg6",
+                            "bg7",
+                            "bg8",
+                            "bg9",
+                            "bg10",
+                            "bg11",
+                            "bg12",
+                            "bg13"]
+        var imageModels = [BackgroundImageModel]()
+        for type in bgImageTypes {
+            let model = BackgroundImageModel(type: .image, name: type, isSelected: bgName == type)
+            imageModels.append(model)
+        }
+        
+        let bgColorTypes = ["#000000",
+                            "#55DDFF",
+                            "#99EBFF",
+                            "#B2E98E",
+                            "#E492D4"]
+        var bgColorModels = [BackgroundImageModel]()
+        for type in bgColorTypes {
+            let model = BackgroundImageModel(type: .color, name: type, isSelected: bgName == type)
+            bgColorModels.append(model)
+        }
         
         /// 如果不是修改已有“时节”，则随机选中背景图片
         var bgImages = [empty]
         if !isModifySeason {
-            let randomIndex = Int.random(in: 0..<images.count)
-            for index in 0..<images.count {
-                let image = images[index]
+            let randomIndex = Int.random(in: 0..<imageModels.count)
+            for index in 0..<imageModels.count {
+                let image = imageModels[index]
                 image.isSelected = index == randomIndex
-                images[index] = image
+                imageModels[index] = image
             }
         }
-        bgImages.append(contentsOf: images)
-        bgImages.append(contentsOf: colors)
+        bgImages.append(contentsOf: imageModels)
+        bgImages.append(contentsOf: bgColorModels)
+        
+        let background  = BackgroundModel()
+        background.name = "自定义背景"
         background.images = bgImages
         
         let backgroundSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.background.rawValue,
@@ -327,21 +336,28 @@ extension AddNewSeasonViewModel {
                                                  showCellCount: 1,
                                                  items: [background])
         /// 字体颜色
-        let color  = TextColorModel()
-        color.name = "字体颜色"
         let colorName = isModifySeason ? originSeason.textColorModel.color : "#FFFFFF"
-        let color1 = ColorModel.init(color: "#FFFFFF", isSelected: colorName == "#FFFFFF")
-        let color2 = ColorModel.init(color: "#000000", isSelected: colorName == "#000000")
-        let color3 = ColorModel.init(color: "#A2A2A2", isSelected: colorName == "#A2A2A2")
-        let color4 = ColorModel.init(color: "#FFFF44", isSelected: colorName == "#FFFF44")
-        let color5 = ColorModel.init(color: "#FF0099", isSelected: colorName == "#FF0099")
-        let color6 = ColorModel.init(color: "#F05731", isSelected: colorName == "#F05731")
-        let color7 = ColorModel.init(color: "#11A0FF", isSelected: colorName == "#11A0FF")
-        let color8 = ColorModel.init(color: "#0085DD", isSelected: colorName == "#0085DD")
-        let color9 = ColorModel.init(color: "#DD00DD", isSelected: colorName == "#DD00DD")
-        let color10 = ColorModel.init(color: "#17C7A4", isSelected: colorName == "#17C7A4")
-        let color11 = ColorModel.init(color: "#DD8500", isSelected: colorName == "#DD8500")
-        color.colors = [color1, color2, color3, color4, color5, color6, color7, color8, color9, color10, color11]
+        let types = ["#FFFFFF",
+                     "#000000",
+                     "#A2A2A2",
+                     "#FFFF44",
+                     "#FF0099",
+                     "#F05731",
+                     "#11A0FF",
+                     "#0085DD",
+                     "#DD00DD",
+                     "#17C7A4",
+                     "#DD8500"]
+        var colorModels = [ColorModel]()
+        for type in types {
+            let model = ColorModel(color: type, isSelected: colorName == type)
+            colorModels.append(model)
+        }
+        
+        let textColorModel  = TextColorModel()
+        textColorModel.name = "字体颜色"
+        textColorModel.colors = colorModels
+        
         let colorSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.textColor.rawValue,
                                             headerTitle: "",
                                             footerTitle: "",
@@ -349,7 +365,7 @@ extension AddNewSeasonViewModel {
                                             footerHeight: 50.0,
                                             cellHeight: TextColorCellHeight,
                                             showCellCount: 1,
-                                            items: [color])
+                                            items: [textColorModel])
         
         completion([inputSeason, timeSection, unitSection, categorySection, animationSection, reminderSection, ringSection, repeatSection, backgroundSection, colorSection])
     }
@@ -358,19 +374,25 @@ extension AddNewSeasonViewModel {
     static func loadUnitsModel(originSeason: SeasonModel, completion: ((_ model: AlertCollectionModel) -> ())) {
         let isModifySeason = !originSeason.title.isEmpty && !originSeason.categoryId.isEmpty
         let unitValue = isModifySeason ? originSeason.unitModel.info : DateUnitType.dayTime.rawValue
-        
-        let second      = TextModel(type: DateUnitType.second.rawValue, text: "秒", isSelected: unitValue == DateUnitType.second.rawValue)
-        let minute      = TextModel(type: DateUnitType.minute.rawValue, text: "分", isSelected: unitValue == DateUnitType.minute.rawValue)
-        let hour        = TextModel(type: DateUnitType.hour.rawValue, text: "时", isSelected: unitValue == DateUnitType.hour.rawValue)
-        let day         = TextModel(type: DateUnitType.day.rawValue, text: "天", isSelected: unitValue == DateUnitType.day.rawValue)
-        let dayTime     = TextModel(type: DateUnitType.dayTime.rawValue, text: "天时分秒", isSelected: unitValue == DateUnitType.dayTime.rawValue)
-        let year        = TextModel(type: DateUnitType.year.rawValue, text: "年月天", isSelected: unitValue == DateUnitType.year.rawValue)
-        let yearTime    = TextModel(type: DateUnitType.yearTime.rawValue, text: "年月天时分秒", isSelected: unitValue == DateUnitType.yearTime.rawValue)
-        let percentage  = TextModel(type: DateUnitType.percentage.rawValue, text: "百分率", isSelected: unitValue == DateUnitType.percentage.rawValue)
+
+        let types = [DateUnitType.second,
+                     DateUnitType.minute,
+                     DateUnitType.hour,
+                     DateUnitType.day,
+                     DateUnitType.weak,
+                     DateUnitType.dayTime,
+                     DateUnitType.year,
+                     DateUnitType.yearTime,
+                     DateUnitType.percentage]
+        var textModels = [TextModel]()
+        for type in types {
+            let model = TextModel(type: type.rawValue, text: type.rawValue, isSelected: unitValue == type.rawValue)
+            textModels.append(model)
+        }
         
         let alert = AlertCollectionModel()
         alert.title = "显示单位"
-        alert.texts = [second, minute, hour, day, dayTime, year, yearTime, percentage]
+        alert.texts = textModels
         
         completion(alert)
     }
@@ -438,16 +460,21 @@ extension AddNewSeasonViewModel {
     static func loadRemindVoicesModel(originSeason: SeasonModel, completion: ((_ model: AlertCollectionModel) -> ())) {
         let isModifySeason = !originSeason.title.isEmpty && !originSeason.categoryId.isEmpty
         let ringType = isModifySeason ? originSeason.ringType : RemindVoiceType.ceilivy
-        
-        let def      = TextModel(type: RemindVoiceType.defaultType.rawValue, text: "默认", isSelected: ringType == RemindVoiceType.defaultType)
-        let ceilivy  = TextModel(type: RemindVoiceType.ceilivy.rawValue, text: "Ceilivy", isSelected: ringType == RemindVoiceType.ceilivy)
-        let afloat   = TextModel(type: RemindVoiceType.afloat.rawValue, text: "Afloat", isSelected: ringType == RemindVoiceType.afloat)
-        let chords   = TextModel(type: RemindVoiceType.chords.rawValue, text: "Chords", isSelected: ringType == RemindVoiceType.chords)
-        let together = TextModel(type: RemindVoiceType.together.rawValue, text: "Together", isSelected: ringType == RemindVoiceType.together)
+
+        let types = [RemindVoiceType.defaultType,
+                     RemindVoiceType.ceilivy,
+                     RemindVoiceType.afloat,
+                     RemindVoiceType.chords,
+                     RemindVoiceType.together]
+        var textModels = [TextModel]()
+        for type in types {
+            let model = TextModel(type: type.rawValue, text: type.rawValue, isSelected: ringType == type)
+            textModels.append(model)
+        }
         
         let alert = AlertCollectionModel()
         alert.title = "提醒铃声"
-        alert.texts = [def, ceilivy, afloat, chords, together]
+        alert.texts = textModels
         
         completion(alert)
     }

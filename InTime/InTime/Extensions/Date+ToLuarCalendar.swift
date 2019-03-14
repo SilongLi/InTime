@@ -49,28 +49,7 @@ extension Date {
         return ""
     }
     
-    /// 倒计时
-    func convertToTimeString(type: DateUnitType = DateUnitType.dayTime) -> String {
-        switch type {
-        case .second: 
-            return (self as NSDate).convertToSecond().it.stringSeparateByCommaInteger()
-        case .minute:
-            return (self as NSDate).convertToMinute().it.stringSeparateByCommaInteger()
-        case .hour:
-            return (self as NSDate).convertToHour().it.stringSeparateByCommaInteger()
-        case .day:
-            return (self as NSDate).convertToDay().it.stringSeparateByCommaInteger()
-        case .dayTime:
-            return (self as NSDate).convertToDHMS()
-        case .year:
-            return (self as NSDate).convertToYMD()
-        case .yearTime:
-            return (self as NSDate).convertToYMDHMS()
-        case .percentage:
-            return convertToPercentage()
-        }
-    }
-    
+    /// 计算时间差
     func convertToTimeAndUnitString(type: DateUnitType = DateUnitType.dayTime) -> String {
         switch type {
         case .second:
@@ -85,6 +64,9 @@ extension Date {
         case .day:
             let dateStr = (self as NSDate).convertToDay().it.stringSeparateByCommaInteger()
             return "\(dateStr)天"
+        case .weak:
+            let dateStr = (self as NSDate).convertToWeek() ?? ""
+            return dateStr.isEmpty ? "0天" : dateStr
         case .dayTime:
             return (self as NSDate).convertToDHMS()
         case .year:

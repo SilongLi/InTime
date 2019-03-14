@@ -125,6 +125,8 @@
 - (NSString *)convertToHour;
 /// 计算两个日期的时间差，天
 - (NSString *)convertToDay;
+/// 计算两个日期的时间差，周
+- (NSString *)convertToWeek;
 /// 计算两个日期的时间差，年月日
 - (NSString *)convertToYMD;
 /// 计算两个日期的时间差，天时分秒

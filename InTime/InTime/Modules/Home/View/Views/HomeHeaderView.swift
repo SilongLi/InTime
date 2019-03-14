@@ -51,22 +51,22 @@ class HomeHeaderView: UIView {
     
     /// 定时刷新界面
     private var refreshTimer: DispatchSourceTimer?
+    let margin: CGFloat = 15.0
     
     var season: SeasonModel?{
         didSet {
             guard let model = season else {
                 return
             }
+            let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
+            let font = UIFont(name: FontName, size: 30.0) ?? .boldSystemFont(ofSize: 30.0)
             let (timeIntervalStr, date, dateInfo, _) = SeasonTextManager.handleSeasonInfo(model)
             
-            if IT_IPHONE_4 || IT_IPHONE_5 {
-                countDownLabel.font = UIFont(name: FontName, size: timeIntervalStr.count > 10 ? 30.0 : 40)
-            } else {
-                countDownLabel.font = UIFont(name: FontName, size: timeIntervalStr.count > 10 ? 38.0 : 44)
-            }
+            dateInfoLabel.text = dateInfo
+            ringInfoLabel.text = model.repeatRemindType.converToString()
             
-            let font = UIFont(name: FontName, size: 28.0) ?? .boldSystemFont(ofSize: 28.0)
-            let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
+            countDownLabel.font = SeasonTextManager.calculateFontSize(timeIntervalStr, margin: margin)
+            countDownLabel.disposeTimer()
             countDownLabel.setupContent(date: date, unitType: unitType, animationType: model.animationType) { [weak self] (isLater) in
                 self?.titleLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
                 let title = model.title + ((isLater || model.repeatRemindType != .no) ? " 还有" : " 已经")
@@ -76,9 +76,6 @@ class HomeHeaderView: UIView {
                                    range: NSRange(location: 0, length: title.count - 2))
                 self?.titleLabel.attributedText = attr
             }
-            
-            dateInfoLabel.text = dateInfo
-            ringInfoLabel.text = model.repeatRemindType.converToString()
         }
     }
  
@@ -92,29 +89,28 @@ class HomeHeaderView: UIView {
         addSubview(dateInfoLabel)
         addSubview(ringInfoLabel)
         
-        let margin: CGFloat = 15.0
         dateInfoLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)
             make.right.equalTo(ringInfoLabel.snp.left).offset(-10.0)
             make.height.equalTo(20.0)
-            make.bottom.equalTo(-50.0)
+            make.bottom.equalTo(-40.0)
         }
         ringInfoLabel.snp.makeConstraints { (make) in
             make.left.equalTo(dateInfoLabel.snp.right).offset(10.0)
             make.width.greaterThanOrEqualTo(20.0)
-            make.centerY.equalTo(dateInfoLabel.snp.centerY).offset(4.0)
-            make.height.equalTo(12.0)
+            make.centerY.equalTo(dateInfoLabel.snp.centerY).offset(2.0)
+            make.height.equalTo(11.0)
         }
         countDownLabel.snp.makeConstraints { (make) in
             make.bottom.equalTo(dateInfoLabel.snp.top)
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.height.equalTo(110.0)
+            make.height.equalTo(140.0)
         }
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.bottom.equalTo(countDownLabel.snp.top)
+            make.bottom.equalTo(countDownLabel.snp.top).offset(10)
             make.height.greaterThanOrEqualTo(60.0)
         }
     }

@@ -91,6 +91,19 @@ class SeaSonDetailViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        /// 回来的时候重新刷新界面（恢复动画）
+        collectionView.reloadData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        /// 消失的时候，取消所有动画
+        for view in collectionView.subviews {
+            if view is SeasonDetailCollectionViewCell {
+                let cell: SeasonDetailCollectionViewCell = view as! SeasonDetailCollectionViewCell
+                cell.countDownLabel.disposeTimer()
+            }
+        }
     }
     
     deinit {

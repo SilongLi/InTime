@@ -49,6 +49,8 @@ enum DateUnitType: String {
     case hour       = "时"
     /// 天
     case day        = "天"
+    /// 周
+    case weak        = "周"
     /// 天时分秒
     case dayTime    = "天时分秒"
     /// 年月天
@@ -112,5 +114,5 @@ enum RemindVoiceType: String {
     case afloat         = "Afloat"
     case chords         = "Chords"
     case together       = "Together"
-    case defaultType    = "系统默认"
+    case defaultType    = "默认"
 }
