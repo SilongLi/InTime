@@ -148,7 +148,8 @@ public class ITCountdownLabel: LTMorphingLabel {
         case .dayTime:
             text = targetDate.convertToDHMS()
         case .year:
-            text = targetDate.convertToYMD()
+            let dateInfo = targetDate.convertToYMD() ?? ""
+            text = dateInfo.isEmpty ? "0天" : dateInfo
         case .yearTime:
             text = targetDate.convertToYMDHMS()
         default:

@@ -10,15 +10,6 @@ import UIKit
 
 class SeasonDetailCollectionViewCell: UICollectionViewCell {
     
-    lazy var infoLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.white
-        label.textAlignment = .left
-        label.font = UIFont.init(name: FontName, size: 17.0)
-        label.text = "距离"
-        return label
-    }()
-    
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
@@ -65,9 +56,8 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
             let textColor = UIColor.color(hex: model.textColorModel.color)
             countDownLabel.textColor = textColor
             dateLabel.textColor      = textColor.withAlphaComponent(0.8)
-            infoLabel.textColor      = textColor.withAlphaComponent(0.9)
             
-            let (timeIntervalStr, _, date, dateInfo, _) = SeasonTextManager.handleSeasonInfo(model)
+            let (timeIntervalStr, date, dateInfo, _) = SeasonTextManager.handleSeasonInfo(model)
             
             if IT_IPHONE_4 || IT_IPHONE_5 {
                 countDownLabel.font = UIFont(name: FontName, size: timeIntervalStr.count > 11 ? 30.0 : 40)
@@ -78,14 +68,15 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
             let font = UIFont(name: FontName, size: 28.0) ?? .boldSystemFont(ofSize: 28.0)
             let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
             countDownLabel.setupContent(date: date, unitType: unitType, animationType: model.animationType) { [weak self] (isLater) in
-                self?.nameLabel.textColor = isLater ? UIColor.greenColor : UIColor.red
-                let title = model.title + (isLater ? " 还有" : " 已过")
+                self?.nameLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
+                let title = model.title + ((isLater || model.repeatRemindType != .no) ? " 还有" : " 已经")
                 let attr = NSMutableAttributedString(string: title)
                 attr.addAttributes([NSAttributedString.Key.font: font,
                                     NSAttributedString.Key.foregroundColor: textColor],
                                    range: NSRange(location: 0, length: title.count - 2))
                 self?.nameLabel.attributedText = attr
             }
+            
             
             dateLabel.text = dateInfo
             ringInfoLabel.text = model.repeatRemindType.converToString()
@@ -100,7 +91,6 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
         addSubview(nameLabel)
         addSubview(countDownLabel)
         addSubview(dateLabel)
-        addSubview(infoLabel)
         addSubview(ringInfoLabel)
         
         let margin: CGFloat = 20.0
@@ -115,12 +105,6 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
             make.right.equalTo(-margin)
             make.bottom.equalTo(countDownLabel.snp.top)
             make.height.lessThanOrEqualTo(100.0)
-        }
-        infoLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(margin)
-            make.right.equalTo(-margin)
-            make.height.greaterThanOrEqualTo(25.0)
-            make.bottom.equalTo(nameLabel.snp.top).offset(-margin)
         }
         dateLabel.snp.makeConstraints { (make) in
             make.top.equalTo(countDownLabel.snp.bottom).offset(margin)

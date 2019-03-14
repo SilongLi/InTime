@@ -189,7 +189,9 @@ class AddNewSeasonViewController: BaseViewController {
     // MARK: - actions
     @objc func saveSeasonAction() {
         view.endEditing(true)
+        view.showLeftAnimationLoading("保存中...")
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
+            self.view.hideHud()
             self.addNewSeason()
         }
     }

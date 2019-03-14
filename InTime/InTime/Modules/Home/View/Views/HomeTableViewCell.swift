@@ -59,41 +59,54 @@ class HomeTableViewCell: UITableViewCell {
     private var refreshTimer: DispatchSourceTimer?
     weak var delegate: HomeTableViewCellDelegate?
     var indexPath: IndexPath?
- 
-    var season: SeasonModel? {
-        didSet {
-            guard let model = season else {
-                return
-            }
-            let (timeIntervalStr, _, _, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
-            let laterColor = UIColor.white.withAlphaComponent(0.5)
-            
-            nameLabel.text = model.title
-            ringInfoLabel.text = model.repeatRemindType.converToString()
-            
-            let font = UIFont(name: FontName, size: 18.0) ?? .boldSystemFont(ofSize: 18.0)
-            nameLabel.textColor = isLater ? UIColor.greenColor : UIColor.red.withAlphaComponent(0.5)
-            let title = model.title + (isLater ? " 还有" : " 已过")
-            let attr = NSMutableAttributedString(string: title)
-            attr.addAttributes([NSAttributedString.Key.font: font,
-                                NSAttributedString.Key.foregroundColor: isLater ? UIColor.white : laterColor],
-                               range: NSRange(location: 0, length: title.count - 2))
-            nameLabel.attributedText = attr
-            
-            countDownLabel.text      = timeIntervalStr
-            dateLabel.text           = dateInfo
-            
-            countDownLabel.textColor = isLater ? UIColor.white : laterColor
-            dateLabel.textColor      = isLater ? UIColor.white.withAlphaComponent(0.85) : laterColor
-            ringInfoLabel.backgroundColor = isLater ? UIColor.pinkColor : UIColor.pinkColor.withAlphaComponent(0.5)
+    private var season: SeasonModel?
+    
+    func setContent(_ model: SeasonModel) {
+        if refreshTimer == nil {
+            refreshTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+            refreshTimer?.schedule(deadline: .now(), repeating: 1.0)
+            refreshTimer?.setEventHandler(handler: { [weak self] in
+                DispatchQueue.main.async {
+                    self?.reloadContent()
+                }
+            })
+            refreshTimer?.resume()
         }
+        self.season = model
+        reloadContent()
     }
     
     func reloadContent() {
         guard let model = season else {
             return
         }
-        self.season = model
+        let (timeIntervalStr, _, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
+        let isEffective = isLater || model.repeatRemindType != .no
+        let unEffectiveColor = UIColor.white.withAlphaComponent(0.5)
+        
+        nameLabel.text = model.title
+        ringInfoLabel.text = model.repeatRemindType.converToString()
+        
+        nameLabel.textColor = isEffective ? UIColor.greenColor : unEffectiveColor
+        let font = UIFont(name: FontName, size: 18.0) ?? .boldSystemFont(ofSize: 18.0)
+        let title = model.title + (isEffective ? " 还有" : " 已经")
+        let attr = NSMutableAttributedString(string: title)
+        attr.addAttributes([NSAttributedString.Key.font: font,
+                            NSAttributedString.Key.foregroundColor: isEffective ? UIColor.white : unEffectiveColor],
+                           range: NSRange(location: 0, length: title.count - 2))
+        nameLabel.attributedText = attr
+        
+        countDownLabel.text      = timeIntervalStr
+        dateLabel.text           = dateInfo
+        
+        countDownLabel.textColor = isEffective ? UIColor.white : unEffectiveColor
+        dateLabel.textColor      = isEffective ? UIColor.white.withAlphaComponent(0.85) : unEffectiveColor
+        ringInfoLabel.backgroundColor = isEffective ? UIColor.pinkColor : UIColor.pinkColor.withAlphaComponent(0.5)
+    }
+    
+    func disableTimer() {
+        refreshTimer?.cancel()
+        refreshTimer = nil
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -145,15 +158,6 @@ class HomeTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(0.5)
         }
-        
-        refreshTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
-        refreshTimer?.schedule(deadline: .now(), repeating: 1.0)
-        refreshTimer?.setEventHandler(handler: { [weak self] in
-            DispatchQueue.main.async {
-                self?.reloadContent()
-            }
-        })
-        refreshTimer?.resume()
         
         let longP = UILongPressGestureRecognizer.init(target: self, action: #selector(longPressGestureRecognizer))
         self.addGestureRecognizer(longP)

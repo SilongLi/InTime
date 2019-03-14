@@ -10,15 +10,6 @@ import UIKit
 
 class HomeHeaderView: UIView {
     
-    lazy var infoLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.white.withAlphaComponent(0.8)
-        label.textAlignment = .left
-        label.font = UIFont.init(name: FontName, size: 18.0)
-        label.text = "距离"
-        return label
-    }()
-    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
@@ -40,7 +31,7 @@ class HomeHeaderView: UIView {
     
     lazy var dateInfoLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.white.withAlphaComponent(0.9)
+        label.textColor = UIColor.white.withAlphaComponent(0.8)
         label.font = UIFont.init(name: FontName, size: 17.0)
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
@@ -49,7 +40,7 @@ class HomeHeaderView: UIView {
     
     lazy var ringInfoLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.white.withAlphaComponent(0.9)
+        label.textColor = UIColor.white.withAlphaComponent(0.8)
         label.font = UIFont.init(name: FontName, size: 8.0)
         label.textAlignment = .center
         label.backgroundColor = UIColor.pinkColor
@@ -66,7 +57,7 @@ class HomeHeaderView: UIView {
             guard let model = season else {
                 return
             }
-            let (timeIntervalStr, _, date, dateInfo, _) = SeasonTextManager.handleSeasonInfo(model)
+            let (timeIntervalStr, date, dateInfo, _) = SeasonTextManager.handleSeasonInfo(model)
             
             if IT_IPHONE_4 || IT_IPHONE_5 {
                 countDownLabel.font = UIFont(name: FontName, size: timeIntervalStr.count > 10 ? 30.0 : 40)
@@ -77,8 +68,8 @@ class HomeHeaderView: UIView {
             let font = UIFont(name: FontName, size: 28.0) ?? .boldSystemFont(ofSize: 28.0)
             let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
             countDownLabel.setupContent(date: date, unitType: unitType, animationType: model.animationType) { [weak self] (isLater) in
-                self?.titleLabel.textColor = isLater ? UIColor.greenColor : UIColor.red
-                let title = model.title + (isLater ? " 还有" : " 已过")
+                self?.titleLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
+                let title = model.title + ((isLater || model.repeatRemindType != .no) ? " 还有" : " 已经")
                 let attr = NSMutableAttributedString(string: title)
                 attr.addAttributes([NSAttributedString.Key.font: font,
                                     NSAttributedString.Key.foregroundColor: UIColor.white],
@@ -99,7 +90,6 @@ class HomeHeaderView: UIView {
         addSubview(titleLabel)
         addSubview(countDownLabel)
         addSubview(dateInfoLabel)
-        addSubview(infoLabel)
         addSubview(ringInfoLabel)
         
         let margin: CGFloat = 15.0
@@ -125,14 +115,7 @@ class HomeHeaderView: UIView {
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
             make.bottom.equalTo(countDownLabel.snp.top)
-            make.height.greaterThanOrEqualTo(40.0)
-        }
-        infoLabel.snp.makeConstraints { (make) in
-            make.top.greaterThanOrEqualTo(margin)
-            make.left.equalTo(margin)
-            make.right.equalTo(-margin)
-            make.height.equalTo(25.0)
-            make.bottom.equalTo(titleLabel.snp.top).offset(-10)
+            make.height.greaterThanOrEqualTo(60.0)
         }
     }
     

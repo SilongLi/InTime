@@ -430,6 +430,13 @@ class HomeViewController: BaseViewController {
             currentShowtopBgImageView = isTopBgViewShow ? bgImageViewAlternate : topBgImageView
         }
  
+        /// 刷新界面之前，先取消定时器
+        for view in tableView.subviews {
+            if view is HomeTableViewCell {
+                let cell: HomeTableViewCell = view as! HomeTableViewCell
+                cell.disableTimer()
+            }
+        }
         tableView.reloadData()
         
         /// 缓存自定义图片
@@ -677,7 +684,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeCellId, for: indexPath) as! HomeTableViewCell
-        cell.season = seasons[indexPath.row]
+        cell.setContent(seasons[indexPath.row])
         cell.indexPath = indexPath
         return cell
     }

@@ -10,15 +10,14 @@
 
 class SeasonTextManager {
 
-    static func handleSeasonInfo(_ season: SeasonModel, isNeedWeekDayInfo: Bool = true) -> (String, info: String, date: NSDate, dateInfo: String, isLater: Bool) {
+    static func handleSeasonInfo(_ season: SeasonModel, isNeedWeekDayInfo: Bool = true) -> (String, date: NSDate, dateInfo: String, isLater: Bool) {
         var timeIntervalString = "--"
-        var info = "距离"
         var dateInfo = "--"
         // 闹铃日期是否在当前时间之后
         var isLater = true
         
         guard var date = NSDate(season.startDate.gregoriandDataString, withFormat: StartSeasonDateFormat) else {
-            return (timeIntervalString, info, NSDate(), dateInfo, isLater)
+            return (timeIntervalString, NSDate(), dateInfo, isLater)
         }
         // 倒计时显示类型
         let type: DateUnitType = DateUnitType(rawValue: season.unitModel.info) ?? DateUnitType.dayTime
@@ -27,8 +26,12 @@ class SeasonTextManager {
         switch season.repeatRemindType {
         case .year:
             if isLater == false {
-                let yearCount = (NSDate()).year - date.year
-                date = isLater ? date : date.addingYears(yearCount + 1) as NSDate
+                var yearCount = (NSDate()).year - date.year
+                if (NSDate().month > date.month) ||
+                    (NSDate().month == date.month && NSDate().day > date.day) {
+                    yearCount += 1
+                }
+                date = isLater ? date : date.addingYears(yearCount) as NSDate
             }
             
             var dateStr = ""
@@ -65,7 +68,6 @@ class SeasonTextManager {
             dateInfo = isNeedWeekDayInfo ? "\(dateStr) \((date as Date).weekDay())" : dateStr
             
         default: // 默认
-            info = isLater ? "距离" : "已过"
             
             var dateStr = ""
             if season.startDate.isGregorian {
@@ -83,6 +85,6 @@ class SeasonTextManager {
         
         isLater = date.isLaterThanDate(Date())
         timeIntervalString = (date as Date).convertToTimeAndUnitString(type: type)
-        return (timeIntervalString, info, date, dateInfo, isLater)
+        return (timeIntervalString, date, dateInfo, isLater)
     }
 }

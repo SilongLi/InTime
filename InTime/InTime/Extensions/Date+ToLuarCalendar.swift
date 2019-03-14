@@ -88,7 +88,8 @@ extension Date {
         case .dayTime:
             return (self as NSDate).convertToDHMS()
         case .year:
-            return (self as NSDate).convertToYMD()
+            let dateStr = (self as NSDate).convertToYMD() ?? ""
+            return dateStr.isEmpty ? "0天" : dateStr
         case .yearTime:
             return (self as NSDate).convertToYMDHMS()
         case .percentage:
