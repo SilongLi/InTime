@@ -91,18 +91,29 @@ class SeasonTextManager {
     /// 根据内容计算字体大小
     static func calculateFontSizeAndWidth(_ text: String, margin: CGFloat) -> (UIFont, CGFloat) {
         let actualSize = CGSize(width: IT_SCREEN_WIDTH, height: 50.0)
-        var fontSize = 70
         var estimateWidth: CGFloat = 100.0
-        for size in 30...70 {
+        
+        var fontSize  = 70
+        var textValue = text + " "
+        var sizeArray = 30...70
+        var estimateMargin: CGFloat = margin * 2.0 + 10.0
+        
+        if text.count <= 6 {
+            sizeArray = 60...100
+            textValue = text
+            estimateMargin = margin * 2.0
+        }
+        for size in sizeArray {
             let font = UIFont(name: FontName, size: CGFloat(size)) ?? .boldSystemFont(ofSize: CGFloat(size))
-            let estimateFrame = (text + " ").boundingRect(with: actualSize,
-                                                          options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                                          attributes: [NSAttributedString.Key.font: font],
-                                                          context: nil)
-            if estimateFrame.size.width - actualSize.width > -(margin * 2.0 + 10.0) {
+            let estimateFrame = textValue.boundingRect(with: actualSize,
+                                                       options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                                       attributes: [NSAttributedString.Key.font: font],
+                                                       context: nil)
+            if estimateFrame.size.width - actualSize.width > -estimateMargin {
                 fontSize = size - 1
                 break
             } else {
+                fontSize = size
                 estimateWidth = estimateFrame.size.width
             }
         }

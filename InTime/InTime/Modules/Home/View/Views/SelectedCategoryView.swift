@@ -29,7 +29,7 @@ class SelectedCategoryView: UIView {
     var bgMaskView: UIButton = {
         let btn = UIButton()
         btn.addTarget(self, action: #selector(maskViewAction), for: UIControl.Event.touchUpInside)
-        btn.backgroundColor = UIColor.clear
+        btn.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         btn.alpha = 0.0
         return btn
     }()
@@ -73,7 +73,7 @@ class SelectedCategoryView: UIView {
         addSubview(bgMaskView)
         addSubview(tableView)
         
-        bgMaskView.frame = CGRect.init(x: 0.0, y: 0.0, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT - IT_NaviHeight)
+        bgMaskView.frame = CGRect.init(x: 0.0, y: 0.0, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
         UIView.animate(withDuration: self.duration, animations: {
             self.bgMaskView.alpha = 1
         })

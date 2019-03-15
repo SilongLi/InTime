@@ -79,6 +79,7 @@
 		99857C0D21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */; };
 		99857C0F21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */; };
 		99857C1121EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */; };
+		99BA01FE223B45F200DD77D7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BA01FD223B45F200DD77D7 /* SettingsViewController.swift */; };
 		99C4F72421F1AA3E00A25386 /* CKAlertFadePopAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F71D21F1AA3E00A25386 /* CKAlertFadePopAnimation.swift */; };
 		99C4F72521F1AA3E00A25386 /* CKAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F71E21F1AA3E00A25386 /* CKAlertViewController.swift */; };
 		99C4F72621F1AA3E00A25386 /* CKAlertBaseAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F71F21F1AA3E00A25386 /* CKAlertBaseAnimation.swift */; };
@@ -187,6 +188,7 @@
 		99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITRepeatReminderTableViewCell.swift; sourceTree = "<group>"; };
 		99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedBackgroundImageTableViewCell.swift; sourceTree = "<group>"; };
 		99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedTextColorTableViewCell.swift; sourceTree = "<group>"; };
+		99BA01FD223B45F200DD77D7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		99C4F71D21F1AA3E00A25386 /* CKAlertFadePopAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKAlertFadePopAnimation.swift; sourceTree = "<group>"; };
 		99C4F71E21F1AA3E00A25386 /* CKAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKAlertViewController.swift; sourceTree = "<group>"; };
 		99C4F71F21F1AA3E00A25386 /* CKAlertBaseAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKAlertBaseAnimation.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 				995022DF21E87776004FAC47 /* Base */,
 				99C4F73221F5A97500A25386 /* Tools */,
 				995022C421E72A1A004FAC47 /* Home */,
+				99BA01F9223B450100DD77D7 /* Settings */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -501,6 +504,38 @@
 				99857C0221EDBA8F005C7F9B /* AddNewSeasonDelegate.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		99BA01F9223B450100DD77D7 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				99BA01FA223B45CB00DD77D7 /* View */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		99BA01FA223B45CB00DD77D7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				99BA01FC223B45DA00DD77D7 /* Controllers */,
+				99BA01FB223B45D300DD77D7 /* Views */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		99BA01FB223B45D300DD77D7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		99BA01FC223B45DA00DD77D7 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				99BA01FD223B45F200DD77D7 /* SettingsViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		99C4F71C21F1AA3E00A25386 /* AlertView */ = {
@@ -782,6 +817,7 @@
 				99277CF8222E722000B7395D /* CategoryManagerViewController.swift in Sources */,
 				99C4F74A21F6FB8900A25386 /* MBProgressHUD.m in Sources */,
 				99857C0321EDBA8F005C7F9B /* AddNewSeasonDelegate.swift in Sources */,
+				99BA01FE223B45F200DD77D7 /* SettingsViewController.swift in Sources */,
 				9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */,
 				99C4F72921F1AA3E00A25386 /* CKAlertCommonView.swift in Sources */,
 				99857C0D21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift in Sources */,

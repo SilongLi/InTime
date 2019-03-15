@@ -80,9 +80,9 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
                 unitLabel.text = unitType.rawValue
                 
                 unitLabel.snp.updateConstraints { (make) in
-                    make.left.equalTo(margin + estimateWidth)
+                    make.left.equalTo(margin + estimateWidth + 10.0)
                     make.centerY.equalTo(countDownLabel.snp.centerY).offset(-15)
-                    make.size.equalTo(CGSize(width: 20.0, height: 12.0))
+                    make.size.equalTo(CGSize(width: 30.0, height: 30.0))
                 }
             } else {
                 unitLabel.isHidden = true
