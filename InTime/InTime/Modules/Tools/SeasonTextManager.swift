@@ -93,16 +93,16 @@ class SeasonTextManager {
         let actualSize = CGSize(width: IT_SCREEN_WIDTH, height: 50.0)
         var estimateWidth: CGFloat = 100.0
         
-        var fontSize  = 70
-        var textValue = text + " "
-        var sizeArray = 30...70
+        var textValue = text
         var estimateMargin: CGFloat = margin * 2.0 + 10.0
-        
+        var sizeArray = 20...70
         if text.count <= 6 {
-            sizeArray = 60...100
+            sizeArray = 60...85
             textValue = text
             estimateMargin = margin * 2.0
         }
+        var fontSize  = sizeArray.first ?? 20
+        
         for size in sizeArray {
             let font = UIFont(name: FontName, size: CGFloat(size)) ?? .boldSystemFont(ofSize: CGFloat(size))
             let estimateFrame = textValue.boundingRect(with: actualSize,
@@ -110,7 +110,6 @@ class SeasonTextManager {
                                                        attributes: [NSAttributedString.Key.font: font],
                                                        context: nil)
             if estimateFrame.size.width - actualSize.width > -estimateMargin {
-                fontSize = size - 1
                 break
             } else {
                 fontSize = size

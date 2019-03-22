@@ -16,7 +16,7 @@ class HomeViewController: BaseViewController {
     let AnimateDuration: TimeInterval = 1.0
     let blurViewTag = 999
     
-    static let HeaderHeight: CGFloat = 320.0
+    static let HeaderHeight: CGFloat = 300.0
     let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
     
     let defalutBgImage: UIImage? = UIImage(named: "bg7")
@@ -664,7 +664,7 @@ extension HomeViewController: UIScrollViewDelegate {
                 bottomBgImageView.frame = CGRect.init(x: 0.0, y: -y, width: IT_SCREEN_WIDTH, height: IT_SCREEN_HEIGHT)
             }
         }
-        bgTableView.isHidden = offsetY <= 10.0
+        bgTableView.isHidden = offsetY <= 20.0
         bottomBgImageView.isHidden = bgTableView.isHidden
         
         /// 更新HeaderView布局

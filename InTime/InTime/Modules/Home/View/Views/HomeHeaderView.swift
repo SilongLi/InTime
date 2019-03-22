@@ -70,11 +70,12 @@ class HomeHeaderView: UIView {
             let nameFont = UIFont(name: FontName, size: 30.0) ?? .boldSystemFont(ofSize: 30.0)
             let (timeIntervalStr, date, dateInfo, _) = SeasonTextManager.handleSeasonInfo(model)
             
+            
             dateInfoLabel.text = dateInfo
             ringInfoLabel.text = model.repeatRemindType.converToString()
             
             
-            let (font, estimateWidth) = SeasonTextManager.calculateFontSizeAndWidth(timeIntervalStr, margin: margin)
+            var (font, estimateWidth) = SeasonTextManager.calculateFontSizeAndWidth(timeIntervalStr, margin: margin)
             if unitType == .second || unitType == .minute || unitType == .hour || unitType == .day {
                 unitLabel.isHidden = false
                 unitLabel.text = unitType.rawValue
@@ -86,6 +87,7 @@ class HomeHeaderView: UIView {
                 }
             } else {
                 unitLabel.isHidden = true
+                (font, estimateWidth) = SeasonTextManager.calculateFontSizeAndWidth(timeIntervalStr + " ", margin: margin)
             }
             
             
@@ -130,7 +132,7 @@ class HomeHeaderView: UIView {
             make.bottom.equalTo(dateInfoLabel.snp.top).offset(20)
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.height.equalTo(200.0)
+            make.height.equalTo(180.0)
         }
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)
