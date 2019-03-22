@@ -41,7 +41,6 @@
 		9940094E221E9D4B00C3E955 /* ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9940094D221E9D4B00C3E955 /* ring.caf */; };
 		99400950221FA9B000C3E955 /* LocalNotificationManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9940094F221FA9B000C3E955 /* LocalNotificationManage.swift */; };
 		9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9950227E21E6F5EF004FAC47 /* AppDelegate.swift */; };
-		9950228421E6F5EF004FAC47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9950228221E6F5EF004FAC47 /* Main.storyboard */; };
 		9950228621E6F5F1004FAC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9950228521E6F5F1004FAC47 /* Assets.xcassets */; };
 		9950228921E6F5F1004FAC47 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9950228721E6F5F1004FAC47 /* LaunchScreen.storyboard */; };
 		995022C121E729E1004FAC47 /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995022BF21E729E1004FAC47 /* Namespace.swift */; };
@@ -141,7 +140,6 @@
 		99277CF52229117600B7395D /* HomeTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCellDelegate.swift; sourceTree = "<group>"; };
 		99277CF7222E722000B7395D /* CategoryManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryManagerViewController.swift; sourceTree = "<group>"; };
 		99277D002230B39C00B7395D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		99277D052230B41600B7395D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		99277D062230B41600B7395D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		99277D072230B41600B7395D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9940094A221E4BDF00C3E955 /* InputTextFieldAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextFieldAlertView.swift; sourceTree = "<group>"; };
@@ -149,7 +147,6 @@
 		9940094F221FA9B000C3E955 /* LocalNotificationManage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManage.swift; sourceTree = "<group>"; };
 		9950227B21E6F5EF004FAC47 /* InTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9950227E21E6F5EF004FAC47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9950228321E6F5EF004FAC47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9950228521E6F5F1004FAC47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9950228821E6F5F1004FAC47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9950228A21E6F5F1004FAC47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -188,6 +185,7 @@
 		99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITRepeatReminderTableViewCell.swift; sourceTree = "<group>"; };
 		99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedBackgroundImageTableViewCell.swift; sourceTree = "<group>"; };
 		99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedTextColorTableViewCell.swift; sourceTree = "<group>"; };
+		999345412244C965008DCF34 /* InTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InTime.entitlements; sourceTree = "<group>"; };
 		99BA01FD223B45F200DD77D7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		99C4F71D21F1AA3E00A25386 /* CKAlertFadePopAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKAlertFadePopAnimation.swift; sourceTree = "<group>"; };
 		99C4F71E21F1AA3E00A25386 /* CKAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKAlertViewController.swift; sourceTree = "<group>"; };
@@ -336,6 +334,7 @@
 		9950227D21E6F5EF004FAC47 /* InTime */ = {
 			isa = PBXGroup;
 			children = (
+				999345412244C965008DCF34 /* InTime.entitlements */,
 				995022C321E72A10004FAC47 /* Modules */,
 				995022CB21E72AEC004FAC47 /* Extensions */,
 				995022BE21E729CD004FAC47 /* Utilities */,
@@ -352,7 +351,6 @@
 				9950227E21E6F5EF004FAC47 /* AppDelegate.swift */,
 				99277D012230B39C00B7395D /* Localizable.strings */,
 				9950228521E6F5F1004FAC47 /* Assets.xcassets */,
-				9950228221E6F5EF004FAC47 /* Main.storyboard */,
 				9950228721E6F5F1004FAC47 /* LaunchScreen.storyboard */,
 				9950228A21E6F5F1004FAC47 /* Info.plist */,
 				990B64BB21F076380063BD34 /* InTime⁩-Bridging-Header.h */,
@@ -639,6 +637,11 @@
 				TargetAttributes = {
 					9950227A21E6F5EF004FAC47 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -674,7 +677,6 @@
 				9921C8ED223753E20027D7D5 /* Fire.png in Resources */,
 				99277CFF2230B39C00B7395D /* Localizable.strings in Resources */,
 				9921C8EF223753E20027D7D5 /* Fragment.png in Resources */,
-				9950228421E6F5EF004FAC47 /* Main.storyboard in Resources */,
 				9921C8F0223753E20027D7D5 /* Smoke.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -852,15 +854,6 @@
 				99277D072230B41600B7395D /* zh-Hans */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		9950228221E6F5EF004FAC47 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9950228321E6F5EF004FAC47 /* Base */,
-				99277D052230B41600B7395D /* zh-Hans */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		9950228721E6F5F1004FAC47 /* LaunchScreen.storyboard */ = {

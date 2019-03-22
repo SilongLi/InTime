@@ -136,7 +136,6 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
             make.height.greaterThanOrEqualTo(20.0)
         }
         ringInfoLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(dateLabel.snp.right)
             make.width.greaterThanOrEqualTo(20.0)
             make.centerY.equalTo(dateLabel.snp.centerY).offset(2)
             make.height.equalTo(12.0)

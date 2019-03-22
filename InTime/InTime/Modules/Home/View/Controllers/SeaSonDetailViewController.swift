@@ -239,7 +239,20 @@ class SeaSonDetailViewController: BaseViewController {
     
     @objc func gotoShareSeasonAction() {
         // TODO: 分享时节
-        print("分享")
+        guard let image = UIImage(named: "InTime") else {
+            return
+        }
+        let ACV = UIActivityViewController.init(activityItems: [image], applicationActivities: nil)
+        ACV.completionWithItemsHandler = { (activityType, completed, returnedItems, activityError) in
+            if completed {
+                self.view.showText("分享成功")
+            } else {
+                self.view.showText("分享失败")
+            }
+        }
+        DispatchQueue.main.async {
+            self.present(ACV, animated: true, completion: nil)
+        }
     }
 }
 
