@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import FDFullscreenPopGesture
+import CoreSpotlight
 
 class HomeViewController: BaseViewController {
     
@@ -261,6 +262,7 @@ class HomeViewController: BaseViewController {
         setupSubviews()
         loadCategorys()
         cancleExpiredAndNoRepeatSeasons()
+        setupSeasonsIntoSpotlight()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -375,6 +377,42 @@ class HomeViewController: BaseViewController {
                 
                 /// 根据分类加载时节，并刷新数据
                 self?.loadseasons()
+            }
+        }
+    }
+    
+    /// 把时节信息添加系统的Spotlight，方便搜索
+    func setupSeasonsIntoSpotlight() {
+        HomeSeasonViewModel.loadAllSeasons { (seasons) in
+            DispatchQueue.main.async {
+                var items = Array<CSSearchableItem>()
+                for season in seasons {
+                    let (_, _, dateInfo, _) = SeasonTextManager.handleSeasonInfo(season)
+                    let set = CSSearchableItemAttributeSet.init(itemContentType: season.id)
+                    set.title = season.title
+                    set.contentDescription = dateInfo
+                    set.contactKeywords = [season.title]
+//                    if season.title.count > 0 {
+//                        var keys = [String]()
+//                        for index in 0..<season.title.count {
+//                            let char = (season.title as NSString).character(at: index)
+//                            let str = String.init(char)
+//                            if !str.isEmpty {
+//                                keys.append(str)
+//                            }
+//                        }
+//                        set.contactKeywords = keys + [season.title]
+//                    }
+                    let image = UIImage(named: "InTime")
+                    set.thumbnailData = image?.pngData()
+                    
+                    let item = CSSearchableItem.init(uniqueIdentifier: season.id, domainIdentifier: season.id, attributeSet: set)
+                    items.append(item)
+                }
+                
+                if !items.isEmpty {
+                    CSSearchableIndex.default().indexSearchableItems(items, completionHandler: nil)
+                }
             }
         }
     }

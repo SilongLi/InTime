@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 import Bugly
+import CoreSpotlight
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -33,6 +34,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        
+        gotoSeasonDetailViewFromSpotlight(userActivity: userActivity)
+        
+        return true
+    }
+    
+    // MARK: - actions
+    
+    /// 通过系统搜索打开时节详情页
+    func gotoSeasonDetailViewFromSpotlight(userActivity: NSUserActivity) {
+        guard let idetifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier], idetifier is String else {
+            return
+        }
+        let seasonId: String = idetifier as! String
+        self.window?.showLeftAnimationLoading("加载中...")
+        HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
+            var index = 0
+            for season in seasons {
+                if season.id == seasonId {
+                    break
+                }
+                index += 1
+            }
+            guard index < seasons.count else {
+                self?.window?.hideWithError("非常抱歉，文件未找到！")
+                return
+            }
+            HomeSeasonViewModel.loadLocalCategorys { (categorys) in
+                self?.window?.hideHud()
+                var defaultCategory: CategoryModel? = categorys.first
+                for category in categorys {
+                    if category.isDefault {
+                        defaultCategory = category
+                        break
+                    }
+                }
+                if defaultCategory != nil {
+                    guard let NAV = self?.window?.rootViewController, NAV is UINavigationController else {
+                        return
+                    }
+                    let detail = SeaSonDetailViewController()
+                    detail.category = defaultCategory
+                    detail.seasons  = seasons
+                    detail.currentSelectedIndex = index
+                    (NAV as! UINavigationController).pushViewController(detail, animated: true)
+                }
+            }
+        }
     }
     
     func setupWindow() {
