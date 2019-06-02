@@ -103,13 +103,13 @@ class HomeHeaderView: UIView {
                 }
                 
                 let title = model.title + ((isLater || model.repeatRemindType != .no) ? " 还有" : " 已经")
-                if strongSelf.titleLabel.text != title {
+                if strongSelf.titleLabel.text != title || (strongSelf.titleLabel.text?.isEmpty ?? true) {
+                    strongSelf.titleLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
                     let attr = NSMutableAttributedString(string: title)
                     attr.addAttributes([NSAttributedString.Key.font: nameFont,
                                         NSAttributedString.Key.foregroundColor: UIColor.white],
                                        range: NSRange(location: 0, length: title.count - 2))
                     strongSelf.titleLabel.attributedText = attr
-                    strongSelf.titleLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
                 }
             }
         }
