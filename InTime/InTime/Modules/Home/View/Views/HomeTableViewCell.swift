@@ -135,7 +135,7 @@ class HomeTableViewCell: UITableViewCell {
         let margin: CGFloat = 15.0
         let width: CGFloat = IT_SCREEN_WIDTH * 0.5 - margin - 10.0
         nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(margin)
+            make.top.equalTo(10.0)
             make.left.equalTo(margin)
             make.height.greaterThanOrEqualTo(20.0)
             make.height.lessThanOrEqualTo(50.0)

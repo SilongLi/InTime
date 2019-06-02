@@ -95,9 +95,9 @@ class SeasonTextManager {
         
         var textValue = text
         var estimateMargin: CGFloat = margin * 2.0 + 10.0
-        var sizeArray = 20...70
-        if text.count <= 6 {
-            sizeArray = 60...85
+        var sizeArray = 20...60
+        if text.count < 5 {
+            sizeArray = 60...80
             textValue = text
             estimateMargin = margin * 2.0
         }

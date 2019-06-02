@@ -70,18 +70,15 @@ class HomeHeaderView: UIView {
             let nameFont = UIFont(name: FontName, size: 30.0) ?? .boldSystemFont(ofSize: 30.0)
             let (timeIntervalStr, date, dateInfo, _) = SeasonTextManager.handleSeasonInfo(model)
             
-            
             dateInfoLabel.text = dateInfo
             ringInfoLabel.text = model.repeatRemindType.converToString()
-            
             
             var (font, estimateWidth) = SeasonTextManager.calculateFontSizeAndWidth(timeIntervalStr, margin: margin)
             if unitType == .second || unitType == .minute || unitType == .hour || unitType == .day {
                 unitLabel.isHidden = false
                 unitLabel.text = unitType.rawValue
-                
                 unitLabel.snp.updateConstraints { (make) in
-                    make.left.equalTo(margin + estimateWidth + 10.0)
+                    make.left.equalTo(margin + estimateWidth + 15.0)
                     make.centerY.equalTo(countDownLabel.snp.centerY).offset(-15)
                     make.size.equalTo(CGSize(width: 20.0, height: 20.0))
                 }
@@ -90,17 +87,30 @@ class HomeHeaderView: UIView {
                 (font, estimateWidth) = SeasonTextManager.calculateFontSizeAndWidth(timeIntervalStr + " ", margin: margin)
             }
             
-            
             countDownLabel.font = font
             countDownLabel.disposeTimer()
+            var timeString = self.countDownLabel.text ?? timeIntervalStr
             countDownLabel.setupContent(date: date, unitType: unitType, animationType: model.animationType) { [weak self] (isLater) in
-                self?.titleLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
+                guard let strongSelf = self else { return }
+                if strongSelf.unitLabel.isHidden == false, abs(strongSelf.countDownLabel.text.count - timeString.count) > 0 {
+                    timeString = strongSelf.countDownLabel.text ?? timeIntervalStr
+                    (font, estimateWidth) = SeasonTextManager.calculateFontSizeAndWidth(timeString, margin: strongSelf.margin)
+                    strongSelf.unitLabel.snp.updateConstraints { (make) in
+                        make.left.equalTo(strongSelf.margin + estimateWidth + 15.0)
+                        make.centerY.equalTo(strongSelf.countDownLabel.snp.centerY).offset(-15)
+                        make.size.equalTo(CGSize(width: 20.0, height: 20.0))
+                    }
+                }
+                
                 let title = model.title + ((isLater || model.repeatRemindType != .no) ? " 还有" : " 已经")
-                let attr = NSMutableAttributedString(string: title)
-                attr.addAttributes([NSAttributedString.Key.font: nameFont,
-                                    NSAttributedString.Key.foregroundColor: UIColor.white],
-                                   range: NSRange(location: 0, length: title.count - 2))
-                self?.titleLabel.attributedText = attr
+                if strongSelf.titleLabel.text != title {
+                    let attr = NSMutableAttributedString(string: title)
+                    attr.addAttributes([NSAttributedString.Key.font: nameFont,
+                                        NSAttributedString.Key.foregroundColor: UIColor.white],
+                                       range: NSRange(location: 0, length: title.count - 2))
+                    strongSelf.titleLabel.attributedText = attr
+                    strongSelf.titleLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
+                }
             }
         }
     }
@@ -137,7 +147,7 @@ class HomeHeaderView: UIView {
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.bottom.equalTo(countDownLabel.snp.top).offset(25)
+            make.bottom.equalTo(countDownLabel.snp.top).offset(30)
             make.height.greaterThanOrEqualTo(60.0)
         }
     }

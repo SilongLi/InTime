@@ -78,11 +78,10 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
             if unitType == .second || unitType == .minute || unitType == .hour || unitType == .day {
                 unitLabel.isHidden = false
                 unitLabel.text = unitType.rawValue
-                
                 unitLabel.snp.updateConstraints { (make) in
-                    make.left.equalTo(margin + estimateWidth + 10.0)
+                    make.left.equalTo(margin + estimateWidth + 15.0)
                     make.centerY.equalTo(countDownLabel.snp.centerY).offset(-15)
-                    make.size.equalTo(CGSize(width: 30.0, height: 30.0))
+                    make.size.equalTo(CGSize(width: 20.0, height: 20.0))
                 }
             } else {
                 unitLabel.isHidden = true
@@ -93,14 +92,28 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
             countDownLabel.font = font
             countDownLabel.textColor = textColor
             countDownLabel.disposeTimer()
+            var timeString = self.countDownLabel.text ?? timeIntervalStr
             countDownLabel.setupContent(date: date, unitType: unitType, animationType: model.animationType) { [weak self] (isLater) in
-                self?.nameLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
+                guard let strongSelf = self else { return }
+                if strongSelf.unitLabel.isHidden == false, abs(strongSelf.countDownLabel.text.count - timeString.count) > 0 {
+                    timeString = strongSelf.countDownLabel.text ?? timeIntervalStr
+                    (font, estimateWidth) = SeasonTextManager.calculateFontSizeAndWidth(timeString, margin: strongSelf.margin)
+                    strongSelf.unitLabel.snp.updateConstraints { (make) in
+                        make.left.equalTo(strongSelf.margin + estimateWidth + 15.0)
+                        make.centerY.equalTo(strongSelf.countDownLabel.snp.centerY).offset(-15)
+                        make.size.equalTo(CGSize(width: 20.0, height: 20.0))
+                    }
+                }
+                
                 let title = model.title + ((isLater || model.repeatRemindType != .no) ? " 还有" : " 已经")
-                let attr = NSMutableAttributedString(string: title)
-                attr.addAttributes([NSAttributedString.Key.font: nameFont,
-                                    NSAttributedString.Key.foregroundColor: textColor],
-                                   range: NSRange(location: 0, length: title.count - 2))
-                self?.nameLabel.attributedText = attr
+                if strongSelf.nameLabel.text != title {
+                    let attr = NSMutableAttributedString(string: title)
+                    attr.addAttributes([NSAttributedString.Key.font: nameFont,
+                                        NSAttributedString.Key.foregroundColor: UIColor.white],
+                                       range: NSRange(location: 0, length: title.count - 2))
+                    strongSelf.nameLabel.attributedText = attr
+                    strongSelf.nameLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
+                }
             }
         }
     }
@@ -121,16 +134,16 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
             make.centerY.equalToSuperview().offset(-20)
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.height.equalTo(180.0)
+            make.height.equalTo(200.0)
         }
         nameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(margin)
             make.right.equalTo(-margin)
-            make.bottom.equalTo(countDownLabel.snp.top)
+            make.bottom.equalTo(countDownLabel.snp.top).offset(20)
             make.height.lessThanOrEqualTo(100.0)
         }
         dateLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(countDownLabel.snp.bottom).offset(-10)
+            make.top.equalTo(countDownLabel.snp.bottom).offset(-30)
             make.left.equalTo(nameLabel.snp.left)
             make.right.equalTo(ringInfoLabel.snp.left).offset(-10)
             make.height.greaterThanOrEqualTo(20.0)

@@ -238,8 +238,8 @@ class SeaSonDetailViewController: BaseViewController {
     }
     
     @objc func gotoShareSeasonAction() {
-        // TODO: 分享时节
-        guard let image = UIImage(named: "InTime") else {
+        guard let image = snapshotCurrentFullScreen() else {
+            self.view.showText("获取资源失败，请稍后重试。")
             return
         }
         let ACV = UIActivityViewController.init(activityItems: [image], applicationActivities: nil)
@@ -253,6 +253,51 @@ class SeaSonDetailViewController: BaseViewController {
         DispatchQueue.main.async {
             self.present(ACV, animated: true, completion: nil)
         }
+    }
+    
+    /// 截屏
+    func snapshotCurrentFullScreen() -> UIImage? {
+        self.navigationController?.setNavigationBarHidden(true, animated: true);
+        self.shareBtn.isHidden = true
+        
+        UIGraphicsBeginImageContextWithOptions(UIApplication.shared.keyWindow?.bounds.size ?? UIScreen.main.bounds.size, false, UIScreen.main.scale)
+        guard let layer = self.view.window?.layer, let context = UIGraphicsGetCurrentContext() else {
+            self.navigationController?.setNavigationBarHidden(false, animated: true);
+            self.shareBtn.isHidden = false
+            return nil
+        }
+        layer.render(in: context)
+        
+        
+        let labelH: CGFloat = 24.0
+        let labelW: CGFloat = 40.0
+        let labelX = UIScreen.main.bounds.size.width - 20.0 - labelW
+        let labelY = UIScreen.main.bounds.size.height - 40.0 - labelH
+        
+        let label = UILabel()
+        label.text = "知时节"
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.adjustsFontSizeToFitWidth = true
+        label.textColor = UIColor.white
+        label.drawText(in: CGRect(x: labelX, y: labelY, width: labelW, height: labelH))
+        
+        if let icon = UIImage(named: "InTime") {
+            let iconW = labelH
+            icon.draw(in: CGRect(x: labelX - 10.0 - iconW, y: labelY, width: iconW, height: iconW))
+        }
+        
+        if let urlImage = UIImage(named: "downLoadUrl") {
+            let imageW = labelH
+            urlImage.draw(in: CGRect(x: labelX - 20.0 - labelH - imageW, y: labelY, width: imageW, height: imageW))
+        }
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true);
+        self.shareBtn.isHidden = false
+        return image
     }
 }
 

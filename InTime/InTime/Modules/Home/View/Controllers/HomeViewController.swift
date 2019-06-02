@@ -38,7 +38,7 @@ class HomeViewController: BaseViewController {
     /// 导航栏
     lazy var settingBtn: UIButton = {
         let btn = UIButton()
-        btn.setImage(UIImage(named: "setting"), for: .normal)
+        btn.setImage(UIImage(named: "blur"), for: .normal)
         btn.addTarget(self, action: #selector(gotoSettingViewAction), for: .touchUpInside)
         return btn
     }()
@@ -102,8 +102,8 @@ class HomeViewController: BaseViewController {
         view.addSubview(iconView)
         iconView.snp.makeConstraints({ (make) in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(2)
-            make.size.equalTo(CGSize(width: 20.0, height: 20.0))
+            make.bottom.equalToSuperview()
+            make.size.equalTo(CGSize(width: 16.0, height: 16.0))
         })
         
         view.addSubview(titleActionBtn)
@@ -714,7 +714,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90.0
+        return 80.0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -820,6 +820,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     if indexPath.row == 0 || strongSelf.seasons.isEmpty {
                         strongSelf.tableView.setContentOffset(CGPoint.zero, animated: true)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+                            strongSelf.tableView.setEditing(false, animated: true)
                             strongSelf.updateContentView()
                         })
                     } else {
