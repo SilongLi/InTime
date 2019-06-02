@@ -368,7 +368,7 @@ extension AddNewSeasonViewModel {
                                             showCellCount: 1,
                                             items: [textColorModel])
         
-        completion([inputSeason, timeSection, unitSection, categorySection, animationSection, reminderSection, ringSection, repeatSection, backgroundSection, colorSection])
+        completion([inputSeason, timeSection, unitSection, categorySection, animationSection, reminderSection, repeatSection, backgroundSection, colorSection])
     }
     
     // MARK: - 获取显示单位数据

@@ -249,7 +249,7 @@ class AddNewSeasonViewController: BaseViewController {
                                                                  subTitle: dateStr,
                                                                  body: "",
                                                                  identifier: newSeason.id,
-                                                                 soundName: "ring.caf",
+                                                                 soundName: "JazzLogo.mp3",
                                                                  date: date as Date,
                                                                  isOpenRemind: newSeason.isOpenRemind)
         } else {}

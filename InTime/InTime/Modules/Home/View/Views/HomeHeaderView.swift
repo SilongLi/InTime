@@ -89,7 +89,7 @@ class HomeHeaderView: UIView {
             
             countDownLabel.font = font
             countDownLabel.disposeTimer()
-            var timeString = self.countDownLabel.text ?? timeIntervalStr
+            var timeString = timeIntervalStr
             countDownLabel.setupContent(date: date, unitType: unitType, animationType: model.animationType) { [weak self] (isLater) in
                 guard let strongSelf = self else { return }
                 if strongSelf.unitLabel.isHidden == false, abs(strongSelf.countDownLabel.text.count - timeString.count) > 0 {
