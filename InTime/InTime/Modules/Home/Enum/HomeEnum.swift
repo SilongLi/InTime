@@ -20,6 +20,8 @@ enum RepeatRemindType: String {
     case month
     /// 每年
     case year
+    /// 纪念日
+    case commemorationDay
     
     func converToString() -> String {
         switch self {
@@ -35,6 +37,8 @@ enum RepeatRemindType: String {
             return "每月"
         case .year:
             return "每年"
+        case .commemorationDay:
+            return "纪念日"
         }
     }
 }

@@ -266,7 +266,8 @@ extension AddNewSeasonViewModel {
         ///（第一版先不上）
 //        let month  = RepeatReminderTypeModel(type: .month, title: "每月", isSelected: repeatRemindType == .month)
         let year    = RepeatReminderTypeModel(type: .year, title: "每年", isSelected: repeatRemindType == .year)
-        repeatModel.types = [no, day, workDay, week, year]
+        let commemorationDay = RepeatReminderTypeModel(type: .commemorationDay, title: "纪念日", isSelected: repeatRemindType == .commemorationDay)
+        repeatModel.types = [no, day, workDay, week, year, commemorationDay]
         let repeatSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.repeatReminder.rawValue,
                                              headerTitle: "",
                                              footerTitle: "",

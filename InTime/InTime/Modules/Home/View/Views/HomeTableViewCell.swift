@@ -89,7 +89,7 @@ class HomeTableViewCell: UITableViewCell {
         
         nameLabel.textColor = isEffective ? UIColor.greenColor : unEffectiveColor
         let font  = UIFont(name: FontName, size: 18.0) ?? .boldSystemFont(ofSize: 18.0)
-        let title = model.title + (isEffective ? " 还有" : " 已经")
+        let title = model.title + (isLater || (model.repeatRemindType != .no && model.repeatRemindType != .commemorationDay) ? " 还有" : " 已经")
         let attr  = NSMutableAttributedString(string: title)
         attr.addAttributes([NSAttributedString.Key.font: font,
                             NSAttributedString.Key.foregroundColor: isEffective ? UIColor.white : unEffectiveColor],

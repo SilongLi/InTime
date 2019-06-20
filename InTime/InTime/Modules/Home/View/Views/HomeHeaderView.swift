@@ -102,7 +102,7 @@ class HomeHeaderView: UIView {
                     }
                 }
                 
-                let title = model.title + ((isLater || model.repeatRemindType != .no) ? " 还有" : " 已经")
+                let title = model.title + ((isLater || (model.repeatRemindType != .no && model.repeatRemindType != .commemorationDay)) ? " 还有" : " 已经")
                 if strongSelf.titleLabel.text != title || (strongSelf.titleLabel.text?.isEmpty ?? true) {
                     strongSelf.titleLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
                     let attr = NSMutableAttributedString(string: title)

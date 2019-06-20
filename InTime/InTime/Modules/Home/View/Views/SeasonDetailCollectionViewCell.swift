@@ -105,7 +105,7 @@ class SeasonDetailCollectionViewCell: UICollectionViewCell {
                     }
                 }
                 
-                let title = model.title + ((isLater || model.repeatRemindType != .no) ? " 还有" : " 已经")
+                let title = model.title + ((isLater || (model.repeatRemindType != .no && model.repeatRemindType != .commemorationDay)) ? " 还有" : " 已经")
                 if strongSelf.nameLabel.text != title || (strongSelf.nameLabel.text?.isEmpty ?? true) {
                     strongSelf.nameLabel.textColor = isLater ? UIColor.greenColor : UIColor.white
                     let attr = NSMutableAttributedString(string: title)

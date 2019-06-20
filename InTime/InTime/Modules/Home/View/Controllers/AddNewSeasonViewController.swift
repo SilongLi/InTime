@@ -245,9 +245,10 @@ class AddNewSeasonViewController: BaseViewController {
         if isLater {
             var dateStr = newSeason.startDate.isGregorian ? newSeason.startDate.gregoriandDataString : newSeason.startDate.lunarDataString
             dateStr = "\(dateStr) \(newSeason.startDate.weakDay)"
+            let subTitle = "已悄悄到来\n" + dateStr
             LocalNotificationManage.shared.sendLocalNotification(title: newSeason.title,
-                                                                 subTitle: dateStr,
-                                                                 body: "",
+                                                                 subTitle: subTitle,
+                                                                 body: subTitle,
                                                                  identifier: newSeason.id,
                                                                  soundName: "JazzLogo.mp3",
                                                                  date: date as Date,
