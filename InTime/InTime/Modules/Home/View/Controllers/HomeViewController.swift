@@ -262,7 +262,6 @@ class HomeViewController: BaseViewController {
         setupSubviews()
         loadCategorys()
         cancleExpiredAndNoRepeatSeasons()
-        setupSeasonsIntoSpotlight()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -377,35 +376,6 @@ class HomeViewController: BaseViewController {
                 
                 /// 根据分类加载时节，并刷新数据
                 self?.loadseasons()
-            }
-        }
-    }
-    
-    /// 把时节信息添加系统的Spotlight，方便搜索
-    func setupSeasonsIntoSpotlight() {
-        HomeSeasonViewModel.loadAllSeasons { (seasons) in
-            DispatchQueue.main.async {
-                let image = UIImage(named: "InTime")
-                var items = Array<CSSearchableItem>()
-                for season in seasons {
-                    let (_, _, dateInfo, _) = SeasonTextManager.handleSeasonInfo(season)
-                    let set = CSSearchableItemAttributeSet.init(itemContentType: season.id)
-                    set.title = season.title
-                    set.contentDescription = dateInfo
-                    set.contactKeywords = [season.title, "知时节", "闹钟", "时节", "纪念日", "备忘录", "生日"]
-                    set.thumbnailData = image?.pngData()
-                    
-                    let item = CSSearchableItem.init(uniqueIdentifier: season.id, domainIdentifier: season.id, attributeSet: set)
-                    items.append(item)
-                }
-                
-                if !items.isEmpty {
-                    CSSearchableIndex.default().indexSearchableItems(items, completionHandler: { (error) in
-                        if (error != nil) {
-                            print(error?.localizedDescription ?? "")
-                        }
-                    })
-                }
             }
         }
     }
@@ -846,6 +816,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     LocalNotificationManage.shared.cancelLocalNotification(identifier: season.id, title: season.title)
                     /// 删除自定义图片
                     HandlerDocumentManager.deleteCustomImage(seasonId: season.id)
+                    
+                    /// 从Spotlight中删除时节搜索
+                    CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [season.id], completionHandler: { (error) in
+                        if error != nil {
+                            print(error?.localizedDescription ?? "")
+                        }
+                    })
                     
                     strongSelf.seasons.remove(at: indexPath.row)
                     if indexPath.row == 0 || strongSelf.seasons.isEmpty {

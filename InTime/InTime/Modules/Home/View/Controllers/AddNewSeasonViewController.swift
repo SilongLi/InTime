@@ -10,6 +10,7 @@
 import UIKit
 import FDFullscreenPopGesture
 import CropViewController
+import CoreSpotlight
 
 let NewSeasonMargin: CGFloat = IT_IPHONE_X || IT_IPHONE_6P ? 20.0 : 15.0
 
@@ -229,11 +230,34 @@ class AddNewSeasonViewController: BaseViewController {
             if isLater {
                 addNewAlarm()
             }
+            
+            addSeasonIntoSpotlight(newSeason)
+            
             NotificationCenter.default.post(name: NotificationAddNewSeason, object: nil)
             navigationController?.popViewController(animated: true)
         } else {
             view.showText("保存失败!")
         }
+    }
+    
+    /// 把时节信息添加系统的Spotlight，方便搜索
+    func addSeasonIntoSpotlight(_ season: SeasonModel) {
+        let image = UIImage(named: "InTime")
+        let (_, _, dateInfo, _) = SeasonTextManager.handleSeasonInfo(season)
+        
+        let set = CSSearchableItemAttributeSet.init(itemContentType: season.id)
+        set.title = season.title
+        set.contentDescription = dateInfo
+        set.contactKeywords = [season.title, "知时节", "闹钟", "时节", "纪念日", "备忘录", "生日"]
+        set.thumbnailData = image?.pngData()
+        
+        let item = CSSearchableItem.init(uniqueIdentifier: season.id, domainIdentifier: season.id, attributeSet: set)
+        
+        CSSearchableIndex.default().indexSearchableItems([item], completionHandler: { (error) in
+            if (error != nil) {
+                print(error?.localizedDescription ?? "")
+            }
+        })
     }
     
     // MARK: - 添加新闹钟
