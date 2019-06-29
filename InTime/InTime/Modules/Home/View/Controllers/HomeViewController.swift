@@ -385,25 +385,14 @@ class HomeViewController: BaseViewController {
     func setupSeasonsIntoSpotlight() {
         HomeSeasonViewModel.loadAllSeasons { (seasons) in
             DispatchQueue.main.async {
+                let image = UIImage(named: "InTime")
                 var items = Array<CSSearchableItem>()
                 for season in seasons {
                     let (_, _, dateInfo, _) = SeasonTextManager.handleSeasonInfo(season)
                     let set = CSSearchableItemAttributeSet.init(itemContentType: season.id)
                     set.title = season.title
                     set.contentDescription = dateInfo
-                    set.contactKeywords = [season.title]
-//                    if season.title.count > 0 {
-//                        var keys = [String]()
-//                        for index in 0..<season.title.count {
-//                            let char = (season.title as NSString).character(at: index)
-//                            let str = String.init(char)
-//                            if !str.isEmpty {
-//                                keys.append(str)
-//                            }
-//                        }
-//                        set.contactKeywords = keys + [season.title]
-//                    }
-                    let image = UIImage(named: "InTime")
+                    set.contactKeywords = [season.title, "知时节", "闹钟", "时节", "纪念日", "备忘录", "生日"]
                     set.thumbnailData = image?.pngData()
                     
                     let item = CSSearchableItem.init(uniqueIdentifier: season.id, domainIdentifier: season.id, attributeSet: set)
@@ -411,7 +400,11 @@ class HomeViewController: BaseViewController {
                 }
                 
                 if !items.isEmpty {
-                    CSSearchableIndex.default().indexSearchableItems(items, completionHandler: nil)
+                    CSSearchableIndex.default().indexSearchableItems(items, completionHandler: { (error) in
+                        if (error != nil) {
+                            print(error?.localizedDescription ?? "")
+                        }
+                    })
                 }
             }
         }
