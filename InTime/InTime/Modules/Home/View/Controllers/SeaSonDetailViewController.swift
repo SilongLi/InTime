@@ -114,7 +114,7 @@ class SeaSonDetailViewController: BaseViewController {
     
     // MARK: - setup
     func setupNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(loadSeasions), name: NotificationAddNewSeason, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadseasons), name: NotificationAddNewSeason, object: nil)
     }
     
     func setupSubviews() {
@@ -168,17 +168,21 @@ class SeaSonDetailViewController: BaseViewController {
         }
         navigationItem.title = "\(currentSelectedIndex + 1) / \(seasons.count)"
         
-        let seasion = seasons[currentSelectedIndex]
-        var bgImage = UIImage(named: seasion.backgroundModel.name)
-        let bgColor = UIColor.color(hex: seasion.backgroundModel.name)
-        if seasion.backgroundModel.type == .custom {
-            let imageData = HandlerDocumentManager.getCustomImage(seasonId: seasion.backgroundModel.name)
+        let season = seasons[currentSelectedIndex]
+        var bgImage: UIImage? = nil
+        if let path = Bundle.main.path(forResource: "bg/\(season.backgroundModel.name)", ofType: "png") {
+            bgImage = UIImage(contentsOfFile: path)
+        }
+        
+        let bgColor = UIColor.color(hex: season.backgroundModel.name)
+        if season.backgroundModel.type == .custom {
+            let imageData = HandlerDocumentManager.getCustomImage(seasonId: season.backgroundModel.name)
             if imageData != nil {
                 bgImage = UIImage(data: imageData!)
             }
         }
         
-        if seasion.backgroundModel.type == .custom || seasion.backgroundModel.type == .image {
+        if season.backgroundModel.type == .custom || season.backgroundModel.type == .image {
             bgImageView.image = bgImage
         } else {
             bgImageView.image = nil
@@ -209,7 +213,7 @@ class SeaSonDetailViewController: BaseViewController {
     }
     
     // MARK: - load DataSource
-    @objc func loadSeasions() {
+    @objc func loadseasons() {
         guard let categoryModel = category else {
             CommonTools.printLog(message: "[Debug] 分类ID为空！")
             return
@@ -335,29 +339,37 @@ extension SeaSonDetailViewController: UIScrollViewDelegate {
         guard newIndex > -1, newIndex < seasons.count, currentSelectedIndex != newIndex else {
                 return
         }
-        let seasion = seasons[index]
-        let newSeasion = seasons[newIndex]
+        let season = seasons[index]
+        let newseason = seasons[newIndex]
         
-        var bgImage = UIImage(named: seasion.backgroundModel.name)
-        let bgColor = UIColor.color(hex: seasion.backgroundModel.name)
-        if seasion.backgroundModel.type == .custom {
-            if let image = self.cacheImages?[seasion.id] {  // 取缓存
+        var bgImage: UIImage? = nil
+        if let path = Bundle.main.path(forResource: "bg/\(season.backgroundModel.name)", ofType: "png") {
+            bgImage = UIImage(contentsOfFile: path)
+        }
+        
+        let bgColor = UIColor.color(hex: season.backgroundModel.name)
+        if season.backgroundModel.type == .custom {
+            if let image = self.cacheImages?[season.id] {  // 取缓存
                 bgImage = image
             } else {
-                let imageData = HandlerDocumentManager.getCustomImage(seasonId: seasion.backgroundModel.name)
+                let imageData = HandlerDocumentManager.getCustomImage(seasonId: season.backgroundModel.name)
                 if imageData != nil {
                     bgImage = UIImage(data: imageData!)
                 }
             }
         }
         
-        var newBgImage = UIImage(named: newSeasion.backgroundModel.name)
-        let newBgColor = UIColor.color(hex: newSeasion.backgroundModel.name)
-        if newSeasion.backgroundModel.type == .custom {
-            if let image = self.cacheImages?[newSeasion.id] {  // 取缓存
+        var newBgImage: UIImage? = nil
+        if let path = Bundle.main.path(forResource: "bg/\(newseason.backgroundModel.name)", ofType: "png") {
+            newBgImage = UIImage(contentsOfFile: path)
+        }
+        
+        let newBgColor = UIColor.color(hex: newseason.backgroundModel.name)
+        if newseason.backgroundModel.type == .custom {
+            if let image = self.cacheImages?[newseason.id] {  // 取缓存
                 newBgImage = image
             } else {
-                let newImageData = HandlerDocumentManager.getCustomImage(seasonId: newSeasion.backgroundModel.name)
+                let newImageData = HandlerDocumentManager.getCustomImage(seasonId: newseason.backgroundModel.name)
                 if newImageData != nil {
                     newBgImage = UIImage(data: newImageData!)
                 }
@@ -365,8 +377,8 @@ extension SeaSonDetailViewController: UIScrollViewDelegate {
         }
         
         let isBgimageView = currentShowBgImageView == bgImageView
-        let isImage = seasion.backgroundModel.type == .custom || seasion.backgroundModel.type == .image
-        let isImageNewSeason = newSeasion.backgroundModel.type == .custom || newSeasion.backgroundModel.type == .image
+        let isImage = season.backgroundModel.type == .custom || season.backgroundModel.type == .image
+        let isImageNewSeason = newseason.backgroundModel.type == .custom || newseason.backgroundModel.type == .image
         
         if (isBgimageView && isImage) || (!isBgimageView && isImageNewSeason) {
             bgImageView.image = isBgimageView ? bgImage : newBgImage

@@ -294,7 +294,13 @@ extension AddNewSeasonViewModel {
                             "bg11",
                             "bg12",
                             "bg13",
-                            "bg14"]
+                            "bg14",
+                            "bg15",
+                            "bg16",
+                            "bg17",
+                            "bg18",
+                            "bg19",
+                            "bg20"]
         var imageModels = [BackgroundImageModel]()
         for type in bgImageTypes {
             let model = BackgroundImageModel(type: .image, name: type, isSelected: bgName == type)
@@ -303,9 +309,12 @@ extension AddNewSeasonViewModel {
         
         let bgColorTypes = ["#000000",
                             "#55DDFF",
-                            "#99EBFF",
                             "#B2E98E",
-                            "#E492D4"]
+                            "#F0C432",
+                            "#7FD5D3",
+                            "#B1948C",
+                            "#F9A751",
+                            "#666A7D"]
         var bgColorModels = [BackgroundImageModel]()
         for type in bgColorTypes {
             let model = BackgroundImageModel(type: .color, name: type, isSelected: bgName == type)
@@ -342,6 +351,7 @@ extension AddNewSeasonViewModel {
         let types = ["#FFFFFF",
                      "#000000",
                      "#A2A2A2",
+                     "#B2E98E",
                      "#FFFF44",
                      "#FF0099",
                      "#F05731",
@@ -349,7 +359,8 @@ extension AddNewSeasonViewModel {
                      "#0085DD",
                      "#DD00DD",
                      "#17C7A4",
-                     "#DD8500"]
+                     "#DD8500",
+                     "#666A7D"]
         var colorModels = [ColorModel]()
         for type in types {
             let model = ColorModel(color: type, isSelected: colorName == type)

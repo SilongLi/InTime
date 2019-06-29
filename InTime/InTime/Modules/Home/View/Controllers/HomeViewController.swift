@@ -20,7 +20,13 @@ class HomeViewController: BaseViewController {
     static let HeaderHeight: CGFloat = 300.0
     let BGViewHiehgt: CGFloat = IT_SCREEN_HEIGHT - IT_NaviHeight - HeaderHeight
     
-    let defalutBgImage: UIImage? = UIImage(named: "bg7")
+    let defalutBgImage: UIImage? = {
+        var image: UIImage? = nil
+        if let path = Bundle.main.path(forResource: "bg/bg17", ofType: "png") {
+            image = UIImage(contentsOfFile: path)
+        }
+        return image
+    }()
     
     /// 导航栏
     lazy var iconView: UIImageView = {
@@ -485,7 +491,11 @@ class HomeViewController: BaseViewController {
         bottomBgImageView.image = nil
         bottomBgImageView.backgroundColor = UIColor.clear
         
-        var bgImage = UIImage(named: currentSeason.backgroundModel.name)
+        var bgImage: UIImage? = nil
+        if let path = Bundle.main.path(forResource: "bg/\(currentSeason.backgroundModel.name)", ofType: "png") {
+            bgImage = UIImage(contentsOfFile: path)
+        }
+        
         let bgColor = UIColor.color(hex: currentSeason.backgroundModel.name)
         if currentSeason.backgroundModel.type == .custom {
             if let image = self.cacheImages?[currentSeason.id] {  // 取缓存

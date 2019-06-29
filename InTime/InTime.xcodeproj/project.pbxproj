@@ -77,6 +77,7 @@
 		99857C0D21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */; };
 		99857C0F21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */; };
 		99857C1121EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */; };
+		99A453D222C7B2530066EA4F /* bg in Resources */ = {isa = PBXBuildFile; fileRef = 99A453D122C7B2520066EA4F /* bg */; };
 		99BA01FE223B45F200DD77D7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BA01FD223B45F200DD77D7 /* SettingsViewController.swift */; };
 		99C4F72421F1AA3E00A25386 /* CKAlertFadePopAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F71D21F1AA3E00A25386 /* CKAlertFadePopAnimation.swift */; };
 		99C4F72521F1AA3E00A25386 /* CKAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F71E21F1AA3E00A25386 /* CKAlertViewController.swift */; };
@@ -185,6 +186,7 @@
 		99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedBackgroundImageTableViewCell.swift; sourceTree = "<group>"; };
 		99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedTextColorTableViewCell.swift; sourceTree = "<group>"; };
 		999345412244C965008DCF34 /* InTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InTime.entitlements; sourceTree = "<group>"; };
+		99A453D122C7B2520066EA4F /* bg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bg; sourceTree = "<group>"; };
 		99BA01FD223B45F200DD77D7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		99C4F71D21F1AA3E00A25386 /* CKAlertFadePopAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKAlertFadePopAnimation.swift; sourceTree = "<group>"; };
 		99C4F71E21F1AA3E00A25386 /* CKAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKAlertViewController.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 		9940094C221E9D3700C3E955 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				99A453D122C7B2520066EA4F /* bg */,
 				99F5C19D22A3CB6C00ACCE79 /* JazzLogo.mp3 */,
 			);
 			path = Sources;
@@ -674,6 +677,7 @@
 				9950228621E6F5F1004FAC47 /* Assets.xcassets in Resources */,
 				990B64B721F075840063BD34 /* WSDatePickerView.xib in Resources */,
 				9921C8ED223753E20027D7D5 /* Fire.png in Resources */,
+				99A453D222C7B2530066EA4F /* bg in Resources */,
 				99277CFF2230B39C00B7395D /* Localizable.strings in Resources */,
 				9921C8EF223753E20027D7D5 /* Fragment.png in Resources */,
 				99F5C19E22A3CB6D00ACCE79 /* JazzLogo.mp3 in Resources */,

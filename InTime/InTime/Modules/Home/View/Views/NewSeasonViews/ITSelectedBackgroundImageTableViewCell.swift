@@ -189,8 +189,14 @@ class BackgroundImageDetailCollectionViewCell: BaseCollectionViewCell {
             } else {
                 bgImageView.image = UIImage(data: imageData!)
             }
+            
         case .image:
-            bgImageView.image = UIImage(named: model.name)
+            var image: UIImage? = nil
+            if let path = Bundle.main.path(forResource: "bg/\(model.name)", ofType: "png") {
+                image = UIImage(contentsOfFile: path)
+            }
+            bgImageView.image = image
+            
         case .color:
             bgImageView.backgroundColor = UIColor.color(hex: model.name)
         }

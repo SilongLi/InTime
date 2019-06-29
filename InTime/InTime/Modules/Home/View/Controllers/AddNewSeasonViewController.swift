@@ -199,15 +199,15 @@ class AddNewSeasonViewController: BaseViewController {
     
     func addNewSeason() {
         guard !newSeason.title.isEmpty else {
-            view.showText("请输入标题!")
+            view.hideWithMessage("请输入标题!")
             return
         }
         guard !newSeason.categoryId.isEmpty else {
-            view.showText("请选择分类!")
+            view.hideWithMessage("请选择分类!")
             return
         }
         if newSeason.backgroundModel.type == .custom, newSeason.backgroundModel.name.isEmpty {
-            view.showText("请选择自定义背景图片!")
+            view.hideWithMessage("请选择自定义背景图片!")
             return
         }
         
@@ -233,10 +233,13 @@ class AddNewSeasonViewController: BaseViewController {
             
             addSeasonIntoSpotlight(newSeason)
             
-            NotificationCenter.default.post(name: NotificationAddNewSeason, object: nil)
-            navigationController?.popViewController(animated: true)
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: NotificationAddNewSeason, object: nil)
+                
+                self.navigationController?.popViewController(animated: true)
+            }
         } else {
-            view.showText("保存失败!")
+            view.hideWithError("保存失败!")
         }
     }
     
