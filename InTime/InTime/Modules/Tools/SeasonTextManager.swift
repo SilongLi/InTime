@@ -11,8 +11,8 @@
 class SeasonTextManager {
 
     static func handleSeasonInfo(_ season: SeasonModel, isNeedWeekDayInfo: Bool = true) -> (String, date: NSDate, dateInfo: String, isLater: Bool) {
-        var timeIntervalString = "--"
-        var dateInfo = "--"
+        var timeIntervalString = ""
+        var dateInfo = ""
         // 闹铃日期是否在当前时间之后
         var isLater = true
         

@@ -395,8 +395,9 @@ extension AddNewSeasonViewModel {
                      DateUnitType.weak,
                      DateUnitType.dayTime,
                      DateUnitType.year,
-                     DateUnitType.yearTime,
-                     DateUnitType.percentage]
+                     DateUnitType.yearTime
+//                    , DateUnitType.percentage // 暂不支持
+                    ]
         var textModels = [TextModel]()
         for type in types {
             let model = TextModel(type: type.rawValue, text: type.rawValue, isSelected: unitValue == type.rawValue)
