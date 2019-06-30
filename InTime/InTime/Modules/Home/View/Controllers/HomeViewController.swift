@@ -22,7 +22,7 @@ class HomeViewController: BaseViewController {
     
     let defalutBgImage: UIImage? = {
         var image: UIImage? = nil
-        if let path = Bundle.main.path(forResource: "bg/bg17", ofType: "png") {
+        if let path = Bundle.main.path(forResource: "bg/bg13", ofType: "png") {
             image = UIImage(contentsOfFile: path)
         }
         return image
