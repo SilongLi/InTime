@@ -11,7 +11,10 @@ import SnapKit
 import FDFullscreenPopGesture
 import CoreSpotlight
 
+let ShowAlertInfoToAppStoreWriteReviewWithNumKey = "ShowAlertInfoToAppStoreWriteReviewWithNum"
+
 class HomeViewController: BaseViewController {
+    
     
     /// 图片展示动画
     let AnimateDuration: TimeInterval = 1.0
@@ -412,6 +415,12 @@ class HomeViewController: BaseViewController {
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     self?.seasons = seasons
                     self?.updateContentView()
+                    
+                    // 跳转到AppStore评价
+                    let num = UserDefaults.standard.integer(forKey: ShowAlertInfoToAppStoreWriteReviewWithNumKey)
+                    if num != seasons.count, seasons.count % 3 == 0 {
+                        self?.gotoAppStoreWriteReview()
+                    }
                 })
             }
         } else {
@@ -420,9 +429,45 @@ class HomeViewController: BaseViewController {
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     self?.seasons = seasons
                     self?.updateContentView()
+                    
+                    // 跳转到AppStore评价
+                    let num = UserDefaults.standard.integer(forKey: ShowAlertInfoToAppStoreWriteReviewWithNumKey)
+                    if num != seasons.count, seasons.count % 3 == 0 {
+                        self?.gotoAppStoreWriteReview()
+                    }
                 })
             }
         }
+    }
+    
+    
+    /// 跳转到AppStore评价
+    func gotoAppStoreWriteReview() {
+        guard seasons.count > 0 else {
+            return
+        }
+        
+        UserDefaults.standard.set(seasons.count, forKey: ShowAlertInfoToAppStoreWriteReviewWithNumKey)
+        UserDefaults.standard.synchronize()
+        
+        let alert = ITCustomAlertView.init(title: "", detailTitle: "您的意见是我们最珍贵的财富，现在就去评论吧~", topIcon: nil, contentIcon: nil, isTwoButton: true, cancelAction: nil) {
+            DispatchQueue.main.async {
+                var urlStr = "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1470847029&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8"
+                
+                if #available(iOS 11.0, *) {
+                    urlStr = "itms-apps://itunes.apple.com/cn/app/id1470847029?mt=8&action=write-review"
+                    
+                }
+                
+                if let url = URL.init(string: urlStr) {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+        alert.doneButton.setTitleColor(UIColor.pinkColor, for: UIControl.State.normal)
+        alert.doneButton.setTitle("去评论", for: UIControl.State.normal)
+        alert.cancelButton.setTitle("残忍拒绝", for: UIControl.State.normal)
+        alert.showAlertView(inViewController: self, leftOrRightMargin: 35.0)
     }
     
     func updateContentView() {
