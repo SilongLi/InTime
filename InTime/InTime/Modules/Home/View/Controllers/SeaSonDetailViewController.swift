@@ -163,7 +163,10 @@ class SeaSonDetailViewController: BaseViewController {
     }
     
     func setupContentView() {
-        guard currentSelectedIndex < seasons.count else {
+        guard currentSelectedIndex < seasons.count, seasons.count > 0 else {
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
             return
         }
         navigationItem.title = "\(currentSelectedIndex + 1) / \(seasons.count)"
@@ -333,12 +336,26 @@ extension SeaSonDetailViewController: UIScrollViewDelegate {
     }
     
     func updateContentView(isForward: Bool) {
+        guard seasons.count > 0 else {
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
+            return
+        }
+        
         /// 修改背景图
-        let index = currentSelectedIndex
+        var index = currentSelectedIndex
+        if index >= seasons.count {
+            index = seasons.count - 1
+            currentSelectedIndex = index
+            navigationItem.title = "\(currentSelectedIndex + 1) / \(seasons.count)"
+        }
+        
         let newIndex = isForward ? index + 1 : index - 1
         guard newIndex > -1, newIndex < seasons.count, currentSelectedIndex != newIndex else {
                 return
         }
+        
         let season = seasons[index]
         let newseason = seasons[newIndex]
         
