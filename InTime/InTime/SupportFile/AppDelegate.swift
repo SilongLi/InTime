@@ -89,7 +89,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func setupWindow() {
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        let NAV = UINavigationController(rootViewController: HomeViewController())
+//        let NAV = UINavigationController(rootViewController: HomeViewController())
+        let NAV = UINavigationController(rootViewController: ITMainViewController())
+        
         self.window?.rootViewController = NAV
         self.window?.backgroundColor = .white
         self.window?.makeKey()
