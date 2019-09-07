@@ -147,11 +147,11 @@ public final class CVCalendarMonthContentViewController: CVCalendarContentViewCo
 
             if dayView.date.day > 20 {
                 let presentedDate = dayView.monthView.date
-                calendarView.presentedDate = CVDate(date: self.dateBeforeDate(presentedDate!), calendar: calendar)
+                calendarView.presentedDate = CVDate(date: self.dateBeforeDate(presentedDate), calendar: calendar)
                 presentPreviousView(dayView)
             } else {
                 let presentedDate = dayView.monthView.date
-                calendarView.presentedDate = CVDate(date: self.dateAfterDate(presentedDate!), calendar: calendar)
+                calendarView.presentedDate = CVDate(date: self.dateAfterDate(presentedDate), calendar: calendar)
                 presentNextView(dayView)
             }
         }
@@ -329,7 +329,7 @@ extension CVCalendarMonthContentViewController {
 
     public func getPreviousMonth(_ date: Foundation.Date) -> MonthView {
         let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
-        let firstDate = calendarView.manager.monthDateRange(date).monthStartDate
+        let firstDate: Date = calendarView.manager?.monthDateRange(date).monthStartDate ?? Date()
         var components = Manager.componentsForDate(firstDate, calendar: calendar)
 
         components.month! -= 1

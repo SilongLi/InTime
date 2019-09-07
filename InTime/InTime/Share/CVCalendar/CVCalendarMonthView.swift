@@ -32,8 +32,8 @@ public final class CVCalendarMonthView: UIView {
     // MARK: - Public properties
 
     public weak var calendarView: CVCalendarView!
-    public var date: Foundation.Date!
-    public var numberOfWeeks: Int!
+    public var date: Foundation.Date = Date()
+    public var numberOfWeeks: Int = 0
     public var weekViews: [CVCalendarWeekView]!
 
     public var weeksIn: [[Int : [Int]]]?
@@ -80,7 +80,7 @@ extension CVCalendarMonthView {
         let calendarManager = calendarView.manager
       safeExecuteBlock({
             let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
-            self.numberOfWeeks = calendarManager?.monthDateRange(self.date).countOfWeeks
+            self.numberOfWeeks = calendarManager?.monthDateRange(self.date).countOfWeeks ?? 0
             self.weeksIn = calendarManager?.weeksWithWeekdaysForMonthDate(self.date).weeksIn
             self.weeksOut = calendarManager?.weeksWithWeekdaysForMonthDate(self.date).weeksOut
             self.currentDay = Manager.dateRange(Foundation.Date(), calendar: calendar).day
@@ -116,18 +116,23 @@ extension CVCalendarMonthView {
 
     public func createWeekViews() {
         weekViews = [CVCalendarWeekView]()
+        
+        guard self.numberOfWeeks > 0 else {
+            print("numberOfWeeks为空")
+            return
+        }
 
-      safeExecuteBlock({
-            for i in 0..<self.numberOfWeeks! {
+        safeExecuteBlock({
+            for i in 0..<self.numberOfWeeks {
                 let weekView = CVCalendarWeekView(monthView: self, index: i)
-
+                
                 self.safeExecuteBlock({
                     self.weekViews!.append(weekView)
                 }, collapsingOnNil: true, withObjects: self.weekViews as AnyObject?)
-
+                
                 self.addSubview(weekView)
             }
-            }, collapsingOnNil: true, withObjects: numberOfWeeks as AnyObject?)
+        }, collapsingOnNil: true, withObjects: numberOfWeeks as AnyObject?)
     }
 }
 

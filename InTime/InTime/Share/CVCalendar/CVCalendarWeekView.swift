@@ -63,7 +63,6 @@ public final class CVCalendarWeekView: UIView {
 
     public init(monthView: CVCalendarMonthView, index: Int) {
 
-
         self.monthView = monthView
         self.index = index
 
@@ -98,7 +97,7 @@ public final class CVCalendarWeekView: UIView {
                                     break
                                 }
                             } else if value < 10 {
-                                if self.index == (manager?.monthDateRange(self.monthView!.date!)
+                                if self.index == (manager?.monthDateRange(self.monthView!.date)
                                     .countOfWeeks)! - 1 {
                                         result = weekdaysOut
                                         break

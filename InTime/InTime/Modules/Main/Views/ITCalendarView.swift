@@ -21,6 +21,7 @@ class ITCalendarView: UIView {
     
     lazy var calendarView: CVCalendarView = {
         let calendar = CVCalendarView()
+        calendar.calendarMode = .weekView
         return calendar
     }()
     
@@ -64,7 +65,6 @@ class ITCalendarView: UIView {
         super.layoutSubviews()
         
         menuView.frame = CGRect(x: 0, y: 0.0, width: self.frame.size.width, height: ITCalendarView.menuViewHeight)
-        
         calendarView.frame = CGRect(x: 0, y: ITCalendarView.menuViewHeight, width: self.frame.size.width, height: calendarViewHeight())
         
         menuView.commitMenuViewUpdate()
@@ -87,7 +87,7 @@ extension ITCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     // MARK: Required methods
     
     func presentationMode() -> CalendarMode {
-        return .monthView
+        return .weekView
     }
     
     func firstWeekday() -> Weekday {
@@ -118,11 +118,11 @@ extension ITCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     }
     
     func shouldAutoSelectDayOnWeekChange() -> Bool {
-        return false
+        return true
     }
     
     func shouldAutoSelectDayOnMonthChange() -> Bool {
-        return false
+        return true
     }
     
     func didSelectDayView(_ dayView: CVCalendarDayView, animationDidFinish: Bool) {
