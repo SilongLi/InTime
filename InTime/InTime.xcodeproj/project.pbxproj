@@ -48,7 +48,6 @@
 		991225ED22FDA5ED0029F7AC /* CVCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991225CE22FDA5ED0029F7AC /* CVCalendarManager.swift */; };
 		991225EE22FDA5ED0029F7AC /* CVShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991225CF22FDA5ED0029F7AC /* CVShape.swift */; };
 		991225F022FDA5ED0029F7AC /* CVPresent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991225D122FDA5ED0029F7AC /* CVPresent.swift */; };
-		991225F222FDA9090029F7AC /* ColorsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991225F122FDA9090029F7AC /* ColorsConfig.swift */; };
 		991225F4231FF2CA0029F7AC /* ITCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991225F3231FF2CA0029F7AC /* ITCalendarView.swift */; };
 		991225F6232297A50029F7AC /* ITDateInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991225F5232297A50029F7AC /* ITDateInfoView.swift */; };
 		9921C8E9223753E20027D7D5 /* LTMorphingLabel+Fall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9921C8D6223753E20027D7D5 /* LTMorphingLabel+Fall.swift */; };
@@ -187,7 +186,6 @@
 		991225CE22FDA5ED0029F7AC /* CVCalendarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVCalendarManager.swift; sourceTree = "<group>"; };
 		991225CF22FDA5ED0029F7AC /* CVShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVShape.swift; sourceTree = "<group>"; };
 		991225D122FDA5ED0029F7AC /* CVPresent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPresent.swift; sourceTree = "<group>"; };
-		991225F122FDA9090029F7AC /* ColorsConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsConfig.swift; sourceTree = "<group>"; };
 		991225F3231FF2CA0029F7AC /* ITCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITCalendarView.swift; sourceTree = "<group>"; };
 		991225F5232297A50029F7AC /* ITDateInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITDateInfoView.swift; sourceTree = "<group>"; };
 		9921C8D6223753E20027D7D5 /* LTMorphingLabel+Fall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTMorphingLabel+Fall.swift"; sourceTree = "<group>"; };
@@ -356,7 +354,6 @@
 		990BEDD322DDF7D10052E090 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				991225F122FDA9090029F7AC /* ColorsConfig.swift */,
 				990BEDD422DDF7F80052E090 /* ITMainViewController.swift */,
 				991225F3231FF2CA0029F7AC /* ITCalendarView.swift */,
 				991225F5232297A50029F7AC /* ITDateInfoView.swift */,
@@ -934,7 +931,6 @@
 				9921C8F3223753E20027D7D5 /* LTStringDiffResult.swift in Sources */,
 				99C4F73521F5A99D00A25386 /* HandlerDocumentManager.swift in Sources */,
 				99C4F72E21F5677E00A25386 /* HomeSeasonViewModel.swift in Sources */,
-				991225F222FDA9090029F7AC /* ColorsConfig.swift in Sources */,
 				9921C8EB223753E20027D7D5 /* LTEmitterView.swift in Sources */,
 				991225DF22FDA5ED0029F7AC /* CVSelectionType.swift in Sources */,
 				99277CF62229117600B7395D /* HomeTableViewCellDelegate.swift in Sources */,

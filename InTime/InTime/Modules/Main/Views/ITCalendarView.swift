@@ -44,9 +44,18 @@ class ITCalendarView: UIView {
     
     var didSelectedDate: ((_ date: CVDate) -> ())?
     
+    init(_ didSelectedDate: ((_ date: CVDate) -> ())?) {
+        super.init(frame: CGRect.zero)
+        self.didSelectedDate = didSelectedDate
+        setupSubviews()
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setupSubviews()
+    }
+    
+    func setupSubviews() {
         menuView.menuViewDelegate = self
         
         calendarView.calendarDelegate = self
@@ -173,7 +182,7 @@ extension ITCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     
     func dayOfWeekTextColor() -> UIColor { return .white }
     
-    func dayOfWeekBackGroundColor() -> UIColor { return .orange }
+    func dayOfWeekBackGroundColor() -> UIColor { return UIColor.tintColor }
     
     func disableScrollingBeforeDate() -> Date { return Date.init(timeIntervalSince1970: 0) }
     
@@ -197,7 +206,7 @@ extension ITCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
 extension ITCalendarView: CVCalendarViewAppearanceDelegate {
     
     func dayLabelWeekdayDisabledColor() -> UIColor {
-        return .lightGray
+        return UIColor.greenColor
     }
     
     func dayLabelPresentWeekdayInitallyBold() -> Bool {
@@ -215,24 +224,24 @@ extension ITCalendarView: CVCalendarViewAppearanceDelegate {
     func dayLabelColor(by weekDay: Weekday, status: CVStatus, present: CVPresent) -> UIColor? {
         switch (weekDay, status, present) {
         case (_, .selected, _), (_, .highlighted, _):
-            return ColorsConfig.selectedText
-        case (.sunday, .in, _):
-            return ColorsConfig.sundayText
+            return UIColor.white
+        case (.sunday, .in, _), (.saturday, .in, _):
+            return UIColor.pinkColor
         case (.sunday, _, _):
-            return ColorsConfig.sundayTextDisabled
+            return UIColor.darkGaryColor
         case (_, .in, _):
-            return ColorsConfig.text
+            return UIColor.darkGaryColor
         default:
-            return ColorsConfig.text
+            return UIColor.darkGaryColor
         }
     }
     
     func dayLabelBackgroundColor(by weekDay: Weekday, status: CVStatus, present: CVPresent) -> UIColor? {
         switch (weekDay, status, present) {
         case (.sunday, .selected, _), (.sunday, .highlighted, _):
-            return ColorsConfig.sundaySelectionBackground
+            return UIColor.greenColor
         case (_, .selected, _), (_, .highlighted, _):
-            return ColorsConfig.selectionBackground
+            return UIColor.greenColor
         default:
             return nil
         }

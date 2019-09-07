@@ -17,10 +17,9 @@ class ITMainViewController: BaseViewController {
     let calendarName = "InTime"
     
     lazy var calendarView: ITCalendarView = {
-        let calendarView = ITCalendarView()
-        calendarView.didSelectedDate = { [weak self] (date) in
+        let calendarView = ITCalendarView.init({ [weak self] (date) in
             self?.dateInfoView.updateContent(date)
-        }
+        })
         return calendarView
     }()
     
