@@ -37,6 +37,36 @@ extension Date {
         return "\(solarDateStr) \(timeStr)"
     }
     
+    func zero() -> Date {
+        let calendar   = Calendar(identifier: .chinese)
+        var components      = DateComponents()
+        components.year     = (self as NSDate).year
+        components.month    = (self as NSDate).month
+        components.day      = (self as NSDate).day
+        components.hour     = 0
+        components.minute   = 0
+        components.second   = 0
+        guard let date = calendar.date(from: components) else {
+            return self
+        }
+        return date
+    }
+    
+    func maxDate() -> Date {
+        let calendar   = Calendar(identifier: .chinese)
+        var components      = DateComponents()
+        components.year     = (self as NSDate).year
+        components.month    = (self as NSDate).month
+        components.day      = (self as NSDate).day
+        components.hour     = 23
+        components.minute   = 59
+        components.second   = 59
+        guard let date = calendar.date(from: components) else {
+            return self
+        }
+        return date
+    }
+    
     /// 获取当天是星期几
     func weekDay() -> String {
         let weekDays = [NSNull(), "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"] as [Any]

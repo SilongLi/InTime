@@ -43,7 +43,7 @@ class ITCalendarView: UIView {
     }
     
     var didSelectedDate: ((_ date: CVDate) -> ())?
-    
+     
     init(_ didSelectedDate: ((_ date: CVDate) -> ())?) {
         super.init(frame: CGRect.zero)
         self.didSelectedDate = didSelectedDate
@@ -228,11 +228,11 @@ extension ITCalendarView: CVCalendarViewAppearanceDelegate {
         case (.sunday, .in, _), (.saturday, .in, _):
             return UIColor.pinkColor
         case (.sunday, _, _):
-            return UIColor.darkGaryColor
+            return UIColor.black
         case (_, .in, _):
-            return UIColor.darkGaryColor
+            return UIColor.black
         default:
-            return UIColor.darkGaryColor
+            return UIColor.black
         }
     }
     

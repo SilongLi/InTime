@@ -12,13 +12,11 @@ import EventKitUI
 
 class ITMainViewController: BaseViewController {
     
-    let store: EKEventStore = EKEventStore()
-    
-    let calendarName = "InTime"
-    
     lazy var calendarView: ITCalendarView = {
         let calendarView = ITCalendarView.init({ [weak self] (date) in
+            self?.currentSelectedDate = date.date
             self?.dateInfoView.updateContent(date)
+            self?.reloadEventsInfo(date.date)
         })
         return calendarView
     }()
@@ -28,14 +26,29 @@ class ITMainViewController: BaseViewController {
         return infoView
     }()
     
+    let calendarDataManager: ITCalendarDataManager = ITCalendarDataManager()
+    
     private var randomNumberOfDotMarkersForDay = [Int]()
     private var animationFinished = true
+    private var granted: Bool = false
+    private var currentSelectedDate: Date = Date()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.addSubview(dateInfoView)
         self.view.addSubview(calendarView)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        calendarDataManager.checkCalendarAuthorization { [weak self] (granted) in
+            DispatchQueue.main.async {
+                self?.granted = granted
+                self?.reloadEventsInfo(self?.currentSelectedDate)
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -54,111 +67,22 @@ class ITMainViewController: BaseViewController {
         calendarView.calendarMode = calendarView.calendarMode == .weekView ? .monthView : .weekView
         view.setNeedsLayout()
         
-//        checkCalendarAuthorization { [weak self] (granted) in
-//            DispatchQueue.main.async {
-//                if (granted) {
-//                    let startDate = Date.init(timeIntervalSinceNow: 0)
-//                    let endDate = Date.init(timeIntervalSinceNow: 110000)
-//
-//                    self?.loadEventFromCalendWithStartDate(date: startDate, endDate: endDate)
-//
-//                    self?.addEventInfoCalender()
-//
-//                    self?.loadEventFromCalendWithStartDate(date: startDate, endDate: endDate)
-//                }
-//            }
-//        }
-    }
-    
-    func checkCalendarAuthorization(completion: @escaping (_ success: Bool) -> ()) {
-        let status = EKEventStore.authorizationStatus(for: EKEntityType.event)
-        switch status {
-        case .notDetermined, .denied:
-            store.requestAccess(to: EKEntityType.event) { (granted, error) in
-                if granted {
-                    completion(true)
-                } else {
-                    completion(false)
-                    print(error.debugDescription)
-                }
-            }
-            break
-        case .restricted:
-            completion(false)
-            break
-        case .authorized:
-            completion(true)
-            break
-        }
-    }
-    
-    func loadEventFromCalendWithStartDate(date: Date, endDate: Date) {
-        let calendarArray = self.store.calendars(for: EKEntityType.event)
-        var calendars: Array = Array<EKCalendar>()
-        for calendar in calendarArray {
-            if calendar.type == .local || calendar.type == .calDAV {
-                calendars.append(calendar)
-            }
-        }
-        let predicate = self.store.predicateForEvents(withStart: date, end: endDate, calendars: calendars)
-        let requests: NSArray = self.store.events(matching: predicate) as NSArray
-        for request in requests {
-            if request is EKEvent {
-                let event: EKEvent = (request as! EKEvent)
-                print(event.title ?? "", event.startDate ?? Date(), event.endDate ?? Date())
-            }
-        }
-    }
-    
-    func addEventInfoCalender() {
-        let event = EKEvent.init(eventStore: self.store)
-        event.title = "起床吃早餐了"
-        event.startDate = Date.init(timeIntervalSinceNow: 10000)
-        event.endDate = Date.init(timeIntervalSinceNow: 11000)
-        event.isAllDay = false;
         
-        event.calendar = self.findCalender(calendarName)
-        if event.calendar == nil {
-          event.calendar = self.createCalender(calendarName)
-        }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func reloadEventsInfo(_ date: Date?) {
+        guard granted, let date = date else { return }
         
-        try? self.store.save(event, span: EKSpan.thisEvent, commit: true)
+        let startDate = (date as NSDate).atStartOfDay() ?? date
+        let endDate = (date as NSDate).atEndOfDay() ?? date
+        let events: [EKEvent] = calendarDataManager.loadEventFromCalendWithStartDate(date: startDate, endDate: endDate)
+        for event: EKEvent in events {
+            print(event.title ?? "", event.startDate ?? Date(), event.endDate ?? Date())
+        }
     }
     
-    func findCalender(_ name: String) -> EKCalendar? {
-        let calendarArray = self.store.calendars(for: EKEntityType.event)
-        for calendar in calendarArray {
-            if calendar.title == name {
-                return calendar
-            }
-        }
-        return nil
-    }
-    
-    func createCalender(_ name: String) -> EKCalendar {
-        var calendar: EKCalendar? = self.findCalender(name)
-        if calendar == nil {
-            calendar = EKCalendar.init(for: EKEntityType.event, eventStore: self.store)
-            calendar?.title = name
-            calendar?.source = self.findCalendarSource(self.store)
-            try? self.store.saveCalendar(calendar!, commit: true)
-        }
-        return calendar!
-    }
-    
-    func findCalendarSource(_ eventStore: EKEventStore) -> EKSource? {
-        for source in eventStore.sources {
-            if source.sourceType == EKSourceType.calDAV, source.title == "iCloud" {
-                return source
-            }
-        }
-        for source in eventStore.sources {
-            if source.sourceType == EKSourceType.local {
-                return source
-            }
-        }
-        return nil;
-    }
     
     /*
     //新增日历事件

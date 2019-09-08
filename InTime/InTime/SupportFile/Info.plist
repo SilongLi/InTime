@@ -72,14 +72,14 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>“知时节”需要您的同意,才能访问日历</string>
 	<key>NSCameraUsageDescription</key>
 	<string>“知时节”需要您的同意,才能访问相机</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>“知时节”需要您的同意,才能访问相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>“知时节”需要您的同意,才能访问相册</string>
-    <key>NSCalendarsUsageDescription</key>
-    <string>“知时节”需要您的同意,才能访问日历</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

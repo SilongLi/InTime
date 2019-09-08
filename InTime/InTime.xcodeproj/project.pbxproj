@@ -50,6 +50,7 @@
 		991225F022FDA5ED0029F7AC /* CVPresent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991225D122FDA5ED0029F7AC /* CVPresent.swift */; };
 		991225F4231FF2CA0029F7AC /* ITCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991225F3231FF2CA0029F7AC /* ITCalendarView.swift */; };
 		991225F6232297A50029F7AC /* ITDateInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991225F5232297A50029F7AC /* ITDateInfoView.swift */; };
+		991225F92325379D0029F7AC /* ITCalendarDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991225F82325379D0029F7AC /* ITCalendarDataManager.swift */; };
 		9921C8E9223753E20027D7D5 /* LTMorphingLabel+Fall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9921C8D6223753E20027D7D5 /* LTMorphingLabel+Fall.swift */; };
 		9921C8EA223753E20027D7D5 /* LTEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9921C8D8223753E20027D7D5 /* LTEasing.swift */; };
 		9921C8EB223753E20027D7D5 /* LTEmitterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9921C8D9223753E20027D7D5 /* LTEmitterView.swift */; };
@@ -188,6 +189,7 @@
 		991225D122FDA5ED0029F7AC /* CVPresent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVPresent.swift; sourceTree = "<group>"; };
 		991225F3231FF2CA0029F7AC /* ITCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITCalendarView.swift; sourceTree = "<group>"; };
 		991225F5232297A50029F7AC /* ITDateInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITDateInfoView.swift; sourceTree = "<group>"; };
+		991225F82325379D0029F7AC /* ITCalendarDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITCalendarDataManager.swift; sourceTree = "<group>"; };
 		9921C8D6223753E20027D7D5 /* LTMorphingLabel+Fall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTMorphingLabel+Fall.swift"; sourceTree = "<group>"; };
 		9921C8D8223753E20027D7D5 /* LTEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTEasing.swift; sourceTree = "<group>"; };
 		9921C8D9223753E20027D7D5 /* LTEmitterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTEmitterView.swift; sourceTree = "<group>"; };
@@ -346,6 +348,7 @@
 		990BEDD222DDF7C10052E090 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				991225F7232537780029F7AC /* CalendarData */,
 				990BEDD322DDF7D10052E090 /* Views */,
 			);
 			path = Main;
@@ -397,6 +400,14 @@
 				991225D122FDA5ED0029F7AC /* CVPresent.swift */,
 			);
 			path = CVCalendar;
+			sourceTree = "<group>";
+		};
+		991225F7232537780029F7AC /* CalendarData */ = {
+			isa = PBXGroup;
+			children = (
+				991225F82325379D0029F7AC /* ITCalendarDataManager.swift */,
+			);
+			path = CalendarData;
 			sourceTree = "<group>";
 		};
 		9921C8D5223753E20027D7D5 /* LTMorphingLabel */ = {
@@ -906,6 +917,7 @@
 				99C4F72721F1AA3E00A25386 /* CKAlertNoAnimation.swift in Sources */,
 				991225E922FDA5ED0029F7AC /* CVCalendarViewAnimatorDelegate.swift in Sources */,
 				99C4F74421F6FB5D00A25386 /* TDLoadingManager.swift in Sources */,
+				991225F92325379D0029F7AC /* ITCalendarDataManager.swift in Sources */,
 				995022E321E877E5004FAC47 /* CommonTools.swift in Sources */,
 				99C4F74E21F804D900A25386 /* CommonInfo.swift in Sources */,
 				991225EA22FDA5ED0029F7AC /* CVCalendarViewAnimator.swift in Sources */,
