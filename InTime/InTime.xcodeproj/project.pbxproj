@@ -111,6 +111,8 @@
 		99857C0D21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */; };
 		99857C0F21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */; };
 		99857C1121EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */; };
+		998B3B29233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998B3B28233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift */; };
+		998B3B30233F1E0400620912 /* ITMainSeasonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998B3B2F233F1E0400620912 /* ITMainSeasonTableViewCell.swift */; };
 		99A453D222C7B2530066EA4F /* bg in Resources */ = {isa = PBXBuildFile; fileRef = 99A453D122C7B2520066EA4F /* bg */; };
 		99BA01FE223B45F200DD77D7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BA01FD223B45F200DD77D7 /* SettingsViewController.swift */; };
 		99C4F72421F1AA3E00A25386 /* CKAlertFadePopAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F71D21F1AA3E00A25386 /* CKAlertFadePopAnimation.swift */; };
@@ -254,6 +256,8 @@
 		99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITRepeatReminderTableViewCell.swift; sourceTree = "<group>"; };
 		99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedBackgroundImageTableViewCell.swift; sourceTree = "<group>"; };
 		99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedTextColorTableViewCell.swift; sourceTree = "<group>"; };
+		998B3B28233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainCalendarInfoTableViewCell.swift; sourceTree = "<group>"; };
+		998B3B2F233F1E0400620912 /* ITMainSeasonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainSeasonTableViewCell.swift; sourceTree = "<group>"; };
 		999345412244C965008DCF34 /* InTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InTime.entitlements; sourceTree = "<group>"; };
 		99A453D122C7B2520066EA4F /* bg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bg; sourceTree = "<group>"; };
 		99BA01FD223B45F200DD77D7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -360,6 +364,8 @@
 				990BEDD422DDF7F80052E090 /* ITMainViewController.swift */,
 				991225F3231FF2CA0029F7AC /* ITCalendarView.swift */,
 				991225F5232297A50029F7AC /* ITDateInfoView.swift */,
+				998B3B28233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift */,
+				998B3B2F233F1E0400620912 /* ITMainSeasonTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -918,6 +924,7 @@
 				991225E922FDA5ED0029F7AC /* CVCalendarViewAnimatorDelegate.swift in Sources */,
 				99C4F74421F6FB5D00A25386 /* TDLoadingManager.swift in Sources */,
 				991225F92325379D0029F7AC /* ITCalendarDataManager.swift in Sources */,
+				998B3B29233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift in Sources */,
 				995022E321E877E5004FAC47 /* CommonTools.swift in Sources */,
 				99C4F74E21F804D900A25386 /* CommonInfo.swift in Sources */,
 				991225EA22FDA5ED0029F7AC /* CVCalendarViewAnimator.swift in Sources */,
@@ -995,6 +1002,7 @@
 				9921C8F8223753E20027D7D5 /* LTMorphingLabel+Pixelate.swift in Sources */,
 				99C4F74021F6FB5D00A25386 /* TDTimerView.swift in Sources */,
 				991225E222FDA5ED0029F7AC /* CVCalendarMenuView.swift in Sources */,
+				998B3B30233F1E0400620912 /* ITMainSeasonTableViewCell.swift in Sources */,
 				991225D722FDA5ED0029F7AC /* CVStatus.swift in Sources */,
 				991225F4231FF2CA0029F7AC /* ITCalendarView.swift in Sources */,
 				9921C8F5223753E20027D7D5 /* LTMorphingLabel.swift in Sources */,
@@ -1174,7 +1182,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTimeTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "InTime/SupportFile/InTime⁩-Bridging-Header.h";
@@ -1197,7 +1205,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTimeTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "InTime/SupportFile/InTime⁩-Bridging-Header.h";

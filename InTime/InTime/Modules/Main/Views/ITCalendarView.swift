@@ -12,7 +12,7 @@ class ITCalendarView: UIView {
 
     private static let menuViewHeight: CGFloat = 40.0
     private static let calendarViewWeekHeight: CGFloat = 50.0
-    private static let calendarViewMonthHeight: CGFloat = 300.0
+    private static let calendarViewMonthHeight: CGFloat = 250.0
     
     lazy var menuView: CVCalendarMenuView = {
         let menuView = CVCalendarMenuView()

@@ -46,6 +46,8 @@
 - (BOOL) isEqualToDateIgnoringTime: (NSDate *) aDate;
 
 - (BOOL) isToday;
+/// 上午还是下午
+- (BOOL) isMorning;
 - (BOOL) isTomorrow;
 - (BOOL) isYesterday;
 

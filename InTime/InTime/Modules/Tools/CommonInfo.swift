@@ -28,3 +28,8 @@ public let FontName = "KohinoorBangla-Semibold"
 /// 是否开启磨砂效果
 public let IsOpenBlurEffect: String = "IsOpenBlurEffect"
 
+// 首页
+public let Margin: CGFloat = 15.0
+public let IconWH: CGFloat = 20.0
+public let ItemHeight: CGFloat = 25.0
+

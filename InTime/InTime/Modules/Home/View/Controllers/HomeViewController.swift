@@ -46,6 +46,12 @@ class HomeViewController: BaseViewController {
     }()
     
     /// 导航栏
+    lazy var backBtn: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(named: "back"), for: .normal)
+        btn.addTarget(self, action: #selector(gotoBackViewAction), for: .touchUpInside)
+        return btn
+    }()
     lazy var settingBtn: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(named: "blur"), for: .normal)
@@ -92,10 +98,17 @@ class HomeViewController: BaseViewController {
         
         let iconW: CGFloat = 26.0
         let bottom: CGFloat = 10.0
+         
+        view.addSubview(backBtn)
+        backBtn.snp.makeConstraints({ (make) in
+            make.left.equalToSuperview().offset(15)
+            make.bottom.equalToSuperview().offset(-bottom)
+            make.size.equalTo(CGSize.init(width: iconW, height: iconW))
+        })
         
         view.addSubview(settingBtn)
         settingBtn.snp.makeConstraints({ (make) in
-            make.left.equalToSuperview().offset(15)
+            make.left.equalTo(backBtn.snp.right).offset(10)
             make.bottom.equalToSuperview().offset(-bottom)
             make.size.equalTo(CGSize.init(width: iconW, height: iconW))
         })
@@ -267,6 +280,8 @@ class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fd_prefersNavigationBarHidden = true
+        
         setupNotification()
         setupSubviews()
         loadCategorys()
@@ -279,11 +294,11 @@ class HomeViewController: BaseViewController {
         headerView.season = currentSeason
         tableView.reloadData()
     }
-    
+      
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         /// 消失的时候，取消所有定时器
-        disableAllTimer()
+        disableAllTimer() 
     }
     
     deinit {
@@ -590,6 +605,14 @@ class HomeViewController: BaseViewController {
     
     
     // MARK: - actions
+    
+    @objc func gotoBackViewAction() {
+        if let NAV = navigationController {
+            NAV.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
+    }
     
     /// 更多操作视图
     @objc func gotoSettingViewAction() {

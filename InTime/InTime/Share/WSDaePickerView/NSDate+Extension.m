@@ -152,6 +152,16 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     return [self isEqualToDateIgnoringTime:[NSDate date]];
 }
 
+- (BOOL) isMorning
+{
+    NSDateComponents *components = [[NSDate currentCalendar] components:componentFlags fromDate:self];
+    components.hour = 11;
+    components.minute = 59;
+    components.second = 59;
+    NSDate *lastMorningDate = [[NSDate currentCalendar] dateFromComponents:components]; 
+    return [self isEarlierThanDate:lastMorningDate];
+}
+
 - (BOOL) isTomorrow
 {
     return [self isEqualToDateIgnoringTime:[NSDate dateTomorrow]];
