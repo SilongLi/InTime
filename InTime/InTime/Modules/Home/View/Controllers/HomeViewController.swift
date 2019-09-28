@@ -15,7 +15,6 @@ let ShowAlertInfoToAppStoreWriteReviewWithNumKey = "ShowAlertInfoToAppStoreWrite
 
 class HomeViewController: BaseViewController {
     
-    
     /// 图片展示动画
     let AnimateDuration: TimeInterval = 1.0
     let blurViewTag = 999
@@ -382,6 +381,13 @@ class HomeViewController: BaseViewController {
             self?.isShowCategoryView = isShow
             
             if let category = model {
+                if category.isDefault {
+                    UserDefaults.standard.removeObject(forKey: CurrentSelectedCategoryIDKey)
+                } else { 
+                    UserDefaults.standard.set(category.id, forKey: CurrentSelectedCategoryIDKey)
+                }
+                UserDefaults.standard.synchronize()
+                
                 self?.currentSelectedCategory = category
                 self?.titleLabel.text = category.title
                 
@@ -433,7 +439,7 @@ class HomeViewController: BaseViewController {
                     
                     // 跳转到AppStore评价
                     let num = UserDefaults.standard.integer(forKey: ShowAlertInfoToAppStoreWriteReviewWithNumKey)
-                    if num != seasons.count, seasons.count % 3 == 0 {
+                    if num != seasons.count, seasons.count % SeasonNumberGotoComment == 0 {
                         self?.gotoAppStoreWriteReview()
                     }
                 })
@@ -447,7 +453,7 @@ class HomeViewController: BaseViewController {
                     
                     // 跳转到AppStore评价
                     let num = UserDefaults.standard.integer(forKey: ShowAlertInfoToAppStoreWriteReviewWithNumKey)
-                    if num != seasons.count, seasons.count % 3 == 0 {
+                    if num != seasons.count, seasons.count % SeasonNumberGotoComment == 0 {
                         self?.gotoAppStoreWriteReview()
                     }
                 })
@@ -481,7 +487,7 @@ class HomeViewController: BaseViewController {
         }
         alert.doneButton.setTitleColor(UIColor.pinkColor, for: UIControl.State.normal)
         alert.doneButton.setTitle("去评论", for: UIControl.State.normal)
-        alert.cancelButton.setTitle("残忍拒绝", for: UIControl.State.normal)
+        alert.cancelButton.setTitle("稍后", for: UIControl.State.normal)
         alert.showAlertView(inViewController: self, leftOrRightMargin: 35.0)
     }
     

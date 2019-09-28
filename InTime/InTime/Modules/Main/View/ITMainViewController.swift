@@ -12,46 +12,28 @@ import EventKitUI
 
 class ITMainViewController: BaseViewController {
     
-    lazy var headerView: UIView = {
-        let view = UIView()
+    lazy var headerView: ITMainHeaderInfoView = {
+        let view = ITMainHeaderInfoView()
+        view.didSelectedDate = { [weak self] (date) in
+            self?.currentSelectedDate = date.date
+            self?.reloadEventsInfo(date.date)
+        }
+        view.showSeasonViewBlock = { [weak self] in
+            self?.showSeasonView()
+        }
+        view.showDetailCalendarViewBlock = { [weak self] in
+            self?.view.setNeedsLayout()
+            self?.tableView.reloadData()
+        }
         return view
     }()
-    
-    lazy var calendarView: ITCalendarView = {
-        let calendarView = ITCalendarView.init({ [weak self] (date) in
-            self?.currentSelectedDate = date.date
-            self?.dateInfoView.updateContent(date)
-            self?.reloadEventsInfo(date.date)
-        })
-        return calendarView
-    }()
-    
-    lazy var dateInfoView: ITDateInfoView = {
-        let infoView = ITDateInfoView()
-        return infoView
-    }()
-    
-    lazy var showDetailButton: UIButton = {
-        let btn = UIButton()
-        btn.setImage(UIImage.init(named: "line"), for: .normal)
-        btn.addTarget(self, action: #selector(showDetailButtonAction), for: UIControl.Event.touchUpInside)
-        btn.alpha = 0.5
-        return btn
-    }()
-    
-    lazy var showSeasonButton: UIButton = {
-        let btn = UIButton()
-        btn.setImage(UIImage.init(named: "seasonView"), for: .normal)
-        btn.addTarget(self, action: #selector(showSeasonViewButtonAction), for: UIControl.Event.touchUpInside)
-        btn.alpha = 0.8
-        return btn
-    }()
-    
+     
     lazy var tableView: UITableView = {
         let tableView = UITableView.init(frame: CGRect.zero, style: .grouped)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor.tintColor
         tableView.register(ITMainCalendarInfoTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(ITMainCalendarInfoTableViewCell.self))
         tableView.register(ITMainSeasonTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(ITMainSeasonTableViewCell.self))
         return tableView
@@ -70,21 +52,21 @@ class ITMainViewController: BaseViewController {
         super.viewDidLoad()
         
         fd_prefersNavigationBarHidden = true
+        view.backgroundColor = UIColor.tintColor
         
         view.addSubview(tableView)
-        headerView.addSubview(dateInfoView)
-        headerView.addSubview(calendarView)
-        headerView.addSubview(showDetailButton)
-        headerView.addSubview(showSeasonButton)
         tableView.tableHeaderView = headerView
         
         loadSeasons()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadSeasons()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        loadSeasons()
-        
         calendarDataManager.checkCalendarAuthorization { [weak self] (granted) in
             DispatchQueue.main.async {
                 self?.granted = granted
@@ -96,20 +78,7 @@ class ITMainViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let margin: CGFloat = 15.0
-        let width: CGFloat = self.view.frame.width - margin * 2.0
-        let infoHeight: CGFloat = 80.0
-        let btnHeight: CGFloat = 20.0
-        
-        headerView.frame = CGRect.init(x: 0.0, y: 0.0, width: self.view.frame.width, height: infoHeight + calendarView.heightForView() + btnHeight)
-        dateInfoView.frame = CGRect.init(x: margin, y: 0.0, width: width, height: infoHeight)
-        calendarView.frame = CGRect.init(x: 0.0, y: dateInfoView.frame.maxY, width: self.view.frame.width, height: calendarView.heightForView())
-        showDetailButton.frame = CGRect.init(x: 0.0, y: calendarView.frame.maxY, width: self.view.frame.width, height: btnHeight)
-        
-        let showSeasonButtonWH: CGFloat = 30.0
-        let y: CGFloat = 30.0
-        showSeasonButton.frame = CGRect.init(x: headerView.frame.size.width - showSeasonButtonWH - 10.0, y: y, width: showSeasonButtonWH, height: showSeasonButtonWH)
-         
+        headerView.frame = CGRect.init(x: 0.0, y: 0.0, width: self.view.frame.width, height: headerView.heightForView())
         tableView.frame = CGRect.init(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.size.height)
     }
     
@@ -126,19 +95,20 @@ class ITMainViewController: BaseViewController {
     }
     
     func loadSeasons() {
-        HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
-            self?.seasons = seasons
-            self?.tableView.reloadData()
+        if let categoryId = UserDefaults.standard.string(forKey: CurrentSelectedCategoryIDKey) {
+            HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryId) { [weak self] (seasons) in
+                 self?.seasons = seasons
+                 self?.tableView.reloadData()
+            }
+        } else {
+            HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
+                self?.seasons = seasons
+                self?.tableView.reloadData()
+            }
         }
     }
     
-    @objc private func showDetailButtonAction() {
-        let isWeek = calendarView.calendarMode == .weekView
-        calendarView.calendarMode = isWeek ? .monthView : .weekView
-        
-        view.setNeedsLayout()
-        tableView.reloadData()
-    }
+    // MARK: - Actions
     
     private func showSystemCalendarAPP() {
         let timeSince = NSDate.timeIntervalSinceReferenceDate
@@ -151,9 +121,14 @@ class ITMainViewController: BaseViewController {
         }
     }
      
-    @objc private func showSeasonViewButtonAction() {
+    private func showSeasonView() {
         let seasonVC = HomeViewController()
         navigationController?.pushViewController(seasonVC, animated: true)
+    }
+    
+    private func showAddNewSeasonView() {
+        let addNewSeasonVC = AddNewSeasonViewController()
+        navigationController?.pushViewController(addNewSeasonVC, animated: true)
     }
     
     /*
@@ -223,18 +198,18 @@ extension ITMainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch section {
-        case 0:
-            return 10.0
-        case 1:
-            return 20.0
-        default:
-            return 0.001
-        }
+        return 0.001
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.001
+        switch section {
+        case 0:
+            return 20.0
+        case 1:
+            return 100.0
+        default:
+            return 0.001
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -251,7 +226,11 @@ extension ITMainViewController: UITableViewDelegate, UITableViewDataSource {
             showSystemCalendarAPP()
             break
         case 1:
-            showSeasonViewButtonAction()
+            if let seasons = seasons, seasons.count > 0 {
+                showSeasonView()
+            } else {
+                showAddNewSeasonView()
+            }
             break
         default:
             break

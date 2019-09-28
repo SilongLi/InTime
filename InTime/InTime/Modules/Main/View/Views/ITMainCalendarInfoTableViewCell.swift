@@ -11,15 +11,17 @@ import EventKit
 import EventKitUI
 
 class ITMainCalendarInfoTableViewCell: UITableViewCell {
+
+    static let ItemHeight: CGFloat = 25.0
      
     lazy var contentInfoView: UIView = {
         let view = UIView()
-        view.layer.shadowColor = UIColor.garyColor.cgColor
+        view.layer.shadowColor = UIColor.lightGrayColor.cgColor
         view.layer.shadowOffset = CGSize.init(width: 0.0, height: 5.0)
         view.layer.shadowOpacity = 0.3
-        view.layer.shadowRadius = 5.0
+        view.layer.shadowRadius = 3.0
         view.layer.cornerRadius = 5.0
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.darkGaryColor
         return view
     }()
     
@@ -33,10 +35,16 @@ class ITMainCalendarInfoTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15)
         label.textAlignment = .center
-        label.textColor = UIColor.garyColor
-        label.text = "暂无时节，立即添加"
+        label.textColor = UIColor.heightLightGrayNoPressColor
+        label.text = "暂无日程"
         label.isHidden = true
         return label
+    }()
+    
+    lazy var lineView: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.pinkColor
+        return line
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -46,6 +54,7 @@ class ITMainCalendarInfoTableViewCell: UITableViewCell {
         selectionStyle = .none
         
         contentView.addSubview(contentInfoView)
+        contentInfoView.addSubview(lineView)
         contentInfoView.addSubview(infoLabel)
     }
     
@@ -57,19 +66,24 @@ class ITMainCalendarInfoTableViewCell: UITableViewCell {
         super.layoutSubviews()
  
         let width = self.frame.size.width - Margin * 2.0
-        contentInfoView.frame = CGRect.init(x: Margin, y: 0.0, width: width, height: self.frame.size.height) 
-        iconView.frame = CGRect.init(x: Margin, y: 10.0, width: IconWH, height: IconWH)
+        contentInfoView.frame = CGRect.init(x: Margin, y: 0.0, width: width, height: self.frame.size.height)
+        lineView.frame = CGRect.init(x: 0.0, y: 2.0, width: 1.0, height: contentInfoView.frame.size.height - 4.0)
+        iconView.frame = CGRect.init(x: Margin, y: Margin, width: IconWH, height: IconWH)
         infoLabel.frame = contentInfoView.bounds;
     }
     
     class func heightForCell(_ events: [EKEvent]?) -> CGFloat {
-        var count = CGFloat(events?.count ?? 0)
-        count = count > 0 ? count : 1
-        return Margin * 2.0 + count * ItemHeight 
+        let count = CGFloat(events?.count ?? 0)
+        if count > 0 {
+            return Margin * 2.0 + count * ItemHeight
+        } else {
+            return Margin * 2.0 + IconWH
+        }
     }
     
     func updateContent(_ events: [EKEvent]?) {
         contentInfoView.removeAllSubviews()
+        contentInfoView.addSubview(lineView)
         contentInfoView.addSubview(iconView)
         contentInfoView.addSubview(infoLabel)
         infoLabel.isHidden = (events?.count ?? 0) > 0
@@ -86,7 +100,7 @@ class ITMainCalendarInfoTableViewCell: UITableViewCell {
             let label = UILabel()
             label.font = UIFont.systemFont(ofSize: 15)
             label.textAlignment = .left 
-            label.textColor = UIColor.tintColor
+            label.textColor = UIColor.heightLightGrayColor
             
             let title = dateString + event.title
             let attr = NSMutableAttributedString(string: title)
@@ -98,9 +112,9 @@ class ITMainCalendarInfoTableViewCell: UITableViewCell {
             contentInfoView.addSubview(label)
             
             let x = Margin + IconWH + 10.0
-            let y = Margin + index * ItemHeight
+            let y = Margin + index * ITMainCalendarInfoTableViewCell.ItemHeight
             let width = contentInfoView.frame.size.width - x - 10.0
-            label.frame = CGRect.init(x: x, y: y, width: width, height: ItemHeight)
+            label.frame = CGRect.init(x: x, y: y, width: width, height: ITMainCalendarInfoTableViewCell.ItemHeight)
             index += 1.0
         }
         

@@ -18,13 +18,20 @@ extension UIColor {
     open class var greenColor: UIColor { return UIColor.color(hex: "#00CC7A") }
     /// 粉色
     open class var pinkColor: UIColor { return UIColor.color(red: 233.0, green: 94.0, blue: 137.0) }
+    /// 天蓝
+    open class var blueColor: UIColor { return UIColor.color(red: 57.0, green: 152.0, blue: 247.0) }
     
+    /// 高亮灰色
+    open class var heightLightGrayColor: UIColor { return UIColor.color(hex: "#bfbfbf") }
+    /// 高亮灰色--不可交互
+    open class var heightLightGrayNoPressColor: UIColor { return UIColor.color(hex: "#8a8a8a") }
     /// 亮灰色
     open class var lightGrayColor: UIColor { return UIColor.color(hex: "#B3B3B3") }
     /// 灰色
     open class var garyColor: UIColor { return UIColor.color(hex: "#6F6F6F") }
-    /// 深灰
-    open class var darkGaryColor: UIColor { return UIColor.garyColor.withAlphaComponent(0.6) }
+    /// 深灰 
+    open class var darkGaryColor: UIColor { return UIColor.color(hex: "#2c2c2c") }
+    
     
     /// 淡白-cell的高亮色
     open class var cellHighlightedColor: UIColor { return UIColor.white.withAlphaComponent(0.3) }

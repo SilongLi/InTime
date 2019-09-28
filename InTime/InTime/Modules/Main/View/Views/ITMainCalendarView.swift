@@ -1,5 +1,5 @@
 //
-//  ITCalendarView.swift
+//  ITMainCalendarView.swift
 //  InTime
 //
 //  Created by lisilong on 2019/9/4.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ITCalendarView: UIView {
+class ITMainCalendarView: UIView {
 
     private static let menuViewHeight: CGFloat = 40.0
     private static let calendarViewWeekHeight: CGFloat = 50.0
@@ -73,25 +73,25 @@ class ITCalendarView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        menuView.frame = CGRect(x: 0, y: 0.0, width: self.frame.size.width, height: ITCalendarView.menuViewHeight)
-        calendarView.frame = CGRect(x: 0, y: ITCalendarView.menuViewHeight, width: self.frame.size.width, height: calendarViewHeight())
+        menuView.frame = CGRect(x: 0, y: 0.0, width: self.frame.size.width, height: ITMainCalendarView.menuViewHeight)
+        calendarView.frame = CGRect(x: 0, y: ITMainCalendarView.menuViewHeight, width: self.frame.size.width, height: calendarViewHeight())
         
         menuView.commitMenuViewUpdate()
-        calendarView.commitCalendarViewUpdate()
+        calendarView.commITMainCalendarViewUpdate()
     }
     
     private func calendarViewHeight() -> CGFloat {
-        return calendarView.calendarMode == .monthView ? ITCalendarView.calendarViewMonthHeight : ITCalendarView.calendarViewWeekHeight
+        return calendarView.calendarMode == .monthView ? ITMainCalendarView.calendarViewMonthHeight : ITMainCalendarView.calendarViewWeekHeight
     }
 
     func heightForView() -> CGFloat { 
-        return ITCalendarView.menuViewHeight + calendarViewHeight()
+        return ITMainCalendarView.menuViewHeight + calendarViewHeight()
     }
 }
 
 // MARK: - CVCalendarViewDelegate & CVCalendarMenuViewDelegate
 
-extension ITCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
+extension ITMainCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     
     // MARK: Required methods
     
@@ -203,7 +203,7 @@ extension ITCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
 
 // MARK: - CVCalendarViewAppearanceDelegate
 
-extension ITCalendarView: CVCalendarViewAppearanceDelegate {
+extension ITMainCalendarView: CVCalendarViewAppearanceDelegate {
     
     func dayLabelWeekdayDisabledColor() -> UIColor {
         return UIColor.greenColor
@@ -256,7 +256,7 @@ extension ITCalendarView: CVCalendarViewAppearanceDelegate {
 
 // MARK: - Convenience API Demo
 
-extension ITCalendarView {
+extension ITMainCalendarView {
     func toggleMonthViewWithMonthOffset(offset: Int) {
         var components = Manager.componentsForDate(Date(), calendar: currentCalendar) // from today
         

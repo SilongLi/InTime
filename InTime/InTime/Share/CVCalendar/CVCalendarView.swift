@@ -233,7 +233,7 @@ public final class CVCalendarView: UIView {
 // MARK: - Frames update
 
 extension CVCalendarView {
-    public func commitCalendarViewUpdate() {
+    public func commITMainCalendarViewUpdate() {
         if currentOrientation != UIDevice.current.orientation {
             validated = false
             currentOrientation = UIDevice.current.orientation

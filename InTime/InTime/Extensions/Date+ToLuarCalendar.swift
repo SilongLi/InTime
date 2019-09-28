@@ -36,6 +36,31 @@ extension Date {
         let timeStr: String = (self as NSDate).string(withFormat: "HH:mm")
         return "\(solarDateStr) \(timeStr)"
     }
+     
+    /// 公历转农历，只有年月日
+    func solarToLunarOnlyYMD(style: DateFormatter.Style = .long) -> String {
+        let solarCalendar   = Calendar(identifier: .gregorian)
+        var components      = DateComponents()
+        components.year     = (self as NSDate).year
+        components.month    = (self as NSDate).month
+        components.day      = (self as NSDate).day
+        components.hour     = 0
+        components.minute   = 0
+        components.second   = 0
+        components.timeZone = TimeZone.init(secondsFromGMT: 60 * 60 * 8)
+        
+        guard let solarDate = solarCalendar.date(from: components) else {
+            return ""
+        }
+        let lunarCalendar   = Calendar.init(identifier: .chinese)
+        let formatter       = DateFormatter()
+        formatter.locale    = Locale(identifier: "zh_CN")
+        formatter.dateStyle = style
+        formatter.calendar  = lunarCalendar
+        
+        let solarDateStr = formatter.string(from: solarDate)
+        return solarDateStr
+    }
     
     func zero() -> Date {
         let calendar   = Calendar(identifier: .chinese)
