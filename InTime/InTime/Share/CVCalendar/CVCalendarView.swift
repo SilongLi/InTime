@@ -57,8 +57,8 @@ public final class CVCalendarView: UIView {
         touchController = TouchController(calendarView: self)
         coordinator = Coordinator(calendarView: self)
         animator = Animator(calendarView: self)
-        loadCalendarMode()
         changeMode(calendarMode)
+        loadCalendarMode()
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -233,7 +233,7 @@ public final class CVCalendarView: UIView {
 // MARK: - Frames update
 
 extension CVCalendarView {
-    public func commITMainCalendarViewUpdate() {
+    public func commitMainCalendarViewUpdate() {
         if currentOrientation != UIDevice.current.orientation {
             validated = false
             currentOrientation = UIDevice.current.orientation
@@ -392,6 +392,7 @@ private extension CVCalendarView {
             }
 
             if let view = contentController?.scrollView {
+                view.tag = 999
                 addSubview(view)
             }
         }

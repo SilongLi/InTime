@@ -22,6 +22,8 @@ public let NotificationUpdateSeasonCategory: Notification.Name = Notification.Na
 
 // MARK: - 字体
 public let FontName = "KohinoorBangla-Semibold"
+public let TimeNumberFontName = "DBLCDTempBlack"
+public let TimeNumberFontSize: CGFloat = 14 
 
 
 // MARK: - UserDefault

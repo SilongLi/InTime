@@ -14,7 +14,7 @@ class ITMainViewController: BaseViewController {
     
     lazy var headerView: ITMainHeaderInfoView = {
         let view = ITMainHeaderInfoView()
-        view.didSelectedDate = { [weak self] (date) in
+        view.didSelectedDateBlock = { [weak self] (date) in
             self?.currentSelectedDate = date.date
             self?.reloadEventsInfo(date.date)
         }
@@ -206,7 +206,7 @@ extension ITMainViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 20.0
         case 1:
-            return 100.0
+            return 50.0
         default:
             return 0.001
         }

@@ -17,7 +17,7 @@ class ITMainHeaderInfoView: UIView {
     lazy var calendarView: ITMainCalendarView = {
         let calendarView = ITMainCalendarView.init({ [weak self] (dateInfo) in
             self?.dateInfoView.updateContent(dateInfo)
-            if let block = self?.didSelectedDate {
+            if let block = self?.didSelectedDateBlock {
                 block(dateInfo)
             }
         })
@@ -45,7 +45,7 @@ class ITMainHeaderInfoView: UIView {
         return btn
     }()
     
-    var didSelectedDate: ((_ date: CVDate) -> ())?
+    var didSelectedDateBlock: ((_ date: CVDate) -> ())?
     var showDetailCalendarViewBlock: (() -> ())?
     var showSeasonViewBlock: (() -> ())?
      
@@ -69,12 +69,13 @@ class ITMainHeaderInfoView: UIView {
         let width: CGFloat = size.width - margin * 2.0
          
         dateInfoView.frame = CGRect.init(x: margin, y: 0.0, width: width, height: infoHeight)
-        calendarView.frame = CGRect.init(x: 0.0, y: dateInfoView.frame.maxY, width: size.width, height: calendarView.heightForView())
+        calendarView.frame = CGRect.init(x: 0.0, y: dateInfoView.frame.maxY + 10.0, width: size.width, height: calendarView.heightForView())
         showDetailButton.frame = CGRect.init(x: 0.0, y: calendarView.frame.maxY, width: size.width, height: btnHeight)
         
         let showSeasonButtonWH: CGFloat = 30.0
-        let y: CGFloat = 30.0
-        showSeasonButton.frame = CGRect.init(x: size.width - showSeasonButtonWH - 10.0, y: y, width: showSeasonButtonWH, height: showSeasonButtonWH)
+        let y: CGFloat = 30
+        showSeasonButton.frame = CGRect.init(x: size.width - showSeasonButtonWH - margin, y: y, width: showSeasonButtonWH, height: showSeasonButtonWH)
+        showSeasonButton.center.y = dateInfoView.center.y
     }
     
     // MARK: - Public Methods

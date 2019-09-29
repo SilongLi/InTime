@@ -15,7 +15,7 @@ class ITMainSeasonTableViewCell: UITableViewCell {
     lazy var contentInfoView: UIView = {
         let view = UIView()
         view.layer.shadowColor = UIColor.lightGrayColor.cgColor
-        view.layer.shadowOffset = CGSize.init(width: 0.0, height: 5.0)
+        view.layer.shadowOffset = CGSize.init(width: 0.0, height: 3.0)
         view.layer.shadowOpacity = 0.3
         view.layer.shadowRadius = 3.0
         view.layer.cornerRadius = 5.0

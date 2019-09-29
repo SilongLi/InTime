@@ -12,7 +12,7 @@ class ITMainDateInfoView: UIView {
     
     lazy var dayLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.init(name: "DBLCDTempBlack", size: 55)
+        label.font = UIFont.init(name: TimeNumberFontName, size: 55)
         label.textColor = UIColor.heightLightGrayColor
         label.textAlignment = .center
         return label
@@ -29,7 +29,7 @@ class ITMainDateInfoView: UIView {
      
     lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.init(name: "DBLCDTempBlack", size: 26)
+        label.font = UIFont.init(name: TimeNumberFontName, size: 26)
         label.textColor = UIColor.heightLightGrayNoPressColor
         label.textAlignment = .center
         return label
@@ -38,7 +38,7 @@ class ITMainDateInfoView: UIView {
     lazy var dateInfoLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
-        label.font = UIFont.init(name: "DBLCDTempBlack", size: 13)
+        label.font = UIFont.init(name: TimeNumberFontName, size: 13)
         label.textColor = UIColor.heightLightGrayNoPressColor
         label.textAlignment = .center
         return label

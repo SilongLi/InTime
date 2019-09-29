@@ -3,7 +3,7 @@
 //  CVCalendar
 //
 //  Created by E. Mozharovsky on 12/26/14.
-//  Copyright (c) 2014 GameApp. All rights reserved.
+//  Copyright (c) 1614 GameApp. All rights reserved.
 //
 
 import UIKit
@@ -20,32 +20,32 @@ public final class CVCalendarViewAppearance: NSObject {
 
     /// Default text options.
     public var dayLabelPresentWeekdayInitallyBold: Bool? = true
-    public var dayLabelWeekdayFont: UIFont? = UIFont(name: "Avenir", size: 18)
-    public var dayLabelPresentWeekdayFont: UIFont? = UIFont(name: "Avenir", size: 18)
-    public var dayLabelPresentWeekdayBoldFont: UIFont? = UIFont(name: "Avenir-Heavy", size: 18)
+    public var dayLabelWeekdayFont: UIFont? = UIFont(name: TimeNumberFontName, size: TimeNumberFontSize) // UIFont(name: TimeNumberFontName, size: 18)
+    public var dayLabelPresentWeekdayFont: UIFont? = UIFont(name: TimeNumberFontName, size: TimeNumberFontSize)
+    public var dayLabelPresentWeekdayBoldFont: UIFont? = UIFont(name: TimeNumberFontName, size: TimeNumberFontSize)
     public var dayLabelPresentWeekdayHighlightedFont: UIFont? =
-        UIFont(name: "Avenir-Heavy", size: 18)
-    public var dayLabelPresentWeekdaySelectedFont: UIFont? = UIFont(name: "Avenir-Heavy", size: 18)
-    public var dayLabelWeekdayHighlightedFont: UIFont? = UIFont(name: "Avenir-Heavy", size: 18)
-    public var dayLabelWeekdaySelectedFont: UIFont? = UIFont(name: "Avenir-Heavy", size: 18)
+        UIFont(name: TimeNumberFontName, size: TimeNumberFontSize)
+    public var dayLabelPresentWeekdaySelectedFont: UIFont? = UIFont(name: TimeNumberFontName, size: TimeNumberFontSize)
+    public var dayLabelWeekdayHighlightedFont: UIFont? = UIFont(name: TimeNumberFontName, size: TimeNumberFontSize)
+    public var dayLabelWeekdaySelectedFont: UIFont? = UIFont(name: TimeNumberFontName, size: TimeNumberFontSize)
 
     /// Default text color.
-    public var dayLabelWeekdayDisabledColor: UIColor? = .black//.gray
-    public var dayLabelWeekdayInTextColor: UIColor? = .black
-    public var dayLabelWeekdayOutTextColor: UIColor? = .black//.gray
-    public var dayLabelWeekdayHighlightedTextColor: UIColor? = .white
-    public var dayLabelWeekdaySelectedTextColor: UIColor? = .white
+    public var dayLabelWeekdayDisabledColor: UIColor? = UIColor.heightLightGrayNoPressColor
+    public var dayLabelWeekdayInTextColor: UIColor? = .heightLightGrayNoPressColor
+    public var dayLabelWeekdayOutTextColor: UIColor? = .heightLightGrayNoPressColor
+    public var dayLabelWeekdayHighlightedTextColor: UIColor? = .heightLightGrayNoPressColor
+    public var dayLabelWeekdaySelectedTextColor: UIColor? = .heightLightGrayNoPressColor
     public var dayLabelPresentWeekdayTextColor: UIColor? = .red
-    public var dayLabelPresentWeekdayHighlightedTextColor: UIColor? = .white
-    public var dayLabelPresentWeekdaySelectedTextColor: UIColor? = .white
+    public var dayLabelPresentWeekdayHighlightedTextColor: UIColor? = .heightLightGrayNoPressColor
+    public var dayLabelPresentWeekdaySelectedTextColor: UIColor? = .heightLightGrayNoPressColor
 
     /// Default text size.
-    public var dayLabelWeekdayTextSize: CGFloat? = 18
-    public var dayLabelWeekdayHighlightedTextSize: CGFloat? = 20
-    public var dayLabelWeekdaySelectedTextSize: CGFloat? = 20
-    public var dayLabelPresentWeekdayTextSize: CGFloat? = 18
-    public var dayLabelPresentWeekdayHighlightedTextSize: CGFloat? = 20
-    public var dayLabelPresentWeekdaySelectedTextSize: CGFloat? = 20
+    public var dayLabelWeekdayTextSize: CGFloat? = TimeNumberFontSize
+    public var dayLabelWeekdayHighlightedTextSize: CGFloat? = 16
+    public var dayLabelWeekdaySelectedTextSize: CGFloat? = 16
+    public var dayLabelPresentWeekdayTextSize: CGFloat? = TimeNumberFontSize
+    public var dayLabelPresentWeekdayHighlightedTextSize: CGFloat? = 16
+    public var dayLabelPresentWeekdaySelectedTextSize: CGFloat? = 16
 
     /// Default highlighted state background & alpha.
     public var dayLabelWeekdayHighlightedBackgroundColor: UIColor? = .colorFromCode(0x34AADC)

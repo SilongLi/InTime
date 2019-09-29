@@ -622,6 +622,20 @@ extension CVCalendarDayView {
             setSelectedWithType(selectionType)
             isHighlighted = true
         }
+        
+        if let appearance = calendarView.appearance {
+            let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
+            let weekDay = self.date?.weekDay(calendar: calendar) ?? .monday // Monday is default
+            let status: CVStatus = {
+                if isDisabled { return .disabled }
+                else if isOut { return .out }
+                return .in
+            }()
+            let present: CVPresent = isCurrentDay ? .present : .not
+            
+            dayLabel?.textColor = appearance.delegate?.dayLabelColor?(by: weekDay, status: status, present: present) ?? UIColor.heightLightGrayNoPressColor
+            dayLabel?.font = appearance.delegate?.dayLabelFont?(by: weekDay, status: status, present: present) ?? UIFont(name: TimeNumberFontName, size: TimeNumberFontSize) 
+        }
     }
 }
 

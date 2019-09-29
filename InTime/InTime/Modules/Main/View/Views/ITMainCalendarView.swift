@@ -42,11 +42,11 @@ class ITMainCalendarView: UIView {
         }
     }
     
-    var didSelectedDate: ((_ date: CVDate) -> ())?
+    var didSelectedDateBlock: ((_ date: CVDate) -> ())?
      
-    init(_ didSelectedDate: ((_ date: CVDate) -> ())?) {
+    init(_ didSelectedDateBlock: ((_ date: CVDate) -> ())?) {
         super.init(frame: CGRect.zero)
-        self.didSelectedDate = didSelectedDate
+        self.didSelectedDateBlock = didSelectedDateBlock
         setupSubviews()
     }
     
@@ -77,7 +77,7 @@ class ITMainCalendarView: UIView {
         calendarView.frame = CGRect(x: 0, y: ITMainCalendarView.menuViewHeight, width: self.frame.size.width, height: calendarViewHeight())
         
         menuView.commitMenuViewUpdate()
-        calendarView.commITMainCalendarViewUpdate()
+        calendarView.commitMainCalendarViewUpdate()
     }
     
     private func calendarViewHeight() -> CGFloat {
@@ -94,7 +94,6 @@ class ITMainCalendarView: UIView {
 extension ITMainCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     
     // MARK: Required methods
-    
     func presentationMode() -> CalendarMode {
         return .weekView
     }
@@ -107,10 +106,6 @@ extension ITMainCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate
     
     func calendar() -> Calendar? {
         return currentCalendar
-    }
-    
-    func dayOfWeekTextColor(by weekday: Weekday) -> UIColor {
-        return UIColor.white
     }
     
     func shouldShowWeekdaysOut() -> Bool {
@@ -135,7 +130,7 @@ extension ITMainCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate
     }
     
     func didSelectDayView(_ dayView: CVCalendarDayView, animationDidFinish: Bool) {
-        if let block = self.didSelectedDate {
+        if let block = self.didSelectedDateBlock {
             block(dayView.date)
         }
     }
@@ -165,7 +160,7 @@ extension ITMainCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate
     
     func preliminaryView(viewOnDayView dayView: DayView) -> UIView {
         let circleView = CVAuxiliaryView(dayView: dayView, rect: dayView.frame, shape: CVShape.circle)
-        circleView.fillColor = UIColor.lightGrayColor
+        circleView.fillColor = UIColor.heightLightGrayColor
         return circleView
     }
     
@@ -180,10 +175,6 @@ extension ITMainCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate
         return true
     }
     
-    func dayOfWeekTextColor() -> UIColor { return .white }
-    
-    func dayOfWeekBackGroundColor() -> UIColor { return UIColor.tintColor }
-    
     func disableScrollingBeforeDate() -> Date { return Date.init(timeIntervalSince1970: 0) }
     
     func maxSelectableRange() -> Int { return 1 }
@@ -193,11 +184,26 @@ extension ITMainCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate
     func latestSelectableDate() -> Date {
         var dayComponents = DateComponents()
         dayComponents.day = 36500
-        let calendar = Calendar(identifier: .gregorian)
+        let calendar = Calendar(identifier: .chinese)
         if let lastDate = calendar.date(byAdding: dayComponents, to: Date()) {
             return lastDate
         }
         return Date()
+    }
+    
+    func dayOfWeekTextColor(by weekday: Weekday) -> UIColor {
+        if weekday == .sunday || weekday == .saturday {
+            return UIColor.heightLightGrayColor
+        }
+        return UIColor.heightLightGrayNoPressColor
+    }
+    
+    func dayOfWeekFont() -> UIFont {
+        return UIFont(name: TimeNumberFontName, size: TimeNumberFontSize) ?? UIFont.systemFont(ofSize: TimeNumberFontSize)
+    }
+     
+    func dayOfWeekBackGroundColor() -> UIColor {
+        return UIColor.heightLightGrayNoPressColor.withAlphaComponent(0.1)
     }
 }
 
@@ -218,21 +224,21 @@ extension ITMainCalendarView: CVCalendarViewAppearanceDelegate {
     }
     
     func dayLabelFont(by weekDay: Weekday, status: CVStatus, present: CVPresent) -> UIFont {
-        return UIFont.systemFont(ofSize: 14)
+        return UIFont(name: TimeNumberFontName, size: TimeNumberFontSize) ?? UIFont.systemFont(ofSize: TimeNumberFontSize)
     }
     
     func dayLabelColor(by weekDay: Weekday, status: CVStatus, present: CVPresent) -> UIColor? {
         switch (weekDay, status, present) {
         case (_, .selected, _), (_, .highlighted, _):
             return UIColor.white
-        case (.sunday, .in, _), (.saturday, .in, _):
-            return UIColor.pinkColor
-        case (.sunday, _, _):
-            return UIColor.black
+        case (.sunday, .in, .present), (.saturday, .in, .present):
+            return UIColor.white
+        case (.sunday, _, _), (.saturday, _, _):
+            return UIColor.heightLightGrayColor
         case (_, .in, _):
-            return UIColor.black
+            return UIColor.heightLightGrayNoPressColor
         default:
-            return UIColor.black
+            return UIColor.heightLightGrayNoPressColor
         }
     }
     
@@ -248,7 +254,7 @@ extension ITMainCalendarView: CVCalendarViewAppearanceDelegate {
     }
     
     func topMarkerColor() -> UIColor {
-        return UIColor.spaceLineColor
+        return UIColor.clear
     }
 }
 
@@ -258,35 +264,25 @@ extension ITMainCalendarView: CVCalendarViewAppearanceDelegate {
 
 extension ITMainCalendarView {
     func toggleMonthViewWithMonthOffset(offset: Int) {
-        var components = Manager.componentsForDate(Date(), calendar: currentCalendar) // from today
-        
+         // from today
+        var components = Manager.componentsForDate(Date(), calendar: currentCalendar)
         components.month! += offset
-        
-        let resultDate = currentCalendar.date(from: components)!
-        
-        self.calendarView.toggleViewWithDate(resultDate)
+        if let resultDate = currentCalendar.date(from: components) {
+            self.calendarView.toggleViewWithDate(resultDate)
+        }
     }
     
     
     func didShowNextMonthView(_ date: Date) {
-        let components = Manager.componentsForDate(date, calendar: currentCalendar) // from today
-        
-        print("Showing Month: \(components.month!)")
     }
-    
-    
+     
     func didShowPreviousMonthView(_ date: Date) {
-        let components = Manager.componentsForDate(date, calendar: currentCalendar) // from today
-        
-        print("Showing Month: \(components.month!)")
     }
     
     func didShowNextWeekView(from startDayView: DayView, to endDayView: DayView) {
-        print("Showing Week: from \(startDayView.date.day) to \(endDayView.date.day)")
     }
     
     func didShowPreviousWeekView(from startDayView: DayView, to endDayView: DayView) {
-        print("Showing Week: from \(startDayView.date.day) to \(endDayView.date.day)")
     }
     
 }
