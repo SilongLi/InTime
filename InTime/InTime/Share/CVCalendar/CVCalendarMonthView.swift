@@ -32,7 +32,7 @@ public final class CVCalendarMonthView: UIView {
     // MARK: - Public properties
 
     public weak var calendarView: CVCalendarView!
-    public var date: Foundation.Date = Date()
+    public var date: Date = Date()
     public var numberOfWeeks: Int = 0
     public var weekViews: [CVCalendarWeekView]!
 
@@ -49,7 +49,7 @@ public final class CVCalendarMonthView: UIView {
 
     // MARK: - Initialization
 
-    public init(calendarView: CVCalendarView, date: Foundation.Date) {
+    public init(calendarView: CVCalendarView, date: Date) {
         super.init(frame: CGRect.zero)
         self.calendarView = calendarView
         self.date = date
@@ -83,7 +83,7 @@ extension CVCalendarMonthView {
             self.numberOfWeeks = calendarManager?.monthDateRange(self.date).countOfWeeks ?? 0
             self.weeksIn = calendarManager?.weeksWithWeekdaysForMonthDate(self.date).weeksIn
             self.weeksOut = calendarManager?.weeksWithWeekdaysForMonthDate(self.date).weeksOut
-            self.currentDay = Manager.dateRange(Foundation.Date(), calendar: calendar).day
+            self.currentDay = Manager.dateRange(Date(), calendar: calendar).day
             }, collapsingOnNil: true, withObjects: date as AnyObject?)
     }
 }

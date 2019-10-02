@@ -123,7 +123,7 @@ public final class CVCalendarDayView: UIView {
         
         if day == monthView.currentDay && !isOut {
             let dateRange = Manager.dateRange(monthView.date, calendar: calendar)
-            let currentDateRange = Manager.dateRange(Foundation.Date(), calendar: calendar)
+            let currentDateRange = Manager.dateRange(Date(), calendar: calendar)
             
             if dateRange.month == currentDateRange.month &&
                 dateRange.year == currentDateRange.year {

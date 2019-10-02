@@ -17,7 +17,7 @@ public final class CVCalendarMonthContentViewController: CVCalendarContentViewCo
         initialLoad(presentedMonthView.date)
     }
 
-    public init(calendarView: CalendarView, frame: CGRect, presentedDate: Foundation.Date) {
+    public init(calendarView: CalendarView, frame: CGRect, presentedDate: Date) {
         monthViews = [Identifier : MonthView]()
         super.init(calendarView: calendarView, frame: frame)
         presentedMonthView = MonthView(calendarView: calendarView, date: presentedDate)
@@ -31,7 +31,7 @@ public final class CVCalendarMonthContentViewController: CVCalendarContentViewCo
 
     // MARK: - Load & Reload
 
-    public func initialLoad(_ date: Foundation.Date) {
+    public func initialLoad(_ date: Date) {
         insertMonthView(getPreviousMonth(date), withIdentifier: previous)
         insertMonthView(presentedMonthView, withIdentifier: presented)
         insertMonthView(getFollowingMonth(date), withIdentifier: following)
@@ -251,7 +251,7 @@ public final class CVCalendarMonthContentViewController: CVCalendarContentViewCo
     }
 
     fileprivate var togglingBlocked = false
-    public override func togglePresentedDate(_ date: Foundation.Date) {
+    public override func togglePresentedDate(_ date: Date) {
         let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
 
         let presentedDate = CVDate(date: date, calendar: calendar)
@@ -311,7 +311,7 @@ public final class CVCalendarMonthContentViewController: CVCalendarContentViewCo
 // MARK: - Month management
 
 extension CVCalendarMonthContentViewController {
-    public func getFollowingMonth(_ date: Foundation.Date) -> MonthView {
+    public func getFollowingMonth(_ date: Date) -> MonthView {
         let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
         let firstDate = calendarView.manager.monthDateRange(date).monthStartDate
         var components = Manager.componentsForDate(firstDate, calendar: calendar)
@@ -327,7 +327,7 @@ extension CVCalendarMonthContentViewController {
         return monthView
     }
 
-    public func getPreviousMonth(_ date: Foundation.Date) -> MonthView {
+    public func getPreviousMonth(_ date: Date) -> MonthView {
         let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
         let firstDate: Date = calendarView.manager?.monthDateRange(date).monthStartDate ?? Date()
         var components = Manager.componentsForDate(firstDate, calendar: calendar)

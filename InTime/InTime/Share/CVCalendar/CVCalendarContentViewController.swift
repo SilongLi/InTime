@@ -42,7 +42,7 @@ open class CVCalendarContentViewController: UIViewController {
     public init(calendarView: CalendarView, frame: CGRect) {
         self.calendarView = calendarView
         scrollView = UIScrollView(frame: frame)
-        presentedMonthView = MonthView(calendarView: calendarView, date: calendarView.presentedDate?.convertedDate() ?? Foundation.Date())
+        presentedMonthView = MonthView(calendarView: calendarView, date: calendarView.presentedDate?.convertedDate() ?? Date())
         presentedMonthView.updateAppearance(frame)
 
         super.init(nibName: nil, bundle: nil)
@@ -129,7 +129,7 @@ extension CVCalendarContentViewController: UIScrollViewDelegate { }
 extension CVCalendarContentViewController {
     @objc public func performedDayViewSelection(_ dayView: DayView) { }
 
-    @objc public func togglePresentedDate(_ date: Foundation.Date) { }
+    @objc public func togglePresentedDate(_ date: Date) { }
 
     @objc public func presentNextView(_ view: UIView?) { }
 
@@ -157,7 +157,7 @@ extension CVCalendarContentViewController {
 // MARK: - Date management
 
 extension CVCalendarContentViewController {
-    public func dateBeforeDate(_ date: Foundation.Date) -> Foundation.Date {
+    public func dateBeforeDate(_ date: Date) -> Date {
         let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
         var components = Manager.componentsForDate(date, calendar: calendar)
 
@@ -168,7 +168,7 @@ extension CVCalendarContentViewController {
         return dateBefore
     }
 
-    public func dateAfterDate(_ date: Foundation.Date) -> Foundation.Date {
+    public func dateAfterDate(_ date: Date) -> Date {
         let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
         var components = Manager.componentsForDate(date, calendar: calendar)
 

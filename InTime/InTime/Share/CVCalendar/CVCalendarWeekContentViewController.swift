@@ -16,10 +16,10 @@ public final class CVCalendarWeekContentViewController: CVCalendarContentViewCon
         weekViews = [Identifier : WeekView]()
         monthViews = [Identifier : MonthView]()
         super.init(calendarView: calendarView, frame: frame)
-        initialLoad(Foundation.Date())
+        initialLoad(Date())
     }
 
-    public init(calendarView: CalendarView, frame: CGRect, presentedDate: Foundation.Date) {
+    public init(calendarView: CalendarView, frame: CGRect, presentedDate: Date) {
         weekViews = [Identifier : WeekView]()
         monthViews = [Identifier : MonthView]()
         super.init(calendarView: calendarView, frame: frame)
@@ -34,7 +34,7 @@ public final class CVCalendarWeekContentViewController: CVCalendarContentViewCon
 
     // MARK: - Load & Reload
 
-    public func initialLoad(_ date: Foundation.Date) {
+    public func initialLoad(_ date: Date) {
         monthViews[previous] = getPreviousMonth(presentedMonthView.date)
         monthViews[presented] = presentedMonthView
         monthViews[following] = getFollowingMonth(presentedMonthView.date)
@@ -250,7 +250,7 @@ public final class CVCalendarWeekContentViewController: CVCalendarContentViewCon
     }
 
     fileprivate var togglingBlocked = false
-    public override func togglePresentedDate(_ date: Foundation.Date) {
+    public override func togglePresentedDate(_ date: Date) {
         let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
         
         let presentedDate = CVDate(date: date, calendar: calendar)
@@ -420,7 +420,7 @@ extension CVCalendarWeekContentViewController {
 // MARK: - MonthView management
 
 extension CVCalendarWeekContentViewController {
-    public func getFollowingMonth(_ date: Foundation.Date) -> MonthView {
+    public func getFollowingMonth(_ date: Date) -> MonthView {
         let calendarManager = calendarView.manager
         let firstDate = calendarManager?.monthDateRange(date).monthStartDate
         let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
@@ -438,7 +438,7 @@ extension CVCalendarWeekContentViewController {
         return monthView
     }
 
-    public func getPreviousMonth(_ date: Foundation.Date) -> MonthView {
+    public func getPreviousMonth(_ date: Date) -> MonthView {
         let firstDate = calendarView.manager.monthDateRange(date).monthStartDate
         let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
         var components = Manager.componentsForDate(firstDate, calendar: calendar)
@@ -499,7 +499,7 @@ extension CVCalendarWeekContentViewController {
                 if let selected = coordinator?.selectedDayView ,
                     !matchedWeeks(selected.date, presentedDate) &&
                         calendarView.shouldAutoSelectDayOnWeekChange {
-                    let current = CVDate(date: Foundation.Date(), calendar: calendar)
+                    let current = CVDate(date: Date(), calendar: calendar)
 
                             if matchedWeeks(current, presentedDate) {
                                 selectDayViewWithDay(current.day, inWeekView: presentedWeekView)

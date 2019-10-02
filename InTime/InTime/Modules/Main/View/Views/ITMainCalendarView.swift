@@ -26,12 +26,7 @@ class ITMainCalendarView: UIView {
     }()
     
     private lazy var currentCalendar: Calendar = {
-        let timeZoneBias = 480 // (UTC+08:00)
-        var currentCalendar = Calendar(identifier: .gregorian)
-        currentCalendar.locale = Locale(identifier: "fr_FR")
-        if let timeZone = TimeZone(secondsFromGMT: -timeZoneBias * 60) {
-            currentCalendar.timeZone = timeZone
-        }
+        var currentCalendar = Calendar.current
         return currentCalendar
     }()
     

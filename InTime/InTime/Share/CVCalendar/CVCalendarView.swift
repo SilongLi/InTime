@@ -314,12 +314,12 @@ extension CVCalendarView {
         contentController?.updateDayViews(shouldShow: shouldShow)
     }
 
-    public func toggleViewWithDate(_ date: Foundation.Date) {
+    public func toggleViewWithDate(_ date: Date) {
         contentController?.togglePresentedDate(date)
     }
 
     public func toggleCurrentDayView() {
-        contentController?.togglePresentedDate(Foundation.Date())
+        contentController?.togglePresentedDate(Date())
     }
 
     public func loadNextView() {
