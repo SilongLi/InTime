@@ -10,25 +10,25 @@
 
 class SeasonTextManager {
 
-    static func handleSeasonInfo(_ season: SeasonModel, isNeedWeekDayInfo: Bool = true) -> (String, date: NSDate, dateInfo: String, isLater: Bool) {
+    static func handleSeasonInfo(_ season: SeasonModel, isNeedWeekDayInfo: Bool = true, _ currentDate: Date = Date()) -> (String, date: NSDate, dateInfo: String, isLater: Bool) {
         var timeIntervalString = ""
         var dateInfo = ""
         // 闹铃日期是否在当前时间之后
         var isLater = true
         
         guard var date = NSDate(season.startDate.gregoriandDataString, withFormat: StartSeasonDateFormat) else {
-            return (timeIntervalString, NSDate(), dateInfo, isLater)
+            return (timeIntervalString, currentDate as NSDate, dateInfo, isLater)
         }
         // 倒计时显示类型
         let type: DateUnitType = DateUnitType(rawValue: season.unitModel.info) ?? DateUnitType.dayTime
-        isLater = date.isLaterThanDate(Date())
+        isLater = date.isLaterThanDate(currentDate)
         
         switch season.repeatRemindType {
         case .year:
             if isLater == false {
-                var yearCount = (NSDate()).year - date.year
-                if (NSDate().month > date.month) ||
-                    (NSDate().month == date.month && NSDate().day > date.day) {
+                var yearCount = (currentDate as NSDate).year - date.year
+                if ((currentDate as NSDate).month > date.month) ||
+                    ((currentDate as NSDate).month == date.month && (currentDate as NSDate).day > date.day) {
                     yearCount += 1
                 }
                 date = isLater ? date : date.addingYears(yearCount) as NSDate
@@ -44,7 +44,7 @@ class SeasonTextManager {
             
         case .week:
             if isLater == false {
-                let count = date.distanceInDays(to: Date())
+                let count = date.distanceInDays(to: currentDate)
                 date = date.addingDays(count + (7 - Int(count % 7))) as NSDate
             }
             
@@ -53,7 +53,7 @@ class SeasonTextManager {
             break
         case .workDay:
             if isLater == false {
-                let count = date.distanceInDays(to: Date())
+                let count = date.distanceInDays(to: currentDate)
                 date = date.addingDays(count + 1) as NSDate
             }
             let dateStr: String = date.string(withFormat: StartSeasonDateHMFormat)
@@ -61,14 +61,13 @@ class SeasonTextManager {
             
         case .day:
             if isLater == false {
-                let count = date.distanceInDays(to: Date())
+                let count = date.distanceInDays(to: currentDate)
                 date = date.addingDays(count + 1) as NSDate
             }
             let dateStr: String = date.string(withFormat: StartSeasonDateHMFormat)
             dateInfo = isNeedWeekDayInfo ? "\(dateStr) \((date as Date).weekDay())" : dateStr
             
         default: // 默认
-            
             var dateStr = ""
             if season.startDate.isGregorian {
                 dateStr = season.startDate.gregoriandDataString
@@ -83,8 +82,8 @@ class SeasonTextManager {
             }
         }
         
-        isLater = date.isLaterThanDate(Date())
-        timeIntervalString = (date as Date).convertToTimeAndUnitString(type: type)
+        isLater = date.isLaterThanDate(currentDate)
+        timeIntervalString = (date as Date).convertToTimeAndUnitString(type: type, currentDate)
         return (timeIntervalString, date, dateInfo, isLater)
     }
     

@@ -551,29 +551,27 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 }
 
 /// 计算两个日期的时间差，秒
-- (NSString *)convertToSecond {
-    NSDate *currentDate = [[NSDate alloc] init];
+- (NSString *)convertToSecond:(NSDate *)date {
     NSCalendarUnit unit = NSCalendarUnitSecond;
     NSDateComponents *components;
-    if ([self isEarlierThanDate:currentDate]) {
-        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    if ([self isEarlierThanDate:date]) {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:date options:0];
     } else {
-        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:date toDate:self options:0];
     }
     NSInteger second = components.second;
     return [NSString stringWithFormat:@"%zd", second];
 }
 
 /// 计算两个日期的时间差，分
-- (NSString *)convertToMinute {
-    NSDate *currentDate = [[NSDate alloc] init];
+- (NSString *)convertToMinute:(NSDate *)date {
     NSCalendarUnit unit = NSCalendarUnitSecond | NSCalendarUnitMinute;
     NSDateComponents *components;
-    BOOL isLater = [self isLaterThanDate:currentDate];
+    BOOL isLater = [self isLaterThanDate:date];
     if (isLater) {
-        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:date toDate:self options:0];
     } else {
-        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:date options:0];
     }
     NSInteger minute = components.minute;
     if (isLater) {
@@ -583,15 +581,14 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 }
 
 /// 计算两个日期的时间差，小时
-- (NSString *)convertToHour {
-    NSDate *currentDate = [[NSDate alloc] init];
+- (NSString *)convertToHour:(NSDate *)date {
     NSCalendarUnit unit = NSCalendarUnitMinute | NSCalendarUnitHour;
     NSDateComponents *components;
-    BOOL isLater = [self isLaterThanDate:currentDate];
+    BOOL isLater = [self isLaterThanDate:date];
     if (isLater) {
-        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:date toDate:self options:0];
     } else {
-        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:date options:0];
     }
     NSInteger hour = components.hour;
     if (isLater) {
@@ -601,15 +598,14 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 }
 
 /// 计算两个日期的时间差，天
-- (NSString *)convertToDay {
-    NSDate *currentDate = [[NSDate alloc] init];
+- (NSString *)convertToDay:(NSDate *)date {
     NSCalendarUnit unit = NSCalendarUnitHour | NSCalendarUnitDay;
     NSDateComponents *components;
-    BOOL isLater = [self isLaterThanDate:currentDate];
+    BOOL isLater = [self isLaterThanDate:date];
     if (isLater) {
-        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:date toDate:self options:0];
     } else {
-        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:date options:0];
     }
     NSInteger day = components.day;
     if (isLater) {
@@ -620,15 +616,14 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 
 
 /// 计算两个日期的时间差，周
-- (NSString *)convertToWeek {
-    NSDate *currentDate = [[NSDate alloc] init];
+- (NSString *)convertToWeek:(NSDate *)date {
     NSCalendarUnit unit = NSCalendarUnitHour | NSCalendarUnitDay;
     NSDateComponents *components;
-    BOOL isLater = [self isLaterThanDate:currentDate];
+    BOOL isLater = [self isLaterThanDate:date];
     if (isLater) {
-        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:date toDate:self options:0];
     } else {
-        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:date options:0];
     }
     NSInteger totayDay = components.day;
     if (isLater) {
@@ -648,14 +643,13 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 }
 
 /// 计算两个日期的时间差，年月日
-- (NSString *)convertToYMD {
-    NSDate *currentDate = [[NSDate alloc] init];
+- (NSString *)convertToYMD:(NSDate *)date {
     NSCalendarUnit unit = NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
     NSDateComponents *components;
-    if ([self isEarlierThanDate:currentDate]) {
-        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    if ([self isEarlierThanDate:date]) {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:date options:0];
     } else {
-        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:date toDate:self options:0];
     }
     NSInteger year   = components.year;
     NSInteger month  = components.month;
@@ -675,14 +669,13 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 }
 
 /// 计算两个日期的时间差，天时分秒
-- (NSString *)convertToDHMS {
-    NSDate *currentDate = [[NSDate alloc] init];
+- (NSString *)convertToDHMS:(NSDate *)date {
     NSCalendarUnit unit = NSCalendarUnitSecond | NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitDay;
     NSDateComponents *components;
-    if ([self isEarlierThanDate:currentDate]) {
-        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    if ([self isEarlierThanDate:date]) {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:date options:0];
     } else {
-        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:date toDate:self options:0];
     }
     NSInteger day    = components.day;
     NSInteger hour   = components.hour;
@@ -704,14 +697,13 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
 }
 
 /// 计算两个日期的时间差，年月日时分秒
-- (NSString *)convertToYMDHMS {
-    NSDate *currentDate = [[NSDate alloc] init];
+- (NSString *)convertToYMDHMS:(NSDate *)date {
     NSCalendarUnit unit = NSCalendarUnitSecond | NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
     NSDateComponents *components;
-    if ([self isEarlierThanDate:currentDate]) {
-        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:currentDate options:0];
+    if ([self isEarlierThanDate:date]) {
+        components = [[NSDate currentCalendar] components:unit fromDate:self toDate:date options:0];
     } else {
-        components = [[NSDate currentCalendar] components:unit fromDate:currentDate toDate:self options:0];
+        components = [[NSDate currentCalendar] components:unit fromDate:date toDate:self options:0];
     }
     NSInteger year   = components.year;
     NSInteger month  = components.month;

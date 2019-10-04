@@ -13,6 +13,8 @@ class ITMainHeaderInfoView: UIView {
     let margin: CGFloat = 15.0
     let infoHeight: CGFloat = 80.0
     let btnHeight: CGFloat = 30.0
+    let topMargin: CGFloat = 30.0;
+    let showSeasonButtonWH: CGFloat = 30.0
     
     lazy var calendarView: ITMainCalendarView = {
         let calendarView = ITMainCalendarView.init({ [weak self] (dateInfo) in
@@ -68,12 +70,11 @@ class ITMainHeaderInfoView: UIView {
         let size = self.frame.size
         let width: CGFloat = size.width - margin * 2.0
          
-        dateInfoView.frame = CGRect.init(x: margin, y: 0.0, width: width, height: infoHeight)
+        dateInfoView.frame = CGRect.init(x: margin, y: topMargin, width: width, height: infoHeight)
         calendarView.frame = CGRect.init(x: 0.0, y: dateInfoView.frame.maxY + 10.0, width: size.width, height: calendarView.heightForView())
         showDetailButton.frame = CGRect.init(x: 0.0, y: calendarView.frame.maxY, width: size.width, height: btnHeight)
         
-        let showSeasonButtonWH: CGFloat = 30.0
-        let y: CGFloat = 30
+        let y: CGFloat = 30 + topMargin
         showSeasonButton.frame = CGRect.init(x: size.width - showSeasonButtonWH - margin, y: y, width: showSeasonButtonWH, height: showSeasonButtonWH)
         showSeasonButton.center.y = dateInfoView.center.y
     }
@@ -81,7 +82,7 @@ class ITMainHeaderInfoView: UIView {
     // MARK: - Public Methods
     
     func heightForView() -> CGFloat {
-        return margin + infoHeight + calendarView.heightForView() + btnHeight
+        return topMargin + infoHeight + calendarView.heightForView() + btnHeight + 10.0
     }
     
     // MARK: - Actions

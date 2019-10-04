@@ -33,11 +33,11 @@ public final class CVCalendarViewAppearance: NSObject {
     public var dayLabelWeekdayDisabledColor: UIColor? = UIColor.heightLightGrayNoPressColor
     public var dayLabelWeekdayInTextColor: UIColor? = .heightLightGrayNoPressColor
     public var dayLabelWeekdayOutTextColor: UIColor? = .heightLightGrayNoPressColor
-    public var dayLabelWeekdayHighlightedTextColor: UIColor? = .heightLightGrayNoPressColor
-    public var dayLabelWeekdaySelectedTextColor: UIColor? = .heightLightGrayNoPressColor
-    public var dayLabelPresentWeekdayTextColor: UIColor? = .cellHighlightedColor
-    public var dayLabelPresentWeekdayHighlightedTextColor: UIColor? = .cellHighlightedColor
-    public var dayLabelPresentWeekdaySelectedTextColor: UIColor? = .cellHighlightedColor
+    public var dayLabelWeekdayHighlightedTextColor: UIColor? = .heightLightGrayColor
+    public var dayLabelWeekdaySelectedTextColor: UIColor? = .heightLightGrayColor
+    public var dayLabelPresentWeekdayTextColor: UIColor? = .heightLightGrayColor
+    public var dayLabelPresentWeekdayHighlightedTextColor: UIColor? = .heightLightGrayColor
+    public var dayLabelPresentWeekdaySelectedTextColor: UIColor? = .heightLightGrayColor
 
     /// Default text size.
     public var dayLabelWeekdayTextSize: CGFloat? = TimeNumberFontSize

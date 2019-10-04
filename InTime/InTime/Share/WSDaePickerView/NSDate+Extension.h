@@ -120,20 +120,20 @@
 - (NSString *)solarToLunar:(NSDateFormatterStyle)style;
 
 /// 计算两个日期的时间差，秒
-- (NSString *)convertToSecond;
+- (NSString *)convertToSecond:(NSDate *)date;
 /// 计算两个日期的时间差，分
-- (NSString *)convertToMinute;
+- (NSString *)convertToMinute:(NSDate *)date;
 /// 计算两个日期的时间差，小时
-- (NSString *)convertToHour;
+- (NSString *)convertToHour:(NSDate *)date;
 /// 计算两个日期的时间差，天
-- (NSString *)convertToDay;
+- (NSString *)convertToDay:(NSDate *)date;
 /// 计算两个日期的时间差，周
-- (NSString *)convertToWeek;
+- (NSString *)convertToWeek:(NSDate *)date;
 /// 计算两个日期的时间差，年月日
-- (NSString *)convertToYMD;
+- (NSString *)convertToYMD:(NSDate *)date;
 /// 计算两个日期的时间差，天时分秒
-- (NSString *)convertToDHMS;
+- (NSString *)convertToDHMS:(NSDate *)date;
 /// 计算两个日期的时间差，年月日时分秒
-- (NSString *)convertToYMDHMS;
+- (NSString *)convertToYMDHMS:(NSDate *)date;
 
 @end

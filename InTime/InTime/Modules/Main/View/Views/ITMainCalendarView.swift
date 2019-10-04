@@ -155,7 +155,7 @@ extension ITMainCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate
     
     func preliminaryView(viewOnDayView dayView: DayView) -> UIView {
         let circleView = CVAuxiliaryView(dayView: dayView, rect: dayView.frame, shape: CVShape.circle)
-        circleView.fillColor = UIColor.heightLightGrayColor
+        circleView.fillColor = UIColor.heightLightGrayColor.withAlphaComponent(0.2)
         return circleView
     }
     

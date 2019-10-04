@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		99060853233F9A5000A5A5CE /* ITMainHeaderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99060852233F9A5000A5A5CE /* ITMainHeaderInfoView.swift */; };
+		990A7C7F2346E4F400ED862B /* ITMainContainterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990A7C7E2346E4F400ED862B /* ITMainContainterTableViewCell.swift */; };
+		990A7C812346E5A800ED862B /* ITMainListInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990A7C802346E5A800ED862B /* ITMainListInfoView.swift */; };
 		990B64A421EF341C0063BD34 /* UIImage+CreateImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64A321EF341C0063BD34 /* UIImage+CreateImage.swift */; };
 		990B64AB21F030C90063BD34 /* LabelSwitchBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64A721F030C90063BD34 /* LabelSwitchBackView.swift */; };
 		990B64AC21F030C90063BD34 /* LabelSwitchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64A821F030C90063BD34 /* LabelSwitchState.swift */; };
@@ -145,6 +147,8 @@
 /* Begin PBXFileReference section */
 		14B09EA84C4246C100B7FFA4 /* Pods-InTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.debug.xcconfig"; sourceTree = "<group>"; };
 		99060852233F9A5000A5A5CE /* ITMainHeaderInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainHeaderInfoView.swift; sourceTree = "<group>"; };
+		990A7C7E2346E4F400ED862B /* ITMainContainterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainContainterTableViewCell.swift; sourceTree = "<group>"; };
+		990A7C802346E5A800ED862B /* ITMainListInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainListInfoView.swift; sourceTree = "<group>"; };
 		990B64A321EF341C0063BD34 /* UIImage+CreateImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+CreateImage.swift"; sourceTree = "<group>"; };
 		990B64A721F030C90063BD34 /* LabelSwitchBackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelSwitchBackView.swift; sourceTree = "<group>"; };
 		990B64A821F030C90063BD34 /* LabelSwitchState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelSwitchState.swift; sourceTree = "<group>"; };
@@ -315,6 +319,8 @@
 		99060851233F9A2500A5A5CE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				990A7C7E2346E4F400ED862B /* ITMainContainterTableViewCell.swift */,
+				990A7C802346E5A800ED862B /* ITMainListInfoView.swift */,
 				99060852233F9A5000A5A5CE /* ITMainHeaderInfoView.swift */,
 				991225F5232297A50029F7AC /* ITMainDateInfoView.swift */,
 				991225F3231FF2CA0029F7AC /* ITMainCalendarView.swift */,
@@ -941,6 +947,7 @@
 				991225EA22FDA5ED0029F7AC /* CVCalendarViewAnimator.swift in Sources */,
 				991225F022FDA5ED0029F7AC /* CVPresent.swift in Sources */,
 				991225D422FDA5ED0029F7AC /* CVRange.swift in Sources */,
+				990A7C7F2346E4F400ED862B /* ITMainContainterTableViewCell.swift in Sources */,
 				9921C8F1223753E20027D7D5 /* LTCharacterDiffResult.swift in Sources */,
 				991225EC22FDA5ED0029F7AC /* CVCalendarWeekday.swift in Sources */,
 				991225E522FDA5ED0029F7AC /* CVCalendarTouchController.swift in Sources */,
@@ -964,6 +971,7 @@
 				9921C8EB223753E20027D7D5 /* LTEmitterView.swift in Sources */,
 				991225DF22FDA5ED0029F7AC /* CVSelectionType.swift in Sources */,
 				99277CF62229117600B7395D /* HomeTableViewCellDelegate.swift in Sources */,
+				990A7C812346E5A800ED862B /* ITMainListInfoView.swift in Sources */,
 				995022CA21E72AB0004FAC47 /* HomeViewController.swift in Sources */,
 				990B64B921F075840063BD34 /* NSDate+Extension.m in Sources */,
 				99C4F72621F1AA3E00A25386 /* CKAlertBaseAnimation.swift in Sources */,

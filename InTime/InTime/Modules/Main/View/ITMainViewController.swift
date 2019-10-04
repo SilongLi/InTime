@@ -12,6 +12,8 @@ import EventKitUI
 
 class ITMainViewController: BaseViewController {
     
+    let footerMargin: CGFloat = 50.0
+    
     lazy var headerView: ITMainHeaderInfoView = {
         let view = ITMainHeaderInfoView()
         view.didSelectedDateBlock = { [weak self] (date) in
@@ -34,14 +36,12 @@ class ITMainViewController: BaseViewController {
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.tintColor
-        tableView.register(ITMainCalendarInfoTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(ITMainCalendarInfoTableViewCell.self))
-        tableView.register(ITMainSeasonTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(ITMainSeasonTableViewCell.self))
+        tableView.register(ITMainContainterTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(ITMainContainterTableViewCell.self))
         return tableView
     }()
     
     let calendarDataManager: ITCalendarDataManager = ITCalendarDataManager()
     
-    private var randomNumberOfDotMarkersForDay = [Int]()
     private var animationFinished = true
     private var granted: Bool = false
     private var currentSelectedDate: Date = Date()
@@ -55,7 +55,6 @@ class ITMainViewController: BaseViewController {
         view.backgroundColor = UIColor.tintColor
         
         view.addSubview(tableView)
-        tableView.tableHeaderView = headerView
         
         loadSeasons()
     }
@@ -78,8 +77,7 @@ class ITMainViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        headerView.frame = CGRect.init(x: 0.0, y: 0.0, width: self.view.frame.width, height: headerView.heightForView())
-        tableView.frame = CGRect.init(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.size.height)
+        tableView.frame = CGRect.init(x: 0.0, y: IT_StatusHeight, width: self.view.frame.width, height: self.view.frame.size.height)
     }
     
     // MARK: - Private Methods
@@ -171,70 +169,43 @@ class ITMainViewController: BaseViewController {
 extension ITMainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.section == 0) {
-            let cell: ITMainCalendarInfoTableViewCell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ITMainCalendarInfoTableViewCell.self), for: indexPath) as! ITMainCalendarInfoTableViewCell
-            cell.updateContent(events)
-            return cell
-        }
-        
-        let cell: ITMainSeasonTableViewCell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ITMainSeasonTableViewCell.self), for: indexPath) as! ITMainSeasonTableViewCell
-        cell.updateContent(seasons)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return ITMainCalendarInfoTableViewCell.heightForCell(events)
-        }
-        return ITMainSeasonTableViewCell.heightForCell(seasons)
-    }
-    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0.001
+        return headerView.heightForView()
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        switch section {
-        case 0:
-            return 20.0
-        case 1:
-            return 50.0
-        default:
-            return 0.001
-        }
+        return footerMargin
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let minHeight = self.view.bounds.height - headerView.heightForView()
+        var height = ITMainContainterTableViewCell.heightForCell(events: events, seasons: seasons)
+        height = height > minHeight ? height : minHeight
+        height += footerMargin
+        return height
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: ITMainContainterTableViewCell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ITMainContainterTableViewCell.self), for: indexPath) as! ITMainContainterTableViewCell
+        cell.updateContetnView(events: events, seasons: seasons)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return nil
+        return headerView
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return nil
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
-            showSystemCalendarAPP()
-            break
-        case 1:
-            if let seasons = seasons, seasons.count > 0 {
-                showSeasonView()
-            } else {
-                showAddNewSeasonView()
-            }
-            break
-        default:
-            break
-        }
+        let footerView = UIView()
+        footerView.backgroundColor = .clear
+        return footerView
     }
 }
 

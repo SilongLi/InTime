@@ -46,6 +46,7 @@ class ITMainSeasonTableViewCell: UITableViewCell {
     }()
      
     private var refreshTimer: DispatchSourceTimer?
+    private var currentSelectedDate: Date = Date()
     private var seasons: [SeasonModel]?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -82,8 +83,9 @@ class ITMainSeasonTableViewCell: UITableViewCell {
         }
    }
      
-    func updateContent(_ seasons: [SeasonModel]?) {
+    func updateContent(_ seasons: [SeasonModel]?, date: Date = Date()) {
         infoLabel.isHidden = (seasons?.count ?? 0) > 0
+        currentSelectedDate = date
         
         if refreshTimer == nil {
             refreshTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
@@ -111,7 +113,9 @@ class ITMainSeasonTableViewCell: UITableViewCell {
         var index: CGFloat = 0.0
         for season: SeasonModel in seasons {
             season.unitModel.info = DateUnitType.day.rawValue
-            let (timeIntervalStr, _, _, isLater) = SeasonTextManager.handleSeasonInfo(season)
+            let (timeIntervalStr, _, _, isLater) = SeasonTextManager.handleSeasonInfo(season, isNeedWeekDayInfo: true, currentSelectedDate)
+            
+            print(timeIntervalStr, currentSelectedDate)
             
             let label = UILabel()
             label.font = UIFont.systemFont(ofSize: 15)

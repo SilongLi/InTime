@@ -105,30 +105,30 @@ extension Date {
     }
     
     /// 计算时间差
-    func convertToTimeAndUnitString(type: DateUnitType = DateUnitType.dayTime) -> String {
+    func convertToTimeAndUnitString(type: DateUnitType = DateUnitType.dayTime, _ date: Date = Date()) -> String {
         switch type {
         case .second:
-            let dateStr = (self as NSDate).convertToSecond().it.stringSeparateByCommaInteger()
+            let dateStr = (self as NSDate).convert(toSecond: date).it.stringSeparateByCommaInteger()
             return "\(dateStr)"
         case .minute:
-            let dateStr = (self as NSDate).convertToMinute().it.stringSeparateByCommaInteger()
+            let dateStr = (self as NSDate).convert(toMinute: date).it.stringSeparateByCommaInteger()
             return "\(dateStr)"
         case .hour:
-            let dateStr = (self as NSDate).convertToHour().it.stringSeparateByCommaInteger()
+            let dateStr = (self as NSDate).convert(toHour: date).it.stringSeparateByCommaInteger()
             return "\(dateStr)"
         case .day:
-            let dateStr = (self as NSDate).convertToDay().it.stringSeparateByCommaInteger()
+            let dateStr = (self as NSDate).convert(toDay: date).it.stringSeparateByCommaInteger()
             return "\(dateStr)"
         case .weak:
-            let dateStr = (self as NSDate).convertToWeek() ?? ""
+            let dateStr = (self as NSDate).convert(toWeek: date) ?? ""
             return dateStr.isEmpty ? "0天" : dateStr
         case .dayTime:
-            return (self as NSDate).convertToDHMS()
+            return (self as NSDate).convert(toDHMS: date)
         case .year:
-            let dateStr = (self as NSDate).convertToYMD() ?? ""
+            let dateStr = (self as NSDate).convert(toYMD: date) ?? ""
             return dateStr.isEmpty ? "0天" : dateStr
         case .yearTime:
-            return (self as NSDate).convertToYMDHMS()
+            return (self as NSDate).convert(toYMDHMS: date)
         case .percentage:
             return convertToPercentage()
         }
