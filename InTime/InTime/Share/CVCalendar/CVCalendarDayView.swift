@@ -217,7 +217,7 @@ extension CVCalendarDayView {
             ? .present
             : .not
         
-        dayLabel?.textColor = appearance?.delegate?.dayLabelColor?(by: weekDay, status: .selected, present: present) ?? color
+        dayLabel?.textColor = appearance?.delegate?.dayLabelColor?(by: weekDay, status: status, present: present) ?? color
         dayLabel?.font = appearance?.delegate?.dayLabelFont?(by: weekDay, status: status, present: present) ?? font
         
         addSubview(dayLabel)

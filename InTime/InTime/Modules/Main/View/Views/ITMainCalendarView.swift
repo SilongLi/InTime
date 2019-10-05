@@ -236,7 +236,7 @@ extension ITMainCalendarView: CVCalendarViewAppearanceDelegate {
         case (_, .in, _), (_, .out, _):
             return UIColor.heightLightGrayNoPressColor
         default:
-            return UIColor.white
+            return UIColor.heightLightGrayNoPressColor
         }
     }
     
