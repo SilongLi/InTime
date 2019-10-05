@@ -70,6 +70,7 @@ class LocalNotificationManage: NSObject {
         default:
             break
         }
+        
         let notification = UILocalNotification()
         notification.fireDate           = date
         notification.alertTitle         = title
@@ -78,7 +79,7 @@ class LocalNotificationManage: NSObject {
         notification.alertLaunchImage   = "InTime"
         notification.repeatInterval     = repeatInterval
         notification.timeZone           = TimeZone(identifier: "Asia/Beijing")
-        notification.repeatCalendar     = Calendar(identifier: .chinese)
+        notification.repeatCalendar     = Calendar(identifier: .gregorian)
         notification.regionTriggersOnce = false
         if isOpenRemind {
             if !soundName.isEmpty {
@@ -148,7 +149,7 @@ class LocalNotificationManage: NSObject {
         default:
             isRepeats  = false
         }
-        let calendar = Calendar(identifier: .chinese)
+        let calendar = Calendar(identifier: .gregorian)
         let dateComponents = calendar.dateComponents(components, from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: isRepeats)
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
