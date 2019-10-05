@@ -82,7 +82,7 @@ class ITMainHeaderInfoView: UIView {
     // MARK: - Public Methods
     
     func heightForView() -> CGFloat {
-        return topMargin + infoHeight + calendarView.heightForView() + btnHeight + 10.0
+        return topMargin + infoHeight + calendarView.heightForView() + btnHeight + 20.0
     }
     
     // MARK: - Actions

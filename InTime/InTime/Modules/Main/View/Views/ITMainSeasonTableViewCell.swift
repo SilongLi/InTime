@@ -114,9 +114,7 @@ class ITMainSeasonTableViewCell: UITableViewCell {
         for season: SeasonModel in seasons {
             season.unitModel.info = DateUnitType.day.rawValue
             let (timeIntervalStr, _, _, isLater) = SeasonTextManager.handleSeasonInfo(season, isNeedWeekDayInfo: true, currentSelectedDate)
-            
-            print(timeIntervalStr, currentSelectedDate)
-            
+             
             let label = UILabel()
             label.font = UIFont.systemFont(ofSize: 15)
             label.textAlignment = .left

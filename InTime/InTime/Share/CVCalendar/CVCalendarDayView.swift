@@ -26,6 +26,15 @@ public final class CVCalendarDayView: UIView {
     public var isCurrentDay = false
     public var isDisabled: Bool { return !self.isUserInteractionEnabled }
     
+    lazy var isSelected: Bool = {
+        var isSelected = false
+        if let selectedDate = self.calendarView.coordinator.selectedDayView?.date.date {
+            isSelected = (self.date.date as NSDate).isEqual(toDateIgnoringTime: selectedDate)
+        }
+        return isSelected
+    }()
+           
+    
     public weak var monthView: CVCalendarMonthView! {
         var monthView: MonthView!
         if let weekView = weekView, let activeMonthView = weekView.monthView {
@@ -189,12 +198,17 @@ extension CVCalendarDayView {
         } else {
             color = appearance?.dayLabelWeekdayInTextColor
         }
-        
+         
         let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
         let weekDay = self.date?.weekDay(calendar: calendar) ?? .monday // Monday is default
         let status: CVStatus = {
-            if isDisabled { return .disabled }
-            else if isOut { return .out }
+            if isDisabled {
+                return .disabled
+            } else if isOut {
+                return .out
+            } else if isSelected {
+                return .selected
+            }
             return .in
         }()
         let present: CVPresent = isCurrentDay
@@ -203,7 +217,7 @@ extension CVCalendarDayView {
             ? .present
             : .not
         
-        dayLabel?.textColor = appearance?.delegate?.dayLabelColor?(by: weekDay, status: status, present: present) ?? color
+        dayLabel?.textColor = appearance?.delegate?.dayLabelColor?(by: weekDay, status: .selected, present: present) ?? color
         dayLabel?.font = appearance?.delegate?.dayLabelFont?(by: weekDay, status: status, present: present) ?? font
         
         addSubview(dayLabel)
@@ -506,12 +520,15 @@ extension CVCalendarDayView {
                     ?? appearance?.dayLabelPresentWeekdaySelectedBackgroundColor
                 backgroundAlpha = appearance?.dayLabelPresentWeekdaySelectedBackgroundAlpha
             } else {
+                
+                backgroundColor = appearance?.delegate?.dayLabelBackgroundColor?(by: weekDay, status: .selected, present: present)
+                    ?? appearance?.dayLabelWeekdaySelectedBackgroundColor
+                
+                
                 dayLabel?.textColor = appearance?.delegate?.dayLabelColor?(by: weekDay, status: .selected, present: present)
                     ?? appearance?.dayLabelWeekdaySelectedTextColor
                 dayLabel?.font = appearance?.delegate?.dayLabelFont?(by: weekDay, status: .selected, present: present)
                     ?? appearance?.dayLabelWeekdaySelectedFont
-                backgroundColor = appearance?.delegate?.dayLabelBackgroundColor?(by: weekDay, status: .selected, present: present)
-                    ?? appearance?.dayLabelWeekdaySelectedBackgroundColor
                 backgroundAlpha = appearance?.dayLabelWeekdaySelectedBackgroundAlpha
             }
             
@@ -577,8 +594,11 @@ extension CVCalendarDayView {
             let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
             let weekDay = self.date?.weekDay(calendar: calendar) ?? .monday // Monday is default
             let status: CVStatus = {
-                if isDisabled { return .disabled }
-                else if isOut { return .out }
+                if isDisabled {
+                    return .disabled
+                } else if isOut {
+                    return .out
+                }
                 return .in
             }()
             let present: CVPresent = isCurrentDay ? .present : .not
@@ -627,8 +647,13 @@ extension CVCalendarDayView {
             let calendar = self.calendarView.delegate?.calendar?() ?? Calendar.current
             let weekDay = self.date?.weekDay(calendar: calendar) ?? .monday // Monday is default
             let status: CVStatus = {
-                if isDisabled { return .disabled }
-                else if isOut { return .out }
+                if isDisabled {
+                    return .disabled
+                } else if isOut {
+                    return .out
+                } else if isSelected {
+                    return .selected
+                }
                 return .in
             }()
             let present: CVPresent = isCurrentDay ? .present : .not

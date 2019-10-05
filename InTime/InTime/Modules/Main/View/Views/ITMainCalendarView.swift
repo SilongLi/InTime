@@ -70,9 +70,12 @@ class ITMainCalendarView: UIView {
         
         menuView.frame = CGRect(x: 0, y: 0.0, width: self.frame.size.width, height: ITMainCalendarView.menuViewHeight)
         calendarView.frame = CGRect(x: 0, y: ITMainCalendarView.menuViewHeight, width: self.frame.size.width, height: calendarViewHeight())
-        
-        menuView.commitMenuViewUpdate()
-        calendarView.commitMainCalendarViewUpdate()
+         
+        let isEnterBackground = (UIApplication.shared.delegate as! AppDelegate).isEnterBackground
+        if !isEnterBackground {
+            menuView.commitMenuViewUpdate()
+            calendarView.commitMainCalendarViewUpdate() 
+        }
     }
     
     private func calendarViewHeight() -> CGFloat {
@@ -124,7 +127,7 @@ extension ITMainCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate
         return true
     }
     
-    func didSelectDayView(_ dayView: CVCalendarDayView, animationDidFinish: Bool) {
+    func didSelectDayView(_ dayView: CVCalendarDayView, animationDidFinish: Bool) { 
         if let block = self.didSelectedDateBlock {
             block(dayView.date)
         }
@@ -230,10 +233,10 @@ extension ITMainCalendarView: CVCalendarViewAppearanceDelegate {
             return UIColor.white
         case (.sunday, _, _), (.saturday, _, _):
             return UIColor.heightLightGrayColor
-        case (_, .in, _):
+        case (_, .in, _), (_, .out, _):
             return UIColor.heightLightGrayNoPressColor
         default:
-            return UIColor.heightLightGrayNoPressColor
+            return UIColor.white
         }
     }
     

@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var isEnterBackground: Bool = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -41,6 +42,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         gotoSeasonDetailViewFromSpotlight(userActivity: userActivity)
         
         return true
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        isEnterBackground = true
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        isEnterBackground = false
     }
     
     // MARK: - actions

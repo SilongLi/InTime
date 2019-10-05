@@ -194,7 +194,16 @@ extension ITMainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ITMainContainterTableViewCell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ITMainContainterTableViewCell.self), for: indexPath) as! ITMainContainterTableViewCell
-        cell.updateContetnView(events: events, seasons: seasons)
+        cell.updateContetnView(events: events, seasons: seasons, currentSelectedDate: currentSelectedDate)
+        cell.showSystemCalendarAPPBlock = { [weak self ] in
+            self?.showSystemCalendarAPP()
+        }
+        cell.showSeasonViewBlock = { [weak self] in
+            self?.showSeasonView()
+        }
+        cell.showAddNewSeasonViewBlock = { [weak self] in
+            self?.showAddNewSeasonView()
+        }
         return cell
     }
     
