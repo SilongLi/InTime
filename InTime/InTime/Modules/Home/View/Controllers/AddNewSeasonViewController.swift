@@ -587,14 +587,14 @@ extension AddNewSeasonViewController: UIImagePickerControllerDelegate, UINavigat
                     let image: UIImage = originalImage as! UIImage
                     let cropVC = CropViewController(image: image)
                     cropVC.delegate = self
-                    self.navigationController?.present(cropVC, animated: true, completion: nil)
+                    self.navigationController?.pushViewController(cropVC, animated: true)
                 }
             }
         }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
+        self.navigationController?.popToViewController(self, animated: true)
     }
 }
 
@@ -635,10 +635,10 @@ extension AddNewSeasonViewController: CropViewControllerDelegate {
             view.showText("获取图片失败！")
         }
         
-        cropViewController.dismiss(animated: true, completion: nil)
+        self.navigationController?.popToViewController(self, animated: true)
     }
     
     func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
-        cropViewController.dismiss(animated: true, completion: nil)
+        self.navigationController?.popToViewController(self, animated: true)
     }
 }
