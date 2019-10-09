@@ -73,13 +73,13 @@
 		<true/>
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
-	<string>“知时节”需要您的同意,才能访问日历</string>
+	<string>“知时节”需要您的同意,才能访问日历，进行管理你的日历日程</string>
 	<key>NSCameraUsageDescription</key>
-	<string>“知时节”需要您的同意,才能访问相机</string>
+	<string>“知时节”需要您的同意,才能访问相机，设置背景图片</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>“知时节”需要您的同意,才能访问相册</string>
+	<string>“知时节”需要您的同意,才能访问相册，设置背景图片</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>“知时节”需要您的同意,才能访问相册</string>
+	<string>“知时节”需要您的同意,才能访问相册，设置背景图片</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
