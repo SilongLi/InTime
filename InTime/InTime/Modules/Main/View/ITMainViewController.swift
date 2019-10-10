@@ -46,7 +46,8 @@ class ITMainViewController: BaseViewController {
     private var granted: Bool = false
     private var currentSelectedDate: Date = Date()
     private var events: [EKEvent]?
-    private var seasons: [SeasonModel]?
+    private var isLoading: Bool = false
+    private var categoryViewModels: [CategorySeasonsViewModel] = [CategorySeasonsViewModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,12 +57,12 @@ class ITMainViewController: BaseViewController {
         
         view.addSubview(tableView)
         
-        loadSeasons()
+        loadCategoryViewModels()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadSeasons()
+        loadCategoryViewModels()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -92,18 +93,49 @@ class ITMainViewController: BaseViewController {
         tableView.reloadData()
     }
     
-    func loadSeasons() {
-        if let categoryId = UserDefaults.standard.string(forKey: CurrentSelectedCategoryIDKey) {
-            HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryId) { [weak self] (seasons) in
-                 self?.seasons = seasons
-                 self?.tableView.reloadData()
-            }
-        } else {
-            HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
-                self?.seasons = seasons
-                self?.tableView.reloadData()
-            }
+    func loadCategoryViewModels() {
+        guard !isLoading else {
+            return
         }
+        isLoading = true
+        
+        categoryViewModels.removeAll()
+        HomeSeasonViewModel.loadLocalCategorys { [weak self] (models) in
+            for category in models {
+                if category.isDefault {
+                    continue
+                }
+                let viewModel: CategorySeasonsViewModel = CategorySeasonsViewModel()
+                viewModel.category = category
+                self?.loadSeasons(viewModel)
+                self?.categoryViewModels.append(viewModel)
+            }
+            self?.tableView.reloadData()
+            self?.isLoading = false
+        }
+    }
+    
+    func loadSeasons(_ viewModel: CategorySeasonsViewModel) {
+        guard viewModel.category.id.count > 0 else {
+            return
+        }
+        HomeSeasonViewModel.loadLocalSeasons(categoryId: viewModel.category.id) { (seasons) in
+            viewModel.seasons = seasons
+        }
+    }
+    
+    func loadSeasons() {
+//        if let categoryId = UserDefaults.standard.string(forKey: CurrentSelectedCategoryIDKey) {
+//            HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryId) { [weak self] (seasons) in
+//                 self?.seasons = seasons
+//                 self?.tableView.reloadData()
+//            }
+//        } else {
+//            HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
+//                self?.seasons = seasons
+//                self?.tableView.reloadData()
+//            }
+//        }
     }
     
     // MARK: - Actions
@@ -186,7 +218,7 @@ extension ITMainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let minHeight = self.view.bounds.height - headerView.heightForView()
-        var height = ITMainContainterTableViewCell.heightForCell(events: events, seasons: seasons)
+        var height = ITMainContainterTableViewCell.heightForCell(events: events, categoryViewModels: categoryViewModels)
         height = height > minHeight ? height : minHeight
         height += footerMargin
         return height
@@ -194,7 +226,7 @@ extension ITMainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ITMainContainterTableViewCell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ITMainContainterTableViewCell.self), for: indexPath) as! ITMainContainterTableViewCell
-        cell.updateContetnView(events: events, seasons: seasons, currentSelectedDate: currentSelectedDate)
+        cell.updateContetnView(events: events, categoryViewModels: categoryViewModels, currentSelectedDate: currentSelectedDate)
         cell.showSystemCalendarAPPBlock = { [weak self ] in
             self?.showSystemCalendarAPP()
         }

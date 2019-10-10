@@ -44,9 +44,9 @@ class ITMainContainterTableViewCell: UITableViewCell {
         return view
     }()
     
-    var events: [EKEvent]?
-    var seasons: [SeasonModel]?
     private var currentSelectedDate: Date = Date()
+    private var events: [EKEvent]?
+    private var categoryViewModels: [CategorySeasonsViewModel] = [CategorySeasonsViewModel]()
      
     var showSystemCalendarAPPBlock: (() -> ())?
     var showSeasonViewBlock: (() -> ())?
@@ -100,16 +100,16 @@ class ITMainContainterTableViewCell: UITableViewCell {
 
     // MARK: Public Methods
      
-    static func heightForCell(events: [EKEvent]?, seasons: [SeasonModel]?) -> CGFloat {
-        return ITMainListInfoView.heightForView(events: events, seasons: seasons)
+    static func heightForCell(events: [EKEvent]?, categoryViewModels: [CategorySeasonsViewModel]) -> CGFloat {
+        return ITMainListInfoView.heightForView(events: events, categoryViewModels: categoryViewModels)
     }
     
-    func updateContetnView(events eventArray: [EKEvent]?, seasons seasonArray: [SeasonModel]?, currentSelectedDate date: Date = Date()) {
+    func updateContetnView(events eventArray: [EKEvent]?, categoryViewModels viewModels: [CategorySeasonsViewModel], currentSelectedDate date: Date = Date()) {
         events = eventArray
-        seasons = seasonArray
+        categoryViewModels = viewModels
         currentSelectedDate = date
         
-        infoView.updateContetnView(events: events, seasons: seasons, currentSelectedDate: date)
+        infoView.updateContetnView(events: events, categoryViewModels: viewModels, currentSelectedDate: date)
         
 //        var index = 0
 //        for view: ITMainListInfoView in containters {

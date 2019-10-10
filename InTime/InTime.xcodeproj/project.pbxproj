@@ -116,6 +116,7 @@
 		99857C1121EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */; };
 		998B3B29233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998B3B28233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift */; };
 		998B3B30233F1E0400620912 /* ITMainSeasonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998B3B2F233F1E0400620912 /* ITMainSeasonTableViewCell.swift */; };
+		999C4E8F234F78B700C67DBA /* CategorySeasonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999C4E8E234F78B700C67DBA /* CategorySeasonsViewModel.swift */; };
 		99A453D222C7B2530066EA4F /* bg in Resources */ = {isa = PBXBuildFile; fileRef = 99A453D122C7B2520066EA4F /* bg */; };
 		99BA01FE223B45F200DD77D7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BA01FD223B45F200DD77D7 /* SettingsViewController.swift */; };
 		99C4F72421F1AA3E00A25386 /* CKAlertFadePopAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4F71D21F1AA3E00A25386 /* CKAlertFadePopAnimation.swift */; };
@@ -265,6 +266,7 @@
 		998B3B28233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainCalendarInfoTableViewCell.swift; sourceTree = "<group>"; };
 		998B3B2F233F1E0400620912 /* ITMainSeasonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainSeasonTableViewCell.swift; sourceTree = "<group>"; };
 		999345412244C965008DCF34 /* InTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InTime.entitlements; sourceTree = "<group>"; };
+		999C4E8E234F78B700C67DBA /* CategorySeasonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySeasonsViewModel.swift; sourceTree = "<group>"; };
 		99A453D122C7B2520066EA4F /* bg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bg; sourceTree = "<group>"; };
 		99BA01FD223B45F200DD77D7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		99C4F71D21F1AA3E00A25386 /* CKAlertFadePopAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKAlertFadePopAnimation.swift; sourceTree = "<group>"; };
@@ -615,6 +617,7 @@
 		995022D321E78A22004FAC47 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				999C4E8E234F78B700C67DBA /* CategorySeasonsViewModel.swift */,
 				995022D821E870C4004FAC47 /* SeasonModel.swift */,
 				995022D421E78A3D004FAC47 /* CategoryModel.swift */,
 				995022D621E83EDA004FAC47 /* ThemeModel.swift */,
@@ -1028,6 +1031,7 @@
 				9921C8F5223753E20027D7D5 /* LTMorphingLabel.swift in Sources */,
 				991225DE22FDA5ED0029F7AC /* CVCalendarWeekContentViewController.swift in Sources */,
 				995022C221E729E1004FAC47 /* ITViewMacros.swift in Sources */,
+				999C4E8F234F78B700C67DBA /* CategorySeasonsViewModel.swift in Sources */,
 				990B64B821F075840063BD34 /* WSDatePickerView.m in Sources */,
 				991225DC22FDA5ED0029F7AC /* CVCalendarView.swift in Sources */,
 				99C4F72521F1AA3E00A25386 /* CKAlertViewController.swift in Sources */,
@@ -1195,7 +1199,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HBBKUSRZMD;
 				INFOPLIST_FILE = InTime/SupportFile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1203,7 +1207,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTimeTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "InTime/SupportFile/InTime⁩-Bridging-Header.h";
@@ -1219,7 +1223,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HBBKUSRZMD;
 				INFOPLIST_FILE = InTime/SupportFile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1227,7 +1231,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTime;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTimeTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "InTime/SupportFile/InTime⁩-Bridging-Header.h";

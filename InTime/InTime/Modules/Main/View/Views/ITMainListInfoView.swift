@@ -26,9 +26,9 @@ class ITMainListInfoView: UIView {
         return tableView
     }()
     
-    var events: [EKEvent]?
-    var seasons: [SeasonModel]?
-    var currentSelectedDate: Date = Date()
+    private var currentSelectedDate: Date = Date()
+    private var events: [EKEvent]?
+    private var categoryViewModels: [CategorySeasonsViewModel] = [CategorySeasonsViewModel]()
     
     var isSelected: Bool = false
     
@@ -47,9 +47,12 @@ class ITMainListInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    static func heightForView(events: [EKEvent]?, seasons: [SeasonModel]?) -> CGFloat {
+    static func heightForView(events: [EKEvent]?, categoryViewModels: [CategorySeasonsViewModel]) -> CGFloat {
         var height = ITMainCalendarInfoTableViewCell.heightForCell(events) + footHeight * 2.0
-        height += ITMainSeasonTableViewCell.heightForCell(seasons)
+        for viewModel in categoryViewModels {
+            let seasons = viewModel.seasons
+            height += ITMainSeasonTableViewCell.heightForCell(seasons)
+        }
         return height
     }
     
@@ -59,19 +62,26 @@ class ITMainListInfoView: UIView {
         tableView.frame = self.bounds
     }
     
-    func updateContetnView(events eventArray: [EKEvent]?, seasons seasonArray: [SeasonModel]?, currentSelectedDate date: Date = Date()) {
+    func updateContetnView(events eventArray: [EKEvent]?, categoryViewModels viewModels: [CategorySeasonsViewModel], currentSelectedDate date: Date = Date()) {
         events = eventArray
-        seasons = seasonArray
+        categoryViewModels = viewModels
         currentSelectedDate = date
         
         tableView.reloadData()
+    }
+    
+    func getSeasons(_ indexPath: IndexPath) -> [SeasonModel] {
+        guard indexPath.section - 1 < categoryViewModels.count else {
+            return [SeasonModel]()
+        }
+        return categoryViewModels[indexPath.section - 1].seasons
     }
 }
 
 extension ITMainListInfoView: UITableViewDelegate, UITableViewDataSource {
         
         func numberOfSections(in tableView: UITableView) -> Int {
-            return 2
+            return 1 + (categoryViewModels.count > 0 ? categoryViewModels.count : 1)
         }
         
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,8 +103,8 @@ extension ITMainListInfoView: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
             
-            let cell: ITMainSeasonTableViewCell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ITMainSeasonTableViewCell.self), for: indexPath) as! ITMainSeasonTableViewCell
-            cell.updateContent(seasons, date: currentSelectedDate)
+            let cell: ITMainSeasonTableViewCell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ITMainSeasonTableViewCell.self), for: indexPath) as! ITMainSeasonTableViewCell 
+            cell.updateContent(getSeasons(indexPath), date: currentSelectedDate)
             return cell
         }
         
@@ -102,7 +112,7 @@ extension ITMainListInfoView: UITableViewDelegate, UITableViewDataSource {
             if indexPath.section == 0 {
                 return ITMainCalendarInfoTableViewCell.heightForCell(events)
             }
-            return ITMainSeasonTableViewCell.heightForCell(seasons)
+            return ITMainSeasonTableViewCell.heightForCell(getSeasons(indexPath))
         }
         
         func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -125,7 +135,8 @@ extension ITMainListInfoView: UITableViewDelegate, UITableViewDataSource {
                 }
                 break
             case 1:
-                if let seasons = seasons, seasons.count > 0, let block = showSeasonViewBlock {
+                let seasons = categoryViewModels[indexPath.row].seasons
+                if seasons.count > 0, let block = showSeasonViewBlock {
                     block()
                 } else {
                     if let block = showAddNewSeasonViewBlock {
