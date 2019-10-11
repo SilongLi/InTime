@@ -321,11 +321,9 @@
 		99060851233F9A2500A5A5CE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				990A7C7E2346E4F400ED862B /* ITMainContainterTableViewCell.swift */,
+				999C4E902350D62800C67DBA /* CalendarView */,
 				990A7C802346E5A800ED862B /* ITMainListInfoView.swift */,
-				99060852233F9A5000A5A5CE /* ITMainHeaderInfoView.swift */,
-				991225F5232297A50029F7AC /* ITMainDateInfoView.swift */,
-				991225F3231FF2CA0029F7AC /* ITMainCalendarView.swift */,
+				990A7C7E2346E4F400ED862B /* ITMainContainterTableViewCell.swift */,
 				998B3B28233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift */,
 				998B3B2F233F1E0400620912 /* ITMainSeasonTableViewCell.swift */,
 			);
@@ -667,6 +665,16 @@
 				99857C0221EDBA8F005C7F9B /* AddNewSeasonDelegate.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		999C4E902350D62800C67DBA /* CalendarView */ = {
+			isa = PBXGroup;
+			children = (
+				991225F5232297A50029F7AC /* ITMainDateInfoView.swift */,
+				991225F3231FF2CA0029F7AC /* ITMainCalendarView.swift */,
+				99060852233F9A5000A5A5CE /* ITMainHeaderInfoView.swift */,
+			);
+			path = CalendarView;
 			sourceTree = "<group>";
 		};
 		99BA01F9223B450100DD77D7 /* Settings */ = {

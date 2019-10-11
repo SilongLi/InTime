@@ -288,7 +288,7 @@ public final class CVCalendarMonthContentViewController: CVCalendarContentViewCo
                 calendarView.presentedDate = CVDate(date: date, calendar: calendar)
 
                 UIView.animate(withDuration: toggleDateAnimationDuration, delay: 0,
-                               options: UIView.AnimationOptions(),
+                               options: .overrideInheritedCurve,
                                animations: {
                     presentedMonth.alpha = 0
                     currentMonthView.alpha = 1

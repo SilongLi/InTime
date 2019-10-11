@@ -53,7 +53,7 @@ class ITMainHeaderInfoView: UIView {
      
     override init(frame: CGRect) {
         super.init(frame: frame)
-         
+        
         addSubview(dateInfoView)
         addSubview(showSeasonButton)
         addSubview(calendarView)
@@ -78,7 +78,7 @@ class ITMainHeaderInfoView: UIView {
         showSeasonButton.frame = CGRect.init(x: size.width - showSeasonButtonWH - margin, y: y, width: showSeasonButtonWH, height: showSeasonButtonWH)
         showSeasonButton.center.y = dateInfoView.center.y
     }
-    
+     
     // MARK: - Public Methods
     
     func heightForView() -> CGFloat {

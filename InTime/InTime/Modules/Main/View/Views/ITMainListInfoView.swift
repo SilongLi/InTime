@@ -70,6 +70,8 @@ class ITMainListInfoView: UIView {
         tableView.reloadData()
     }
     
+    // MARK: - Private Methods
+    
     func getSeasons(_ indexPath: IndexPath) -> [SeasonModel] {
         guard indexPath.section - 1 < categoryViewModels.count else {
             return [SeasonModel]()

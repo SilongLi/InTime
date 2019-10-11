@@ -15,10 +15,11 @@ class ITMainViewController: BaseViewController {
     let footerMargin: CGFloat = 50.0
     
     lazy var headerView: ITMainHeaderInfoView = {
-        let view = ITMainHeaderInfoView()
+        let view = ITMainHeaderInfoView() 
         view.didSelectedDateBlock = { [weak self] (date) in
             self?.currentSelectedDate = date.date
             self?.reloadEventsInfo(date.date)
+            self?.updateTodayWindow(date.date)
         }
         view.showSeasonViewBlock = { [weak self] in
             self?.showSeasonView()
@@ -38,6 +39,28 @@ class ITMainViewController: BaseViewController {
         tableView.backgroundColor = UIColor.tintColor
         tableView.register(ITMainContainterTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(ITMainContainterTableViewCell.self))
         return tableView
+    }()
+    
+    lazy var todayWindow: UIWindow = {
+        let window = UIWindow()
+        window.windowLevel = .alert
+        window.backgroundColor = UIColor.greenColor
+        window.isHidden = true
+        let rootVC = UIViewController()
+        rootVC.view.addSubview(self.todayLabel)
+        window.rootViewController = rootVC;
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(didClickedTodayWidowAction))
+        window.addGestureRecognizer(tap)
+        return window
+    }()
+    
+    lazy var todayLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = UIFont.init(name: TimeNumberFontName, size: 16)
+        label.textColor = UIColor.white
+        return label
     }()
     
     let calendarDataManager: ITCalendarDataManager = ITCalendarDataManager()
@@ -63,6 +86,7 @@ class ITMainViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadCategoryViewModels()
+        updateTodayWindow(self.currentSelectedDate)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,6 +99,11 @@ class ITMainViewController: BaseViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTodayWindow()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -82,6 +111,52 @@ class ITMainViewController: BaseViewController {
     }
     
     // MARK: - Private Methods
+    
+    func updateTodayWindow(_ date: Date?) {
+        if let date = date, !(date as NSDate).isToday() {
+            showTodayWindow()
+        } else {
+            hideTodayWindow()
+        }
+    }
+    
+    func hideTodayWindow() {
+        guard !todayWindow.isHidden else {
+            return
+        }
+        todayWindow.alpha = 1.0
+        UIView.animate(withDuration: 0.25, animations: {
+            self.todayWindow.alpha = 0.0
+        }) { (_) in
+            self.todayWindow.isHidden = true
+        }
+    }
+     
+    func showTodayWindow() {
+        guard todayWindow.isHidden else {
+            return
+        }
+        let WH: CGFloat = 40.0
+        let bottom: CGFloat = IT_IPHONE_X ? 50.0 : 30.0;
+        todayWindow.frame = CGRect.init(x: 20.0, y: UIScreen.main.bounds.size.height - bottom - WH, width: WH, height: WH)
+        todayWindow.layer.cornerRadius = WH  * 0.5
+        todayWindow.layer.borderColor = UIColor.heightLightGrayColor.cgColor
+        todayWindow.layer.borderWidth = 2.0
+        todayWindow.layer.masksToBounds = true
+        
+        self.todayLabel.frame = self.todayWindow.bounds
+        self.todayLabel.text = "\((NSDate()).day)"
+          
+        self.todayWindow.isHidden = false
+        todayWindow.alpha = 0.0
+        UIView.animate(withDuration: 0.25, animations: {
+            self.todayWindow.alpha = 1.0
+        })
+    }
+    
+    @objc func didClickedTodayWidowAction() {
+        headerView.calendarView.calendarView.toggleCurrentDayView()
+    }
     
     private func reloadEventsInfo(_ date: Date?) {
         guard granted, let date = date else { return }
