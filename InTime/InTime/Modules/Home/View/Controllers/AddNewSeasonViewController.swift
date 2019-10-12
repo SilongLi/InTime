@@ -297,6 +297,7 @@ class AddNewSeasonViewController: BaseViewController {
             picker.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
             picker.sourceType = UIImagePickerController.SourceType.photoLibrary
             picker.navigationBar.setBackgroundImage(UIImage.creatImage(color: UIColor.tintColor), for: .default)
+            picker.modalPresentationStyle = .fullScreen
             self.present(picker, animated: true, completion: { [weak self] in
                 self?.view.hideHud()
             })
@@ -484,6 +485,7 @@ extension AddNewSeasonViewController: InfoSelectedDelegate {
                 }
             }
             let NAV = UINavigationController(rootViewController: categoryManagerVC)
+            NAV.modalPresentationStyle = .fullScreen
             navigationController?.present(NAV, animated: true, completion: nil)
             
         /// 动画效果
@@ -594,7 +596,7 @@ extension AddNewSeasonViewController: UIImagePickerControllerDelegate, UINavigat
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.navigationController?.popToViewController(self, animated: true)
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 

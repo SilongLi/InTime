@@ -260,6 +260,7 @@ class SeaSonDetailViewController: BaseViewController {
             }
         }
         DispatchQueue.main.async {
+            ACV.modalPresentationStyle = .fullScreen
             self.present(ACV, animated: true, completion: nil)
         }
     }
@@ -276,8 +277,7 @@ class SeaSonDetailViewController: BaseViewController {
             return nil
         }
         layer.render(in: context)
-        
-        
+         
         let labelH: CGFloat = 24.0
         let labelW: CGFloat = 40.0
         let labelX = UIScreen.main.bounds.size.width - 20.0 - labelW

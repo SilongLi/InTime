@@ -144,6 +144,7 @@ open class CKAlertViewController: UIViewController {
     }
 
     open func showAlertViewController(inViewController: UIViewController?, complete: (() -> Void)?) {
+        self.modalPresentationStyle = .fullScreen
         if inViewController != nil {
             if (inViewController?.presentedViewController) != nil {
                 inViewController?.presentedViewController?.present(self, animated: true, completion: complete)
@@ -151,7 +152,7 @@ open class CKAlertViewController: UIViewController {
                 inViewController?.present(self, animated: true, completion: complete)
             }
         } else {
-            let rootViewController = UIApplication.shared.keyWindow?.rootViewController
+            let rootViewController = UIApplication.shared.keyWindow?.rootViewController 
             rootViewController?.present(self, animated: true, completion: complete)
         }
     }
