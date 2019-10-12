@@ -81,6 +81,7 @@ class ITMainViewController: BaseViewController {
         view.addSubview(tableView)
         
         loadCategoryViewModels()
+        rigesterNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,12 +92,7 @@ class ITMainViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        calendarDataManager.checkCalendarAuthorization { [weak self] (granted) in
-            DispatchQueue.main.async {
-                self?.granted = granted
-                self?.reloadEventsInfo(self?.currentSelectedDate)
-            }
-        }
+        checkCalendarAuthorization()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -112,6 +108,15 @@ class ITMainViewController: BaseViewController {
     
     // MARK: - Private Methods
     
+    func checkCalendarAuthorization() {
+        calendarDataManager.checkCalendarAuthorization { [weak self] (granted) in
+            DispatchQueue.main.async {
+                self?.granted = granted
+                self?.reloadEventsInfo(self?.currentSelectedDate)
+            }
+        }
+    }
+    
     func updateTodayWindow(_ date: Date?) {
         if let date = date, !(date as NSDate).isToday() {
             showTodayWindow()
@@ -125,7 +130,7 @@ class ITMainViewController: BaseViewController {
             return
         }
         todayWindow.alpha = 1.0
-        UIView.animate(withDuration: 0.25, animations: {
+        UIView.animate(withDuration: 0.1, animations: {
             self.todayWindow.alpha = 0.0
         }) { (_) in
             self.todayWindow.isHidden = true
@@ -211,6 +216,12 @@ class ITMainViewController: BaseViewController {
 //                self?.tableView.reloadData()
 //            }
 //        }
+    }
+     
+    private func rigesterNotification() {
+        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { [weak self] (_) in
+            self?.checkCalendarAuthorization()
+        }
     }
     
     // MARK: - Actions

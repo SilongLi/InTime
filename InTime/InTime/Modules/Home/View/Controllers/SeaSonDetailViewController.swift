@@ -15,6 +15,7 @@ class SeaSonDetailViewController: BaseViewController {
         let view = UIImageView()
         view.backgroundColor = UIColor.tintColor
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         return view
     }()
     lazy var bgImageViewAlternate: UIImageView = {
@@ -22,6 +23,7 @@ class SeaSonDetailViewController: BaseViewController {
         view.backgroundColor = UIColor.tintColor
         view.alpha = 0.0
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         return view
     }()
     

@@ -194,6 +194,7 @@ class HomeViewController: BaseViewController {
     lazy var bgTableView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clear
+        view.clipsToBounds = true
         return view
     }()
     lazy var topBgImageView: UIImageView = {
@@ -201,6 +202,7 @@ class HomeViewController: BaseViewController {
         view.backgroundColor = UIColor.clear
         view.image = defalutBgImage
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         return view
     }()
     lazy var bottomBgImageView: UIImageView = {
@@ -208,6 +210,7 @@ class HomeViewController: BaseViewController {
         view.backgroundColor = UIColor.clear
         view.contentMode = .scaleAspectFill
         view.isHidden = true
+        view.clipsToBounds = true
         return view
     }()
     /// 交替背景图片，用于切换时的过度动画
@@ -216,6 +219,7 @@ class HomeViewController: BaseViewController {
         view.backgroundColor = UIColor.tintColor
         view.alpha = 0.0
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         return view
     }()
     
