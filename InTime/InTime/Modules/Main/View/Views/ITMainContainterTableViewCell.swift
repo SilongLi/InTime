@@ -36,9 +36,9 @@ class ITMainContainterTableViewCell: UITableViewCell {
                 block(cellModel)
             }
         }
-        view.showAddNewSeasonViewBlock = { [weak self] in
+        view.showAddNewSeasonViewBlock = { [weak self] (cellModel) in
             if let block = self?.showAddNewSeasonViewBlock {
-                block()
+                block(cellModel)
             }
         }
         return view
@@ -50,7 +50,7 @@ class ITMainContainterTableViewCell: UITableViewCell {
      
     var showSystemCalendarAPPBlock: (() -> ())?
     var showSeasonViewBlock: ((_ viewModel: CategorySeasonsViewModel) -> ())?
-    var showAddNewSeasonViewBlock: (() -> ())?
+    var showAddNewSeasonViewBlock: ((_ viewModel: CategorySeasonsViewModel) -> ())?
      
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -35,7 +35,7 @@ class ITMainListInfoView: UIView {
     
     var showSystemCalendarAPPBlock: (() -> ())?
     var showSeasonViewBlock: ((_ viewModel: CategorySeasonsViewModel) -> ())?
-    var showAddNewSeasonViewBlock: (() -> ())?
+    var showAddNewSeasonViewBlock: ((_ viewModel: CategorySeasonsViewModel) -> ())?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,8 +50,7 @@ class ITMainListInfoView: UIView {
     static func heightForView(events: [EKEvent]?, categoryViewModels: [CategorySeasonsViewModel]) -> CGFloat {
         var height = ITMainCalendarInfoTableViewCell.heightForCell(events) + footHeight * 2.0
         for viewModel in categoryViewModels {
-            let seasons = viewModel.seasons
-            height += ITMainSeasonTableViewCell.heightForCell(seasons)
+            height += ITMainSeasonTableViewCell.heightForCell(viewModel)
         }
         return height
     }
@@ -72,11 +71,11 @@ class ITMainListInfoView: UIView {
     
     // MARK: - Private Methods
     
-    func getSeasons(_ indexPath: IndexPath) -> [SeasonModel] {
+    func getSeasonsViewModel(_ indexPath: IndexPath) -> CategorySeasonsViewModel {
         guard indexPath.section - 1 < categoryViewModels.count else {
-            return [SeasonModel]()
+            return CategorySeasonsViewModel()
         }
-        return categoryViewModels[indexPath.section - 1].seasons
+        return categoryViewModels[indexPath.section - 1]
     }
 }
 
@@ -106,7 +105,7 @@ extension ITMainListInfoView: UITableViewDelegate, UITableViewDataSource {
             }
             
             let cell: ITMainSeasonTableViewCell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ITMainSeasonTableViewCell.self), for: indexPath) as! ITMainSeasonTableViewCell 
-            cell.updateContent(getSeasons(indexPath), date: currentSelectedDate)
+            cell.updateContent(getSeasonsViewModel(indexPath), date: currentSelectedDate)
             return cell
         }
         
@@ -114,7 +113,7 @@ extension ITMainListInfoView: UITableViewDelegate, UITableViewDataSource {
             if indexPath.section == 0 {
                 return ITMainCalendarInfoTableViewCell.heightForCell(events)
             }
-            return ITMainSeasonTableViewCell.heightForCell(getSeasons(indexPath))
+            return ITMainSeasonTableViewCell.heightForCell(getSeasonsViewModel(indexPath))
         }
         
         func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -142,7 +141,7 @@ extension ITMainListInfoView: UITableViewDelegate, UITableViewDataSource {
                         block(viewModel)
                     }else {
                         if let block = showAddNewSeasonViewBlock {
-                            block()
+                            block(viewModel)
                         }
                     }
                 } else {}

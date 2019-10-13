@@ -11,6 +11,7 @@ struct CategoryModel: SelectedViewModelProtocol {
     var id: String = ""
     var title: String = ""
     var isSelected: Bool = false
+    var iconName: String = ""
     /// 默认自带类别，不可删除，不添加时节到本类型下
     var isDefault: Bool = false
 }
@@ -21,6 +22,7 @@ extension CategoryModel {
         model.id = json["id"].stringValue
         model.title = json["title"].stringValue
         model.isSelected = json["isSelected"].boolValue
+        model.iconName = json["iconName"].stringValue
         model.isDefault = json["isDefault"].boolValue
         return model
     }
@@ -29,6 +31,7 @@ extension CategoryModel {
         return ["id": id,
                 "title": title,
                 "isSelected": isSelected,
+                "iconName": iconName,
                 "isDefault": isDefault]
     }
 }

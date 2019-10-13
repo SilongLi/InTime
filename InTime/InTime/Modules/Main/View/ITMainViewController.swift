@@ -240,7 +240,20 @@ class ITMainViewController: BaseViewController {
     }
      
     private func showSeasonView(_ viewModel: CategorySeasonsViewModel?) {
+        saveCurrentCategory(viewModel)
+        
         let seasonVC = HomeViewController()
+        navigationController?.pushViewController(seasonVC, animated: true)
+    }
+    
+    private func showAddNewSeasonView(_ viewModel: CategorySeasonsViewModel?) {
+        saveCurrentCategory(viewModel)
+        
+        let addNewSeasonVC = AddNewSeasonViewController()
+        navigationController?.pushViewController(addNewSeasonVC, animated: true)
+    }
+    
+    private func saveCurrentCategory(_ viewModel: CategorySeasonsViewModel?) {
         if let model = viewModel, model.category.id.count > 0, categorys.count > 0 {
             for index in 0..<categorys.count {
                 var category = categorys[index]
@@ -249,12 +262,6 @@ class ITMainViewController: BaseViewController {
             }
             HomeSeasonViewModel.saveAllCategorys(categorys)
         }
-        navigationController?.pushViewController(seasonVC, animated: true)
-    }
-    
-    private func showAddNewSeasonView() {
-        let addNewSeasonVC = AddNewSeasonViewController()
-        navigationController?.pushViewController(addNewSeasonVC, animated: true)
     }
     
     /*
@@ -329,8 +336,8 @@ extension ITMainViewController: UITableViewDelegate, UITableViewDataSource {
         cell.showSeasonViewBlock = { [weak self] (cellModel) in
             self?.showSeasonView(cellModel)
         }
-        cell.showAddNewSeasonViewBlock = { [weak self] in
-            self?.showAddNewSeasonView()
+        cell.showAddNewSeasonViewBlock = { [weak self] (cellModel) in
+            self?.showAddNewSeasonView(cellModel)
         }
         return cell
     }

@@ -25,7 +25,7 @@ class ITMainSeasonTableViewCell: UITableViewCell {
     
     lazy var iconView: UIImageView = {
         let icon = UIImageView()
-        icon.image = UIImage.init(named: "seasonIcon")
+        icon.image = UIImage.init(named: "ringIcon")
         return icon
     }()
     
@@ -47,7 +47,7 @@ class ITMainSeasonTableViewCell: UITableViewCell {
      
     private var refreshTimer: DispatchSourceTimer?
     private var currentSelectedDate: Date = Date()
-    private var seasons: [SeasonModel]?
+    private var viewModel: CategorySeasonsViewModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
            super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -74,8 +74,8 @@ class ITMainSeasonTableViewCell: UITableViewCell {
         infoLabel.frame = contentInfoView.bounds;
     }
           
-    class func heightForCell(_ seasons: [SeasonModel]?) -> CGFloat {
-        let count = CGFloat(seasons?.count ?? 0)
+    class func heightForCell(_ viewModel: CategorySeasonsViewModel?) -> CGFloat {
+        let count = CGFloat(viewModel?.seasons.count ?? 0)
         if count > 0 {
             return Margin * 2.0 + count * ItemHeight
         } else {
@@ -83,8 +83,11 @@ class ITMainSeasonTableViewCell: UITableViewCell {
         }
    }
      
-    func updateContent(_ seasons: [SeasonModel]?, date: Date = Date()) {
-        infoLabel.isHidden = (seasons?.count ?? 0) > 0
+    func updateContent(_ model: CategorySeasonsViewModel?, date: Date = Date()) {
+        infoLabel.isHidden = (viewModel?.seasons.count ?? 0) > 0
+        if let imageName = viewModel?.category.iconName, imageName.count > 0 {
+            iconView.image = UIImage.init(named: imageName)
+        }
         currentSelectedDate = date
         
         if refreshTimer == nil {
@@ -97,7 +100,7 @@ class ITMainSeasonTableViewCell: UITableViewCell {
             })
             refreshTimer?.resume()
         }
-        self.seasons = seasons
+        self.viewModel = model
         reloadContent()
     }
     
@@ -106,7 +109,7 @@ class ITMainSeasonTableViewCell: UITableViewCell {
         contentInfoView.addSubview(lineView)
         contentInfoView.addSubview(iconView)
         contentInfoView.addSubview(infoLabel)
-        guard let seasons = seasons  else {
+        guard let seasons = viewModel?.seasons  else {
             return
         }
         

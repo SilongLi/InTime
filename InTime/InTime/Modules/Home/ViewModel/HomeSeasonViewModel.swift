@@ -32,6 +32,7 @@ class HomeSeasonViewModel {
         ring.id = NSDate().string(withFormat: DatestringWithFormat) + "2"
         ring.title = "闹铃"
         ring.isSelected = false
+        ring.iconName = "ringIcon"
         let ringJson = ring.convertToJson()
         let ringJsonStr = ringJson.convertToString
         
@@ -39,6 +40,7 @@ class HomeSeasonViewModel {
         anniversaries.id = NSDate().string(withFormat: DatestringWithFormat) + "3"
         anniversaries.title = "纪念日"
         anniversaries.isSelected = false
+        anniversaries.iconName = "anniversary"
         let anniversariesJson = anniversaries.convertToJson()
         let anniversariesJsonStr = anniversariesJson.convertToString
         
