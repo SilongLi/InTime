@@ -22,7 +22,7 @@ class ITMainViewController: BaseViewController {
             self?.updateTodayWindow(date.date)
         }
         view.showSeasonViewBlock = { [weak self] in
-            self?.showSeasonView()
+            self?.showSeasonView(nil)
         }
         view.showDetailCalendarViewBlock = { [weak self] in
             self?.view.setNeedsLayout()
@@ -71,6 +71,7 @@ class ITMainViewController: BaseViewController {
     private var events: [EKEvent]?
     private var isLoading: Bool = false
     private var categoryViewModels: [CategorySeasonsViewModel] = [CategorySeasonsViewModel]()
+    private var categorys: [CategoryModel] = [CategoryModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -181,6 +182,7 @@ class ITMainViewController: BaseViewController {
         
         categoryViewModels.removeAll()
         HomeSeasonViewModel.loadLocalCategorys { [weak self] (models) in
+            self?.categorys = models
             for category in models {
                 if category.isDefault {
                     continue
@@ -204,7 +206,7 @@ class ITMainViewController: BaseViewController {
         }
     }
     
-    func loadSeasons() {
+//    func loadSeasons() {
 //        if let categoryId = UserDefaults.standard.string(forKey: CurrentSelectedCategoryIDKey) {
 //            HomeSeasonViewModel.loadLocalSeasons(categoryId: categoryId) { [weak self] (seasons) in
 //                 self?.seasons = seasons
@@ -216,7 +218,7 @@ class ITMainViewController: BaseViewController {
 //                self?.tableView.reloadData()
 //            }
 //        }
-    }
+//    }
      
     private func rigesterNotification() {
         NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { [weak self] (_) in
@@ -237,8 +239,16 @@ class ITMainViewController: BaseViewController {
         }
     }
      
-    private func showSeasonView() {
+    private func showSeasonView(_ viewModel: CategorySeasonsViewModel?) {
         let seasonVC = HomeViewController()
+        if let model = viewModel, model.category.id.count > 0, categorys.count > 0 {
+            for index in 0..<categorys.count {
+                var category = categorys[index]
+                category.isSelected = category.id == model.category.id
+                categorys[index] = category
+            }
+            HomeSeasonViewModel.saveAllCategorys(categorys)
+        }
         navigationController?.pushViewController(seasonVC, animated: true)
     }
     
@@ -316,8 +326,8 @@ extension ITMainViewController: UITableViewDelegate, UITableViewDataSource {
         cell.showSystemCalendarAPPBlock = { [weak self ] in
             self?.showSystemCalendarAPP()
         }
-        cell.showSeasonViewBlock = { [weak self] in
-            self?.showSeasonView()
+        cell.showSeasonViewBlock = { [weak self] (cellModel) in
+            self?.showSeasonView(cellModel)
         }
         cell.showAddNewSeasonViewBlock = { [weak self] in
             self?.showAddNewSeasonView()

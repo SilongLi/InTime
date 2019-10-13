@@ -301,7 +301,7 @@ class HomeViewController: BaseViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         /// 消失的时候，取消所有定时器
-        disableAllTimer() 
+        disableAllTimer()
     }
     
     deinit {

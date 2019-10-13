@@ -34,7 +34,7 @@ class ITMainListInfoView: UIView {
     
     
     var showSystemCalendarAPPBlock: (() -> ())?
-    var showSeasonViewBlock: (() -> ())?
+    var showSeasonViewBlock: ((_ viewModel: CategorySeasonsViewModel) -> ())?
     var showAddNewSeasonViewBlock: (() -> ())?
     
     override init(frame: CGRect) {
@@ -130,24 +130,22 @@ extension ITMainListInfoView: UITableViewDelegate, UITableViewDataSource {
         }
         
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            switch indexPath.section {
-            case 0:
+            if indexPath.section == 0 {
                 if let block = showSystemCalendarAPPBlock {
                     block()
                 }
-                break
-            case 1:
-                let seasons = categoryViewModels[indexPath.row].seasons
-                if seasons.count > 0, let block = showSeasonViewBlock {
-                    block()
-                } else {
-                    if let block = showAddNewSeasonViewBlock {
-                        block()
+            } else {
+                let index = indexPath.section - 1
+                if index < categoryViewModels.count {
+                    let viewModel = categoryViewModels[index]
+                    if viewModel.seasons.count > 0, let block = showSeasonViewBlock {
+                        block(viewModel)
+                    }else {
+                        if let block = showAddNewSeasonViewBlock {
+                            block()
+                        }
                     }
-                }
-                break
-            default:
-                break
+                } else {}
             }
         }
 }
