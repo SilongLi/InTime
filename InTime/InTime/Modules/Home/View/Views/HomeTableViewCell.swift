@@ -181,4 +181,24 @@ class HomeTableViewCell: UITableViewCell {
             delegate?.didLongPressGestureRecognizer(indexPath: indexP)
         }
     }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+
+        guard editing else { return }
+    
+        let classString = "UITableViewCellReorderControl"
+        guard let target = NSClassFromString(classString) else { return }
+        for view in self.subviews {
+            if type(of: view) == target {
+                for view in view.subviews {
+                    if type(of: view) == NSClassFromString("UIImageView") {
+                        (view as! UIImageView).image = UIImage.init(named: "sortIcon")
+                        break
+                    }
+                }
+                break
+            }
+        }
+    }
 }

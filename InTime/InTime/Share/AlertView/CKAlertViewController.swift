@@ -76,6 +76,7 @@ open class CKAlertViewController: UIViewController {
 
     override open func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.addSubview(CK_backgroundView)
         self.view.addSubview(CK_ContainerView)
 
@@ -100,7 +101,6 @@ open class CKAlertViewController: UIViewController {
                 make.centerY.equalTo(self.view).offset(CK_Magin_CenterY)
             }
         }
-        self.view.layoutIfNeeded()
     }
 
     override open func viewWillAppear(_ animated: Bool) {
@@ -144,7 +144,6 @@ open class CKAlertViewController: UIViewController {
     }
 
     open func showAlertViewController(inViewController: UIViewController?, complete: (() -> Void)?) {
-        self.modalPresentationStyle = .fullScreen
         if inViewController != nil {
             if (inViewController?.presentedViewController) != nil {
                 inViewController?.presentedViewController?.present(self, animated: true, completion: complete)

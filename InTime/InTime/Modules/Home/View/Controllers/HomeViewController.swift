@@ -842,7 +842,33 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return true
     }
     
+    func fundView(_ cell: UIView?) {
+        guard let cell = cell else { return }
+        let classString = "UITableViewCellReorderControl"
+        guard let target = NSClassFromString(classString) else { return }
+        var success = false
+        for view in cell.subviews {
+            if type(of: view).isKind(of: target) {
+                print(view, view.subviews)
+                print("成功了")
+                success = true
+                return
+            } else {
+                print(view)
+            }
+        }
+        for view in cell.subviews {
+            if success == false {
+                fundView(view)
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: sourceIndexPath)
+        
+        fundView(cell)
+        
         if sourceIndexPath.row != destinationIndexPath.row {
             if destinationIndexPath.row == 0 || sourceIndexPath.row == 0 {
                 tableView.setContentOffset(CGPoint.zero, animated: true)
@@ -921,6 +947,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                         })
                     } else {
                         strongSelf.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.right)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+                            strongSelf.tableView.setEditing(false, animated: true)
+                        })
                     }
                 } else {
                     strongSelf.view.showText("删除失败！")
@@ -932,7 +961,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         let modify = UITableViewRowAction.init(style: UITableViewRowAction.Style.default, title: "修改") { [weak self] (action, indexPath) in
             guard let strongSelf = self else { return }
-            tableView.setEditing(false, animated: true)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+                strongSelf.tableView.setEditing(false, animated: true)
+            })
+            
             strongSelf.finishSortSeasonAction()
             
             let modifySeasonVC = AddNewSeasonViewController()

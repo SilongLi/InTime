@@ -207,6 +207,7 @@ extension AddNewSeasonViewModel {
                                            cellHeight: InfoCellHeight,
                                            showCellCount: 1,
                                            items: [type])
+        
         /// 动画效果
         let animation  = InfoSelectedModel()
         animation.type = InfoSelectedType.animation
@@ -255,6 +256,7 @@ extension AddNewSeasonViewModel {
                                            cellHeight: InfoCellHeight,
                                            showCellCount: 1,
                                            items: [ring])
+        
         /// 重复提醒
         let repeatModel = RepeatReminderModel()
         repeatModel.name = "重复提醒"
@@ -263,11 +265,10 @@ extension AddNewSeasonViewModel {
         let day     = RepeatReminderTypeModel(type: .day, title: "每天", isSelected: repeatRemindType == .day)
         let workDay = RepeatReminderTypeModel(type: .workDay, title: "工作日", isSelected: repeatRemindType == .workDay)
         let week    = RepeatReminderTypeModel(type: .week, title: "每周", isSelected: repeatRemindType == .week)
-        ///（第一版先不上）
-//        let month  = RepeatReminderTypeModel(type: .month, title: "每月", isSelected: repeatRemindType == .month)
+        let month  = RepeatReminderTypeModel(type: .month, title: "每月", isSelected: repeatRemindType == .month)
         let year    = RepeatReminderTypeModel(type: .year, title: "每年", isSelected: repeatRemindType == .year)
         let commemorationDay = RepeatReminderTypeModel(type: .commemorationDay, title: "纪念日", isSelected: repeatRemindType == .commemorationDay)
-        repeatModel.types = [no, day, workDay, week, year, commemorationDay]
+        repeatModel.types = [no, day, workDay, week, month, year, commemorationDay]
         let repeatSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.repeatReminder.rawValue,
                                              headerTitle: "",
                                              footerTitle: "",
@@ -276,6 +277,7 @@ extension AddNewSeasonViewModel {
                                              cellHeight: RepeatReminderCellHeight,
                                              showCellCount: 1,
                                              items: [repeatModel])
+        
         /// 自定义背景
         let isSelectedCustom = originSeason.backgroundModel.type == .custom
         let bgName  = isModifySeason ? originSeason.backgroundModel.name : "bg1"

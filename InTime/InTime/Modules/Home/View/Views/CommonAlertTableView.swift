@@ -86,13 +86,14 @@ class CommonAlertTableView: CKAlertCommonView {
         tableView.frame = CGRect.init(x: 0.0,
                                       y: HeaderHeight + 0.5,
                                       width: bounds.size.width,
-                                      height: height - HeaderHeight - 0.5)
+                                      height: bounds.height - HeaderHeight - 0.5)
     }
     
     func updateContentView(_ model: AlertCollectionModel) {
         self.alertModel = model
+          
         headerTitleLabel.text = model.title
-        layoutSubviews()
+        setNeedsLayout()
         tableView.reloadData()
     }
 }

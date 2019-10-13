@@ -126,6 +126,18 @@ public class ITCountdownLabel: LTMorphingLabel {
         }
     }
     
+    func suspendTimer() {
+        if refreshTimer != nil {
+            refreshTimer?.suspend()
+        }
+    }
+    
+    func reStartTimer() {
+        if refreshTimer != nil {
+            refreshTimer?.resume()
+        }
+    }
+    
     // MARK: - 时间显示格式处理
     @objc func updateLabel() {
         if let type = aType {

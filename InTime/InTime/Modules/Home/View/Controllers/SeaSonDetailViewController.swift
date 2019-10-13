@@ -267,6 +267,8 @@ class SeaSonDetailViewController: BaseViewController {
     
     /// 截屏
     func snapshotCurrentFullScreen() -> UIImage? {
+        stopTimer(true)
+        
         self.navigationController?.setNavigationBarHidden(true, animated: true);
         self.shareBtn.isHidden = true
         
@@ -306,7 +308,23 @@ class SeaSonDetailViewController: BaseViewController {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true);
         self.shareBtn.isHidden = false
+        
+        stopTimer(false)
+        
         return image
+    }
+    
+    func stopTimer(_ stop: Bool) {
+        for cell in collectionView.visibleCells {
+            if cell is SeasonDetailCollectionViewCell {
+                if stop {
+                    (cell as! SeasonDetailCollectionViewCell).countDownLabel.suspendTimer()
+                } else {
+                    (cell as! SeasonDetailCollectionViewCell).countDownLabel.reStartTimer()
+                }
+                (cell as! SeasonDetailCollectionViewCell).countDownLabel.updateLabel()
+            }
+        }
     }
 }
 
