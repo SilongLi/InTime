@@ -1,5 +1,5 @@
 //
-//  ITMainHeaderInfoView.swift
+//  ITMainTableViewHeaderInfoView.swift
 //  InTime
 //
 //  Created by lisilong on 2019/9/28.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ITMainHeaderInfoView: UIView {
+class ITMainTableViewHeaderInfoView: UIView {
     
     let margin: CGFloat = 15.0
     let infoHeight: CGFloat = 80.0

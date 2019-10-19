@@ -10,7 +10,7 @@ import UIKit
 
 class ITMainSeasonTableViewCell: UITableViewCell {
     
-    static let ItemHeight: CGFloat = 30.0
+    static let ItemHeight: CGFloat = 35.0
     
     lazy var contentInfoView: UIView = {
         let view = UIView()
@@ -21,12 +21,6 @@ class ITMainSeasonTableViewCell: UITableViewCell {
         view.layer.cornerRadius = 5.0
         view.backgroundColor = UIColor.darkGaryColor
         return view
-    }()
-    
-    lazy var iconView: UIImageView = {
-        let icon = UIImageView()
-        icon.image = UIImage.init(named: "ringIcon")
-        return icon
     }()
     
     lazy var infoLabel:UILabel = {
@@ -70,7 +64,6 @@ class ITMainSeasonTableViewCell: UITableViewCell {
         let width = self.frame.size.width - Margin * 2.0
         contentInfoView.frame = CGRect.init(x: Margin, y: 0.0, width: width, height: self.frame.size.height)
         lineView.frame = CGRect.init(x: 0.0, y: 2.0, width: 1.0, height: contentInfoView.frame.size.height - 4.0)
-        iconView.frame = CGRect.init(x: Margin, y: Margin, width: IconWH, height: IconWH)
         infoLabel.frame = contentInfoView.bounds;
     }
           
@@ -85,9 +78,6 @@ class ITMainSeasonTableViewCell: UITableViewCell {
      
     func updateContent(_ model: CategorySeasonsViewModel?, date: Date = Date()) {
         infoLabel.isHidden = (viewModel?.seasons.count ?? 0) > 0
-        if let imageName = viewModel?.category.iconName, imageName.count > 0 {
-            iconView.image = UIImage.init(named: imageName)
-        }
         currentSelectedDate = date
         
         if refreshTimer == nil {
@@ -107,7 +97,6 @@ class ITMainSeasonTableViewCell: UITableViewCell {
     func reloadContent() {
         contentInfoView.removeAllSubviews()
         contentInfoView.addSubview(lineView)
-        contentInfoView.addSubview(iconView)
         contentInfoView.addSubview(infoLabel)
         guard let seasons = viewModel?.seasons  else {
             return
@@ -130,7 +119,7 @@ class ITMainSeasonTableViewCell: UITableViewCell {
             timeLabel.textAlignment = .left
             timeLabel.textColor = isLater ? UIColor.white : UIColor.heightLightGrayColor
             timeLabel.text = " " + timeIntervalStr + "天 "
-            timeLabel.backgroundColor = isLater ? UIColor.greenColor : UIColor.pinkColor.withAlphaComponent(0.5)
+            timeLabel.backgroundColor = isLater ? UIColor.greenColor.withAlphaComponent(0.3) : UIColor.pinkColor.withAlphaComponent(0.3)
             timeLabel.layer.cornerRadius = 3.0
             timeLabel.layer.masksToBounds = true
             timeLabel.sizeToFit()
@@ -143,10 +132,9 @@ class ITMainSeasonTableViewCell: UITableViewCell {
             let timeX = size.width - timeWidth - 10.0
             timeLabel.frame = CGRect.init(x: timeX, y: y, width: timeWidth, height: timeLabel.frame.size.height)
             
-            let x = Margin + IconWH + 10.0
             let labelY = Margin + index * ITMainSeasonTableViewCell.ItemHeight
-            let width = contentInfoView.frame.size.width - x - 15.0 - timeWidth
-            label.frame = CGRect.init(x: x, y: labelY, width: width, height: ITMainSeasonTableViewCell.ItemHeight)
+            let width = contentInfoView.frame.size.width - Margin - 15.0 - timeWidth
+            label.frame = CGRect.init(x: Margin, y: labelY, width: width, height: ITMainSeasonTableViewCell.ItemHeight)
             
             index += 1.0
         }

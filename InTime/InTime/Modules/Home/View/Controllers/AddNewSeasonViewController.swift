@@ -279,6 +279,7 @@ class AddNewSeasonViewController: BaseViewController {
                                                                  identifier: newSeason.id,
                                                                  soundName: "JazzLogo.mp3",
                                                                  date: date as Date,
+                                                                 repeatRemindType: newSeason.repeatRemindType,
                                                                  isOpenRemind: newSeason.isOpenRemind)
         } else {}
     }

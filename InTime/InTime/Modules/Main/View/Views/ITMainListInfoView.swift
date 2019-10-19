@@ -12,7 +12,8 @@ import EventKitUI
 
 class ITMainListInfoView: UIView {
  
-    static let footHeight: CGFloat = 20.0
+    static let headerHeight: CGFloat = 44.0
+    static let footHeight: CGFloat = 15.0
     
     lazy var tableView: UITableView = {
         let tableView = UITableView.init(frame: CGRect.zero, style: .grouped)
@@ -51,6 +52,7 @@ class ITMainListInfoView: UIView {
         var height = ITMainCalendarInfoTableViewCell.heightForCell(events) + footHeight * 2.0
         for viewModel in categoryViewModels {
             height += ITMainSeasonTableViewCell.heightForCell(viewModel)
+            height += headerHeight
         }
         return height
     }
@@ -90,7 +92,7 @@ extension ITMainListInfoView: UITableViewDelegate, UITableViewDataSource {
         }
         
         func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-            return 0.001
+            return section == 0 ? 0.001 : ITMainListInfoView.headerHeight
         }
         
         func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -117,9 +119,25 @@ extension ITMainListInfoView: UITableViewDelegate, UITableViewDataSource {
         }
         
         func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-            let footerView = UIView()
-            footerView.backgroundColor = .clear
-            return footerView
+            let view = UIView()
+            view.backgroundColor = .clear
+            if (section == 0) {
+                return view
+            }
+             
+            guard section - 1 < categoryViewModels.count else {
+                return view
+            }
+            let headerInfoView = ITMainHeaderInfoView()
+            headerInfoView.backgroundColor = UIColor.clear
+            let model = categoryViewModels[section - 1]
+            headerInfoView.titleLabel.text = model.category.title
+            headerInfoView.didAddSeasonButtonBlock = { [weak self] in
+                if let block = self?.showAddNewSeasonViewBlock {
+                    block(model)
+                }
+            }
+            return headerInfoView
         }
         
         func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

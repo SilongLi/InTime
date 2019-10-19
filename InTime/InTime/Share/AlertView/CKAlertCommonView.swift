@@ -14,6 +14,10 @@ open class CKAlertCommonView: UIView {
     public var alertStyle: CKAlertStyle
     public weak var alertViewController: CKAlertViewController?
     public var showTime = 0.25
+    /// 弹窗高度
+    public var contentViewHeight: CGFloat = 0.0
+    /// y值偏移量
+    public var contentViewY: CGFloat = 0.0
 
     public init(animationStyle: CKAlertAnimationStyle, alertStyle: CKAlertStyle) {
         self.animationStyle = animationStyle
@@ -27,8 +31,9 @@ open class CKAlertCommonView: UIView {
 
     open func showAlertView(inViewController: UIViewController, leftOrRightMargin: CGFloat, height: CGFloat = 0.0, _ centerY_Margin: CGFloat = 0.0) {
         let alertViewController = CKAlertViewController(animationStyle: self.animationStyle, alertStyle: self.alertStyle, containerView: self, height: height, margin: leftOrRightMargin)
-        alertViewController.CK_Magin_CenterY = centerY_Margin
+        alertViewController.CK_Magin_CenterY = centerY_Margin + contentViewY
         alertViewController.CK_showTime = showTime
+        alertViewController.CK_ContentView_Height = contentViewHeight
         self.alertViewController = alertViewController
         weak var weakSelf = self
         self.alertViewController?.clickBackgroundAction = {

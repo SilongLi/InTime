@@ -139,16 +139,9 @@ class InputTextFieldAlertView: CKAlertCommonView {
             make.left.equalTo(verticalLineView.snp.right)
             make.height.equalTo(verticalLineView.snp.height)
         })
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         
-        var bounds = self.bounds
-        bounds.size.height = 170.0
-        self.bounds = bounds
-        
-        self.center.y = self.center.y - 60.0
+        contentViewHeight = 170.0
+        contentViewY = -70.0
     }
     
     @objc func doneAction() {

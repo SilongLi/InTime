@@ -14,8 +14,8 @@ class ITMainViewController: BaseViewController {
     
     let footerMargin: CGFloat = 50.0
     
-    lazy var headerView: ITMainHeaderInfoView = {
-        let view = ITMainHeaderInfoView() 
+    lazy var headerView: ITMainTableViewHeaderInfoView = {
+        let view = ITMainTableViewHeaderInfoView() 
         view.didSelectedDateBlock = { [weak self] (date) in
             self?.currentSelectedDate = date.date
             self?.reloadEventsInfo(date.date)
@@ -324,6 +324,7 @@ extension ITMainViewController: UITableViewDelegate, UITableViewDataSource {
         var height = ITMainContainterTableViewCell.heightForCell(events: events, categoryViewModels: categoryViewModels)
         height = height > minHeight ? height : minHeight
         height += footerMargin
+        height += 50.0
         return height
     }
     

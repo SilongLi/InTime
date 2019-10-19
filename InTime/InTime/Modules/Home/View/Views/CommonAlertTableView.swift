@@ -73,15 +73,12 @@ class CommonAlertTableView: CKAlertCommonView {
             make.top.equalTo(headerTitleLabel.snp.bottom)
             make.left.right.bottom.equalToSuperview()
         }
+        
+        contentViewHeight = CellHeight * CGFloat((alertModel?.texts.count ?? 5)) + HeaderHeight
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        let height: CGFloat = CellHeight * CGFloat((alertModel?.texts.count ?? 5)) + HeaderHeight
-        var bounds = self.bounds
-        bounds.size.height = height
-        self.bounds = bounds
         
         tableView.frame = CGRect.init(x: 0.0,
                                       y: HeaderHeight + 0.5,
