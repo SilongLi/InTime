@@ -28,23 +28,23 @@ class HomeSeasonViewModel {
         let homeJson = home.convertToJson()
         let homeJsonStr = homeJson.convertToString
         
-        var ring = CategoryModel()
-        ring.id = NSDate().string(withFormat: DatestringWithFormat) + "2"
-        ring.title = "闹铃"
-        ring.isSelected = false
-        ring.iconName = "ringIcon"
-        let ringJson = ring.convertToJson()
-        let ringJsonStr = ringJson.convertToString
-        
         var anniversaries = CategoryModel()
-        anniversaries.id = NSDate().string(withFormat: DatestringWithFormat) + "3"
+        anniversaries.id = NSDate().string(withFormat: DatestringWithFormat) + "2"
         anniversaries.title = "纪念日"
         anniversaries.isSelected = false
         anniversaries.iconName = "anniversary"
         let anniversariesJson = anniversaries.convertToJson()
         let anniversariesJsonStr = anniversariesJson.convertToString
         
-        let categoryJsons = [homeJsonStr, ringJsonStr, anniversariesJsonStr]
+        var ring = CategoryModel()
+        ring.id = NSDate().string(withFormat: DatestringWithFormat) + "3"
+        ring.title = "闹铃"
+        ring.isSelected = false
+        ring.iconName = "ringIcon"
+        let ringJson = ring.convertToJson()
+        let ringJsonStr = ringJson.convertToString
+        
+        let categoryJsons = [homeJsonStr, anniversariesJsonStr, ringJsonStr]
         let categoryData = NSKeyedArchiver.archivedData(withRootObject: categoryJsons)
         HandlerDocumentManager.saveCategorys(data: categoryData)
     }

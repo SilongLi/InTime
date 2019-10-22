@@ -158,7 +158,7 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     components.hour = 11;
     components.minute = 59;
     components.second = 59;
-    NSDate *lastMorningDate = [[NSDate currentCalendar] dateFromComponents:components]; 
+    NSDate *lastMorningDate = [[NSDate currentCalendar] dateFromComponents:components];
     return [self isEarlierThanDate:lastMorningDate];
 }
 
@@ -732,4 +732,83 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     return dateStr;
 }
 
+#pragma mark - 获取当天的农历
+
++ (NSDate *)newYear {
+    NSDateComponents *components = [[NSDate currentCalendar] components:componentFlags fromDate:[NSDate date]];
+    components.month = 1;
+    components.day = 1;
+    components.hour = 0;
+    components.minute = 0;
+    components.second = 0;
+    NSDate *date = [[NSDate currentCalendar] dateFromComponents:components];
+    return date;
+}
+
+//- (NSString *)chineseCalendarOfDate:(NSDate *)date {
+//    NSCalendar *chineseCalendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierChinese];
+//    NSDateComponents *components = [chineseCalendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+//    NSCalendar *normalDate = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+//    NSDateComponents *Datecomponents = [normalDate components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+//
+//    NSString *festival = @"";
+//    if (components.day == 1 && components.month == 1) {
+//        festival = @"春节";
+//    } else if (components.month == 5 && components.day == 1) {
+//        festival = @"元宵节";
+//    } else if (components.month == 5 && components.day == 1) {
+//        festival = @"劳动节";
+//    } else if (components.month == 5 && components.day == 5) {
+//        festival = @"端午";
+//    } else if () {
+//
+//    } else if () {
+//
+//    } else if () {
+//
+//    }
+//
+//
+//    if () {
+//
+//     } else if () {
+//
+//     } else if () {
+//
+//     } else if (components.month == 7 && components.day == 7) {
+//         festival = @"七夕";
+//     } else if (components.month == 8 && components.day == 15) {
+//         festival = @"中秋";
+//     }
+//
+//
+//    if (Datecomponents.month == 1 && Datecomponents.day == 1) {
+//        festival = @"过新年";
+//    } else if (Datecomponents.month == 6 && Datecomponents.day == 1) {
+//           festival = @"儿童节";
+//   } else if (Datecomponents.month == 6 && Datecomponents.day == 1) {
+//        festival = @"儿童节";
+//    } else if (Datecomponents.month == 10 && Datecomponents.day == 1) {
+//        festival = @"国庆节";
+//    } else if (Datecomponents.month == 5 && Datecomponents.day == 1) {
+//        festival = @"劳动节";
+//    } else if (Datecomponents.month == 12 && Datecomponents.day == 25) {
+//        festival = @"圣诞节";
+//    }
+//
+//
+//
+//    //除夕 另外提出放在所有节日的末尾执行，除夕是在春节前一天，即把components当天时间前移一天，放在所有节日末尾，避免其他节日全部前移一天
+//    NSTimeInterval timeInterval_day = 60 * 60 * 24;
+//    NSDate *nextDay_date = [NSDate dateWithTimeInterval:timeInterval_day sinceDate:date];
+//    NSCalendar *localeCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSChineseCalendar];
+//    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |NSDayCalendarUnit;
+//    components = [localeCalendar components:unitFlags fromDate:nextDay_date];
+//    if ( 1 == components.month && 1 == components.day ) {
+//        return @"除夕";
+//    }
+//    return festival;
+//}
+
 @end
+
