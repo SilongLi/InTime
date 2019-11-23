@@ -52,6 +52,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         isEnterBackground = false
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        if url.scheme == "IncomeTodayWidget" {
+            print("成功从知时节Widget插件进入主工程。")
+            return true
+        }
+        return false
+    }
+
     // MARK: - actions
     
     /// 通过系统搜索打开时节详情页

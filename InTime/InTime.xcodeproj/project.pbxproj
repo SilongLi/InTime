@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		99060853233F9A5000A5A5CE /* ITMainTableViewHeaderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99060852233F9A5000A5A5CE /* ITMainTableViewHeaderInfoView.swift */; };
+		990960C72389356F002A2F77 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 995291132389235F00015FCD /* NotificationCenter.framework */; };
+		990960CA2389356F002A2F77 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990960C92389356F002A2F77 /* TodayViewController.swift */; };
+		990960CD2389356F002A2F77 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 990960CB2389356F002A2F77 /* MainInterface.storyboard */; };
+		990960D12389356F002A2F77 /* 知时节.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 990960C62389356F002A2F77 /* 知时节.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		990A7C7F2346E4F400ED862B /* ITMainContainterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990A7C7E2346E4F400ED862B /* ITMainContainterTableViewCell.swift */; };
 		990A7C812346E5A800ED862B /* ITMainListInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990A7C802346E5A800ED862B /* ITMainListInfoView.swift */; };
 		990B64A421EF341C0063BD34 /* UIImage+CreateImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B64A321EF341C0063BD34 /* UIImage+CreateImage.swift */; };
@@ -146,9 +150,38 @@
 		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		990960CF2389356F002A2F77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9950227321E6F5EF004FAC47 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 990960C52389356F002A2F77;
+			remoteInfo = TodayWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		995291222389235F00015FCD /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				990960D12389356F002A2F77 /* 知时节.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		14B09EA84C4246C100B7FFA4 /* Pods-InTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.debug.xcconfig"; sourceTree = "<group>"; };
 		99060852233F9A5000A5A5CE /* ITMainTableViewHeaderInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainTableViewHeaderInfoView.swift; sourceTree = "<group>"; };
+		990960C62389356F002A2F77 /* 知时节.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "知时节.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		990960C92389356F002A2F77 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		990960CC2389356F002A2F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		990960CE2389356F002A2F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		990960D52389357A002A2F77 /* TodayWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TodayWidget.entitlements; sourceTree = "<group>"; };
 		990A7C7E2346E4F400ED862B /* ITMainContainterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainContainterTableViewCell.swift; sourceTree = "<group>"; };
 		990A7C802346E5A800ED862B /* ITMainListInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainListInfoView.swift; sourceTree = "<group>"; };
 		990B64A321EF341C0063BD34 /* UIImage+CreateImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+CreateImage.swift"; sourceTree = "<group>"; };
@@ -246,6 +279,7 @@
 		995022E621E8890B004FAC47 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		995022E821E8C372004FAC47 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		995022EA21E8D52E004FAC47 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		995291132389235F00015FCD /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		9968B57A2223EAC900792EC5 /* SeasonTextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonTextManager.swift; sourceTree = "<group>"; };
 		99857BE721EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		99857BEE21EC9381005C7F9B /* AddNewSeasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSeasonViewController.swift; sourceTree = "<group>"; };
@@ -300,6 +334,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		990960C32389356F002A2F77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				990960C72389356F002A2F77 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9950227821E6F5EF004FAC47 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -331,6 +373,17 @@
 				9994EDD4235B513300D31BDA /* ITMainHeaderInfoView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		990960C82389356F002A2F77 /* TodayWidget */ = {
+			isa = PBXGroup;
+			children = (
+				990960D52389357A002A2F77 /* TodayWidget.entitlements */,
+				990960C92389356F002A2F77 /* TodayViewController.swift */,
+				990960CB2389356F002A2F77 /* MainInterface.storyboard */,
+				990960CE2389356F002A2F77 /* Info.plist */,
+			);
+			path = TodayWidget;
 			sourceTree = "<group>";
 		};
 		990B64A521F030C90063BD34 /* Share */ = {
@@ -481,6 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				9950227D21E6F5EF004FAC47 /* InTime */,
+				990960C82389356F002A2F77 /* TodayWidget */,
 				9950227C21E6F5EF004FAC47 /* Products */,
 				25C6262372596043A59B72E6 /* Pods */,
 				A2538EDED4A702D86EC99A21 /* Frameworks */,
@@ -491,6 +545,7 @@
 			isa = PBXGroup;
 			children = (
 				9950227B21E6F5EF004FAC47 /* InTime.app */,
+				990960C62389356F002A2F77 /* 知时节.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -773,6 +828,7 @@
 			isa = PBXGroup;
 			children = (
 				EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */,
+				995291132389235F00015FCD /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -780,6 +836,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		990960C52389356F002A2F77 /* TodayWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 990960D22389356F002A2F77 /* Build configuration list for PBXNativeTarget "TodayWidget" */;
+			buildPhases = (
+				990960C22389356F002A2F77 /* Sources */,
+				990960C32389356F002A2F77 /* Frameworks */,
+				990960C42389356F002A2F77 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TodayWidget;
+			productName = TodayWidget;
+			productReference = 990960C62389356F002A2F77 /* 知时节.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		9950227A21E6F5EF004FAC47 /* InTime */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9950228D21E6F5F1004FAC47 /* Build configuration list for PBXNativeTarget "InTime" */;
@@ -790,10 +863,12 @@
 				9950227921E6F5EF004FAC47 /* Resources */,
 				7F1451917BFC438EF6082350 /* [CP] Embed Pods Frameworks */,
 				995228DD223908C1004CECC9 /* ShellScript */,
+				995291222389235F00015FCD /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				990960D02389356F002A2F77 /* PBXTargetDependency */,
 			);
 			name = InTime;
 			productName = InTime;
@@ -807,10 +882,13 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = IT;
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1120;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = BruceLi;
 				TargetAttributes = {
+					990960C52389356F002A2F77 = {
+						CreatedOnToolsVersion = 11.2;
+					};
 					9950227A21E6F5EF004FAC47 = {
 						CreatedOnToolsVersion = 10.1;
 						SystemCapabilities = {
@@ -836,11 +914,20 @@
 			projectRoot = "";
 			targets = (
 				9950227A21E6F5EF004FAC47 /* InTime */,
+				990960C52389356F002A2F77 /* TodayWidget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		990960C42389356F002A2F77 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				990960CD2389356F002A2F77 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9950227921E6F5EF004FAC47 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -929,6 +1016,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		990960C22389356F002A2F77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				990960CA2389356F002A2F77 /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9950227721E6F5EF004FAC47 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1064,7 +1159,23 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		990960D02389356F002A2F77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 990960C52389356F002A2F77 /* TodayWidget */;
+			targetProxy = 990960CF2389356F002A2F77 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		990960CB2389356F002A2F77 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				990960CC2389356F002A2F77 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		99277D012230B39C00B7395D /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1086,6 +1197,52 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		990960D32389356F002A2F77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TodayWidget/TodayWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HBBKUSRZMD;
+				INFOPLIST_FILE = TodayWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTime.TodayWidget;
+				PRODUCT_NAME = "知时节";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		990960D42389356F002A2F77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TodayWidget/TodayWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HBBKUSRZMD;
+				INFOPLIST_FILE = TodayWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTime.TodayWidget;
+				PRODUCT_NAME = "知时节";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		9950228B21E6F5F1004FAC47 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1208,7 +1365,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 14B09EA84C4246C100B7FFA4 /* Pods-InTime.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InTime/InTime.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1220,7 +1379,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1234,7 +1393,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InTime/InTime.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1245,7 +1406,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dream.InTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1258,6 +1419,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		990960D22389356F002A2F77 /* Build configuration list for PBXNativeTarget "TodayWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				990960D32389356F002A2F77 /* Debug */,
+				990960D42389356F002A2F77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9950227621E6F5EF004FAC47 /* Build configuration list for PBXProject "InTime" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

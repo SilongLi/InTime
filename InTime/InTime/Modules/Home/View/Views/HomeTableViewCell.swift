@@ -104,7 +104,7 @@ class HomeTableViewCell: UITableViewCell {
             } else {
                 countDownLabel.text  = timeIntervalStr
             }
-        } 
+        }
         countDownLabel.textColor = isEffective ? UIColor.white : unEffectiveColor
         
         
