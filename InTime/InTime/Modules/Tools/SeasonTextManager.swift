@@ -31,7 +31,31 @@ class SeasonTextManager {
                     ((currentDate as NSDate).month == date.month && (currentDate as NSDate).day > date.day) {
                     yearCount += 1
                 }
-                date = isLater ? date : date.addingYears(yearCount) as NSDate
+                date = date.addingYears(yearCount) as NSDate
+            }
+            
+            var dateStr = ""
+            if season.startDate.isGregorian {
+                dateStr = date.string(withFormat: StartSeasonDateFormat)
+            } else {
+                dateStr = (date as Date).solarToLunar()
+            }
+            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \(season.startDate.weakDay)" : dateStr
+            
+        case .month:
+            if isLater == false {
+                var yearCount = (currentDate as NSDate).year - date.year
+                let isNeedAdd = (date.month == (currentDate as NSDate).month && (currentDate as NSDate).month == 12 && (currentDate as NSDate).day > date.day)
+                if date.month > (currentDate as NSDate).month || isNeedAdd {
+                    yearCount += 1
+                }
+                date = date.addingYears(yearCount) as NSDate
+                
+                var monthCount = (currentDate as NSDate).month - date.month
+                if (currentDate as NSDate).day > date.day {
+                    monthCount = monthCount + 1
+                }
+                date = date.addingMonths(monthCount) as NSDate
             }
             
             var dateStr = ""

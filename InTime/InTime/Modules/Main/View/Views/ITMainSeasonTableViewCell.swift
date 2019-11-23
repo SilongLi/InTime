@@ -110,16 +110,19 @@ class ITMainSeasonTableViewCell: UITableViewCell {
             let label = UILabel()
             label.font = UIFont.systemFont(ofSize: 15)
             label.textAlignment = .left
-            label.textColor = isLater ? UIColor.heightLightGrayColor : UIColor.heightLightGrayNoPressColor
+            label.textColor = showLaterView(season, dateLater: isLater) ? UIColor.heightLightGrayColor : UIColor.heightLightGrayNoPressColor
             label.text = season.title
             contentInfoView.addSubview(label)
             
             let timeLabel = UILabel()
             timeLabel.font = UIFont.systemFont(ofSize: 14)
             timeLabel.textAlignment = .left
-            timeLabel.textColor = isLater ? UIColor.white : UIColor.heightLightGrayColor
+            timeLabel.textColor = showLaterView(season, dateLater: isLater) ? UIColor.white : UIColor.heightLightGrayColor
             timeLabel.text = " " + timeIntervalStr + "天 "
-            timeLabel.backgroundColor = isLater ? UIColor.greenColor.withAlphaComponent(0.3) : UIColor.pinkColor.withAlphaComponent(0.3)
+            if timeIntervalStr == "0" {
+                timeLabel.text = "今天"
+            }
+            timeLabel.backgroundColor = showLaterView(season, dateLater: isLater) ? UIColor.greenColor.withAlphaComponent(0.3) : UIColor.pinkColor.withAlphaComponent(0.3)
             timeLabel.layer.cornerRadius = 3.0
             timeLabel.layer.masksToBounds = true
             timeLabel.sizeToFit()
@@ -141,7 +144,14 @@ class ITMainSeasonTableViewCell: UITableViewCell {
         
         self.setNeedsLayout()
     }
-
+    
+    func showLaterView(_ season: SeasonModel, dateLater: Bool) -> Bool {
+        if season.repeatRemindType == .no {
+            return dateLater
+        }
+        return true
+    }
+     
 }
 
 

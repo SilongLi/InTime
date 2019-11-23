@@ -121,12 +121,12 @@ extension Date {
             return "\(dateStr)"
         case .weak:
             let dateStr = (self as NSDate).convert(toWeek: date) ?? ""
-            return dateStr.isEmpty ? "0天" : dateStr
+            return dateStr.isEmpty ? "今天" : dateStr
         case .dayTime:
             return (self as NSDate).convert(toDHMS: date)
         case .year:
             let dateStr = (self as NSDate).convert(toYMD: date) ?? ""
-            return dateStr.isEmpty ? "0天" : dateStr
+            return dateStr.isEmpty ? "今天" : dateStr
         case .yearTime:
             return (self as NSDate).convert(toYMDHMS: date)
         case .percentage:
