@@ -96,12 +96,15 @@ class HomeTableViewCell: UITableViewCell {
                            range: NSRange(location: 0, length: title.count - 2))
         nameLabel.attributedText = attr
         
-        
-        if unitType == .second || unitType == .minute || unitType == .hour || unitType == .day {
-            countDownLabel.text  = timeIntervalStr + unitType.rawValue
+        if timeIntervalStr == "0" {
+            countDownLabel.text  = "今天"
         } else {
-            countDownLabel.text  = timeIntervalStr
-        }
+            if unitType == .second || unitType == .minute || unitType == .hour || unitType == .day {
+                countDownLabel.text  = timeIntervalStr + unitType.rawValue
+            } else {
+                countDownLabel.text  = timeIntervalStr
+            }
+        } 
         countDownLabel.textColor = isEffective ? UIColor.white : unEffectiveColor
         
         
