@@ -10,14 +10,14 @@
 
 class SeasonTextManager {
 
-    static func handleSeasonInfo(_ season: SeasonModel, isNeedWeekDayInfo: Bool = true, _ currentDate: Date = Date()) -> (String, date: NSDate, dateInfo: String, isLater: Bool) {
+    static func handleSeasonInfo(_ season: SeasonModel, isNeedWeekDayInfo: Bool = true, _ currentDate: Date = Date()) -> (String, date: Date, dateInfo: String, isLater: Bool) {
         var timeIntervalString = ""
         var dateInfo = ""
         // 闹铃日期是否在当前时间之后
         var isLater = true
-        
-        guard var date = NSDate(season.startDate.gregoriandDataString, withFormat: StartSeasonDateFormat) else {
-            return (timeIntervalString, currentDate as NSDate, dateInfo, isLater)
+         
+        guard var date = Date.date(withDateString: season.startDate.gregoriandDataString, dateFormat: StartSeasonDateFormat) else {
+            return (timeIntervalString, currentDate, dateInfo, isLater)
         }
         // 倒计时显示类型
         let type: DateUnitType = DateUnitType(rawValue: season.unitModel.info) ?? DateUnitType.dayTime
@@ -26,70 +26,70 @@ class SeasonTextManager {
         switch season.repeatRemindType {
         case .year:
             if isLater == false {
-                var yearCount = (currentDate as NSDate).year - date.year
-                if ((currentDate as NSDate).month > date.month) ||
-                    ((currentDate as NSDate).month == date.month && (currentDate as NSDate).day > date.day) {
+                var yearCount = currentDate.year() - date.year()
+                if (currentDate.month() > date.month()) ||
+                    (currentDate.month() == date.month() && currentDate.day() > date.day()) {
                     yearCount += 1
                 }
-                date = date.addingYears(yearCount) as NSDate
+                date = date.addingYear(yearCount)
             }
             
             var dateStr = ""
             if season.startDate.isGregorian {
                 dateStr = date.string(withFormat: StartSeasonDateFormat)
             } else {
-                dateStr = (date as Date).solarToLunar()
+                dateStr = date.solarToLunar()
             }
             dateInfo = isNeedWeekDayInfo ? "\(dateStr) \(season.startDate.weakDay)" : dateStr
             
         case .month:
             if isLater == false {
-                var yearCount = (currentDate as NSDate).year - date.year
-                let isNeedAdd = (date.month == (currentDate as NSDate).month && (currentDate as NSDate).month == 12 && (currentDate as NSDate).day > date.day)
-                if date.month > (currentDate as NSDate).month || isNeedAdd {
+                var yearCount = currentDate.year() - date.year()
+                let isNeedAdd = (date.month() == currentDate.month() && currentDate.month() == 12 && currentDate.day() > date.day())
+                if date.month() > currentDate.month() || isNeedAdd {
                     yearCount += 1
                 }
-                date = date.addingYears(yearCount) as NSDate
+                date = date.addingYear(yearCount)
                 
-                var monthCount = (currentDate as NSDate).month - date.month
-                if (currentDate as NSDate).day > date.day {
+                var monthCount = currentDate.month() - date.month()
+                if currentDate.day() > date.day() {
                     monthCount = monthCount + 1
                 }
-                date = date.addingMonths(monthCount) as NSDate
+                date = date.addingMonth(monthCount)
             }
             
             var dateStr = ""
             if season.startDate.isGregorian {
                 dateStr = date.string(withFormat: StartSeasonDateFormat)
             } else {
-                dateStr = (date as Date).solarToLunar()
+                dateStr = date.solarToLunar()
             }
             dateInfo = isNeedWeekDayInfo ? "\(dateStr) \(season.startDate.weakDay)" : dateStr
             
         case .week:
             if isLater == false {
-                let count = date.distanceInDays(to: currentDate)
-                date = date.addingDays(count + (7 - Int(count % 7))) as NSDate
+                let count = date.distanceInDays(currentDate)
+                date = date.addingDays(count + (7 - Int(count % 7)))
             }
             
             let dateStr: String = date.string(withFormat: StartSeasonDateHMFormat)
-            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \((date as Date).weekDay())" : dateStr
+            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \(date.weekDay())" : dateStr
             break
         case .workDay:
             if isLater == false {
-                let count = date.distanceInDays(to: currentDate)
-                date = date.addingDays(count + 1) as NSDate
+                let count = date.distanceInDays(currentDate)
+                date = date.addingDays(count + 1)
             }
             let dateStr: String = date.string(withFormat: StartSeasonDateHMFormat)
-            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \((date as Date).weekDay())" : dateStr
+            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \(date.weekDay())" : dateStr
             
         case .day:
             if isLater == false {
-                let count = date.distanceInDays(to: currentDate)
-                date = date.addingDays(count + 1) as NSDate
+                let count = date.distanceInDays(currentDate)
+                date = date.addingDays(count + 1)
             }
             let dateStr: String = date.string(withFormat: StartSeasonDateHMFormat)
-            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \((date as Date).weekDay())" : dateStr
+            dateInfo = isNeedWeekDayInfo ? "\(dateStr) \(date.weekDay())" : dateStr
             
         default: // 默认
             var dateStr = ""
@@ -100,14 +100,14 @@ class SeasonTextManager {
             }
             
             if isNeedWeekDayInfo {
-                dateInfo = "\(dateStr) \(season.startDate.weakDay.isEmpty ? (date as Date).weekDay() : season.startDate.weakDay)"
+                dateInfo = "\(dateStr) \(season.startDate.weakDay.isEmpty ? date.weekDay() : season.startDate.weakDay)"
             } else {
                 dateInfo = dateStr
             }
         }
         
         isLater = date.isLaterThanDate(currentDate)
-        timeIntervalString = (date as Date).convertToTimeAndUnitString(type: type, currentDate)
+        timeIntervalString = date.convertToTimeAndUnitString(type: type, currentDate)
         return (timeIntervalString, date, dateInfo, isLater)
     }
     

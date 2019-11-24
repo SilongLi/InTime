@@ -33,14 +33,14 @@ extension AddNewSeasonViewModel {
         let seasonJson: Dictionary = season.convertToJson()
         let seasonJsonStr: String = seasonJson.convertToString
         var seasonStrs = [seasonJsonStr]
-        if let seasonsData = HandlerDocumentManager.getSeasons(seasonType: HomeRingSeasonsKey) {
+        if let seasonsData = HandleAppGroupsDocumentMannager.getSeasons(seasonType: HomeRingSeasonsKey) {
             let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
             if seasonJsons is Array<String>, let jsonStrs: [String] = seasonJsons as? [String] {
                 seasonStrs.append(contentsOf: jsonStrs)
             }
         }
         let seasonsData = NSKeyedArchiver.archivedData(withRootObject: seasonStrs)
-        return HandlerDocumentManager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
+        return HandleAppGroupsDocumentMannager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
     }
     
     /// 保存所有时节
@@ -56,7 +56,7 @@ extension AddNewSeasonViewModel {
             seasonStrs.append(seasonJsonStr)
         }
         let seasonsData = NSKeyedArchiver.archivedData(withRootObject: seasonStrs)
-        return HandlerDocumentManager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
+        return HandleAppGroupsDocumentMannager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
     }
     
     /// 保存被修改的时节
@@ -64,7 +64,7 @@ extension AddNewSeasonViewModel {
         let seasonJson: Dictionary = season.convertToJson()
         let newSeasonJsonStr: String = seasonJson.convertToString
         var seasonStrs = [newSeasonJsonStr]
-        if let seasonsData = HandlerDocumentManager.getSeasons(seasonType: HomeRingSeasonsKey) {
+        if let seasonsData = HandleAppGroupsDocumentMannager.getSeasons(seasonType: HomeRingSeasonsKey) {
             let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
             if seasonJsons is Array<String>, var jsonStrs: [String] = seasonJsons as? [String] {
                 for index in 0..<jsonStrs.count {
@@ -78,7 +78,7 @@ extension AddNewSeasonViewModel {
             }
         }
         let seasonsData = NSKeyedArchiver.archivedData(withRootObject: seasonStrs)
-        return HandlerDocumentManager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
+        return HandleAppGroupsDocumentMannager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
     }
     
     /// 删除时节
@@ -86,7 +86,7 @@ extension AddNewSeasonViewModel {
         guard !season.id.isEmpty else {
             return false
         }
-        if let seasonsData = HandlerDocumentManager.getSeasons(seasonType: HomeRingSeasonsKey) {
+        if let seasonsData = HandleAppGroupsDocumentMannager.getSeasons(seasonType: HomeRingSeasonsKey) {
             let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
             if seasonJsons is Array<String>, var jsonStrs: [String] = seasonJsons as? [String] {
                 for index in 0..<jsonStrs.count {
@@ -97,7 +97,7 @@ extension AddNewSeasonViewModel {
                     }
                 }
                 let seasonsData = NSKeyedArchiver.archivedData(withRootObject: jsonStrs)
-                return HandlerDocumentManager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
+                return HandleAppGroupsDocumentMannager.saveSeasons(seasonType: HomeRingSeasonsKey, data: seasonsData)
             }
         }
         return false

@@ -181,7 +181,7 @@ class BackgroundImageDetailCollectionViewCell: BaseCollectionViewCell {
         switch model.type {
         case .custom:
             layer.borderWidth  = 1.0
-            let imageData = HandlerDocumentManager.getCustomImage(seasonId: model.name)
+            let imageData = HandleAppGroupsDocumentMannager.getCustomImage(imageName: model.name)
             if model.name.isEmpty || imageData == nil {
                 nameLabel.isHidden = false
                 bgImageView.isHidden = true

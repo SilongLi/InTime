@@ -7,6 +7,8 @@
 //
 // 字典转字符串
 
+import UIKit
+
 extension Dictionary {
     
     /// 转字符串

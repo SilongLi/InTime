@@ -533,7 +533,7 @@ class HomeViewController: BaseViewController {
             self.cacheImages = Dictionary<String, UIImage>()
             for model in self.seasons {
                 if model.backgroundModel.type == .custom {
-                    let imageData = HandlerDocumentManager.getCustomImage(seasonId: model.backgroundModel.name)
+                    let imageData = HandleAppGroupsDocumentMannager.getCustomImage(imageName: model.backgroundModel.name)
                     if imageData != nil {
                         let image = UIImage(data: imageData!)
                         self.cacheImages?[model.id] = image
@@ -571,7 +571,7 @@ class HomeViewController: BaseViewController {
             if let image = self.cacheImages?[currentSeason.id] {  // 取缓存
                 bgImage = image
             } else {
-                let imageData = HandlerDocumentManager.getCustomImage(seasonId: currentSeason.backgroundModel.name)
+                let imageData = HandleAppGroupsDocumentMannager.getCustomImage(imageName: currentSeason.backgroundModel.name)
                 if imageData != nil {
                     bgImage = UIImage(data: imageData!)
                 }
@@ -929,7 +929,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     /// 取消本地通知
                     LocalNotificationManage.shared.cancelLocalNotification(identifier: season.id, title: season.title)
                     /// 删除自定义图片
-                    HandlerDocumentManager.deleteCustomImage(seasonId: season.id)
+                    HandleAppGroupsDocumentMannager.deleteCustomImage(imageName: season.id)
                     
                     /// 从Spotlight中删除时节搜索
                     CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [season.id], completionHandler: { (error) in

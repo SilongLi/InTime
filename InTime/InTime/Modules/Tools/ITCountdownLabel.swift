@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 /// 动画类型
 public enum CountdownEffect: String {
@@ -66,7 +67,7 @@ public class ITCountdownLabel: LTMorphingLabel {
     private var refreshTimer: DispatchSourceTimer?
     
     /// 闹铃时间
-    internal var targetDate: NSDate = NSDate()
+    internal var targetDate: Date = Date()
     
     /// 时间显示格式
     var unitType: DateUnitType = DateUnitType.dayTime
@@ -91,7 +92,7 @@ public class ITCountdownLabel: LTMorphingLabel {
     
     // MARK: - setup
     
-    func setupContent(date: NSDate, unitType: DateUnitType, animationType: CountdownEffect, completion: ((_ isLater: Bool) -> ())?) {
+    func setupContent(date: Date, unitType: DateUnitType, animationType: CountdownEffect, completion: ((_ isLater: Bool) -> ())?) {
         self.targetDate = date
         self.unitType = unitType
         self.animationType = animationType

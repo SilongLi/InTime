@@ -607,7 +607,7 @@ extension AddNewSeasonViewController: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         /// 保存图片到沙盒
         let imageData = image.pngData()
-        let success = HandlerDocumentManager.saveCustomImage(seasonId: newSeason.id, imageData: imageData)
+        let success = HandleAppGroupsDocumentMannager.saveCustomImage(imageName: newSeason.id, imageData: imageData)
         if success {
             newSeason.backgroundModel.name = newSeason.id
             

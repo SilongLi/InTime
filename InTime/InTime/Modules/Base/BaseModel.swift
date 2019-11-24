@@ -6,7 +6,8 @@
 //  Copyright © 2019 BruceLi. All rights reserved.
 //
 
-import Foundation 
+import Foundation
+import CoreGraphics
 
 class BaseModel: ViewModelProtocol {
     var cellHeight: CGFloat = 0.0

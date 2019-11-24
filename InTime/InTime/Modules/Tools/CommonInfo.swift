@@ -6,6 +6,9 @@
 //  Copyright © 2019 BruceLi. All rights reserved.
 //
 
+import Foundation
+import UIKit
+
 // MARK: - 第三方账号信息
 /// Bugly app id/key
 public let BuglyAPPID: String = "d94f44dd71"

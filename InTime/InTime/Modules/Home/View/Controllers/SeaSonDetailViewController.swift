@@ -181,7 +181,7 @@ class SeaSonDetailViewController: BaseViewController {
         
         let bgColor = UIColor.color(hex: season.backgroundModel.name)
         if season.backgroundModel.type == .custom {
-            let imageData = HandlerDocumentManager.getCustomImage(seasonId: season.backgroundModel.name)
+            let imageData = HandleAppGroupsDocumentMannager.getCustomImage(imageName: season.backgroundModel.name)
             if imageData != nil {
                 bgImage = UIImage(data: imageData!)
             }
@@ -207,7 +207,7 @@ class SeaSonDetailViewController: BaseViewController {
             self.cacheImages = Dictionary<String, UIImage>()
             for model in self.seasons {
                 if model.backgroundModel.type == .custom {
-                    let imageData = HandlerDocumentManager.getCustomImage(seasonId: model.backgroundModel.name)
+                    let imageData = HandleAppGroupsDocumentMannager.getCustomImage(imageName: model.backgroundModel.name)
                     if imageData != nil {
                         let image = UIImage(data: imageData!)
                         self.cacheImages?[model.id] = image
@@ -389,7 +389,7 @@ extension SeaSonDetailViewController: UIScrollViewDelegate {
             if let image = self.cacheImages?[season.id] {  // 取缓存
                 bgImage = image
             } else {
-                let imageData = HandlerDocumentManager.getCustomImage(seasonId: season.backgroundModel.name)
+                let imageData = HandleAppGroupsDocumentMannager.getCustomImage(imageName: season.backgroundModel.name)
                 if imageData != nil {
                     bgImage = UIImage(data: imageData!)
                 }
@@ -406,7 +406,7 @@ extension SeaSonDetailViewController: UIScrollViewDelegate {
             if let image = self.cacheImages?[newseason.id] {  // 取缓存
                 newBgImage = image
             } else {
-                let newImageData = HandlerDocumentManager.getCustomImage(seasonId: newseason.backgroundModel.name)
+                let newImageData = HandleAppGroupsDocumentMannager.getCustomImage(imageName: newseason.backgroundModel.name)
                 if newImageData != nil {
                     newBgImage = UIImage(data: newImageData!)
                 }

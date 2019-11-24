@@ -35,6 +35,7 @@ public struct NamespaceWrapper<Base> {
 
 extension UIView: NamespaceWrappable {}
 extension String: NamespaceWrappable {}
+extension NSDate: NamespaceWrappable {}
 extension UIViewController: NamespaceWrappable {}
 extension Bool: NamespaceWrappable {}
 extension NSMutableAttributedString: NamespaceWrappable {}

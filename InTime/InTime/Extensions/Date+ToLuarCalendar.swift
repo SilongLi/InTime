@@ -6,6 +6,7 @@
 //  Copyright © 2019 BruceLi. All rights reserved.
 //
 
+import UIKit
 
 let SeasonDateFormat: String = "yyyy.MM.dd HH:mm:ss"
 
@@ -15,9 +16,9 @@ extension Date {
     func solarToLunar(style: DateFormatter.Style = .long) -> String {
         let solarCalendar   = Calendar(identifier: .gregorian)
         var components      = DateComponents()
-        components.year     = (self as NSDate).year
-        components.month    = (self as NSDate).month
-        components.day      = (self as NSDate).day
+        components.year     = self.year()
+        components.month    = self.month()
+        components.day      = self.day()
         components.hour     = 12
         components.minute   = 0
         components.second   = 0
@@ -33,7 +34,7 @@ extension Date {
         formatter.calendar  = lunarCalendar
         
         let solarDateStr = formatter.string(from: solarDate)
-        let timeStr: String = (self as NSDate).string(withFormat: "HH:mm")
+        let timeStr: String = self.string(withFormat: "HH:mm")
         return "\(solarDateStr) \(timeStr)"
     }
      
@@ -41,9 +42,9 @@ extension Date {
     func solarToLunarOnlyYMD(style: DateFormatter.Style = .long) -> String {
         let solarCalendar   = Calendar(identifier: .gregorian)
         var components      = DateComponents()
-        components.year     = (self as NSDate).year
-        components.month    = (self as NSDate).month
-        components.day      = (self as NSDate).day
+        components.year     = self.year()
+        components.month    = self.month()
+        components.day      = self.day()
         components.hour     = 0
         components.minute   = 0
         components.second   = 0
@@ -65,9 +66,9 @@ extension Date {
     func zero() -> Date {
         let calendar   = Calendar(identifier: .chinese)
         var components      = DateComponents()
-        components.year     = (self as NSDate).year
-        components.month    = (self as NSDate).month
-        components.day      = (self as NSDate).day
+        components.year     = self.year()
+        components.month    = self.month()
+        components.day      = self.day()
         components.hour     = 0
         components.minute   = 0
         components.second   = 0
@@ -80,9 +81,9 @@ extension Date {
     func maxDate() -> Date {
         let calendar   = Calendar(identifier: .chinese)
         var components      = DateComponents()
-        components.year     = (self as NSDate).year
-        components.month    = (self as NSDate).month
-        components.day      = (self as NSDate).day
+        components.year     = self.year()
+        components.month    = self.month()
+        components.day      = self.day()
         components.hour     = 23
         components.minute   = 59
         components.second   = 59
@@ -108,27 +109,27 @@ extension Date {
     func convertToTimeAndUnitString(type: DateUnitType = DateUnitType.dayTime, _ date: Date = Date()) -> String {
         switch type {
         case .second:
-            let dateStr = (self as NSDate).convert(toSecond: date).it.stringSeparateByCommaInteger()
+            let dateStr = self.convert(toSecond: date).it.stringSeparateByCommaInteger()
             return "\(dateStr)"
         case .minute:
-            let dateStr = (self as NSDate).convert(toMinute: date).it.stringSeparateByCommaInteger()
+            let dateStr = self.convert(toMinute: date).it.stringSeparateByCommaInteger()
             return "\(dateStr)"
         case .hour:
-            let dateStr = (self as NSDate).convert(toHour: date).it.stringSeparateByCommaInteger()
+            let dateStr = self.convert(toHour: date).it.stringSeparateByCommaInteger()
             return "\(dateStr)"
         case .day:
-            let dateStr = (self as NSDate).convert(toDay: date).it.stringSeparateByCommaInteger()
+            let dateStr = self.convert(toDay: date).it.stringSeparateByCommaInteger()
             return "\(dateStr)"
         case .weak:
-            let dateStr = (self as NSDate).convert(toWeek: date) ?? ""
+            let dateStr = self.convert(toWeek: date)
             return dateStr.isEmpty ? "今天" : dateStr
         case .dayTime:
-            return (self as NSDate).convert(toDHMS: date)
+            return self.convert(toDHMS: date)
         case .year:
-            let dateStr = (self as NSDate).convert(toYMD: date) ?? ""
+            let dateStr = self.convert(toYMD: date) 
             return dateStr.isEmpty ? "今天" : dateStr
         case .yearTime:
-            return (self as NSDate).convert(toYMDHMS: date)
+            return self.convert(toYMDHMS: date)
         case .percentage:
             return convertToPercentage()
         }

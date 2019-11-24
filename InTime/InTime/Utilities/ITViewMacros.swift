@@ -6,7 +6,7 @@
 //  Copyright © 2018 BruceLi. All rights reserved.
 //
 
-import UIKit
+import UIKit 
 
 let IT_SCREEN_WIDTH = (UIScreen.main.bounds.width > UIScreen.main.bounds.height ? UIScreen.main.bounds.height: UIScreen.main.bounds.width)
 let IT_SCREEN_HEIGHT = (UIScreen.main.bounds.width > UIScreen.main.bounds.height ? UIScreen.main.bounds.width: UIScreen.main.bounds.height)

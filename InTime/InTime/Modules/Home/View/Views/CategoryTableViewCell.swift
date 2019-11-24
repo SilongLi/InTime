@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol SelectedViewModelProtocol {
-    var title: String { get }
-    var isSelected: Bool { get }
-}
-
 class CategoryTableViewCell: UITableViewCell {
 
     lazy var nameLabel: UILabel = {

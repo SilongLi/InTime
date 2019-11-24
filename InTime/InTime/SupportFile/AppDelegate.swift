@@ -30,6 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Bugly.start(withAppId: BuglyAPPID)
         
+        DispatchQueue.main.async {
+            HandlerDocumentManager.importAllLocalOldDataIntoTheAppGroup(HomeRingSeasonsKey)
+        }
+        
         return true
     }
     
@@ -54,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         if url.scheme == "IncomeTodayWidget" {
-            print("成功从知时节Widget插件进入主工程。")
+            CommonTools.printLog(message:"成功从知时节Widget插件进入主工程。")
             return true
         }
         return false

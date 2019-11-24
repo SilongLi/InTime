@@ -15,7 +15,7 @@ class HomeSeasonViewModel {
     
     /// 默认分类时节
     static func initDefaultCategorys() {
-        let data = HandlerDocumentManager.getCategorys()
+        let data = HandleAppGroupsDocumentMannager.getCategorys()
         guard data == nil else {
             return
         }
@@ -46,7 +46,7 @@ class HomeSeasonViewModel {
         
         let categoryJsons = [homeJsonStr, anniversariesJsonStr, ringJsonStr]
         let categoryData = NSKeyedArchiver.archivedData(withRootObject: categoryJsons)
-        HandlerDocumentManager.saveCategorys(data: categoryData)
+        HandleAppGroupsDocumentMannager.saveCategorys(data: categoryData)
     }
     
     /// 保存时节分类
@@ -66,7 +66,7 @@ class HomeSeasonViewModel {
         let categoryJsonStr = categoryJson.convertToString
         
         var categoryStrs = [categoryJsonStr]
-        if let data = HandlerDocumentManager.getCategorys() {
+        if let data = HandleAppGroupsDocumentMannager.getCategorys() {
             let categoryJsons = NSKeyedUnarchiver.unarchiveObject(with: data)
             if categoryJsons is Array<String>, let jsonStrs: [String] = categoryJsons as? [String] {
                 /// 判断是否已经存在
@@ -80,7 +80,7 @@ class HomeSeasonViewModel {
             }
         }
         let categoryData = NSKeyedArchiver.archivedData(withRootObject: categoryStrs)
-        return HandlerDocumentManager.saveCategorys(data: categoryData)
+        return HandleAppGroupsDocumentMannager.saveCategorys(data: categoryData)
     }
     
     @discardableResult
@@ -95,13 +95,13 @@ class HomeSeasonViewModel {
             categoryStrs.append(categoryJsonStr)
         }
         let categoryData = NSKeyedArchiver.archivedData(withRootObject: categoryStrs)
-        return HandlerDocumentManager.saveCategorys(data: categoryData)
+        return HandleAppGroupsDocumentMannager.saveCategorys(data: categoryData)
     }
     
     /// 加载所有的分类类别
     static func loadLocalCategorys(completion: (_ categorys: [CategoryModel]) -> ()) {
         var models: [CategoryModel] = [CategoryModel]()
-        if let data = HandlerDocumentManager.getCategorys() {
+        if let data = HandleAppGroupsDocumentMannager.getCategorys() {
             let categoryJsons = NSKeyedUnarchiver.unarchiveObject(with: data)
             if categoryJsons is Array<String>, let jsonStrs: [String] = categoryJsons as? [String] {
                 for jsonStr in jsonStrs {
@@ -130,7 +130,7 @@ class HomeSeasonViewModel {
     /// 获取所有时节
     static func loadAllSeasons(completion: (_ seasons: [SeasonModel]) -> ()) {
         var seasons = [SeasonModel]()
-        if let seasonsData = HandlerDocumentManager.getSeasons(seasonType: HomeRingSeasonsKey) {
+        if let seasonsData = HandleAppGroupsDocumentMannager.getSeasons(seasonType: HomeRingSeasonsKey) {
             let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
             if seasonJsons is Array<String>, let jsonStrs: [String] = seasonJsons as? [String] {
                 for jsonStr in jsonStrs {
