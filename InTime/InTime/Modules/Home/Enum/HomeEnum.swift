@@ -82,6 +82,8 @@ enum NewSeasonCellIdType: String {
     case reminder
     /// 提醒闹铃
     case ring
+    /// 提醒闹铃
+    case showInMainScreen
     /// 重复提醒
     case repeatReminder
     /// 自定义背景

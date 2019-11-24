@@ -7,6 +7,9 @@
 //
 // 时节视图文案处理
 
+import Foundation
+import UIKit
+import CoreGraphics
 
 class SeasonTextManager {
 
@@ -113,7 +116,8 @@ class SeasonTextManager {
     
     /// 根据内容计算字体大小
     static func calculateFontSizeAndWidth(_ text: String, margin: CGFloat) -> (UIFont, CGFloat) {
-        let actualSize = CGSize(width: IT_SCREEN_WIDTH, height: 50.0)
+        let screenWidth = UIScreen.main.bounds.size.width
+        let actualSize = CGSize(width: screenWidth, height: 50.0)
         var estimateWidth: CGFloat = 100.0
         
         var textValue = text

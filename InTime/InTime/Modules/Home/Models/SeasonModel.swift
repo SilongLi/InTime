@@ -32,6 +32,8 @@ struct SeasonModel {
     var backgroundModel: BackgroundImageModel = BackgroundImageModel()
     /// 字体颜色
     var textColorModel: ColorModel = ColorModel()
+    /// 是否加到主屏幕
+    var isShowInMainScreen: Bool = false
     
     /// 是否已经取消本地通知
     var hasCancelNotification: Bool = false
@@ -52,6 +54,7 @@ extension SeasonModel {
         model.backgroundModel   = BackgroundImageModel.convertToModel(json: JSON(parseJSON: json["backgroundModel"].stringValue))
         model.textColorModel    = ColorModel.convertToModel(json: JSON(parseJSON: json["textColorModel"].stringValue))
         model.hasCancelNotification = json["hasCancelNotification"].boolValue
+        model.isShowInMainScreen = json["isShowInMainScreen"].boolValue
         return model
     }
     
@@ -71,6 +74,7 @@ extension SeasonModel {
                 "repeatRemindType": repeatRemindType.rawValue,
                 "backgroundModel": backgroundModelStr,
                 "textColorModel": textColorModelStr,
+                "isShowInMainScreen": isShowInMainScreen,
                 "hasCancelNotification": hasCancelNotification]
     }
 }

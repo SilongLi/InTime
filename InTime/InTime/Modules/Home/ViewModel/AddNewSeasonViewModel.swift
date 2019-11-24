@@ -8,14 +8,6 @@
 
 import Foundation
 
-let StartSeasonDateFormat = "yyyy.MM.dd HH:mm"
-let StartSeasonDateMDHMFormat = "MM.dd HH:mm"
-let StartSeasonDateDHMFormat = "dd HH:mm"
-let StartSeasonDateHMFormat = "HH:mm"
-
-/// 首页闹铃模块
-public let HomeRingSeasonsKey: String = "HomeRingSeasonsKey"
-
 class AddNewSeasonViewModel {
     
     static let InputCellHeight: CGFloat = 60.0
@@ -239,6 +231,21 @@ extension AddNewSeasonViewModel {
                                                showCellCount: 1,
                                                items: [reminder])
         
+        
+        
+        /// 是否显示到主屏幕
+        let screenModel = ShowInMainScreenModel()
+        screenModel.name = "主屏幕显示"
+        screenModel.isShow = isModifySeason ? screenModel.isShow : false
+        let screenSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.showInMainScreen.rawValue,
+                                               headerTitle: "",
+                                               footerTitle: "",
+                                               headerHeight: 0.001,
+                                               footerHeight: 0.001,
+                                               cellHeight: InfoCellHeight,
+                                               showCellCount: 1,
+                                               items: [screenModel])
+        
         /// 提醒铃声
         let ring  = InfoSelectedModel()
         ring.type = InfoSelectedType.ring
@@ -385,7 +392,7 @@ extension AddNewSeasonViewModel {
                                             showCellCount: 1,
                                             items: [textColorModel])
         
-        completion([inputSeason, timeSection, unitSection, categorySection, animationSection, reminderSection, repeatSection, backgroundSection, colorSection])
+        completion([inputSeason, timeSection, unitSection, categorySection, animationSection, reminderSection, screenSection, repeatSection, backgroundSection, colorSection])
     }
     
     // MARK: - 获取显示单位数据

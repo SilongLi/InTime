@@ -187,6 +187,10 @@
 		99D26278238A2D9B0063AC77 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D26277238A2D9A0063AC77 /* NSDate+Extension.m */; };
 		99D26279238A2DA90063AC77 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D26277238A2D9A0063AC77 /* NSDate+Extension.m */; };
 		99F419B52233CA3D00B737B4 /* ITCountdownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F419B42233CA3D00B737B4 /* ITCountdownLabel.swift */; };
+		99F47872238A752F009BEC2E /* TodayWidgetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F47871238A752F009BEC2E /* TodayWidgetTableViewCell.swift */; };
+		99F47873238A75EB009BEC2E /* SeasonTextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9968B57A2223EAC900792EC5 /* SeasonTextManager.swift */; };
+		99F47875238A7889009BEC2E /* bg in Resources */ = {isa = PBXBuildFile; fileRef = 99A453D122C7B2520066EA4F /* bg */; };
+		99F47877238A8D41009BEC2E /* ITShowInMainScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F47876238A8D41009BEC2E /* ITShowInMainScreenTableViewCell.swift */; };
 		99F5C19E22A3CB6D00ACCE79 /* JazzLogo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99F5C19D22A3CB6C00ACCE79 /* JazzLogo.mp3 */; };
 		BE316B36D6EEA13592530493 /* Pods_InTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */; };
 /* End PBXBuildFile section */
@@ -372,6 +376,9 @@
 		99D26276238A2D9A0063AC77 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
 		99D26277238A2D9A0063AC77 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		99F419B42233CA3D00B737B4 /* ITCountdownLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITCountdownLabel.swift; sourceTree = "<group>"; };
+		99F4786E238A74BF009BEC2E /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		99F47871238A752F009BEC2E /* TodayWidgetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWidgetTableViewCell.swift; sourceTree = "<group>"; };
+		99F47876238A8D41009BEC2E /* ITShowInMainScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITShowInMainScreenTableViewCell.swift; sourceTree = "<group>"; };
 		99F5C19D22A3CB6C00ACCE79 /* JazzLogo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = JazzLogo.mp3; sourceTree = "<group>"; };
 		B57C8CE3068DCA9BE3130FEB /* Pods-InTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-InTime/Pods-InTime.release.xcconfig"; sourceTree = "<group>"; };
 		EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -424,6 +431,7 @@
 			children = (
 				990960D52389357A002A2F77 /* TodayWidget.entitlements */,
 				990960C92389356F002A2F77 /* TodayViewController.swift */,
+				99F47871238A752F009BEC2E /* TodayWidgetTableViewCell.swift */,
 				990960CB2389356F002A2F77 /* MainInterface.storyboard */,
 				990960CE2389356F002A2F77 /* Info.plist */,
 			);
@@ -758,6 +766,7 @@
 				99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */,
 				99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */,
 				99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */,
+				99F47876238A8D41009BEC2E /* ITShowInMainScreenTableViewCell.swift */,
 			);
 			path = NewSeasonViews;
 			sourceTree = "<group>";
@@ -874,6 +883,7 @@
 		A2538EDED4A702D86EC99A21 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				99F4786E238A74BF009BEC2E /* SnapKit.framework */,
 				EAEC4E55431D226B8C3D36E6 /* Pods_InTime.framework */,
 				995291132389235F00015FCD /* NotificationCenter.framework */,
 			);
@@ -973,6 +983,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				990960CD2389356F002A2F77 /* MainInterface.storyboard in Resources */,
+				99F47875238A7889009BEC2E /* bg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1077,6 +1088,8 @@
 				990960EB23895F83002A2F77 /* CommonInfo.swift in Sources */,
 				99096101238962AB002A2F77 /* LTMorphingLabel+Fall.swift in Sources */,
 				990960FA23896278002A2F77 /* LTCharacterLimbo.swift in Sources */,
+				99F47873238A75EB009BEC2E /* SeasonTextManager.swift in Sources */,
+				99F47872238A752F009BEC2E /* TodayWidgetTableViewCell.swift in Sources */,
 				990960D8238950C3002A2F77 /* HandleAppGroupsDocumentMannager.swift in Sources */,
 				990960DA23895C92002A2F77 /* SeasonModel.swift in Sources */,
 				99D26279238A2DA90063AC77 /* NSDate+Extension.m in Sources */,
@@ -1119,6 +1132,7 @@
 				995022D921E870C4004FAC47 /* SeasonModel.swift in Sources */,
 				99C4F74221F6FB5D00A25386 /* TDLoadingView.swift in Sources */,
 				990B64BA21F075840063BD34 /* UIView+Extension.m in Sources */,
+				99F47877238A8D41009BEC2E /* ITShowInMainScreenTableViewCell.swift in Sources */,
 				99C4F73121F5A88800A25386 /* SwiftyJSON.swift in Sources */,
 				990B64AB21F030C90063BD34 /* LabelSwitchBackView.swift in Sources */,
 				995022D221E78016004FAC47 /* SelectedCategoryView.swift in Sources */,

@@ -28,6 +28,7 @@ class AddNewSeasonViewController: BaseViewController {
         tableView.register(ITInfoSelectedTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.animation.rawValue)
         tableView.register(ITInfoSelectedTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.ring.rawValue)
         tableView.register(ITReminderTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.reminder.rawValue)
+        tableView.register(ITShowInMainScreenTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.showInMainScreen.rawValue)
         tableView.register(ITRepeatReminderTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.repeatReminder.rawValue)
         tableView.register(ITSelectedBackgroundImageTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.background.rawValue)
         tableView.register(ITSelectedTextColorTableViewCell.self, forCellReuseIdentifier: NewSeasonCellIdType.textColor.rawValue)
@@ -548,6 +549,14 @@ extension AddNewSeasonViewController: NoteSwitchDelegate {
     func didClickedReminderSwitchAction(isOpen: Bool) {
         view.endEditing(true)
         newSeason.isOpenRemind = isOpen
+    }
+}
+
+// MARK: - 是否显示到主屏幕
+extension AddNewSeasonViewController: ShowInMainScreenSwitchDelegate {
+    func didClickedShowInMainScreenSwitchAction(isShow: Bool) {
+        view.endEditing(true)
+        newSeason.isShowInMainScreen = isShow
     }
 }
 

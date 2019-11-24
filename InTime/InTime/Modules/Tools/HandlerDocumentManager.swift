@@ -54,6 +54,7 @@ class HandlerDocumentManager {
             if let seasonsData = seasonsData {
                 let seasonJsons = NSKeyedUnarchiver.unarchiveObject(with: seasonsData)
                 if seasonJsons is Array<String>, let jsonStrs: [String] = seasonJsons as? [String] {
+                    var isAllSuccess = true
                     for jsonStr in jsonStrs {
                         let json = JSON(parseJSON: jsonStr)
                         let season = SeasonModel.convertToModel(json: json)
@@ -61,11 +62,15 @@ class HandlerDocumentManager {
                             let imageData = HandlerDocumentManager.getCustomImage(imageName: season.backgroundModel.name)
                             let success = HandleAppGroupsDocumentMannager.saveCustomImage(imageName: season.backgroundModel.name, imageData: imageData)
                             CommonTools.printLog(message:success ? "成功把本地所有旧图片数据导入App Group中。" : "把本地所有旧图片数据导入App Group失败！")
-                            if success {
-                                UserDefaults.standard.set(true, forKey: HasRemovedAllImagesDataToAppGroupKey)
-                                UserDefaults.standard.synchronize()
+                            if !success {
+                                isAllSuccess = false
                             }
                         }
+                    }
+                    
+                    if isAllSuccess {
+                        UserDefaults.standard.set(true, forKey: HasRemovedAllImagesDataToAppGroupKey)
+                        UserDefaults.standard.synchronize()
                     }
                 }
             }

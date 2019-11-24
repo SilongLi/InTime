@@ -30,6 +30,11 @@ protocol NoteSwitchDelegate: class {
     func didClickedReminderSwitchAction(isOpen: Bool)
 }
 
+// 是否显示在主屏幕
+protocol ShowInMainScreenSwitchDelegate: class {
+    func didClickedShowInMainScreenSwitchAction(isShow: Bool)
+}
+
 // 重复提醒
 protocol RepeatRemindersDelegate: class {
     func didSelectedRepeatRemindersAction(model: RepeatReminderTypeModel)

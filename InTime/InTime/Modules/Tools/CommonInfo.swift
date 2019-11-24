@@ -40,3 +40,13 @@ public let SeasonNumberGotoComment = 5
 
 // 当前选中时节类型
 let CurrentSelectedCategoryIDKey = "CurrentSelectedCategoryID"
+
+
+// MARK: - 其它
+
+public let StartSeasonDateFormat = "yyyy.MM.dd HH:mm"
+public let StartSeasonDateMDHMFormat = "MM.dd HH:mm"
+public let StartSeasonDateDHMFormat = "dd HH:mm"
+public let StartSeasonDateHMFormat = "HH:mm"
+/// 首页闹铃模块
+public let HomeRingSeasonsKey: String = "HomeRingSeasonsKey"

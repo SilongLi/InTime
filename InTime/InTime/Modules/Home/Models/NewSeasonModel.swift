@@ -88,6 +88,12 @@ class OpenReminderModel: BaseModel {
     var isOpen: Bool = true
 }
 
+/// 是否显示到主屏幕
+class ShowInMainScreenModel: BaseModel {
+    var name: String = ""
+    var isShow: Bool = false
+}
+
 /// 重复提醒
 class RepeatReminderModel: BaseModel {
     var name: String = ""
