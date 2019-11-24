@@ -50,3 +50,5 @@ public let StartSeasonDateDHMFormat = "dd HH:mm"
 public let StartSeasonDateHMFormat = "HH:mm"
 /// 首页闹铃模块
 public let HomeRingSeasonsKey: String = "HomeRingSeasonsKey"
+
+public let IncomeTodayWidgetSchema = "IncomeTodayWidget://"

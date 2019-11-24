@@ -57,7 +57,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        if url.scheme == "IncomeTodayWidget" {
+        if url.absoluteString.contains(IncomeTodayWidgetSchema) {
+            let schema: NSString = NSString.init(string: url.absoluteString)
+            if schema.length > IncomeTodayWidgetSchema.count {
+                let seasonId = schema.substring(from: IncomeTodayWidgetSchema.count)
+                self.showSeasonDetailVC(withSeaonId: seasonId)
+            }
             CommonTools.printLog(message:"成功从知时节Widget插件进入主工程。")
             return true
         }
@@ -72,6 +77,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         let seasonId: String = idetifier as! String
+        self.showSeasonDetailVC(withSeaonId: seasonId)
+    }
+    
+    func showSeasonDetailVC(withSeaonId seasonId: String) {
+        guard seasonId.count > 0 else {
+            return
+        }
         self.window?.showLeftAnimationLoading("加载中...")
         HomeSeasonViewModel.loadAllSeasons { [weak self] (seasons) in
             var index = 0

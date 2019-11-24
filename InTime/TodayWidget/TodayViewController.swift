@@ -64,8 +64,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     // MARK: - actions
       
-    @objc func gotoMainVC() {
-        guard let schema = URL.init(string: "IncomeTodayWidget://1987") else { return }
+    func gotoMainVC(_ season: SeasonModel) {
+        guard let schema = URL.init(string: IncomeTodayWidgetSchema + "\(season.id)") else { return }
         self.extensionContext?.open(schema, completionHandler: { (success) in
             CommonTools.printLog(message: success ? "跳转到知时节主工程成功！" :  "跳转到知时节主工程失败！")
         })
@@ -159,7 +159,7 @@ extension TodayViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        self.gotoMainVC()
+        self.gotoMainVC(seasons[indexPath.row])
     }
 }
 
