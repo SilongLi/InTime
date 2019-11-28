@@ -117,6 +117,7 @@
 		99277CF62229117600B7395D /* HomeTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99277CF52229117600B7395D /* HomeTableViewCellDelegate.swift */; };
 		99277CF8222E722000B7395D /* CategoryManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99277CF7222E722000B7395D /* CategoryManagerViewController.swift */; };
 		99277CFF2230B39C00B7395D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99277D012230B39C00B7395D /* Localizable.strings */; };
+		992F70F8238EAB9100465624 /* ITSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992F70F7238EAB9100465624 /* ITSettingsViewModel.swift */; };
 		9940094B221E4BDF00C3E955 /* InputTextFieldAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9940094A221E4BDF00C3E955 /* InputTextFieldAlertView.swift */; };
 		99400950221FA9B000C3E955 /* LocalNotificationManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9940094F221FA9B000C3E955 /* LocalNotificationManage.swift */; };
 		9950227F21E6F5EF004FAC47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9950227E21E6F5EF004FAC47 /* AppDelegate.swift */; };
@@ -301,6 +302,7 @@
 		99277D002230B39C00B7395D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		99277D062230B41600B7395D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		99277D072230B41600B7395D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		992F70F7238EAB9100465624 /* ITSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSettingsViewModel.swift; sourceTree = "<group>"; };
 		9940094A221E4BDF00C3E955 /* InputTextFieldAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextFieldAlertView.swift; sourceTree = "<group>"; };
 		9940094F221FA9B000C3E955 /* LocalNotificationManage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManage.swift; sourceTree = "<group>"; };
 		9950227B21E6F5EF004FAC47 /* InTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -573,6 +575,14 @@
 			path = Particles;
 			sourceTree = "<group>";
 		};
+		992F70F6238EAB5400465624 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				992F70F7238EAB9100465624 /* ITSettingsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		9940094C221E9D3700C3E955 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -793,6 +803,7 @@
 		99BA01F9223B450100DD77D7 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				992F70F6238EAB5400465624 /* ViewModel */,
 				99BA01FA223B45CB00DD77D7 /* View */,
 			);
 			path = Settings;
@@ -1189,6 +1200,7 @@
 				99857BE821EC8A52005C7F9B /* SeasonDetailCollectionViewCell.swift in Sources */,
 				991225EB22FDA5ED0029F7AC /* CVCalendarDayViewControlCoordinator.swift in Sources */,
 				995022C121E729E1004FAC47 /* Namespace.swift in Sources */,
+				992F70F8238EAB9100465624 /* ITSettingsViewModel.swift in Sources */,
 				995022DC21E87308004FAC47 /* HomeEnum.swift in Sources */,
 				99D26278238A2D9B0063AC77 /* NSDate+Extension.m in Sources */,
 				99C4F75021F9B44100A25386 /* ITCustomAlertView.swift in Sources */,

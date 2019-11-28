@@ -22,7 +22,7 @@ class ITMainViewController: BaseViewController {
             self?.updateTodayWindow(date.date)
         }
         view.showSeasonViewBlock = { [weak self] in
-            self?.showSeasonView(nil)
+            self?.showSettingView()
         }
         view.showDetailCalendarViewBlock = { [weak self] in
             self?.view.setNeedsLayout()
@@ -262,6 +262,11 @@ class ITMainViewController: BaseViewController {
             }
             HomeSeasonViewModel.saveAllCategorys(categorys)
         }
+    }
+    
+    private func showSettingView() {
+        let settingVC = SettingsViewController()
+        navigationController?.pushViewController(settingVC, animated: true)
     }
     
     /*

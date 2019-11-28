@@ -122,3 +122,11 @@ enum RemindVoiceType: String {
     case together       = "Together"
     case defaultType    = "默认"
 }
+
+/// 设置页 cell id 类型
+enum SettingCellIdType: String {
+    /// Widget显示背景图片
+    case showBgImageInWidget
+    /// 意见反馈
+    case feedback
+}
