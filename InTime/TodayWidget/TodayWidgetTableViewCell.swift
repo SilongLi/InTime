@@ -90,9 +90,10 @@ class TodayWidgetTableViewCell: UITableViewCell {
         let (timeIntervalStr, _, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
         let isEffective = isLater || model.repeatRemindType != .no
         let unEffectiveColor = isShowBgImage ? UIColor.white.withAlphaComponent(0.5) : UIColor.darkGray.withAlphaComponent(0.5)
-        let attrColor = isShowBgImage ? UIColor.white : UIColor.black
+        let attrColor = isShowBgImage ? UIColor.white : UIColor.black 
+        let textColor = isShowBgImage ? UIColor.white : UIColor.darkGray
         
-        nameLabel.textColor = isEffective ? UIColor.darkGray : unEffectiveColor
+        nameLabel.textColor = isEffective ? textColor : unEffectiveColor
         let font  = UIFont(name: FontName, size: 14) ?? .boldSystemFont(ofSize: 134)
         let title = model.title + (isLater || (model.repeatRemindType != .no && model.repeatRemindType != .commemorationDay) ? " 还有" : " 已经")
         let attr  = NSMutableAttributedString(string: title)
@@ -113,9 +114,8 @@ class TodayWidgetTableViewCell: UITableViewCell {
         }
         countDownLabel.textColor = isEffective ? attrColor : unEffectiveColor
         countDownLabel.sizeToFit()
-        
-        let dateTextColor = isShowBgImage ? UIColor.white : UIColor.darkGray
-        dateLabel.textColor = isEffective ? dateTextColor : unEffectiveColor
+         
+        dateLabel.textColor = isEffective ? textColor : unEffectiveColor
         dateLabel.text      = dateInfo
         dateLabel.sizeToFit()
         
