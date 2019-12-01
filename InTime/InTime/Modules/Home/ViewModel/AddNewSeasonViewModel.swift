@@ -287,7 +287,7 @@ extension AddNewSeasonViewModel {
         
         /// 自定义背景
         let isSelectedCustom = originSeason.backgroundModel.type == .custom
-        let bgName  = isModifySeason ? originSeason.backgroundModel.name : "bg1"
+        let bgName  = isModifySeason ? originSeason.backgroundModel.name : "bg3"
         let empty   = BackgroundImageModel(type: .custom, name: isModifySeason ? originSeason.id : "", isSelected: isSelectedCustom)
         
         let bgImageTypes = ["bg1",

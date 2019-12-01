@@ -90,7 +90,7 @@ class TodayWidgetTableViewCell: UITableViewCell {
         let (timeIntervalStr, _, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
         let isEffective = isLater || model.repeatRemindType != .no
         let unEffectiveColor = isShowBgImage ? UIColor.white.withAlphaComponent(0.5) : UIColor.darkGray.withAlphaComponent(0.5)
-        let attrColor = isShowBgImage ? UIColor.white : UIColor.black 
+        let attrColor = isShowBgImage ? UIColor.white : UIColor.black
         let textColor = isShowBgImage ? UIColor.white : UIColor.darkGray
         
         nameLabel.textColor = isEffective ? textColor : unEffectiveColor
