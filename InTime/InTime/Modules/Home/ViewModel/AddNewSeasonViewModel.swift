@@ -287,10 +287,11 @@ extension AddNewSeasonViewModel {
         
         /// 自定义背景
         let isSelectedCustom = originSeason.backgroundModel.type == .custom
-        let bgName  = isModifySeason ? originSeason.backgroundModel.name : "bg3"
+        let bgName  = isModifySeason ? originSeason.backgroundModel.name : "bg9"
         let empty   = BackgroundImageModel(type: .custom, name: isModifySeason ? originSeason.id : "", isSelected: isSelectedCustom)
         
-        let bgImageTypes = ["bg1",
+        let bgImageTypes = ["bg0",
+                            "bg1",
                             "bg2",
                             "bg3",
                             "bg4",
@@ -312,7 +313,14 @@ extension AddNewSeasonViewModel {
                             "bg20",
                             "bg21",
                             "bg22",
-                            "bg23"]
+                            "bg23",
+                            "bg24",
+                            "bg25",
+                            "bg26",
+                            "bg27",
+                            "bg28",
+                            "bg29",
+                            "bg30"]
         var imageModels = [BackgroundImageModel]()
         for type in bgImageTypes {
             let model = BackgroundImageModel(type: .image, name: type, isSelected: bgName == type)
