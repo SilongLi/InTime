@@ -16,7 +16,8 @@ class SettingsViewController: BaseViewController {
         tableView.dataSource = self
         tableView.delegate   = self
         tableView.register(ITShowInMainScreenTableViewCell.self, forCellReuseIdentifier: SettingCellIdType.showBgImageInWidget.rawValue)
-        tableView.register(ITReminderTableViewCell.self, forCellReuseIdentifier: SettingCellIdType.feedback.rawValue)
+        tableView.register(ITDetailArrowTableViewCell.self, forCellReuseIdentifier: SettingCellIdType.feedback.rawValue)
+        tableView.register(ITDetailArrowTableViewCell.self, forCellReuseIdentifier: SettingCellIdType.categoryManager.rawValue)
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.tintColor
         return tableView
@@ -55,6 +56,28 @@ class SettingsViewController: BaseViewController {
         ITSettingsViewModel.loadListSections() { [weak self] (sections) in
             self?.dataSource = sections
             self?.tableView.reloadData()
+        }
+    }
+    
+    // MARK: - Actions
+    /// 分类管理
+    func gotoCategoryManagerView() {
+        let categoryManagerVC = CategoryManagerViewController()
+        categoryManagerVC.isPush = true
+        categoryManagerVC.isNeedSelectedStatus = false
+        navigationController?.pushViewController(categoryManagerVC, animated: true)
+    }
+    
+    /// 跳转到AppStore评价
+    func gotoAppStoreWriteReview() {
+        var urlStr = "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1470847029&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8"
+        
+        if #available(iOS 11.0, *) {
+            urlStr = "itms-apps://itunes.apple.com/cn/app/id1470847029?mt=8&action=write-review"
+        }
+        
+        if let url = URL.init(string: urlStr) {
+            UIApplication.shared.openURL(url)
         }
     }
 }
@@ -104,19 +127,22 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-// MARK: - 重复提醒
-extension SettingsViewController: RepeatRemindersDelegate {
-    func didSelectedRepeatRemindersAction(model: RepeatReminderTypeModel) {
-         
+        
+        let section = dataSource[indexPath.section]
+        switch section.cellIdentifier {
+        case SettingCellIdType.categoryManager.rawValue:
+            gotoCategoryManagerView()
+        case SettingCellIdType.feedback.rawValue:
+            gotoAppStoreWriteReview()
+        default:
+            break
+        }
     }
 }
 
 // MARK: - 是否显示到主屏幕
 extension SettingsViewController: ShowInMainScreenSwitchDelegate {
     func didClickedShowInMainScreenSwitchAction(isShow: Bool) {
-         
+         HandleAppGroupsDocumentMannager.saveShowBgImageInMainScreen(isShow)
     }
 }

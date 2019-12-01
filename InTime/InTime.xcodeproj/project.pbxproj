@@ -158,6 +158,7 @@
 		99857C0D21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */; };
 		99857C0F21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */; };
 		99857C1121EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */; };
+		99891EA42393583E003EB96F /* ITDetailArrowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99891EA32393583E003EB96F /* ITDetailArrowTableViewCell.swift */; };
 		998B3B29233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998B3B28233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift */; };
 		998B3B30233F1E0400620912 /* ITMainSeasonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998B3B2F233F1E0400620912 /* ITMainSeasonTableViewCell.swift */; };
 		9994EDD5235B513300D31BDA /* ITMainHeaderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9994EDD4235B513300D31BDA /* ITMainHeaderInfoView.swift */; };
@@ -346,6 +347,7 @@
 		99857C0C21EDE3E9005C7F9B /* ITRepeatReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITRepeatReminderTableViewCell.swift; sourceTree = "<group>"; };
 		99857C0E21EDE405005C7F9B /* ITSelectedBackgroundImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedBackgroundImageTableViewCell.swift; sourceTree = "<group>"; };
 		99857C1021EDE411005C7F9B /* ITSelectedTextColorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITSelectedTextColorTableViewCell.swift; sourceTree = "<group>"; };
+		99891EA32393583E003EB96F /* ITDetailArrowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ITDetailArrowTableViewCell.swift; path = InTime/Modules/Settings/ViewModel/ITDetailArrowTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		998B3B28233EFEDB00620912 /* ITMainCalendarInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainCalendarInfoTableViewCell.swift; sourceTree = "<group>"; };
 		998B3B2F233F1E0400620912 /* ITMainSeasonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITMainSeasonTableViewCell.swift; sourceTree = "<group>"; };
 		999345412244C965008DCF34 /* InTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InTime.entitlements; sourceTree = "<group>"; };
@@ -821,6 +823,7 @@
 		99BA01FB223B45D300DD77D7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				99891EA32393583E003EB96F /* ITDetailArrowTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1224,6 +1227,7 @@
 				99857BFE21EDB396005C7F9B /* AddNewSeasonViewModel.swift in Sources */,
 				99857C0521EDBB62005C7F9B /* UIView+Helper.swift in Sources */,
 				990B64AD21F030C90063BD34 /* LabelSwitch.swift in Sources */,
+				99891EA42393583E003EB96F /* ITDetailArrowTableViewCell.swift in Sources */,
 				991225D622FDA5ED0029F7AC /* CVCalendarViewAppearance.swift in Sources */,
 				99277CF8222E722000B7395D /* CategoryManagerViewController.swift in Sources */,
 				991225E322FDA5ED0029F7AC /* CVCalendarContentPresentationCoordinator.swift in Sources */,

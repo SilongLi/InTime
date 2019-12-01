@@ -236,7 +236,7 @@ extension AddNewSeasonViewModel {
         /// 是否显示到主屏幕
         let screenModel = ShowInMainScreenModel()
         screenModel.name = "主屏幕显示"
-        screenModel.isShow = isModifySeason ? screenModel.isShow : false
+        screenModel.isShow = isModifySeason ? originSeason.isShowInMainScreen : false
         let screenSection = BaseSectionModel(cellIdentifier: NewSeasonCellIdType.showInMainScreen.rawValue,
                                                headerTitle: "",
                                                footerTitle: "",

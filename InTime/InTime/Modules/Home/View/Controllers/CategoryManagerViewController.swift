@@ -40,6 +40,14 @@ class CategoryManagerViewController: BaseViewController {
         return UIBarButtonItem(image: UIImage(named: "save"), style: UIBarButtonItem.Style.done, target: self, action: #selector(finishSortBtnAction))
     }()
     
+    var isPush: Bool = false {
+        didSet {
+            closeItem.image = isPush ? UIImage(named: "back") : UIImage(named: "close")
+        }
+    }
+    
+    var isNeedSelectedStatus: Bool = true
+     
     var categorys = [CategoryModel]()
     var currentCategoryId: String?
     var didSelectedCategory: ((_ category: CategoryModel) -> ())?
@@ -86,7 +94,7 @@ class CategoryManagerViewController: BaseViewController {
                 for index in 0..<categorys.count {
                     var category = categorys[index]
                     category.isSelected = false
-                    if category.id == selectedCategoryId {
+                    if category.id == selectedCategoryId && isNeedSelectedStatus {
                         category.isSelected = true
                     }
                     categorys[index] = category
@@ -99,7 +107,11 @@ class CategoryManagerViewController: BaseViewController {
     
     // MARK: - actions
     @objc func closeBtnAction() {
-        dismiss(animated: true, completion: nil)
+        if isPush {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func sortCategorysAction() {
@@ -226,6 +238,7 @@ extension CategoryManagerViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryManagerCellId, for: indexPath) as! CategoryTableViewCell
+        cell.isNeedSelectedStatus = isNeedSelectedStatus
         cell.model = categorys[indexPath.row]
         return cell
     }
@@ -250,6 +263,9 @@ extension CategoryManagerViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard isNeedSelectedStatus else {
+            return
+        }
         guard !categorys[indexPath.row].isDefault else {
             view.showText("新“时节”不可添加在此分类下！")
             return

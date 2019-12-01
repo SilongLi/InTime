@@ -13,6 +13,7 @@ private let CagetoryJSONName = "InTimeCagetoryJSON.json"
 private let SeasonJSONName = "InTimeSeason.json"
 private let ImageName = "_InTimeImage.png"
 
+private let IsShowBgImageViewInMainScreenKey = "IsShowBgImageViewInMainScreen"
 
 class HandleAppGroupsDocumentMannager: NSObject {
     
@@ -124,5 +125,29 @@ class HandleAppGroupsDocumentMannager: NSObject {
     private static func rootAppGroupFileURL() -> URL? {
         let dataFileURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroupID)
         return dataFileURL
+    }
+    
+    // MARK: - UserDefaults
+    
+    /// 存储Widget组件是否显示背景图片
+    public static func saveShowBgImageInMainScreen(_ isShow: Bool) {
+        if let userDefault = HandleAppGroupsDocumentMannager.userDefault() {
+            userDefault.set(isShow, forKey: IsShowBgImageViewInMainScreenKey)
+        }
+    }
+    
+    // 获取Widget组件是否显示背景图片
+    public static func isShowBgImageInMainScreen() -> Bool {
+        if let userDefault = HandleAppGroupsDocumentMannager.userDefault() {
+           return userDefault.bool(forKey: IsShowBgImageViewInMainScreenKey)
+        }
+        return false
+    }
+    
+    private static func userDefault() -> UserDefaults? {
+        if let userDefaults = UserDefaults.init(suiteName: AppGroupID) {
+            return userDefaults
+        }
+        return nil
     }
 }

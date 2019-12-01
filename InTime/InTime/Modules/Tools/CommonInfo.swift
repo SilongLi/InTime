@@ -36,7 +36,7 @@ public let IsOpenBlurEffect: String = "IsOpenBlurEffect"
 // 首页
 public let Margin: CGFloat = 15.0
 public let IconWH: CGFloat = 16.0
-public let SeasonNumberGotoComment = 5
+public let SeasonNumberGotoComment = 10
 
 // 当前选中时节类型
 let CurrentSelectedCategoryIDKey = "CurrentSelectedCategoryID"

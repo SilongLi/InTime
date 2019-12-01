@@ -31,12 +31,22 @@ class CategoryTableViewCell: UITableViewCell {
     }()
     
     var nameNormalColor: UIColor = UIColor.white
+     
+    var isNeedSelectedStatus: Bool = true
     
     var model: SelectedViewModelProtocol? {
         didSet {
-            nameLabel.text = model?.title
-            iconView.isHidden = !(model?.isSelected ?? false)
-            nameLabel.textColor = (model?.isSelected ?? false) ? UIColor.greenColor : nameNormalColor
+            guard let model = model else {
+                return
+            }
+            nameLabel.text = model.title
+            if model.isSelected && isNeedSelectedStatus {
+                iconView.isHidden = false
+                nameLabel.textColor = UIColor.greenColor
+            } else {
+                iconView.isHidden = true
+                nameLabel.textColor = nameNormalColor
+            }
         }
     }
      
@@ -74,5 +84,25 @@ class CategoryTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+     
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+
+        guard editing else { return }
+    
+        let classString = "UITableViewCellReorderControl"
+        guard let target = NSClassFromString(classString) else { return }
+        for view in self.subviews {
+            if type(of: view) == target {
+                for view in view.subviews {
+                    if type(of: view) == NSClassFromString("UIImageView") {
+                        (view as! UIImageView).image = UIImage.init(named: "sortIcon")
+                        break
+                    }
+                }
+                break
+            }
+        }
     }
 }

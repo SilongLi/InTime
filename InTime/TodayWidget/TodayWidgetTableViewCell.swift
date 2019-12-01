@@ -12,7 +12,8 @@ class TodayWidgetTableViewCell: UITableViewCell {
       
     lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.black
+        let isShowBgImage = HandleAppGroupsDocumentMannager.isShowBgImageInMainScreen()
+        label.textColor = isShowBgImage ? UIColor.white : UIColor.black
         label.textAlignment = .left
         label.font = UIFont.init(name: FontName, size: 10)
         label.numberOfLines = 2
@@ -22,7 +23,8 @@ class TodayWidgetTableViewCell: UITableViewCell {
     
     lazy var countDownLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.black
+        let isShowBgImage = HandleAppGroupsDocumentMannager.isShowBgImageInMainScreen()
+        label.textColor = isShowBgImage ? UIColor.white : UIColor.black
         label.textAlignment = .right
         label.font = UIFont.init(name: FontName, size: 17.0)
         label.adjustsFontSizeToFitWidth = true
@@ -31,7 +33,8 @@ class TodayWidgetTableViewCell: UITableViewCell {
     
     lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.darkGray.withAlphaComponent(0.85)
+        let isShowBgImage = HandleAppGroupsDocumentMannager.isShowBgImageInMainScreen()
+        label.textColor = isShowBgImage ? UIColor.white.withAlphaComponent(0.85) : UIColor.darkGray.withAlphaComponent(0.85)
         label.textAlignment = .left
         label.font = UIFont.init(name: FontName, size: 10)
         label.adjustsFontSizeToFitWidth = true
@@ -51,7 +54,8 @@ class TodayWidgetTableViewCell: UITableViewCell {
     
     lazy var spaceLineView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.darkGray.withAlphaComponent(0.2)
+        let isShowBgImage = HandleAppGroupsDocumentMannager.isShowBgImageInMainScreen()
+        view.backgroundColor = isShowBgImage ? UIColor.white.withAlphaComponent(0.2) : UIColor.darkGray.withAlphaComponent(0.2)
         return view
     }()
     
@@ -79,17 +83,21 @@ class TodayWidgetTableViewCell: UITableViewCell {
         guard let model = season else {
             return
         }
+        
+        let isShowBgImage = HandleAppGroupsDocumentMannager.isShowBgImageInMainScreen()
+         
         let unitType: DateUnitType = DateUnitType(rawValue: model.unitModel.info) ?? DateUnitType.dayTime
         let (timeIntervalStr, _, dateInfo, isLater) = SeasonTextManager.handleSeasonInfo(model)
         let isEffective = isLater || model.repeatRemindType != .no
-        let unEffectiveColor = UIColor.darkGray.withAlphaComponent(0.5)
+        let unEffectiveColor = isShowBgImage ? UIColor.white.withAlphaComponent(0.5) : UIColor.darkGray.withAlphaComponent(0.5)
+        let attrColor = isShowBgImage ? UIColor.white : UIColor.black
         
         nameLabel.textColor = isEffective ? UIColor.darkGray : unEffectiveColor
         let font  = UIFont(name: FontName, size: 14) ?? .boldSystemFont(ofSize: 134)
         let title = model.title + (isLater || (model.repeatRemindType != .no && model.repeatRemindType != .commemorationDay) ? " 还有" : " 已经")
         let attr  = NSMutableAttributedString(string: title)
         attr.addAttributes([NSAttributedString.Key.font: font,
-                            NSAttributedString.Key.foregroundColor: isEffective ? UIColor.black : unEffectiveColor],
+                            NSAttributedString.Key.foregroundColor: isEffective ? attrColor : unEffectiveColor],
                            range: NSRange(location: 0, length: title.count - 2))
         nameLabel.attributedText = attr
         nameLabel.sizeToFit()
@@ -103,10 +111,11 @@ class TodayWidgetTableViewCell: UITableViewCell {
                 countDownLabel.text  = timeIntervalStr
             }
         }
-        countDownLabel.textColor = isEffective ? UIColor.black : unEffectiveColor
+        countDownLabel.textColor = isEffective ? attrColor : unEffectiveColor
         countDownLabel.sizeToFit()
         
-        dateLabel.textColor = isEffective ? UIColor.darkGray : unEffectiveColor
+        let dateTextColor = isShowBgImage ? UIColor.white : UIColor.darkGray
+        dateLabel.textColor = isEffective ? dateTextColor : unEffectiveColor
         dateLabel.text      = dateInfo
         dateLabel.sizeToFit()
         

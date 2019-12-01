@@ -10,6 +10,7 @@ import UIKit
 
 class ITSettingsViewModel: NSObject {
     static let CellHeight: CGFloat = 50.0
+    static let SectionMargin: CGFloat = 5.0
     
     static func loadListSections(completion: (_ sections: [BaseSectionModel]) -> ()) {
           
@@ -21,23 +22,36 @@ class ITSettingsViewModel: NSObject {
                                                headerTitle: "",
                                                footerTitle: "",
                                                headerHeight: 20.0,
-                                               footerHeight: 10.0,
+                                               footerHeight: SectionMargin,
                                                cellHeight: CellHeight,
                                                showCellCount: 1,
                                                items: [showBg])
         
+        let categoryManager = ShowInMainScreenModel()
+        categoryManager.name = "分类管理"
+        let categoryManagerSection = BaseSectionModel(cellIdentifier: SettingCellIdType.categoryManager.rawValue,
+                                               headerTitle: "",
+                                               footerTitle: "",
+                                               headerHeight: SectionMargin,
+                                               footerHeight: SectionMargin,
+                                               cellHeight: CellHeight,
+                                               showCellCount: 1,
+                                               items: [categoryManager])
+        
+         
         let feedback = ShowInMainScreenModel()
         feedback.name = "意见反馈"
         feedback.isShow = true
         let feedbackSection = BaseSectionModel(cellIdentifier: SettingCellIdType.feedback.rawValue,
                                                headerTitle: "",
                                                footerTitle: "",
-                                               headerHeight: 10.0,
-                                               footerHeight: 10.0,
+                                               headerHeight: SectionMargin,
+                                               footerHeight: SectionMargin,
                                                cellHeight: CellHeight,
                                                showCellCount: 1,
                                                items: [feedback])
         
-        completion([showBgSection, feedbackSection])
+        
+        completion([showBgSection, categoryManagerSection, feedbackSection])
     }
 }

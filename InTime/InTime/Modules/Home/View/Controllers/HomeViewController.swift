@@ -481,7 +481,6 @@ class HomeViewController: BaseViewController {
                 
                 if #available(iOS 11.0, *) {
                     urlStr = "itms-apps://itunes.apple.com/cn/app/id1470847029?mt=8&action=write-review"
-                    
                 }
                 
                 if let url = URL.init(string: urlStr) {

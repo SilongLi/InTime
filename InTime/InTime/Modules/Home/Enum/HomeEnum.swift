@@ -127,6 +127,8 @@ enum RemindVoiceType: String {
 enum SettingCellIdType: String {
     /// Widget显示背景图片
     case showBgImageInWidget
+    /// 分类管理
+    case categoryManager
     /// 意见反馈
     case feedback
 }

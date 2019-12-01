@@ -30,6 +30,20 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return tableView
     }()
     
+    let defalutBgImage: UIImage? = {
+        var image: UIImage? = nil
+        if let path = Bundle.main.path(forResource: "bg/bg13", ofType: "png") {
+            image = UIImage(contentsOfFile: path)
+        }
+        return image
+    }()
+    
+    lazy var bgImageView: UIImageView = {
+        let view = UIImageView()
+        view.image = defalutBgImage
+        view.contentMode = .scaleAspectFill
+        return view
+    }()
     
     var seasons: [SeasonModel] = [SeasonModel]()
         
@@ -38,17 +52,24 @@ class TodayViewController: UIViewController, NCWidgetProviding {
          
         extensionContext?.widgetLargestAvailableDisplayMode = NCWidgetDisplayMode.expanded
            
+        view.addSubview(bgImageView)
         view.addSubview(tableView)
          
         loadseasons()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bgImageView.isHidden = !HandleAppGroupsDocumentMannager.isShowBgImageInMainScreen()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
          
-        tableView.frame = self.view.bounds
+        bgImageView.frame =  view.bounds
+        tableView.frame = view.bounds
     }
-    
+     
     // MARK: - widget
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
@@ -69,6 +90,35 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         self.extensionContext?.open(schema, completionHandler: { (success) in
             CommonTools.printLog(message: success ? "跳转到知时节主工程成功！" :  "跳转到知时节主工程失败！")
         })
+    }
+    
+    func updateBgView() {
+        guard let season = seasons.first, HandleAppGroupsDocumentMannager.isShowBgImageInMainScreen() else {
+            return
+        }
+         
+        bgImageView.image = nil
+        bgImageView.backgroundColor = UIColor.clear
+        
+        var bgImage: UIImage? = nil
+        if let path = Bundle.main.path(forResource: "bg/\(season.backgroundModel.name)", ofType: "png") {
+            bgImage = UIImage(contentsOfFile: path)
+        }
+        
+        let bgColor = UIColor.color(hex: season.backgroundModel.name)
+        if season.backgroundModel.type == .custom {
+           let imageData = HandleAppGroupsDocumentMannager.getCustomImage(imageName: season.backgroundModel.name)
+            if imageData != nil {
+                bgImage = UIImage(data: imageData!)
+            }
+        }
+        
+        if season.backgroundModel.type == .custom || season.backgroundModel.type == .image {
+            bgImageView.image = bgImage
+        } else {
+            bgImageView.image = nil
+            bgImageView.backgroundColor = bgColor
+        }
     }
          
     // MARK: - load dataSource
@@ -111,6 +161,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         TodayViewController.loadAllSeasons { [weak self] (seasons) in
             DispatchQueue.main.async {
                 self?.seasons = seasons
+                self?.updateBgView()
                 self?.tableView.reloadData()
             }
         }
