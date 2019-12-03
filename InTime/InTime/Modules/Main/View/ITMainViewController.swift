@@ -80,9 +80,10 @@ class ITMainViewController: BaseViewController {
         view.backgroundColor = UIColor.tintColor
         
         view.addSubview(tableView)
+         
+        rigesterNotification()
         
         loadCategoryViewModels()
-        rigesterNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,6 +106,10 @@ class ITMainViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         
         tableView.frame = CGRect.init(x: 0.0, y: IT_StatusHeight, width: self.view.frame.width, height: self.view.frame.size.height)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Private Methods
@@ -174,7 +179,7 @@ class ITMainViewController: BaseViewController {
         tableView.reloadData()
     }
     
-    func loadCategoryViewModels() {
+    @objc func loadCategoryViewModels() {
         guard !isLoading else {
             return
         }
@@ -221,6 +226,8 @@ class ITMainViewController: BaseViewController {
 //    }
      
     private func rigesterNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(loadCategoryViewModels), name: NotificationImportAllLocalOldDataIntoTheAppGroupSuccess, object: nil)
+        
         NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { [weak self] (_) in
             self?.checkCalendarAuthorization()
         }

@@ -17,7 +17,7 @@ class ITSettingsViewModel: NSObject {
         /// 是否显示到主屏幕
         let showBg = ShowInMainScreenModel()
         showBg.name = "Widget小组件显示背景图片"
-        showBg.isShow = true
+        showBg.isShow = false
         let showBgSection = BaseSectionModel(cellIdentifier: SettingCellIdType.showBgImageInWidget.rawValue,
                                                headerTitle: "",
                                                footerTitle: "",

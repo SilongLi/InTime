@@ -31,6 +31,8 @@ class HandlerDocumentManager {
                 if success {
                     UserDefaults.standard.set(true, forKey: HasRemovedAllCategerysDataToAppGroupKey)
                     UserDefaults.standard.synchronize()
+                    
+                    NotificationCenter.default.post(name: NotificationImportAllLocalOldDataIntoTheAppGroupSuccess, object: nil)
                 }
             }
         }

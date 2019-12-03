@@ -19,6 +19,11 @@ public let BuglyAPPKEY: String = "8ecf65ee-58c2-46e0-b37e-677168ff1d11"
 
 /// 新增“时节”
 public let NotificationAddNewSeason: Notification.Name = Notification.Name("Notification_Add_New_Season")
+/// 从旧数据转入App Group中存储
+public let NotificationImportAllLocalOldDataIntoTheAppGroupSuccess: Notification.Name = Notification.Name("ImportAllLocalOldDataIntoTheAppGroupSuccess")
+
+
+
 /// 更新“时节”分类
 public let NotificationUpdateSeasonCategory: Notification.Name = Notification.Name("Notification_Update_Season_Category")
 
