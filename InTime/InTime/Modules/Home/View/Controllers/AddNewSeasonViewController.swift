@@ -549,6 +549,19 @@ extension AddNewSeasonViewController: NoteSwitchDelegate {
     func didClickedReminderSwitchAction(isOpen: Bool) {
         view.endEditing(true)
         newSeason.isOpenRemind = isOpen
+        
+        /// 更新列表视图
+        for index in 0..<dataSource.count {
+            var section = dataSource[index]
+            if section.cellIdentifier == NewSeasonCellIdType.reminder.rawValue {
+                if let item = section.items.first, item is OpenReminderModel, let model: OpenReminderModel = item as? OpenReminderModel {
+                    model.isOpen = isOpen
+                    section.items = [model]
+                    dataSource[index] = section
+                }
+                break
+            }
+        }
     }
 }
 
@@ -557,6 +570,19 @@ extension AddNewSeasonViewController: ShowInMainScreenSwitchDelegate {
     func didClickedShowInMainScreenSwitchAction(isShow: Bool) {
         view.endEditing(true)
         newSeason.isShowInMainScreen = isShow
+        
+        /// 更新列表视图
+        for index in 0..<dataSource.count {
+            var section = dataSource[index]
+            if section.cellIdentifier == NewSeasonCellIdType.showInMainScreen.rawValue {
+                if let item = section.items.first, item is ShowInMainScreenModel, let model: ShowInMainScreenModel = item as? ShowInMainScreenModel {
+                    model.isShow = isShow
+                    section.items = [model]
+                    dataSource[index] = section
+                }
+                break
+            }
+        }
     }
 }
 
